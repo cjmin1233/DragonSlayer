@@ -123,6 +123,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
@@ -163,13 +164,11 @@ public class PlayerMove : MonoBehaviour
             _fallTimeoutDelta = FallTimeout;
 
             // update animator if using character
-            _animator.SetBool(_animIDJump, false);
-            _animator.SetBool(_animIDFreeFall, false);
-            //if (_hasAnimator)
-            //{
-            //    _animator.SetBool(_animIDJump, false);
-            //    _animator.SetBool(_animIDFreeFall, false);
-            //}
+            if (_hasAnimator)
+            {
+                _animator.SetBool(_animIDJump, false);
+                _animator.SetBool(_animIDFreeFall, false);
+            }
 
             // stop our velocity dropping infinitely when grounded
             if (_verticalVelocity < 0.0f)
@@ -184,11 +183,10 @@ public class PlayerMove : MonoBehaviour
                 _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
                 // update animator if using character
-                _animator.SetBool(_animIDJump, true);
-                //if (_hasAnimator)
-                //{
-                //    _animator.SetBool(_animIDJump, true);
-                //}
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDJump, true);
+                }
             }
 
             // jump timeout
@@ -210,11 +208,10 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 // update animator if using character
-                _animator.SetBool(_animIDFreeFall, true);
-                //if (_hasAnimator)
-                //{
-                //    _animator.SetBool(_animIDFreeFall, true);
-                //}
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDFreeFall, true);
+                }
             }
 
             // if we are not grounded, do not jump
@@ -236,12 +233,10 @@ public class PlayerMove : MonoBehaviour
             QueryTriggerInteraction.Ignore);
 
         // update animator if using character
-        _animator.SetBool(_animIDGrounded, Grounded);
-
-        //if (_hasAnimator)
-        //{
-        //    _animator.SetBool(_animIDGrounded, Grounded);
-        //}
+        if (_hasAnimator)
+        {
+            _animator.SetBool(_animIDGrounded, Grounded);
+        }
     }
     private void Move()
     {

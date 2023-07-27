@@ -59,7 +59,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""99d1f0e8-9aa7-4d6f-8c4c-69e81203f12b"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.1,y=0.1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 }
