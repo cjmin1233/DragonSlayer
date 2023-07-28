@@ -106,7 +106,7 @@ public class PlayerMove : MonoBehaviour
 
     private const float _threshold = 0.01f;
 
-    private bool _hasAnimator;
+    private bool _hasAnimator = true;
 
     //    private bool IsCurrentDeviceMouse
     //    {
