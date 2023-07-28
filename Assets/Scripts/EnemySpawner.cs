@@ -17,6 +17,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
+
     // Start is called before the first frame update
     void Awake()
     {

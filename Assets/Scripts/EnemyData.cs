@@ -17,4 +17,7 @@ public class EnemyData : ScriptableObject
 
     [SerializeField] private float enemyMoveSpeed;
     public float EnemyMoveSpeed { get { return enemyMoveSpeed; } }
+
+    [SerializeField] private float enemyAttackRange;
+    public float EnemyAttackRange { get {  return enemyAttackRange; } }
 }

@@ -1041,6 +1041,7 @@ GameObject:
   - component: {fileID: 1335283855905015220}
   - component: {fileID: 8839136715434850391}
   - component: {fileID: 8210490841783368986}
+  - component: {fileID: 1694027724462590660}
   m_Layer: 0
   m_Name: Beholder
   m_TagString: Untagged
@@ -1099,6 +1100,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
+  player: {fileID: 2372448991365797206, guid: 3df69d6fca669e048affcd6598df4079, type: 3}
+--- !u!195 &1694027724462590660
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5465432202388800275}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &5653549247496718049
 GameObject:
   m_ObjectHideFlags: 0
