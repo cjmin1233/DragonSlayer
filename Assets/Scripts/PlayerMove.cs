@@ -82,8 +82,8 @@ public class PlayerMove : MonoBehaviour
     private float _targetRotation = 0.0f;
     private float _rotationVelocity;
     private float _verticalVelocity;
-    private float _terminalVelocity = 53.0f;
-    private Vector3 _camRotationVelocity;
+    //private float _terminalVelocity = 53.0f;
+    private float _camYawVelocity;
 
     // timeout deltatime
     private float _jumpTimeoutDelta;
@@ -153,24 +153,11 @@ public class PlayerMove : MonoBehaviour
             Jump();
         }
         GroundedCheck();
-        Rotate();
     }
-    //private void Update()
-    //{
-    //    JumpAndGravity();
-    //    GroundedCheck();
-    //    Move();
-    //}
     private void FixedUpdate()
     {
-        //JumpAndGravity();
         VerticalMovement();
         HorizontalMovement();
-        //GroundedCheck();
-        //Move();
-    }
-    private void LateUpdate()
-    {
         CameraRotation();
     }
     private void AssignAnimationIDs()
@@ -268,29 +255,6 @@ public class PlayerMove : MonoBehaviour
         // a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(_rigidBody.velocity.x, 0.0f, _rigidBody.velocity.z).magnitude;
 
-        float speedOffset = 0.1f;
-        //float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-        /*
-        // accelerate or decelerate to target speed
-        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            currentHorizontalSpeed > targetSpeed + speedOffset)
-        {
-            // creates curved result rather than a linear one giving a more organic speed change
-            // note T in Lerp is clamped, so we don't need to clamp our speed
-            //_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-            //    Time.deltaTime * SpeedChangeRate);
-            //_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-            //    Time.fixedDeltaTime * SpeedChangeRate);
-            _speed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
-            // round speed to 3 decimal places
-            _speed = Mathf.Round(_speed * 1000f) / 1000f;
-        }
-        else
-        {
-            _speed = targetSpeed;
-        }*/
-
         _speed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
         // round speed to 3 decimal places
         //_speed = Mathf.Round(_speed * 1000f) / 1000f;
@@ -299,30 +263,11 @@ public class PlayerMove : MonoBehaviour
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * SpeedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
 
-        // input direction
-        Vector3 inputDirection = new(_playerInput.moveInput.x, 0f, _playerInput.moveInput.y);
-
-        //#region Rotation
-        //// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        //// if there is a move input rotate player when the player is moving
-        //if (_playerInput.moveInput != Vector2.zero)
-        //{
-        //    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-        //                      _mainCamera.transform.eulerAngles.y;
-        //    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-        //        RotationSmoothTime);
-
-        //    // rotate to face input direction relative to camera position
-        //    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        //}
-        //#endregion
+        Rotate();
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
         // move the player
-        //_controller.Move(targetDirection.normalized * (_speed * Time.fixedDeltaTime) +
-        //                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime);
-        //_rigidBody.AddForce(targetDirection.normalized * _speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
         Vector3 targetVelocity = targetDirection.normalized * _speed + Vector3.up * _rigidBody.velocity.y;
         _rigidBody.velocity = targetVelocity;
         // update animator if using character
@@ -332,79 +277,6 @@ public class PlayerMove : MonoBehaviour
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
     }
-    /*
-    private void JumpAndGravity()
-    {
-        if (Grounded)
-        {
-            // reset the fall timeout timer
-            _fallTimeoutDelta = FallTimeout;
-
-            // update animator if using character
-            if (_hasAnimator)
-            {
-                _animator.SetBool(_animIDJump, false);
-                _animator.SetBool(_animIDFreeFall, false);
-            }
-
-            // stop our velocity dropping infinitely when grounded
-            if (_verticalVelocity < 0.0f)
-            {
-                _verticalVelocity = -2f;
-            }
-
-            // Jump
-            if (_playerInput.jump && _jumpTimeoutDelta <= 0.0f)
-            {
-                // the square root of H * -2 * G = how much velocity needed to reach desired height
-                _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
-
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, true);
-                }
-            }
-
-            // jump timeout
-            if (_jumpTimeoutDelta >= 0.0f)
-            {
-                //_jumpTimeoutDelta -= Time.deltaTime;
-                _jumpTimeoutDelta -= Time.fixedDeltaTime;
-            }
-        }
-        else
-        {
-            // reset the jump timeout timer
-            _jumpTimeoutDelta = JumpTimeout;
-
-            // fall timeout
-            if (_fallTimeoutDelta >= 0.0f)
-            {
-                //_fallTimeoutDelta -= Time.deltaTime;
-                _fallTimeoutDelta -= Time.fixedDeltaTime;
-            }
-            else
-            {
-                // update animator if using character
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDFreeFall, true);
-                }
-            }
-
-            // if we are not grounded, do not jump
-            _playerInput.jump = false;
-        }
-
-        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-        if (_verticalVelocity < _terminalVelocity)
-        {
-            //_verticalVelocity += Gravity * Time.deltaTime;
-            _verticalVelocity += Gravity * Time.fixedDeltaTime;
-        }
-    }*/
-
     private void GroundedCheck()
     {
         // set sphere position, with offset
@@ -419,88 +291,12 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_animIDGrounded, Grounded);
         }
     }
-    /*
-    private void Move()
-    {
-        // set target speed based on move speed, sprint speed and if sprint is pressed
-        float targetSpeed = _playerInput.sprint ? SprintSpeed : MoveSpeed;
-
-        // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-        // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        // if there is no input, set the target speed to 0
-        float inputMagnitude = _playerInput.moveInput.magnitude;
-        if (inputMagnitude <= 0.01f) targetSpeed = 0.0f;
-
-        // a reference to the players current horizontal velocity
-        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-
-        float speedOffset = 0.1f;
-        //float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-        // accelerate or decelerate to target speed
-        if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            currentHorizontalSpeed > targetSpeed + speedOffset)
-        {
-            // creates curved result rather than a linear one giving a more organic speed change
-            // note T in Lerp is clamped, so we don't need to clamp our speed
-            //_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-            //    Time.deltaTime * SpeedChangeRate);
-            _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                Time.fixedDeltaTime * SpeedChangeRate);
-
-            // round speed to 3 decimal places
-            _speed = Mathf.Round(_speed * 1000f) / 1000f;
-        }
-        else
-        {
-            _speed = targetSpeed;
-        }
-
-        //_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * SpeedChangeRate);
-        if (_animationBlend < 0.01f) _animationBlend = 0f;
-
-        // normalise input direction
-        Vector3 inputDirection = new Vector3(_playerInput.moveInput.x, 0.0f, _playerInput.moveInput.y).normalized;
-
-        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        // if there is a move input rotate player when the player is moving
-        if (_playerInput.moveInput != Vector2.zero)
-        {
-            _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              _mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                RotationSmoothTime);
-
-            // rotate to face input direction relative to camera position
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        }
-
-
-        Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-        // move the player
-        //_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-        //                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-        _controller.Move(targetDirection.normalized * (_speed * Time.fixedDeltaTime) +
-                         new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime);
-
-        // update animator if using character
-        if (_hasAnimator)
-        {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-        }
-    }*/
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
         if (_playerInput.lookInput.sqrMagnitude >= _threshold && !LockCameraPosition)
         {
             //Don't multiply mouse input by Time.deltaTime;
-            //float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
             _cinemachineTargetYaw += _playerInput.lookInput.x;
             _cinemachineTargetPitch += _playerInput.lookInput.y;
         }
@@ -519,18 +315,5 @@ public class PlayerMove : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-        Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
-
-        if (Grounded) Gizmos.color = transparentGreen;
-        else Gizmos.color = transparentRed;
-
-        // when selected, draw a gizmo in the position of, and matching radius of, the grounded collider
-        Gizmos.DrawSphere(
-            new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
-            GroundedRadius);
     }
 }

@@ -532,7 +532,7 @@ MonoBehaviour:
   TopClamp: 70
   BottomClamp: -30
   CameraAngleOverride: 0
-  LockCameraPosition: 1
+  LockCameraPosition: 0
 --- !u!4 &1730400651
 Transform:
   m_ObjectHideFlags: 0
@@ -695,8 +695,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1985997846}
   - component: {fileID: 1985997849}
-  - component: {fileID: 1985997850}
   - component: {fileID: 1985997851}
+  - component: {fileID: 1985997852}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -731,23 +731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1985997850
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1985997845}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
-  m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 1
-  m_FrequencyGain: 1
-  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!114 &1985997851
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -770,8 +753,25 @@ MonoBehaviour:
     m_Bits: 0
   IgnoreTag: 
   CameraRadius: 0.2
-  DampingIntoCollision: 0
-  DampingFromCollision: 0
+  DampingIntoCollision: 0.1
+  DampingFromCollision: 0.1
+--- !u!114 &1985997852
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1985997845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 1
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &2041890186
 GameObject:
   m_ObjectHideFlags: 0
