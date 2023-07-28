@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Beholder Data
   m_EditorClassIdentifier: 
   enemyName: Beholder
+  enemyType: 2
   enemyHp: 10
+  enemyMoveSpeed: 1

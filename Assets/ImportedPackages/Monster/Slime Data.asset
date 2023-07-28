@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Slime Data
   m_EditorClassIdentifier: 
   enemyName: Slime
+  enemyType: 0
   enemyHp: 5
+  enemyMoveSpeed: 1
