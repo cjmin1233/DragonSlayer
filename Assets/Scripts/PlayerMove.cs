@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController), typeof(PlayerInputControl))]
+[RequireComponent(typeof(Rigidbody), typeof(PlayerInputControl))]
 public class PlayerMove : MonoBehaviour
 {
     [Header("Player")]
@@ -77,11 +77,13 @@ public class PlayerMove : MonoBehaviour
 
     // player
     private float _speed;
+    private float _speedSmoothVelocity;
     private float _animationBlend;
     private float _targetRotation = 0.0f;
     private float _rotationVelocity;
     private float _verticalVelocity;
     private float _terminalVelocity = 53.0f;
+    private Vector3 _camRotationVelocity;
 
     // timeout deltatime
     private float _jumpTimeoutDelta;
@@ -96,7 +98,7 @@ public class PlayerMove : MonoBehaviour
 
     private PlayerInputControl _playerInput;
     private Animator _animator;
-    private CharacterController _controller;
+    //private CharacterController _controller;
     //private StarterAssetsInputs _input;
     private Rigidbody _rigidBody;
 
@@ -130,10 +132,11 @@ public class PlayerMove : MonoBehaviour
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+
         _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
-        _controller = GetComponent<CharacterController>();
+        //_controller = GetComponent<CharacterController>();
         _playerInput = GetComponent<PlayerInputControl>();
         _rigidBody = GetComponent<Rigidbody>();
 
@@ -150,6 +153,7 @@ public class PlayerMove : MonoBehaviour
             Jump();
         }
         GroundedCheck();
+        Rotate();
     }
     //private void Update()
     //{
@@ -229,6 +233,26 @@ public class PlayerMove : MonoBehaviour
             }
         }
     }
+    private void Rotate()
+    {
+        #region Rotation
+        // input direction
+        Vector3 inputDirection = new(_playerInput.moveInput.x, 0f, _playerInput.moveInput.y);
+
+        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        // if there is a move input rotate player when the player is moving
+        if (_playerInput.moveInput != Vector2.zero)
+        {
+            _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+                              _mainCamera.transform.eulerAngles.y;
+            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                RotationSmoothTime);
+
+            // rotate to face input direction relative to camera position
+            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        }
+        #endregion
+    }
     private void HorizontalMovement()
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -247,6 +271,7 @@ public class PlayerMove : MonoBehaviour
         float speedOffset = 0.1f;
         //float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
 
+        /*
         // accelerate or decelerate to target speed
         if (currentHorizontalSpeed < targetSpeed - speedOffset ||
             currentHorizontalSpeed > targetSpeed + speedOffset)
@@ -255,16 +280,20 @@ public class PlayerMove : MonoBehaviour
             // note T in Lerp is clamped, so we don't need to clamp our speed
             //_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
             //    Time.deltaTime * SpeedChangeRate);
-            _speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
-                Time.fixedDeltaTime * SpeedChangeRate);
-
+            //_speed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude,
+            //    Time.fixedDeltaTime * SpeedChangeRate);
+            _speed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
             // round speed to 3 decimal places
             _speed = Mathf.Round(_speed * 1000f) / 1000f;
         }
         else
         {
             _speed = targetSpeed;
-        }
+        }*/
+
+        _speed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
+        // round speed to 3 decimal places
+        //_speed = Mathf.Round(_speed * 1000f) / 1000f;
 
         //_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * SpeedChangeRate);
@@ -273,34 +302,37 @@ public class PlayerMove : MonoBehaviour
         // input direction
         Vector3 inputDirection = new(_playerInput.moveInput.x, 0f, _playerInput.moveInput.y);
 
-        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-        // if there is a move input rotate player when the player is moving
-        if (_playerInput.moveInput != Vector2.zero)
-        {
-            _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
-                              _mainCamera.transform.eulerAngles.y;
-            float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                RotationSmoothTime);
+        //#region Rotation
+        //// note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        //// if there is a move input rotate player when the player is moving
+        //if (_playerInput.moveInput != Vector2.zero)
+        //{
+        //    _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
+        //                      _mainCamera.transform.eulerAngles.y;
+        //    float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+        //        RotationSmoothTime);
 
-            // rotate to face input direction relative to camera position
-            transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-        }
-
+        //    // rotate to face input direction relative to camera position
+        //    transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+        //}
+        //#endregion
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
         // move the player
         //_controller.Move(targetDirection.normalized * (_speed * Time.fixedDeltaTime) +
         //                 new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.fixedDeltaTime);
-        _rigidBody.AddForce(targetDirection.normalized * (_speed * Time.fixedDeltaTime), ForceMode.VelocityChange);
+        //_rigidBody.AddForce(targetDirection.normalized * _speed * Time.fixedDeltaTime, ForceMode.VelocityChange);
+        Vector3 targetVelocity = targetDirection.normalized * _speed + Vector3.up * _rigidBody.velocity.y;
+        _rigidBody.velocity = targetVelocity;
         // update animator if using character
         if (_hasAnimator)
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
-
     }
+    /*
     private void JumpAndGravity()
     {
         if (Grounded)
@@ -371,7 +403,7 @@ public class PlayerMove : MonoBehaviour
             //_verticalVelocity += Gravity * Time.deltaTime;
             _verticalVelocity += Gravity * Time.fixedDeltaTime;
         }
-    }
+    }*/
 
     private void GroundedCheck()
     {
@@ -387,6 +419,7 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_animIDGrounded, Grounded);
         }
     }
+    /*
     private void Move()
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -459,7 +492,7 @@ public class PlayerMove : MonoBehaviour
             _animator.SetFloat(_animIDSpeed, _animationBlend);
             _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
-    }
+    }*/
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
@@ -468,8 +501,6 @@ public class PlayerMove : MonoBehaviour
             //Don't multiply mouse input by Time.deltaTime;
             //float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            //_cinemachineTargetYaw += _playerInput.lookInput.x * deltaTimeMultiplier;
-            //_cinemachineTargetPitch += _playerInput.lookInput.y * deltaTimeMultiplier;
             _cinemachineTargetYaw += _playerInput.lookInput.x;
             _cinemachineTargetPitch += _playerInput.lookInput.y;
         }
@@ -482,6 +513,7 @@ public class PlayerMove : MonoBehaviour
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
     }
+
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
     {
         if (lfAngle < -360f) lfAngle += 360f;
