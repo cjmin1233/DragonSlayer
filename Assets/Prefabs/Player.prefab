@@ -2219,13 +2219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbf61d85204bb84481f4fbd03d87d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 2
-  SprintSpeed: 5.335
+  MoveSpeed: 5
+  SprintSpeed: 10
+  RollSpeed: 20
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
   JumpHeight: 1.2
   JumpForce: 5
-  RollForce: 10
   Gravity: -15
   JumpTimeout: 0.1
   FallTimeout: 0.15
