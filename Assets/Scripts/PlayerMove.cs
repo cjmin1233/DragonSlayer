@@ -13,6 +13,9 @@ public class PlayerMove : MonoBehaviour
     [Tooltip("Sprint speed of the character in m/s")]
     public float SprintSpeed = 5.335f;
 
+    [Tooltip("Roll speed of the character in m/s")]
+    public float RollSpeed = 10f;
+
     [Tooltip("How fast the character turns to face movement direction")]
     [Range(0.0f, 0.3f)]
     public float RotationSmoothTime = 0.12f;
@@ -32,6 +35,10 @@ public class PlayerMove : MonoBehaviour
     [Tooltip("The amount of force applied when player jump"), Range(5f, 20f)]
     public float JumpForce = 10f;
 
+    //[Space(10)]
+    //[Tooltip("The amount of force applied when player roll"), Range(5f, 10f)]
+    //public float RollForce = 10f;
+
     [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
     public float Gravity = -15.0f;
 
@@ -41,6 +48,9 @@ public class PlayerMove : MonoBehaviour
 
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     public float FallTimeout = 0.15f;
+
+    [Tooltip("Time required to pass before being able to roll again.")]
+    public float RollTimeout = 1f;
 
     [Header("Player Grounded")]
     [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
@@ -88,6 +98,7 @@ public class PlayerMove : MonoBehaviour
     // timeout deltatime
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
+    private float _rollTimeoutDelta;
 
     // animation IDs
     private int _animIDSpeed;
@@ -95,30 +106,21 @@ public class PlayerMove : MonoBehaviour
     private int _animIDJump;
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
+    private int _animIDRoll;
 
     private PlayerInputControl _playerInput;
     private Animator _animator;
-    //private CharacterController _controller;
-    //private StarterAssetsInputs _input;
     private Rigidbody _rigidBody;
 
+    private PlayerAnimationEvent _animationEvent;
     private GameObject _mainCamera;
 
     private const float _threshold = 0.01f;
 
     private bool _hasAnimator = true;
 
-    //    private bool IsCurrentDeviceMouse
-    //    {
-    //        get
-    //        {
-    //#if ENABLE_INPUT_SYSTEM
-    //            return _playerInput.currentControlScheme == "KeyboardMouse";
-    //#else
-    //				return false;
-    //#endif
-    //        }
-    //    }
+    private bool isRolling;
+    private Coroutine rolling;
 
     private void Awake()
     {
@@ -140,11 +142,15 @@ public class PlayerMove : MonoBehaviour
         _playerInput = GetComponent<PlayerInputControl>();
         _rigidBody = GetComponent<Rigidbody>();
 
+        _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
+        _animationEvent.onRollFinish += RollFinish;
+
         AssignAnimationIDs();
 
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
+        _rollTimeoutDelta = -1f;
     }
     private void Update()
     {
@@ -152,8 +158,14 @@ public class PlayerMove : MonoBehaviour
         {
             Jump();
         }
+        if (_playerInput.roll && _rollTimeoutDelta <= 0f && Grounded && !isRolling)
+        {
+            Roll();
+        }
         GroundedCheck();
     }
+
+
     private void FixedUpdate()
     {
         VerticalMovement();
@@ -167,6 +179,8 @@ public class PlayerMove : MonoBehaviour
         _animIDJump = Animator.StringToHash("Jump");
         _animIDFreeFall = Animator.StringToHash("FreeFall");
         _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+
+        _animIDRoll = Animator.StringToHash("Roll");
     }
     private void Jump()
     {
@@ -178,6 +192,12 @@ public class PlayerMove : MonoBehaviour
         {
             _animator.SetBool(_animIDJump, true);
         }
+    }
+    private void Roll()
+    {
+        if(rolling is not null) StopCoroutine(rolling);
+        rolling = StartCoroutine(Rolling());
+        //_rigidBody.AddForce(RollForce * transform.forward, ForceMode.Impulse);
     }
     private void VerticalMovement()
     {
@@ -242,6 +262,12 @@ public class PlayerMove : MonoBehaviour
     }
     private void HorizontalMovement()
     {
+        if (isRolling)
+        {
+            _rigidBody.velocity = transform.forward * RollSpeed;
+            return;
+        }
+
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = _playerInput.sprint ? SprintSpeed : MoveSpeed;
 
@@ -274,7 +300,7 @@ public class PlayerMove : MonoBehaviour
         if (_hasAnimator)
         {
             _animator.SetFloat(_animIDSpeed, _animationBlend);
-            _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
     }
     private void GroundedCheck()
@@ -316,4 +342,49 @@ public class PlayerMove : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+    public void OnFootstep(AnimationEvent animationEvent)
+    {
+        print("foot step!");
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            //if (FootstepAudioClips.Length > 0)
+            //{
+            //    var index = Random.Range(0, FootstepAudioClips.Length);
+            //    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center), FootstepAudioVolume);
+            //}
+        }
+    }
+
+    private void OnLand(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        {
+            //AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
+        }
+    }
+    private IEnumerator Rolling()
+    {
+        _rollTimeoutDelta = RollTimeout;
+        isRolling = true;
+        if (_hasAnimator)
+        {
+            _animator.SetBool(_animIDRoll, true);
+        }
+        while (_rollTimeoutDelta > 0f)
+        {
+            _rollTimeoutDelta -= Time.deltaTime;
+
+            yield return null;
+        }
+    }
+    private void RollFinish()
+    {
+        print("roll finish!");
+        isRolling = false;
+        if (_hasAnimator)
+        {
+            _animator.SetBool(_animIDRoll, false);
+        }
+    }
+
 }

@@ -22,7 +22,13 @@ public class PlayerInputControl : MonoBehaviour
         }
     }
     public bool sprint { get; private set; }
-
+    public bool roll
+    {
+        get
+        {
+            return inputAction.PlayerInput.Roll.triggered;
+        }
+    }
     private void Start()
     {
         inputAction = new MyDefaultInputAction();

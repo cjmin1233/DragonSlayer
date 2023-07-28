@@ -40,6 +40,15 @@
                     "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.1,y=0.1)",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Roll",
+                    "type": "Button",
+                    "id": "f4053e31-17b5-4e21-b775-72bd9a685fe2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -101,7 +110,7 @@
                 {
                     "name": "",
                     "id": "a4b19874-7638-4612-a2b6-78f458fc7b4f",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/leftCtrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "KeyboardMouse",
@@ -128,6 +137,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49b86fe8-ca89-4f89-a3b0-d9c8c194f200",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Roll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

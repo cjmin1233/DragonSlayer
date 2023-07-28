@@ -62,6 +62,15 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.1,y=0.1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Roll"",
+                    ""type"": ""Button"",
+                    ""id"": ""f4053e31-17b5-4e21-b775-72bd9a685fe2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -123,7 +132,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a4b19874-7638-4612-a2b6-78f458fc7b4f"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/leftCtrl"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
@@ -150,6 +159,17 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
                     ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49b86fe8-ca89-4f89-a3b0-d9c8c194f200"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -181,6 +201,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         m_PlayerInput_Jump = m_PlayerInput.FindAction("Jump", throwIfNotFound: true);
         m_PlayerInput_Sprint = m_PlayerInput.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerInput_Look = m_PlayerInput.FindAction("Look", throwIfNotFound: true);
+        m_PlayerInput_Roll = m_PlayerInput.FindAction("Roll", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -246,6 +267,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Jump;
     private readonly InputAction m_PlayerInput_Sprint;
     private readonly InputAction m_PlayerInput_Look;
+    private readonly InputAction m_PlayerInput_Roll;
     public struct PlayerInputActions
     {
         private @MyDefaultInputAction m_Wrapper;
@@ -254,6 +276,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_PlayerInput_Jump;
         public InputAction @Sprint => m_Wrapper.m_PlayerInput_Sprint;
         public InputAction @Look => m_Wrapper.m_PlayerInput_Look;
+        public InputAction @Roll => m_Wrapper.m_PlayerInput_Roll;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -275,6 +298,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Roll.started += instance.OnRoll;
+            @Roll.performed += instance.OnRoll;
+            @Roll.canceled += instance.OnRoll;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -291,6 +317,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Roll.started -= instance.OnRoll;
+            @Roll.performed -= instance.OnRoll;
+            @Roll.canceled -= instance.OnRoll;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -323,5 +352,6 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnRoll(InputAction.CallbackContext context);
     }
 }
