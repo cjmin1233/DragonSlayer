@@ -1040,6 +1040,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1335283855905015220}
   - component: {fileID: 8839136715434850391}
+  - component: {fileID: 8210490841783368986}
   m_Layer: 0
   m_Name: Beholder
   m_TagString: Untagged
@@ -1062,7 +1063,7 @@ Transform:
   - {fileID: 7727653080315535835}
   - {fileID: 2457920739756065149}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8839136715434850391
 Animator:
@@ -1085,6 +1086,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8210490841783368986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5465432202388800275}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079f53197718e2c4081a52a8d7b52a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
 --- !u!1 &5653549247496718049
 GameObject:
   m_ObjectHideFlags: 0

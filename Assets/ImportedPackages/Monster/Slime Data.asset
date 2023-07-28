@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba83b416cc321b4788a4b32ab512565, type: 3}
   m_Name: Slime Data
   m_EditorClassIdentifier: 
-  enemyName: 
-  enemyHp: 0
+  enemyName: Slime
+  enemyHp: 5
