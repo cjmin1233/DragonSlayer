@@ -154,7 +154,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        if (_playerInput.jump && _jumpTimeoutDelta <= 0.0f && Grounded)
+        if (_playerInput.jump && _jumpTimeoutDelta <= 0.0f && Grounded && !isRolling)
         {
             Jump();
         }
