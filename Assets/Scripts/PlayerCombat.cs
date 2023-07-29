@@ -5,13 +5,15 @@ public class PlayerCombat : MonoBehaviour
 {
     public List<AttackSO> combos;
 
-    private float lastClickedTime;
+    [SerializeField] private float timeBetNormalCombo;
+    // private float lastClickedTime;
     private float lastComboEnd;
     private int comboCounter;
 
+    private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
+
     private Animator _animator;
     private PlayerInputControl _playerInput;
-
     private void Start()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -26,32 +28,41 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attack()
     {
-        if (Time.time - lastComboEnd > .2f && comboCounter < combos.Count)
+        if (comboCounter < combos.Count)
+            // if (Time.time > lastComboEnd + timeBetNormalCombo && comboCounter < combos.Count)
         {
-            CancelInvoke("EndCombo");
-
-            if (Time.time - lastClickedTime >= .2f)
+            // CancelInvoke("EndCombo");
+            // if (Time.time >= lastClickedTime + .5f)
+            if (comboCounter == 0 ||
+                (comboCounter > 0 && GetCurStateInfo(0).IsTag("Attack")
+                                  && GetCurStateInfo(0).normalizedTime >
+                                  combos[comboCounter - 1].normalizedComboTime))
             {
                 _animator.runtimeAnimatorController = combos[comboCounter].animatorOV;
                 _animator.Play("Attack",0,0);
                 //weapon.damage=combo[comboCounter].damage;
                 // fx,...
                 comboCounter++;
-                lastClickedTime = Time.time;
+                // lastClickedTime = Time.time;
 
-                if (comboCounter >= combos.Count) comboCounter = 0;
+                if (comboCounter > combos.Count) comboCounter = 0;
             }
         } 
     }
 
     private void ExitAttack()
     {
-        if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack") &&
-            _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f)
+        if (comboCounter > combos.Count) return;
+
+        if (comboCounter > 0
+            && GetCurStateInfo(0).IsTag("Attack")
+            && GetCurStateInfo(0).normalizedTime > combos[comboCounter - 1].normalizedExitTime)
         {
             print("exit attack");
-            Invoke("EndCombo",1);
+            // Invoke("EndCombo",1);
+            EndCombo();
         }
+        else if (comboCounter > 0 && !GetCurStateInfo(0).IsTag("Attack")) EndCombo();
     }
 
     private void EndCombo()

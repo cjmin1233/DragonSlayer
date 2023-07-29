@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorOV: {fileID: 22100000, guid: ee5670ee26f30994db09a1079d9b06cf, type: 2}
   damage: 10
+  normalizedExitTime: 0.9
+  normalizedComboTime: 0.5

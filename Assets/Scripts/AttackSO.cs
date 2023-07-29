@@ -7,5 +7,6 @@ public class AttackSO : ScriptableObject
 {
     public AnimatorOverrideController animatorOV;
     public float damage;
-    
+    public float normalizedExitTime;
+    public float normalizedComboTime;
 }

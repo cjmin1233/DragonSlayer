@@ -2187,6 +2187,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 58924c0817f7cf84b88ce395254a09fd, type: 2}
   - {fileID: 11400000, guid: 19ba0ef6798ff09499ad27fc8fb3a789, type: 2}
   - {fileID: 11400000, guid: f1976cf407ee66c4a93dd97ceab6fcbf, type: 2}
+  timeBetNormalCombo: 0.5
 --- !u!1 &7458703009334391610
 GameObject:
   m_ObjectHideFlags: 0
