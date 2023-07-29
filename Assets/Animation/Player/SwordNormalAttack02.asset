@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59138a0b1a7061a4cb5e4dc71bc99859, type: 3}
-  m_Name: SwordAttack03
+  m_Name: SwordNormalAttack02
   m_EditorClassIdentifier: 
-  animatorOV: {fileID: 22100000, guid: 26db8507873ef2b4f80c4bdd15954745, type: 2}
-  damage: 15
+  animatorOV: {fileID: 22100000, guid: ee5670ee26f30994db09a1079d9b06cf, type: 2}
+  damage: 10
   normalizedExitTime: 0.9
-  normalizedComboTime: 0.6
+  normalizedComboTime: 0.5

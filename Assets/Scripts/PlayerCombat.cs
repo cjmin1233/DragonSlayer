@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
-    public List<AttackSO> combos;
-
-    [SerializeField] private float timeBetNormalCombo;
+    [SerializeField] private List<AttackSO> normalCombos;
+    [SerializeField] private List<AttackSO> specialCombos;
+    
+    // [SerializeField] private float timeBetNormalCombo;
     // private float lastClickedTime;
-    private float lastComboEnd;
-    private int comboCounter;
+    // private float lastComboEnd;
+    private int normComboCounter;
+    private int spComboCounter;
 
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
 
@@ -22,52 +24,87 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
-        if (_playerInput.attackNormal) Attack();
-        ExitAttack();
+        if (_playerInput.attackNormal) NormalAttack();
+        if (_playerInput.attackSpecial) SpAttack();
+        ExitNormalAttack();
+        ExitSpAttack();
     }
-
-    private void Attack()
+    private void NormalAttack()
     {
-        if (comboCounter < combos.Count)
+        if (normComboCounter < normalCombos.Count)
             // if (Time.time > lastComboEnd + timeBetNormalCombo && comboCounter < combos.Count)
         {
             // CancelInvoke("EndCombo");
             // if (Time.time >= lastClickedTime + .5f)
-            if (comboCounter == 0 ||
-                (comboCounter > 0 && GetCurStateInfo(0).IsTag("Attack")
+            if (normComboCounter == 0 ||
+                (normComboCounter > 0 && GetCurStateInfo(0).IsTag("Attack")
                                   && GetCurStateInfo(0).normalizedTime >
-                                  combos[comboCounter - 1].normalizedComboTime))
+                                  normalCombos[normComboCounter - 1].normalizedComboTime))
             {
-                _animator.runtimeAnimatorController = combos[comboCounter].animatorOV;
+                _animator.runtimeAnimatorController = normalCombos[normComboCounter].animatorOV;
                 _animator.Play("Attack",0,0);
                 //weapon.damage=combo[comboCounter].damage;
                 // fx,...
-                comboCounter++;
+                normComboCounter++;
                 // lastClickedTime = Time.time;
 
-                if (comboCounter > combos.Count) comboCounter = 0;
+                if (normComboCounter > normalCombos.Count) normComboCounter = 0;
+            }
+        } 
+    }
+    private void SpAttack()
+    {
+        if (spComboCounter < specialCombos.Count)
+        {
+            if (spComboCounter == 0 ||
+                (spComboCounter > 0 && GetCurStateInfo(0).IsTag("Attack")
+                                    && GetCurStateInfo(0).normalizedTime >
+                                    specialCombos[spComboCounter - 1].normalizedComboTime))
+            {
+                _animator.runtimeAnimatorController = specialCombos[spComboCounter].animatorOV;
+                _animator.Play("Attack",0,0);
+                
+                spComboCounter++;
+                
+                if (spComboCounter > specialCombos.Count) spComboCounter = 0;
             }
         } 
     }
 
-    private void ExitAttack()
+    private void ExitNormalAttack()
     {
-        if (comboCounter > combos.Count) return;
+        if (normComboCounter > normalCombos.Count) return;
 
-        if (comboCounter > 0
+        if (normComboCounter > 0
             && GetCurStateInfo(0).IsTag("Attack")
-            && GetCurStateInfo(0).normalizedTime > combos[comboCounter - 1].normalizedExitTime)
+            && GetCurStateInfo(0).normalizedTime > normalCombos[normComboCounter - 1].normalizedExitTime)
         {
-            print("exit attack");
             // Invoke("EndCombo",1);
-            EndCombo();
+            EndNormalCombo();
         }
-        else if (comboCounter > 0 && !GetCurStateInfo(0).IsTag("Attack")) EndCombo();
+        else if (normComboCounter > 0 && !GetCurStateInfo(0).IsTag("Attack")) EndNormalCombo();
+    }
+    private void ExitSpAttack()
+    {
+        if (spComboCounter > specialCombos.Count) return;
+
+        if (spComboCounter > 0
+            && GetCurStateInfo(0).IsTag("Attack")
+            && GetCurStateInfo(0).normalizedTime > specialCombos[spComboCounter - 1].normalizedExitTime)
+        {
+            EndSpCombo();
+        }
+        else if (spComboCounter > 0 && !GetCurStateInfo(0).IsTag("Attack")) EndSpCombo();
     }
 
-    private void EndCombo()
+    private void EndNormalCombo()
     {
-        comboCounter = 0;
-        lastComboEnd = Time.time;
+        normComboCounter = 0;
+        // lastComboEnd = Time.time;
+    }
+
+    private void EndSpCombo()
+    {
+        spComboCounter = 0;
     }
 }
