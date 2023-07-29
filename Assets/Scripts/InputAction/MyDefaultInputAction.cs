@@ -71,6 +71,24 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackNm"",
+                    ""type"": ""Button"",
+                    ""id"": ""2313a176-f931-4364-a745-8455e4b68e9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackSp"",
+                    ""type"": ""Button"",
+                    ""id"": ""ba59f1ee-9f79-4e12-a081-bf576e4aa1e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,6 +190,28 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Roll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""524bf90c-45a2-4608-bed1-75a7753b3301"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackNm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1afc088c-14b2-4ba8-80e8-7e4a8eac8910"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackSp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -202,6 +242,8 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         m_PlayerInput_Sprint = m_PlayerInput.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerInput_Look = m_PlayerInput.FindAction("Look", throwIfNotFound: true);
         m_PlayerInput_Roll = m_PlayerInput.FindAction("Roll", throwIfNotFound: true);
+        m_PlayerInput_AttackNm = m_PlayerInput.FindAction("AttackNm", throwIfNotFound: true);
+        m_PlayerInput_AttackSp = m_PlayerInput.FindAction("AttackSp", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -268,6 +310,8 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Sprint;
     private readonly InputAction m_PlayerInput_Look;
     private readonly InputAction m_PlayerInput_Roll;
+    private readonly InputAction m_PlayerInput_AttackNm;
+    private readonly InputAction m_PlayerInput_AttackSp;
     public struct PlayerInputActions
     {
         private @MyDefaultInputAction m_Wrapper;
@@ -277,6 +321,8 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerInput_Sprint;
         public InputAction @Look => m_Wrapper.m_PlayerInput_Look;
         public InputAction @Roll => m_Wrapper.m_PlayerInput_Roll;
+        public InputAction @AttackNm => m_Wrapper.m_PlayerInput_AttackNm;
+        public InputAction @AttackSp => m_Wrapper.m_PlayerInput_AttackSp;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -301,6 +347,12 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Roll.started += instance.OnRoll;
             @Roll.performed += instance.OnRoll;
             @Roll.canceled += instance.OnRoll;
+            @AttackNm.started += instance.OnAttackNm;
+            @AttackNm.performed += instance.OnAttackNm;
+            @AttackNm.canceled += instance.OnAttackNm;
+            @AttackSp.started += instance.OnAttackSp;
+            @AttackSp.performed += instance.OnAttackSp;
+            @AttackSp.canceled += instance.OnAttackSp;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -320,6 +372,12 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Roll.started -= instance.OnRoll;
             @Roll.performed -= instance.OnRoll;
             @Roll.canceled -= instance.OnRoll;
+            @AttackNm.started -= instance.OnAttackNm;
+            @AttackNm.performed -= instance.OnAttackNm;
+            @AttackNm.canceled -= instance.OnAttackNm;
+            @AttackSp.started -= instance.OnAttackSp;
+            @AttackSp.performed -= instance.OnAttackSp;
+            @AttackSp.canceled -= instance.OnAttackSp;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -353,5 +411,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnRoll(InputAction.CallbackContext context);
+        void OnAttackNm(InputAction.CallbackContext context);
+        void OnAttackSp(InputAction.CallbackContext context);
     }
 }

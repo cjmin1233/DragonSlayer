@@ -29,6 +29,8 @@ public class PlayerInputControl : MonoBehaviour
             return inputAction.PlayerInput.Roll.triggered;
         }
     }
+    public bool attackNormal { get; private set; }
+    public bool attackSpecial { get; private set; }
     private void Start()
     {
         inputAction = new MyDefaultInputAction();
@@ -42,6 +44,11 @@ public class PlayerInputControl : MonoBehaviour
         
         inputAction.PlayerInput.Sprint.performed += context => sprint = true;
         inputAction.PlayerInput.Sprint.canceled += context => sprint = false;
+
+        inputAction.PlayerInput.AttackNm.performed += context => attackNormal = true;
+        inputAction.PlayerInput.AttackNm.canceled += context => attackNormal = false;
+        inputAction.PlayerInput.AttackSp.performed += context => attackSpecial = true;
+        inputAction.PlayerInput.AttackSp.canceled += context => attackSpecial = false;
     }
 
     private void LookControl(InputAction.CallbackContext context)
@@ -54,5 +61,4 @@ public class PlayerInputControl : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
         if (moveInput.sqrMagnitude > 1) moveInput = moveInput.normalized;
     }
-
 }
