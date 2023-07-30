@@ -22,19 +22,42 @@ public class PlayerCombat : MonoBehaviour
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
 
     private Animator _animator;
+    // private PlayerAnimationEvent _animationEvent;
     private PlayerInputControl _playerInput;
     private PlayerMove _playerMove;
+    private Rigidbody _rigidbody;
+    private GameObject _mainCamera;
+
+    [SerializeField, Range(0.01f, 1f)] private float rotationSmoothTime;
+    private float rotationSmoothVelocity;
+
+    private Vector3 assaultVelocity;
+    private AttackSo curAttackSo;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _playerInput = GetComponent<PlayerInputControl>();
         _playerMove = GetComponent<PlayerMove>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
+        
+        // _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
+        // _animationEvent.OnAssaultAction += Assault;
     }
     private void Update()
     {
         if (_playerInput.attackNormal) StartCombo(PlayerComboType.Nm);
         if (_playerInput.attackSpecial) StartCombo(PlayerComboType.Sp);
         ExitCombo();
+    }
+
+    private void FixedUpdate()
+    {
+        if (IsComboActive)
+        {
+            Rotate();
+            Assault();
+        }
     }
 
     private void StartCombo(PlayerComboType comboType)
@@ -59,12 +82,15 @@ public class PlayerCombat : MonoBehaviour
             {
                 _animator.runtimeAnimatorController = curComboData.combos[curComboCounter].animatorOv;
                 _animator.Play("Attack",0,0);
+                
+                // 현재 공격 애니메이션 Scriptable Object 설정
+                curAttackSo = curComboData.combos[curComboCounter];
 
                 // 반복 콤보가 아니면 다음 콤보 진행
                 if (!curComboData.combos[curComboCounter].loop) curComboData.comboCounter++;
 
                 // 콤보 끝 도달
-                if (curComboData.comboCounter >= curComboData.combos.Count) EndCombo(comboType);
+                if (curComboCounter >= curComboData.combos.Count && curComboData.combos[curComboCounter - 1].nextComboInterval > 0f) EndCombo(comboType);
             }
         }
     }
@@ -75,7 +101,7 @@ public class PlayerCombat : MonoBehaviour
         int curComboCounter = curComboData.comboCounter;
 
         // 다음 콤보 딜레이 적용
-        if (curComboCounter > 0 && curComboData.combos[curComboCounter - 1].nextComboInterval > 0f)
+        if (curComboCounter >= curComboData.combos.Count && curComboData.combos[curComboCounter - 1].nextComboInterval > 0f)
         {
             curComboData.nextComboStartTime = Time.time + curComboData.combos[curComboCounter - 1].nextComboInterval;
         }
@@ -98,5 +124,23 @@ public class PlayerCombat : MonoBehaviour
         {
             EndCombo(curComboData.comboType);
         }
+    }
+    private void Rotate()
+    {
+        Vector3 cameraForward = _mainCamera.transform.forward;
+        cameraForward.y = 0f;
+
+        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+        
+        transform.rotation=Quaternion.Euler(0f,
+            Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y,
+                ref rotationSmoothVelocity, rotationSmoothTime), 0f);
+    }
+
+    private void Assault()
+    {
+        float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
+        assaultVelocity = curAttackSo.assaultSpeedCurve.Evaluate(curAnimNormTime) * curAttackSo.assaultDirection;
+        _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
 }

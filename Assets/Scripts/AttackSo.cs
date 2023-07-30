@@ -9,4 +9,6 @@ public class AttackSo : ScriptableObject
     public float normalizedComboTime;
     public bool loop;
     public float nextComboInterval;
+    public Vector3 assaultDirection;
+    public AnimationCurve assaultSpeedCurve;
 }

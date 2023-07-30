@@ -6,11 +6,14 @@ using System;
 public class PlayerAnimationEvent : MonoBehaviour
 {
     private Animator _animator;
-    public event Action onRollFinish;
+    public event Action OnRollFinishAction;
+    public event Action OnAssaultAction;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        onRollFinish = () => { };
+        OnRollFinishAction = () => { };
+        OnAssaultAction = () => { };
     }
-    private void OnRollFinish() => onRollFinish?.Invoke();
+    private void OnRollFinish() => OnRollFinishAction?.Invoke();
+    private void OnAssault() => OnAssaultAction?.Invoke();
 }

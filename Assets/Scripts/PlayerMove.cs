@@ -127,7 +127,7 @@ public class PlayerMove : MonoBehaviour
         _playerCombat = GetComponent<PlayerCombat>();
 
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
-        _animationEvent.onRollFinish += RollFinish;
+        _animationEvent.OnRollFinishAction += RollFinish;
 
         AssignAnimationIDs();
 
@@ -249,6 +249,8 @@ public class PlayerMove : MonoBehaviour
             Rotate();
             return;
         }
+        // 공격 중 이동 X
+        if (_playerCombat.IsComboActive) return;
 
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = _playerInput.sprint ? sprintSpeed : moveSpeed;

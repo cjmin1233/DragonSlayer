@@ -17,3 +17,56 @@ MonoBehaviour:
   normalizedExitTime: 0.9
   normalizedComboTime: 0.6
   loop: 0
+  nextComboInterval: 0
+  assaultDirection: {x: 0, y: 0, z: 1}
+  assaultSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00009763573
+      value: 0.0010497868
+      inSlope: -0.0021698894
+      outSlope: -0.0021698894
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.0015188335
+      value: 0.001046703
+      inSlope: 9.685115
+      outSlope: 9.685115
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.259104
+      value: 4.99109
+      inSlope: -0.008521837
+      outSlope: -0.008521837
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1044521
+    - serializedVersion: 3
+      time: 0.26069435
+      value: 4.991071
+      inSlope: -0.014918899
+      outSlope: -0.014918899
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0009112
+      value: 0
+      inSlope: -6.742715
+      outSlope: -6.742715
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

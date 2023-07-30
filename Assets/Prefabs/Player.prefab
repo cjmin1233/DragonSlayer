@@ -2146,7 +2146,6 @@ MonoBehaviour:
   jumpTimeout: 0.5
   fallTimeout: 0.15
   rollTimeout: 1
-  grounded: 1
   groundedOffset: -0.14
   groundedRadius: 0.28
   groundLayers:
@@ -2192,8 +2191,10 @@ MonoBehaviour:
   - comboType: 1
     combos:
     - {fileID: 11400000, guid: 6dc649218c22ad4449dae9f8723c260a, type: 2}
+    - {fileID: 11400000, guid: c1e11a88d7cabf74fa11cc8964983f7a, type: 2}
     nextComboStartTime: 0
     comboCounter: 0
+  rotationSmoothTime: 0.12
 --- !u!1 &7458703009334391610
 GameObject:
   m_ObjectHideFlags: 0
