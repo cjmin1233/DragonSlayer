@@ -39,9 +39,7 @@ public class PlayerMove : MonoBehaviour
     [Tooltip("Time required to pass before being able to roll again.")]
     public float rollTimeout = 1f;
 
-    [Header("Player Grounded")]
-    [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-    public bool grounded = true;
+    public bool Grounded { get; private set; }
 
     [Tooltip("Useful for rough ground")]
     public float groundedOffset = -0.14f;
@@ -99,15 +97,16 @@ public class PlayerMove : MonoBehaviour
     private PlayerInputControl _playerInput;
     private Animator _animator;
     private Rigidbody _rigidBody;
-
+    private PlayerCombat _playerCombat;
     private PlayerAnimationEvent _animationEvent;
+    
     private GameObject _mainCamera;
 
     private const float Threshold = 0.01f;
 
     private bool HasAnimator => _animator is not null;
 
-    private bool isRolling;
+    public bool IsRolling { get; private set; }
     private Coroutine rolling;
 
     private void Awake()
@@ -125,6 +124,7 @@ public class PlayerMove : MonoBehaviour
         _animator = GetComponentInChildren<Animator>();
         _playerInput = GetComponent<PlayerInputControl>();
         _rigidBody = GetComponent<Rigidbody>();
+        _playerCombat = GetComponent<PlayerCombat>();
 
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
         _animationEvent.onRollFinish += RollFinish;
@@ -138,18 +138,14 @@ public class PlayerMove : MonoBehaviour
     }
     private void Update()
     {
-        if (_playerInput.jump && _jumpTimeoutDelta <= 0.0f && grounded && !isRolling)
+        if (Grounded && !IsRolling)
         {
-            Jump();
+            if (_playerInput.jump && _jumpTimeoutDelta <= 0f && !_playerCombat.IsComboActive) Jump();
+            if (_playerInput.roll && _rollTimeoutDelta <= 0f) Roll();
         }
-        if (_playerInput.roll && _rollTimeoutDelta <= 0f && grounded && !isRolling)
-        {
-            Roll();
-        }
+        
         GroundedCheck();
     }
-
-
     private void FixedUpdate()
     {
         VerticalMovement();
@@ -184,7 +180,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void VerticalMovement()
     {
-        if (grounded)
+        if (Grounded)
         {
             // reset the fall timeout timer
             _fallTimeoutDelta = fallTimeout;
@@ -247,7 +243,8 @@ public class PlayerMove : MonoBehaviour
     }
     private void HorizontalMovement()
     {
-        if (isRolling)
+        // 구르기 중에는 회전만
+        if (IsRolling)
         {
             Rotate();
             return;
@@ -297,13 +294,13 @@ public class PlayerMove : MonoBehaviour
         Vector3 spherePosition = transform.position;
         spherePosition.y -= groundedOffset;
         
-        grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
+        Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
 
         // update animator if using character
         if (HasAnimator)
         {
-            _animator.SetBool(_animIDGrounded, grounded);
+            _animator.SetBool(_animIDGrounded, Grounded);
         }
     }
     private void CameraRotation()
@@ -355,7 +352,7 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator Rolling()
     {
         _rollTimeoutDelta = rollTimeout;
-        isRolling = true;
+        IsRolling = true;
         if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, true);
@@ -373,7 +370,7 @@ public class PlayerMove : MonoBehaviour
     }
     private void RollFinish()
     {
-        isRolling = false;
+        IsRolling = false;
         if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, false);

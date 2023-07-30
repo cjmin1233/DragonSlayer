@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerInputControl))]
+[RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
 public class PlayerCombat : MonoBehaviour
 {
     public enum PlayerComboType
@@ -9,26 +9,39 @@ public class PlayerCombat : MonoBehaviour
         Sp
     }
 
+    public bool IsComboActive
+    {
+        get
+        {
+            return curComboData is not null;
+        }
+    }
+
     [SerializeField] private ComboData[] playerComboData;
     private ComboData curComboData;
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
 
     private Animator _animator;
     private PlayerInputControl _playerInput;
+    private PlayerMove _playerMove;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
         _playerInput = GetComponent<PlayerInputControl>();
+        _playerMove = GetComponent<PlayerMove>();
     }
     private void Update()
     {
-        if(_playerInput.attackNormal)StartCombo(PlayerComboType.Nm);
-        if(_playerInput.attackSpecial)StartCombo(PlayerComboType.Sp);
+        if (_playerInput.attackNormal) StartCombo(PlayerComboType.Nm);
+        if (_playerInput.attackSpecial) StartCombo(PlayerComboType.Sp);
         ExitCombo();
     }
 
     private void StartCombo(PlayerComboType comboType)
     {
+        // 공중이거나 구르기 중 공격 못함
+        if (!_playerMove.Grounded || _playerMove.IsRolling) return;
+        
         if (curComboData is null) curComboData = playerComboData[(int)comboType];
         // 다른 콤보중인 경우
         else if (curComboData.comboType != comboType) return;
@@ -78,7 +91,7 @@ public class PlayerCombat : MonoBehaviour
         int curComboCounter = curComboData.comboCounter;
 
         // 공격 상태 벗어남
-        if(!GetCurStateInfo(0).IsTag("Attack"))EndCombo(curComboData.comboType);
+        if (!GetCurStateInfo(0).IsTag("Attack")) EndCombo(curComboData.comboType);
         // 콤보 시간 종료
         else if (curComboCounter > 0
                  && GetCurStateInfo(0).normalizedTime > curComboData.combos[curComboCounter - 1].normalizedExitTime)
