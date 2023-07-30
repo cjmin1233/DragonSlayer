@@ -16,10 +16,6 @@ public class PlayerInputControl : MonoBehaviour
         {
             return inputAction.PlayerInput.Jump.triggered;
         }
-        set
-        {
-            jump = value;
-        }
     }
     public bool sprint { get; private set; }
     public bool roll

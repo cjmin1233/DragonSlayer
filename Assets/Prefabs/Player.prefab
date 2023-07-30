@@ -2137,28 +2137,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbf61d85204bb84481f4fbd03d87d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  SprintSpeed: 10
-  RollSpeed: 20
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
-  JumpHeight: 1.2
-  JumpForce: 5
-  Gravity: -15
-  JumpTimeout: 0.1
-  FallTimeout: 0.15
-  RollTimeout: 1
-  Grounded: 1
-  GroundedOffset: -0.05
-  GroundedRadius: 0.1
-  GroundLayers:
+  moveSpeed: 5
+  sprintSpeed: 10
+  rollSpeed: 20
+  rotationSmoothTime: 0.12
+  speedChangeRate: 10
+  jumpForce: 5
+  jumpTimeout: 0.5
+  fallTimeout: 0.15
+  rollTimeout: 1
+  grounded: 1
+  groundedOffset: -0.14
+  groundedRadius: 0.28
+  groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  CinemachineCameraTarget: {fileID: 7016104160590108693}
-  TopClamp: 70
-  BottomClamp: -30
-  CameraAngleOverride: 0
-  LockCameraPosition: 0
+  cineMachineCameraTarget: {fileID: 7016104160590108693}
+  topClamp: 70
+  bottomClamp: -30
+  cameraAngleOverride: 0
+  lockCameraPosition: 0
 --- !u!114 &5389651371033422346
 MonoBehaviour:
   m_ObjectHideFlags: 0
