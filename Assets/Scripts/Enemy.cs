@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
         Idle,
         Trace,
         Attack,
+        GetHit,
         Die
     }
 
@@ -62,7 +63,11 @@ public class Enemy : MonoBehaviour
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 break;
+            case State.GetHit:
+                animator.SetBool("isAttacked", false);
+                break;
             case State.Die:
+                animator.SetTrigger("Die");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -87,6 +92,8 @@ public class Enemy : MonoBehaviour
 
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
                 break;
+            case State.GetHit:
+                break;
             case State.Die:
                 break;
             default:
@@ -107,6 +114,8 @@ public class Enemy : MonoBehaviour
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 중지");
                 agent.isStopped = false;
+                break;
+            case State.GetHit:
                 break;
             case State.Die:
                 break;
@@ -137,13 +146,14 @@ public class Enemy : MonoBehaviour
                     return true;
                 }
                 break;
+            case State.GetHit:
+                break;
             case State.Die:
                 return true;
             //break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
         return false;
     }
 }
