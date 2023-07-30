@@ -2183,11 +2183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e79ee625042d4c4429dc0ce7632233a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalCombos:
+  nmCombos:
   - {fileID: 11400000, guid: 58924c0817f7cf84b88ce395254a09fd, type: 2}
   - {fileID: 11400000, guid: 19ba0ef6798ff09499ad27fc8fb3a789, type: 2}
   - {fileID: 11400000, guid: f1976cf407ee66c4a93dd97ceab6fcbf, type: 2}
-  specialCombos:
+  spCombos:
   - {fileID: 11400000, guid: 6dc649218c22ad4449dae9f8723c260a, type: 2}
 --- !u!1 &7458703009334391610
 GameObject:
