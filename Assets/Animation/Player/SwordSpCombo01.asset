@@ -17,3 +17,4 @@ MonoBehaviour:
   normalizedExitTime: 0.9
   normalizedComboTime: 0.7
   loop: 0
+  nextComboInterval: 2

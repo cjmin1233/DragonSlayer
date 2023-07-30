@@ -8,5 +8,5 @@ public class AttackSo : ScriptableObject
     public float normalizedExitTime;
     public float normalizedComboTime;
     public bool loop;
-    public float nextComboBeginTime;
+    public float nextComboInterval;
 }
