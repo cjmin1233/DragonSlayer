@@ -23,6 +23,7 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent agent;
     private GameObject player;
+    private Animator animator;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
@@ -31,6 +32,7 @@ public class Enemy : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -55,6 +57,7 @@ public class Enemy : MonoBehaviour
                 break;
             case State.Trace:
                 Debug.Log($"{enemyData.EnemyName}, 추격 시작");
+                animator.SetTrigger("Find Player");
                 break;
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 시작");
@@ -122,6 +125,7 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
                     nextState = State.Attack;
+                    animator.SetBool("isAttack", true);
                     return true;
                 }
                 break;
@@ -129,6 +133,7 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
+                    animator.SetBool("isAttack", false);
                     return true;
                 }
                 break;
