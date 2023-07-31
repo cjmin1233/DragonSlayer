@@ -21,16 +21,18 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] EnemyData enemyData;
     public EnemyData EnemyData { set { enemyData = value; } }
+    public int hp;
 
     private NavMeshAgent agent;
     private GameObject player;
-    private Animator animator;
+    [SerializeField] private Animator animator;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
 
     void Awake()
     {
+        hp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
@@ -58,13 +60,14 @@ public class Enemy : MonoBehaviour
                 break;
             case State.Trace:
                 Debug.Log($"{enemyData.EnemyName}, 추격 시작");
-                animator.SetTrigger("Find Player");
+                agent.isStopped = false;
                 break;
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 break;
             case State.GetHit:
-                animator.SetBool("isAttacked", false);
+                animator.SetTrigger("GetHit");
+                animator.SetBool("State", false);
                 break;
             case State.Die:
                 animator.SetTrigger("Die");
@@ -105,6 +108,7 @@ public class Enemy : MonoBehaviour
         switch (curState)
         {
             case State.Idle:
+                animator.SetTrigger("Find Player");
                 break;
             case State.Trace:
                 Debug.Log($"{enemyData.EnemyName}, 추격 중지");
@@ -113,11 +117,12 @@ public class Enemy : MonoBehaviour
                 break;
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 중지");
-                agent.isStopped = false;
                 break;
             case State.GetHit:
                 break;
             case State.Die:
+                Debug.Log($"{enemyData.EnemyName}, 죽음...");
+                Invoke("AfterDie", 5f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -134,7 +139,13 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
                     nextState = State.Attack;
-                    animator.SetBool("isAttack", true);
+                    animator.SetBool("State", true);
+                    return true;
+                }
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    animator.SetTrigger("GetHit");
                     return true;
                 }
                 break;
@@ -142,13 +153,23 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
-                    animator.SetBool("isAttack", false);
+                    animator.SetBool("State", false);
+                    return true;
+                }
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    animator.SetTrigger("GetHit");
                     return true;
                 }
                 break;
             case State.GetHit:
-                break;
+                if(hp <= 0) nextState = State.Die;
+                else nextState = State.Trace;
+                return true;
+                //break;
             case State.Die:
+                nextState = State.Idle;
                 return true;
             //break;
             default:
@@ -156,4 +177,5 @@ public class Enemy : MonoBehaviour
         }
         return false;
     }
+    private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }

@@ -20,4 +20,7 @@ public class EnemyData : ScriptableObject
 
     [SerializeField] private float enemyAttackRange;
     public float EnemyAttackRange { get {  return enemyAttackRange; } }
+
+    [SerializeField] private float enemyAttackTerm;
+    public float EnemyAttackTerm { get {  return enemyAttackTerm; } }
 }
