@@ -109,6 +109,7 @@ public class PlayerCombat : MonoBehaviour
         // 콤보 초기화
         curComboData.comboCounter = 0;
         curComboData = null;
+        curAttackSo = null;
     }
 
     private void ExitCombo()
@@ -117,9 +118,9 @@ public class PlayerCombat : MonoBehaviour
         int curComboCounter = curComboData.comboCounter;
 
         // 공격 상태 벗어남
-        if (!GetCurStateInfo(0).IsTag("Attack")) EndCombo(curComboData.comboType);
+        // if (!GetCurStateInfo(0).IsTag("Attack")) EndCombo(curComboData.comboType);
         // 콤보 시간 종료
-        else if (curComboCounter > 0
+        if (curComboCounter > 0
                  && GetCurStateInfo(0).normalizedTime > curComboData.combos[curComboCounter - 1].normalizedExitTime)
         {
             EndCombo(curComboData.comboType);
@@ -127,6 +128,7 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Rotate()
     {
+        if (curAttackSo is null) return;
         Vector3 cameraForward = _mainCamera.transform.forward;
         cameraForward.y = 0f;
 
@@ -139,8 +141,15 @@ public class PlayerCombat : MonoBehaviour
 
     private void Assault()
     {
+        if (curAttackSo is null) return;
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
         assaultVelocity = curAttackSo.assaultSpeedCurve.Evaluate(curAnimNormTime) * curAttackSo.assaultDirection;
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
+    }
+
+    public void TerminateCombo()
+    {
+        if (curComboData is null) return;
+        EndCombo(curComboData.comboType);
     }
 }
