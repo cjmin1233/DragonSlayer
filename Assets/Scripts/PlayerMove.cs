@@ -140,7 +140,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (Grounded && !IsRolling)
         {
-            if (_playerInput.jump && _jumpTimeoutDelta <= 0f && !_playerCombat.IsComboActive) Jump();
+            if (_playerInput.jump && _jumpTimeoutDelta <= 0f && !_playerCombat.IsAttacking) Jump();
             if (_playerInput.roll && _rollTimeoutDelta <= 0f) Roll();
         }
         
@@ -244,7 +244,7 @@ public class PlayerMove : MonoBehaviour
     private void HorizontalMovement()
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
-        float targetSpeed = _playerInput.sprint ? sprintSpeed : moveSpeed;
+        float targetSpeed = _playerInput.sprint && Grounded ? sprintSpeed : moveSpeed;
 
         // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -271,7 +271,7 @@ public class PlayerMove : MonoBehaviour
             //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
 
-        if (_playerCombat.IsComboActive) return;
+        if (_playerCombat.IsAttacking) return;
         Rotate();
         if (IsRolling) return;
 
@@ -345,13 +345,14 @@ public class PlayerMove : MonoBehaviour
     }*/
     private IEnumerator Rolling()
     {
+        IsRolling = true;
         _playerCombat.Terminate_Combo();
         _rollTimeoutDelta = rollTimeout;
-        IsRolling = true;
         if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, true);
         }
+        Rotate();
         Vector3 rollingDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward; 
         _rigidBody.velocity = rollingDirection.normalized * rollSpeed;
         

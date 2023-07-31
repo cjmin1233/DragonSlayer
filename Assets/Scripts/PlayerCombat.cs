@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +36,7 @@ public class PlayerCombat : MonoBehaviour
     private float rotationSmoothVelocity;
 
     private Vector3 assaultVelocity;
-    private AttackSo curAttackSo;
+    // private AttackSo curAttackSo;
     
     [SerializeField] private ComboData[] playerComboData;
     // weapon select
@@ -74,12 +73,13 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         if (_playerInput.attackNormal) Attack(PlayerComboType.Nm);
-        if (_playerInput.attackSpecial) Attack(PlayerComboType.Sp);
+        else if (_playerInput.attackSpecial) Attack(PlayerComboType.Sp);
+        print(IsAttacking);
     }
 
     private void FixedUpdate()
     {
-        if (curAttackSo is not null)
+        if (IsAttacking)
         {
             Rotate();
             Assault();
@@ -91,42 +91,73 @@ public class PlayerCombat : MonoBehaviour
         // 공중이거나 구르기 중 공격 못함
         if (!_playerMove.Grounded || _playerMove.IsRolling) return;
 
-        if (curComboData is null) curComboData = playerComboData[(int)comboType];
-        else if (curComboData.comboType != comboType) return;
+        if (curComboData==null && !IsAttacking)
+        {
+            print("cur combo is null and not attacking, counter is : "+playerComboData[(int)comboType].comboCounter);
+            
+        }
+        
 
-        int curComboCounter = curComboData.comboCounter;
-        if (curComboCounter < curComboData.combos.Count
-            && Time.time > curComboData.nextComboStartTime
+        ComboData comboData = playerComboData[(int)comboType];
+        if (comboData.comboCounter < comboData.combos.Count
+            && Time.time > comboData.nextComboStartTime
             && !IsAttacking)
         {
-            curAttackSo = curComboData.combos[curComboCounter];
-            _animator.runtimeAnimatorController = curAttackSo.animatorOv;
+            curComboData = comboData;
+            // curAttackSo = curComboData.combos[curComboData.comboCounter];
+            _animator.runtimeAnimatorController = curComboData.combos[curComboData.comboCounter].animatorOv;
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
         }
+        // if (curComboData is null) curComboData = playerComboData[(int)comboType];
+        // else if (curComboData.comboType != comboType)
+        // {
+        //     if (!IsAttacking) curComboData = playerComboData[(int)comboType];
+        //     else return;
+        // }
+        //
+        // int curComboCounter = curComboData.comboCounter;
+        // if (curComboCounter < curComboData.combos.Count
+        //     && Time.time > curComboData.nextComboStartTime)
+        // {
+        //     curAttackSo = curComboData.combos[curComboCounter];
+        //     _animator.runtimeAnimatorController = curAttackSo.animatorOv;
+        //     _animator.Play("Attack", 0, 0);
+        //     IsAttacking = true;
+        // }
     }
 
     private void Start_Combo()
     {
-        if (!curAttackSo.loop) curComboData.comboCounter++;
+        if (curComboData is null) return;
+        if (!curComboData.combos[curComboData.comboCounter].loop) curComboData.comboCounter++;
+        // if (!curAttackSo.loop) curComboData.comboCounter++;
         IsAttacking = false;
     }
 
     private void End_Combo()
     {
+        if (curComboData is null) return;
         if (curComboData.comboCounter >= curComboData.combos.Count
-            && curAttackSo.nextComboInterval > 0f) curComboData.nextComboStartTime = Time.time + curAttackSo.nextComboInterval;
+            && curComboData.combos[curComboData.comboCounter-1].nextComboInterval > 0f) 
+            curComboData.nextComboStartTime = Time.time + curComboData.combos[curComboData.comboCounter-1].nextComboInterval;
 
         curComboData.comboCounter = 0;
         IsAttacking = false;
+        playerComboData[(int)curComboData.comboType] = curComboData;
         curComboData = null;
-        curAttackSo = null;
+        // curAttackSo = null;
+        _rigidbody.velocity = Vector3.zero;
     }
 
     public void Terminate_Combo()
     {
         if (curComboData is null) return;
-        End_Combo();
+        curComboData.comboCounter = 0;
+        IsAttacking = false;
+        playerComboData[(int)curComboData.comboType] = curComboData;
+        curComboData = null;
+        _rigidbody.velocity = Vector3.zero;
     }
     // private void Update()
     // {
@@ -232,7 +263,8 @@ public class PlayerCombat : MonoBehaviour
     private void Assault()
     {
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
-        assaultVelocity = curAttackSo.assaultSpeedCurve.Evaluate(curAnimNormTime) * curAttackSo.assaultDirection;
+        assaultVelocity = curComboData.combos[curComboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
+                          * curComboData.combos[curComboData.comboCounter].assaultDirection;
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
 
