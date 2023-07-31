@@ -2195,6 +2195,10 @@ MonoBehaviour:
     nextComboStartTime: 0
     comboCounter: 0
   rotationSmoothTime: 0.12
+  weaponParent: {fileID: 2016190080312371127}
+  weapons:
+  - {fileID: 11400000, guid: 386f6928bc820444e817a9e7ea68064e, type: 2}
+  activeWeapon: {fileID: 0}
 --- !u!1 &7458703009334391610
 GameObject:
   m_ObjectHideFlags: 0
@@ -2921,7 +2925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1049305829743183992
 Transform:
   m_ObjectHideFlags: 0

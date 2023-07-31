@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
@@ -33,6 +35,13 @@ public class PlayerCombat : MonoBehaviour
 
     private Vector3 assaultVelocity;
     private AttackSo curAttackSo;
+    
+    // weapon select
+    private WeaponType weaponType;
+    [SerializeField] private Transform weaponParent;
+    [SerializeField] private List<WeaponScriptableObject> weapons;
+
+    [SerializeField] private WeaponScriptableObject activeWeapon;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -44,6 +53,19 @@ public class PlayerCombat : MonoBehaviour
         // _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
         // _animationEvent.OnAssaultAction += Assault;
     }
+
+    private void Start()
+    {
+        WeaponScriptableObject weapon = weapons.Find(weapon => weapon.type == weaponType);
+        if (weapon is null)
+        {
+            Debug.LogError($"No WeaponScriptableObject found for WeaponType: {weaponType}");
+            return;
+        }
+        activeWeapon = weapon;
+        weapon.Spawn(weaponParent, this);
+    }
+
     private void Update()
     {
         if (_playerInput.attackNormal) StartCombo(PlayerComboType.Nm);
