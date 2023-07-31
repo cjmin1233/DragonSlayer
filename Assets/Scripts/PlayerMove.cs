@@ -243,15 +243,6 @@ public class PlayerMove : MonoBehaviour
     }
     private void HorizontalMovement()
     {
-        // 구르기 중에는 회전만
-        if (IsRolling)
-        {
-            Rotate();
-            return;
-        }
-        // 공격 중 이동 X
-        if (_playerCombat.IsComboActive) return;
-
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = _playerInput.sprint ? sprintSpeed : moveSpeed;
 
@@ -271,11 +262,18 @@ public class PlayerMove : MonoBehaviour
         // round speed to 3 decimal places
         //_speed = Mathf.Round(_speed * 1000f) / 1000f;
 
-        //_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
         _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * speedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
+        // update animator if using character
+        if (HasAnimator)
+        {
+            _animator.SetFloat(_animIDSpeed, _animationBlend);
+            //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+        }
 
+        if (_playerCombat.IsComboActive) return;
         Rotate();
+        if (IsRolling) return;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -283,12 +281,6 @@ public class PlayerMove : MonoBehaviour
         Vector3 targetVelocity = targetDirection.normalized * _speed + Vector3.up * _rigidBody.velocity.y;
         _rigidBody.velocity = targetVelocity;
         
-        // update animator if using character
-        if (HasAnimator)
-        {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-        }
     }
     private void GroundedCheck()
     {
@@ -353,14 +345,13 @@ public class PlayerMove : MonoBehaviour
     }*/
     private IEnumerator Rolling()
     {
-        _playerCombat.TerminateCombo();
+        _playerCombat.Terminate_Combo();
         _rollTimeoutDelta = rollTimeout;
         IsRolling = true;
         if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, true);
         }
-        Rotate();
         Vector3 rollingDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward; 
         _rigidBody.velocity = rollingDirection.normalized * rollSpeed;
         
@@ -374,6 +365,7 @@ public class PlayerMove : MonoBehaviour
     private void RollFinish()
     {
         IsRolling = false;
+        _rigidBody.velocity = Vector3.zero;
         if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, false);
