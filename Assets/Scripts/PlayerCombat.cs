@@ -50,6 +50,8 @@ public class PlayerCombat : MonoBehaviour
 
     private int _animIDAttackSpeed;
     [SerializeField] private float attackSpeed = 1f;
+
+    [SerializeField] private Transform vfxParent;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -62,10 +64,19 @@ public class PlayerCombat : MonoBehaviour
         _animationEvent.OnEndComboAction += EndCombo;
         _animationEvent.OnEnableWeaponAction += EnableWeapon;
         _animationEvent.OnDisableWeaponAction += DisableWeapon;
+        _animationEvent.OnEnableVfxAction += EnableVfx;
 
         curComboType = PlayerComboType.None;
 
         _animIDAttackSpeed = Animator.StringToHash("AttackSpeed");
+
+        foreach (var comboData in playerComboData)
+        {
+            foreach (var attackSo in comboData.combos)
+            {
+                attackSo.Init(vfxParent);
+            }
+        }
     }
 
     private void Start()
@@ -111,8 +122,10 @@ public class PlayerCombat : MonoBehaviour
                 EndCombo();
             }
             curComboType = comboType;
+            AttackSo attackSo = comboData.combos[comboData.comboCounter];
 
-            _animator.runtimeAnimatorController = comboData.combos[comboData.comboCounter].animatorOv;
+            attackSo.particleIndex = 0;
+            _animator.runtimeAnimatorController = attackSo.animatorOv;
             _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
@@ -186,5 +199,14 @@ public class PlayerCombat : MonoBehaviour
     private void DisableWeapon()
     {
         if (activeWeapon is not null) activeWeapon.DisableWeapon();
+    }
+
+    private void EnableVfx()
+    {
+        if(IsComboActive)
+        {
+            ComboData comboData = playerComboData[(int)curComboType];
+            comboData.combos[comboData.comboCounter].EnableParticle(attackSpeed);
+        }
     }
 }
