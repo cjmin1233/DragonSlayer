@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInputControl))]
@@ -8,94 +6,82 @@ public class PlayerMove : MonoBehaviour
 {
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
-    public float MoveSpeed = 2.0f;
+    public float moveSpeed = 2.0f;
 
     [Tooltip("Sprint speed of the character in m/s")]
-    public float SprintSpeed = 5.335f;
+    public float sprintSpeed = 5.335f;
 
     [Tooltip("Roll speed of the character in m/s")]
-    public float RollSpeed = 10f;
+    public float rollSpeed = 10f;
 
     [Tooltip("How fast the character turns to face movement direction")]
     [Range(0.0f, 0.3f)]
-    public float RotationSmoothTime = 0.12f;
+    public float rotationSmoothTime = 0.12f;
 
     [Tooltip("Acceleration and deceleration")]
-    public float SpeedChangeRate = 10.0f;
+    public float speedChangeRate = 10.0f;
 
     //public AudioClip LandingAudioClip;
     //public AudioClip[] FootstepAudioClips;
     //[Range(0, 1)] public float FootstepAudioVolume = 0.5f;
-
-    [Space(10)]
-    [Tooltip("The height the player can jump")]
-    public float JumpHeight = 1.2f;
-
+    
     [Space(10)]
     [Tooltip("The amount of force applied when player jump"), Range(5f, 20f)]
-    public float JumpForce = 10f;
-
-    //[Space(10)]
-    //[Tooltip("The amount of force applied when player roll"), Range(5f, 10f)]
-    //public float RollForce = 10f;
-
-    [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
-    public float Gravity = -15.0f;
-
+    public float jumpForce = 10f;
+    
     [Space(10)]
     [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
-    public float JumpTimeout = 0.50f;
+    public float jumpTimeout = 0.50f;
 
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
-    public float FallTimeout = 0.15f;
+    public float fallTimeout = 0.15f;
 
     [Tooltip("Time required to pass before being able to roll again.")]
-    public float RollTimeout = 1f;
+    public float rollTimeout = 1f;
 
-    [Header("Player Grounded")]
-    [Tooltip("If the character is grounded or not. Not part of the CharacterController built in grounded check")]
-    public bool Grounded = true;
+    public bool Grounded { get; private set; }
 
     [Tooltip("Useful for rough ground")]
-    public float GroundedOffset = -0.14f;
+    public float groundedOffset = -0.14f;
 
     [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
-    public float GroundedRadius = 0.28f;
+    public float groundedRadius = 0.28f;
 
     [Tooltip("What layers the character uses as ground")]
-    public LayerMask GroundLayers;
+    public LayerMask groundLayers;
 
-    [Header("Cinemachine")]
-    [Tooltip("The follow target set in the Cinemachine Virtual Camera that the camera will follow")]
-    public GameObject CinemachineCameraTarget;
+    
+    [Header("CineMachine")]
+    [Tooltip("The follow target set in the CineMachine Virtual Camera that the camera will follow")]
+    public GameObject cineMachineCameraTarget;
 
     [Tooltip("How far in degrees can you move the camera up")]
-    public float TopClamp = 70.0f;
+    public float topClamp = 70.0f;
 
     [Tooltip("How far in degrees can you move the camera down")]
-    public float BottomClamp = -30.0f;
+    public float bottomClamp = -30.0f;
 
-    [Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
-    public float CameraAngleOverride = 0.0f;
+    [Tooltip("Additional degrees to override the camera. Useful for fine tuning camera position when locked")]
+    public float cameraAngleOverride;
 
     [Tooltip("For locking the camera position on all axis")]
-    public bool LockCameraPosition = false;
+    public bool lockCameraPosition;
 
-    // cinemachine
-    private float _cinemachineTargetYaw;
-    private float _cinemachineTargetPitch;
+    // cineMachine
+    private float _cineMachineTargetYaw;
+    private float _cineMachineTargetPitch;
 
     // player
     private float _speed;
     private float _speedSmoothVelocity;
     private float _animationBlend;
-    private float _targetRotation = 0.0f;
+    private float _targetRotation;
     private float _rotationVelocity;
     private float _verticalVelocity;
     //private float _terminalVelocity = 53.0f;
     private float _camYawVelocity;
 
-    // timeout deltatime
+    // timeout delta time
     private float _jumpTimeoutDelta;
     private float _fallTimeoutDelta;
     private float _rollTimeoutDelta;
@@ -105,67 +91,61 @@ public class PlayerMove : MonoBehaviour
     private int _animIDGrounded;
     private int _animIDJump;
     private int _animIDFreeFall;
-    private int _animIDMotionSpeed;
+    // private int _animIDMotionSpeed;
     private int _animIDRoll;
 
     private PlayerInputControl _playerInput;
     private Animator _animator;
     private Rigidbody _rigidBody;
-
+    private PlayerCombat _playerCombat;
     private PlayerAnimationEvent _animationEvent;
+    
     private GameObject _mainCamera;
 
-    private const float _threshold = 0.01f;
+    private const float Threshold = 0.01f;
 
-    private bool _hasAnimator = true;
+    private bool HasAnimator => _animator is not null;
 
-    private bool isRolling;
+    public bool IsRolling { get; private set; }
     private Coroutine rolling;
 
     private void Awake()
     {
         // get a reference to our main camera
-        if(_mainCamera is null)
-        {
-            _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        }
+        _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
 
-        _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+        _cineMachineTargetYaw = cineMachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
-        //_controller = GetComponent<CharacterController>();
         _playerInput = GetComponent<PlayerInputControl>();
         _rigidBody = GetComponent<Rigidbody>();
+        _playerCombat = GetComponent<PlayerCombat>();
 
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
-        _animationEvent.onRollFinish += RollFinish;
+        _animationEvent.OnRollFinishAction += RollFinish;
 
         AssignAnimationIDs();
 
         // reset our timeouts on start
-        _jumpTimeoutDelta = JumpTimeout;
-        _fallTimeoutDelta = FallTimeout;
+        _jumpTimeoutDelta = jumpTimeout;
+        _fallTimeoutDelta = fallTimeout;
         _rollTimeoutDelta = -1f;
     }
     private void Update()
     {
-        if (_playerInput.jump && _jumpTimeoutDelta <= 0.0f && Grounded)
+        if (Grounded && !IsRolling)
         {
-            Jump();
+            if (_playerInput.jump && _jumpTimeoutDelta <= 0f && !_playerCombat.IsAttacking) Jump();
+            if (_playerInput.roll && _rollTimeoutDelta <= 0f) Roll();
         }
-        if (_playerInput.roll && _rollTimeoutDelta <= 0f && Grounded && !isRolling)
-        {
-            Roll();
-        }
+        
         GroundedCheck();
     }
-
-
     private void FixedUpdate()
     {
         VerticalMovement();
@@ -178,17 +158,17 @@ public class PlayerMove : MonoBehaviour
         _animIDGrounded = Animator.StringToHash("Grounded");
         _animIDJump = Animator.StringToHash("Jump");
         _animIDFreeFall = Animator.StringToHash("FreeFall");
-        _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+        // _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
 
         _animIDRoll = Animator.StringToHash("Roll");
     }
     private void Jump()
     {
         // add force to rigid body
-        _rigidBody.AddForce(JumpForce * Vector3.up, ForceMode.Impulse);
+        _rigidBody.AddForce(jumpForce * Vector3.up, ForceMode.Impulse);
 
         // update animator if using character
-        if (_hasAnimator)
+        if (HasAnimator)
         {
             _animator.SetBool(_animIDJump, true);
         }
@@ -197,17 +177,16 @@ public class PlayerMove : MonoBehaviour
     {
         if(rolling is not null) StopCoroutine(rolling);
         rolling = StartCoroutine(Rolling());
-        //_rigidBody.AddForce(RollForce * transform.forward, ForceMode.Impulse);
     }
     private void VerticalMovement()
     {
         if (Grounded)
         {
             // reset the fall timeout timer
-            _fallTimeoutDelta = FallTimeout;
+            _fallTimeoutDelta = fallTimeout;
 
             // update animator if using character
-            if (_hasAnimator)
+            if (HasAnimator)
             {
                 _animator.SetBool(_animIDJump, false);
                 _animator.SetBool(_animIDFreeFall, false);
@@ -223,7 +202,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             // reset the jump timeout timer
-            _jumpTimeoutDelta = JumpTimeout;
+            _jumpTimeoutDelta = jumpTimeout;
 
             // fall timeout
             if (_fallTimeoutDelta >= 0.0f)
@@ -233,7 +212,7 @@ public class PlayerMove : MonoBehaviour
             else
             {
                 // update animator if using character
-                if (_hasAnimator)
+                if (HasAnimator)
                 {
                     _animator.SetBool(_animIDFreeFall, true);
                 }
@@ -253,23 +232,19 @@ public class PlayerMove : MonoBehaviour
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                               _mainCamera.transform.eulerAngles.y;
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
-                RotationSmoothTime);
+                rotationSmoothTime);
 
             // rotate to face input direction relative to camera position
             transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
         }
+        else _targetRotation = transform.eulerAngles.y;
+
         #endregion
     }
     private void HorizontalMovement()
     {
-        if (isRolling)
-        {
-            _rigidBody.velocity = transform.forward * RollSpeed;
-            return;
-        }
-
         // set target speed based on move speed, sprint speed and if sprint is pressed
-        float targetSpeed = _playerInput.sprint ? SprintSpeed : MoveSpeed;
+        float targetSpeed = _playerInput.sprint && Grounded ? sprintSpeed : moveSpeed;
 
         // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -279,40 +254,45 @@ public class PlayerMove : MonoBehaviour
         if (inputMagnitude < 0.01f) targetSpeed = 0.0f;
 
         // a reference to the players current horizontal velocity
-        float currentHorizontalSpeed = new Vector3(_rigidBody.velocity.x, 0.0f, _rigidBody.velocity.z).magnitude;
-
-        _speed = Mathf.SmoothDamp(currentHorizontalSpeed, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
+        Vector3 currentHorizontalVelocity = _rigidBody.velocity;
+        currentHorizontalVelocity.y = 0f;
+        // float currentHorizontalSpeed = new Vector3(_rigidBody.velocity.x, 0.0f, _rigidBody.velocity.z).magnitude;
+        
+        _speed = Mathf.SmoothDamp(currentHorizontalVelocity.magnitude, targetSpeed * inputMagnitude, ref _speedSmoothVelocity, Time.fixedDeltaTime);
         // round speed to 3 decimal places
         //_speed = Mathf.Round(_speed * 1000f) / 1000f;
 
-        //_animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
-        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * SpeedChangeRate);
+        _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.fixedDeltaTime * speedChangeRate);
         if (_animationBlend < 0.01f) _animationBlend = 0f;
+        // update animator if using character
+        if (HasAnimator)
+        {
+            _animator.SetFloat(_animIDSpeed, _animationBlend);
+            //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+        }
 
+        if (_playerCombat.IsAttacking) return;
         Rotate();
+        if (IsRolling) return;
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
         // move the player
         Vector3 targetVelocity = targetDirection.normalized * _speed + Vector3.up * _rigidBody.velocity.y;
         _rigidBody.velocity = targetVelocity;
-        // update animator if using character
-        if (_hasAnimator)
-        {
-            _animator.SetFloat(_animIDSpeed, _animationBlend);
-            //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
-        }
+        
     }
     private void GroundedCheck()
     {
         // set sphere position, with offset
-        Vector3 spherePosition = new(transform.position.x, transform.position.y - GroundedOffset,
-            transform.position.z);
-        Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
+        Vector3 spherePosition = transform.position;
+        spherePosition.y -= groundedOffset;
+        
+        Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
 
         // update animator if using character
-        if (_hasAnimator)
+        if (HasAnimator)
         {
             _animator.SetBool(_animIDGrounded, Grounded);
         }
@@ -320,20 +300,20 @@ public class PlayerMove : MonoBehaviour
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
-        if (_playerInput.lookInput.sqrMagnitude >= _threshold && !LockCameraPosition)
+        if (_playerInput.lookInput.sqrMagnitude >= Threshold && !lockCameraPosition)
         {
             //Don't multiply mouse input by Time.deltaTime;
-            _cinemachineTargetYaw += _playerInput.lookInput.x;
-            _cinemachineTargetPitch += _playerInput.lookInput.y;
+            _cineMachineTargetYaw += _playerInput.lookInput.x;
+            _cineMachineTargetPitch += _playerInput.lookInput.y;
         }
 
         // clamp our rotations so our values are limited 360 degrees
-        _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+        _cineMachineTargetYaw = ClampAngle(_cineMachineTargetYaw, float.MinValue, float.MaxValue);
+        _cineMachineTargetPitch = ClampAngle(_cineMachineTargetPitch, bottomClamp, topClamp);
 
-        // Cinemachine will follow this target
-        CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
-            _cinemachineTargetYaw, 0.0f);
+        // CineMachine will follow this target
+        cineMachineCameraTarget.transform.rotation = Quaternion.Euler(_cineMachineTargetPitch + cameraAngleOverride,
+            _cineMachineTargetYaw, 0.0f);
     }
 
     private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
@@ -342,6 +322,7 @@ public class PlayerMove : MonoBehaviour
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
+    /*
     public void OnFootstep(AnimationEvent animationEvent)
     {
         print("foot step!");
@@ -361,15 +342,20 @@ public class PlayerMove : MonoBehaviour
         {
             //AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center), FootstepAudioVolume);
         }
-    }
+    }*/
     private IEnumerator Rolling()
     {
-        _rollTimeoutDelta = RollTimeout;
-        isRolling = true;
-        if (_hasAnimator)
+        IsRolling = true;
+        _playerCombat.TerminateCombo();
+        _rollTimeoutDelta = rollTimeout;
+        if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, true);
         }
+        Rotate();
+        Vector3 rollingDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward; 
+        _rigidBody.velocity = rollingDirection.normalized * rollSpeed;
+        
         while (_rollTimeoutDelta > 0f)
         {
             _rollTimeoutDelta -= Time.deltaTime;
@@ -379,12 +365,11 @@ public class PlayerMove : MonoBehaviour
     }
     private void RollFinish()
     {
-        print("roll finish!");
-        isRolling = false;
-        if (_hasAnimator)
+        IsRolling = false;
+        _rigidBody.velocity = Vector3.zero;
+        if (HasAnimator)
         {
             _animator.SetBool(_animIDRoll, false);
         }
     }
-
 }

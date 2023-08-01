@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59138a0b1a7061a4cb5e4dc71bc99859, type: 3}
+  m_Name: SwordSpCombo01
+  m_EditorClassIdentifier: 
+  animatorOv: {fileID: 22100000, guid: e40e2b8678beeb44b8e8fae34c6dd05f, type: 2}
+  damage: 20
+  normalizedExitTime: 0.9
+  normalizedComboTime: 0.7
+  loop: 0
+  nextComboInterval: 2
+  assaultDirection: {x: 0, y: 0, z: 1}
+  assaultSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.25054932
+      value: 10.000755
+      inSlope: -13.267138
+      outSlope: -13.267138
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.057689667
+      inSlope: -13.267138
+      outSlope: -13.267138
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

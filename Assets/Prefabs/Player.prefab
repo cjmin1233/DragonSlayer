@@ -1490,89 +1490,6 @@ Transform:
   m_Father: {fileID: 4842301147999748291}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4585633380518638521
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1848087277913993052}
-  - component: {fileID: 121931339645800192}
-  - component: {fileID: 27575172831947685}
-  m_Layer: 0
-  m_Name: Backpack01
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1848087277913993052
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4585633380518638521}
-  m_LocalRotation: {x: -1.3183898e-16, y: -4.98733e-18, z: -1.3877788e-17, w: 1}
-  m_LocalPosition: {x: -1.7256332e-33, y: 7.105427e-17, z: 1.4210854e-16}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 3894661242231766794}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &121931339645800192
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4585633380518638521}
-  m_Mesh: {fileID: 192921630068605089, guid: 34b0895dfc863f742aa5075a4e691859, type: 3}
---- !u!23 &27575172831947685
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4585633380518638521}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: f323cced30244554986ee5e9f5dd8b67, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4672267635572979504
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,6 +2050,7 @@ GameObject:
   - component: {fileID: 8388466525688314765}
   - component: {fileID: 8610596878131069457}
   - component: {fileID: 5389651371033422346}
+  - component: {fileID: 1356739204929251805}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2155,7 +2073,7 @@ Transform:
   - {fileID: 2825890367895588100}
   - {fileID: 7074241306930040709}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7377818943436352837
 Rigidbody:
@@ -2219,28 +2137,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbbf61d85204bb84481f4fbd03d87d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 5
-  SprintSpeed: 10
-  RollSpeed: 20
-  RotationSmoothTime: 0.12
-  SpeedChangeRate: 10
-  JumpHeight: 1.2
-  JumpForce: 5
-  Gravity: -15
-  JumpTimeout: 0.1
-  FallTimeout: 0.15
-  RollTimeout: 1
-  Grounded: 1
-  GroundedOffset: -0.05
-  GroundedRadius: 0.1
-  GroundLayers:
+  moveSpeed: 5
+  sprintSpeed: 10
+  rollSpeed: 20
+  rotationSmoothTime: 0.12
+  speedChangeRate: 10
+  jumpForce: 5
+  jumpTimeout: 0.5
+  fallTimeout: 0.15
+  rollTimeout: 1
+  groundedOffset: -0.14
+  groundedRadius: 0.28
+  groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  CinemachineCameraTarget: {fileID: 7016104160590108693}
-  TopClamp: 70
-  BottomClamp: -30
-  CameraAngleOverride: 0
-  LockCameraPosition: 0
+  cineMachineCameraTarget: {fileID: 7016104160590108693}
+  topClamp: 70
+  bottomClamp: -30
+  cameraAngleOverride: 0
+  lockCameraPosition: 0
 --- !u!114 &5389651371033422346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2253,6 +2168,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1bf810ab205f9347aed10ff2db3fa49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1356739204929251805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7434647374770869655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79ee625042d4c4429dc0ce7632233a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerComboData:
+  - comboType: 0
+    combos:
+    - {fileID: 11400000, guid: 58924c0817f7cf84b88ce395254a09fd, type: 2}
+    - {fileID: 11400000, guid: 19ba0ef6798ff09499ad27fc8fb3a789, type: 2}
+    - {fileID: 11400000, guid: f1976cf407ee66c4a93dd97ceab6fcbf, type: 2}
+    nextComboStartTime: 0
+    comboCounter: 0
+  - comboType: 1
+    combos:
+    - {fileID: 11400000, guid: 6dc649218c22ad4449dae9f8723c260a, type: 2}
+    - {fileID: 11400000, guid: c1e11a88d7cabf74fa11cc8964983f7a, type: 2}
+    nextComboStartTime: 0
+    comboCounter: 0
+  rotationSmoothTime: 0.12
+  weaponParent: {fileID: 2016190080312371127}
+  weapons:
+  - {fileID: 11400000, guid: 386f6928bc820444e817a9e7ea68064e, type: 2}
+  activeWeapon: {fileID: 0}
 --- !u!1 &7458703009334391610
 GameObject:
   m_ObjectHideFlags: 0
@@ -2926,8 +2872,7 @@ Transform:
   m_LocalPosition: {x: -0.052676152, y: 0.21801741, z: -1.3549635e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1848087277913993052}
+  m_Children: []
   m_Father: {fileID: 479907518593273646}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2980,7 +2925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1049305829743183992
 Transform:
   m_ObjectHideFlags: 0
