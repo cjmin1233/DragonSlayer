@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [HideInInspector] public Enemy enemy;
+    //[HideInInspector] public Enemy enemy;
 
     private Rigidbody rb;
     

@@ -17,6 +17,6 @@ public class BeholderProjectile : Enemy
     private void Shoot()
     {
         var instance = Instantiate(projectile, firePoint.position, firePoint.rotation);
-        instance.GetComponent<Projectile>().enemy = this;
+        //instance = GetComponent<Projectile>();
     }
 }
