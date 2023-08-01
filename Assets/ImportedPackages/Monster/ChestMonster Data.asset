@@ -16,5 +16,4 @@ MonoBehaviour:
   enemyType: 3
   enemyHp: 15
   enemyMoveSpeed: 1
-  enemyAttackRange: 2
-  enemyAttackTerm: 4
+  enemyAttackRange: 1.5

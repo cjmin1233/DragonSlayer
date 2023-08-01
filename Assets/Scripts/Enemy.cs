@@ -20,22 +20,25 @@ public class Enemy : MonoBehaviour
     private State nextState = State.Idle;
 
     [SerializeField] EnemyData enemyData;
-    public EnemyData EnemyData { set { enemyData = value; } }
-    public int hp;
+    protected EnemyData EnemyData { set { enemyData = value; } }
+    protected int hp;
+
 
     private NavMeshAgent agent;
     private GameObject player;
-    [SerializeField] private Animator animator;
+    protected Animator animator;
+    protected EnemyEvent enemyEvent;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
 
-    void Awake()
+    protected virtual void Awake()
     {
         hp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
+        enemyEvent = GetComponent<EnemyEvent>();
     }
 
     private void Update()
@@ -85,15 +88,19 @@ public class Enemy : MonoBehaviour
             case State.Trace:
                 var lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
                 var targetAngleY = lookRotation.eulerAngles.y;
-
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
+                
                 agent.SetDestination(player.transform.position);
                 break;
             case State.Attack:
                 lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
                 targetAngleY = lookRotation.eulerAngles.y;
-
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
+
+                if(enemyData.EnemyType == EnemyType.Beholder)
+                {
+
+                }
                 break;
             case State.GetHit:
                 break;
