@@ -61,10 +61,12 @@ public class Enemy : MonoBehaviour
         switch (curState)
         {
             case State.Idle:
+                animator.Play("IdleNormal");
                 break;
             case State.Trace:
                 Debug.Log($"{enemyData.EnemyName}, 추격 시작");
                 animator.Play("WalkFWD");
+                animator.SetBool("isAttacking", false);
                 agent.isStopped = false;
                 break;
             case State.Battle:
@@ -73,10 +75,9 @@ public class Enemy : MonoBehaviour
             case State.Attack:
                 Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 animator.Play("Attack01");
+                animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
-                //animator.SetTrigger("GetHit");
-                animator.SetBool("State", false);
                 animator.Play("GetHit");
                 break;
             case State.Die:
@@ -152,13 +153,11 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
                     nextState = State.Battle;
-                    //animator.SetBool("State", true);
                     return true;
                 }
                 if (animator.GetBool("isGetHit"))
                 {
                     nextState = State.GetHit;
-                    //animator.SetTrigger("GetHit");
                     return true;
                 }
                 break;
@@ -166,13 +165,21 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
-                    //animator.SetBool("State", false);
                     return true;
                 }
                 if (animator.GetBool("isGetHit"))
                 {
                     nextState = State.GetHit;
-                    //animator.SetTrigger("GetHit");
+                    return true;
+                }
+                if (!animator.GetBool("isAttacking"))
+                {
+                    nextState = State.Attack;
+                    return true;
+                }
+                else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                {
+                    nextState = State.Attack;
                     return true;
                 }
                 break;
@@ -182,12 +189,12 @@ public class Enemy : MonoBehaviour
                     nextState = State.GetHit;
                     return true;
                 }
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
                 {
                     nextState = State.Battle;
                     return true;
                 }
-                return true;
+                break;
             case State.GetHit:
                 if (hp <= 0)
                 {
