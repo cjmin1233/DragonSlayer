@@ -10,7 +10,7 @@ public class RoomSpawner : MonoBehaviour {
 	// 3 --> need left door
 	// 4 --> need right door
 
-
+	public GameObject player;
 	private RoomTemplates templates;
 	private int rand;
 	public bool spawned = false;
@@ -20,8 +20,13 @@ public class RoomSpawner : MonoBehaviour {
 	void Start(){
 		Destroy(gameObject, waitTime);
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
-		Invoke("Spawn", 0.1f);
+		RoomSpawn();
 	}
+
+	void RoomSpawn()
+	{
+        Invoke("Spawn", 0.1f);
+    }
 
 	
 	void Spawn(){
