@@ -47,6 +47,9 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] private WeaponScriptableObject activeWeaponSo;
     [SerializeField] private Weapon activeWeapon;
+
+    private int _animIDAttackSpeed;
+    [SerializeField] private float attackSpeed = 1f;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -61,6 +64,8 @@ public class PlayerCombat : MonoBehaviour
         _animationEvent.OnDisableWeaponAction += DisableWeapon;
 
         curComboType = PlayerComboType.None;
+
+        _animIDAttackSpeed = Animator.StringToHash("AttackSpeed");
     }
 
     private void Start()
@@ -108,6 +113,7 @@ public class PlayerCombat : MonoBehaviour
             curComboType = comboType;
 
             _animator.runtimeAnimatorController = comboData.combos[comboData.comboCounter].animatorOv;
+            _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
         }
