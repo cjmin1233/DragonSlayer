@@ -45,7 +45,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform weaponParent;
     [SerializeField] private List<WeaponScriptableObject> weapons;
 
-    [SerializeField] private WeaponScriptableObject activeWeapon;
+    [SerializeField] private WeaponScriptableObject activeWeaponSo;
+    [SerializeField] private Weapon activeWeapon;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -54,8 +55,10 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
-        _animationEvent.OnStartComboAction += Start_Combo;
-        _animationEvent.OnEndComboAction += End_Combo;
+        _animationEvent.OnStartComboAction += StartCombo;
+        _animationEvent.OnEndComboAction += EndCombo;
+        _animationEvent.OnEnableWeaponAction += EnableWeapon;
+        _animationEvent.OnDisableWeaponAction += DisableWeapon;
 
         curComboType = PlayerComboType.None;
     }
@@ -63,14 +66,14 @@ public class PlayerCombat : MonoBehaviour
     private void Start()
     {
         // weapon select
-        WeaponScriptableObject weapon = weapons.Find(weapon => weapon.type == weaponType);
-        if (weapon is null)
+        WeaponScriptableObject weaponSo = weapons.Find(weapon => weapon.type == weaponType);
+        if (weaponSo is null)
         {
             Debug.LogError($"No WeaponScriptableObject found for WeaponType: {weaponType}");
             return;
         }
-        activeWeapon = weapon;
-        weapon.Spawn(weaponParent, this);
+        activeWeaponSo = weaponSo;
+        activeWeapon = weaponSo.Spawn(weaponParent);
     }
 
     private void Update()
@@ -93,9 +96,6 @@ public class PlayerCombat : MonoBehaviour
         // 공중이거나 구르기 중, 공격 중일 때 리턴
         if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking) return;
 
-        // curComboType = comboType;
-        
-
         ComboData comboData = playerComboData[(int)comboType];
         if (comboData.comboCounter < comboData.combos.Count
             && Time.time > comboData.nextComboStartTime)
@@ -103,7 +103,7 @@ public class PlayerCombat : MonoBehaviour
             // 다른 콤보 입력
             if (IsComboActive && !curComboType.Equals(comboType))
             {
-                End_Combo();
+                EndCombo();
             }
             curComboType = comboType;
 
@@ -111,25 +111,9 @@ public class PlayerCombat : MonoBehaviour
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
         }
-        // if (curComboData is null) curComboData = playerComboData[(int)comboType];
-        // else if (curComboData.comboType != comboType)
-        // {
-        //     if (!IsAttacking) curComboData = playerComboData[(int)comboType];
-        //     else return;
-        // }
-        //
-        // int curComboCounter = curComboData.comboCounter;
-        // if (curComboCounter < curComboData.combos.Count
-        //     && Time.time > curComboData.nextComboStartTime)
-        // {
-        //     curAttackSo = curComboData.combos[curComboCounter];
-        //     _animator.runtimeAnimatorController = curAttackSo.animatorOv;
-        //     _animator.Play("Attack", 0, 0);
-        //     IsAttacking = true;
-        // }
     }
 
-    private void Start_Combo()
+    private void StartCombo()
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
@@ -138,7 +122,7 @@ public class PlayerCombat : MonoBehaviour
         IsAttacking = false;
     }
 
-    private void End_Combo()
+    private void EndCombo()
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
@@ -149,11 +133,12 @@ public class PlayerCombat : MonoBehaviour
         comboData.comboCounter = 0;
         IsAttacking = false;
         curComboType = PlayerComboType.None;
+        DisableWeapon();
 
         _rigidbody.velocity = Vector3.zero;
     }
 
-    public void Terminate_Combo()
+    public void TerminateCombo()
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
@@ -161,98 +146,10 @@ public class PlayerCombat : MonoBehaviour
         comboData.comboCounter = 0;
         IsAttacking = false;
         curComboType = PlayerComboType.None;
+        DisableWeapon();
         
         _rigidbody.velocity = Vector3.zero;
     }
-    // private void Update()
-    // {
-    //     if (_playerInput.attackNormal) StartCombo(PlayerComboType.Nm);
-    //     else if (_playerInput.attackSpecial) StartCombo(PlayerComboType.Sp);
-    //     ExitCombo();
-    // }
-
-    // private void FixedUpdate()
-    // {
-    //     print(IsComboActive);
-    //     if (IsComboActive)
-    //     {
-    //         Rotate();
-    //         Assault();
-    //     }
-    // }
-
-    // private void StartCombo(PlayerComboType comboType)
-    // {
-    //     // 공중이거나 구르기 중 공격 못함
-    //     if (!_playerMove.Grounded || _playerMove.IsRolling) return;
-    //     
-    //     if (curComboData is null) curComboData = playerComboData[(int)comboType];
-    //     // 다른 콤보중인 경우
-    //     else if (curComboData.comboType != comboType)
-    //     {
-    //         print("다른 콤보 활성중");
-    //         return;
-    //     }
-    //     
-    //     int curComboCounter = curComboData.comboCounter;
-    //     
-    //     if (curComboCounter < curComboData.combos.Count
-    //         && Time.time > curComboData.nextComboStartTime)
-    //     {
-    //         // 첫 콤보 또는 콤보중
-    //         if (curComboCounter == 0 ||
-    //             (curComboCounter > 0 && GetCurStateInfo(0).IsTag("Attack")
-    //                                  && GetCurStateInfo(0).normalizedTime > curAttackSo.normalizedComboTime))
-    //         {
-    //             // 공격 애니메이션 실행
-    //             _animator.runtimeAnimatorController = curComboData.combos[curComboCounter].animatorOv;
-    //             _animator.Play("Attack",0,0);
-    //             
-    //             // 현재 공격 애니메이션 Scriptable Object 설정
-    //             curAttackSo = curComboData.combos[curComboCounter];
-    //             
-    //             // 반복 콤보가 아니면 다음 콤보 진행
-    //             if (!curAttackSo.loop) curComboData.comboCounter++;
-    //
-    //             // // 콤보 끝 도달
-    //             // if (curComboCounter >= curComboData.combos.Count && curAttackSo.nextComboInterval > 0f) EndCombo(comboType);
-    //         }
-    //     }
-    // }
-    //
-    // private void EndCombo(PlayerComboType comboType)
-    // {
-    //     curComboData = playerComboData[(int)comboType];
-    //     int curComboCounter = curComboData.comboCounter;
-    //
-    //     // 다음 콤보 딜레이 적용
-    //     if (curComboCounter >= curComboData.combos.Count && curAttackSo.nextComboInterval > 0f)
-    //     {
-    //         curComboData.nextComboStartTime = Time.time + curAttackSo.nextComboInterval;
-    //     }
-    //
-    //     // 콤보 초기화
-    //     curComboData.comboCounter = 0;
-    //     playerComboData[(int)comboType] = curComboData;
-    //     
-    //     curComboData = null;
-    //     curAttackSo = null;
-    // }
-    //
-    // private void ExitCombo()
-    // {
-    //     if (!IsComboActive) return;
-    //     int curComboCounter = curComboData.comboCounter;
-    //     
-    //     // 콤보 시간 종료
-    //     if (curComboCounter > 0
-    //         && GetCurStateInfo(0).IsTag("Attack")
-    //         && GetCurStateInfo(0).normalizedTime > curAttackSo.normalizedExitTime)
-    //     {
-    //         print("콤보 시간 종료");
-    //         EndCombo(curComboData.comboType);
-    //     }
-    // }
     private void Rotate()
     {
         Vector3 cameraForward = _mainCamera.transform.forward;
@@ -276,9 +173,12 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
 
-    // public void TerminateCombo()
-    // {
-    //     if (!IsComboActive) return;
-    //     EndCombo(curComboData.comboType);
-    // }
+    private void EnableWeapon()
+    {
+        if (activeWeapon is not null) activeWeapon.EnableWeapon();
+    }
+    private void DisableWeapon()
+    {
+        if (activeWeapon is not null) activeWeapon.DisableWeapon();
+    }
 }
