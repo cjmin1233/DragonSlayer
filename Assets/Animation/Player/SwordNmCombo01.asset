@@ -69,5 +69,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   vfxPrefabs:
-  - {fileID: 611473504894608665, guid: fe2b45426a7663e47a84dae910f08735, type: 3}
-  particleIndex: 1
+  - {fileID: 611473504894608665, guid: 8c6229c3e08743949bc30b4198e99e26, type: 3}

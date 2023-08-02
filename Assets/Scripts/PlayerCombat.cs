@@ -178,7 +178,7 @@ public class PlayerCombat : MonoBehaviour
         
         ComboData comboData = playerComboData[(int)curComboType];
         assaultVelocity = comboData.combos[comboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
-                          * comboData.combos[comboData.comboCounter].assaultDirection;
+                          * attackSpeed * comboData.combos[comboData.comboCounter].assaultDirection;
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
 

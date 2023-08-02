@@ -1131,7 +1131,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1356739204929251805, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
       propertyPath: attackSpeed
-      value: 2
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1356739204929251805, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
       propertyPath: playerComboData.Array.data[1].Combos.Array.size
