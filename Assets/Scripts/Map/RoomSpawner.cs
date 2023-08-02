@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class RoomSpawner : MonoBehaviour {
 
@@ -9,23 +13,27 @@ public class RoomSpawner : MonoBehaviour {
 	// 2 --> need top door
 	// 3 --> need left door
 	// 4 --> need right door
-
-	public GameObject player;
+    public GameObject player;
 	private RoomTemplates templates;
 	private int rand;
 	public bool spawned = false;
 
 	public float waitTime = 4f;
 
-	void Start(){
-		Destroy(gameObject, waitTime);
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
-		RoomSpawn();
+
+	private int checkSize = 0;
+
+	void Awake()
+	{
+        RoomSpawn();
 	}
 
 	void RoomSpawn()
 	{
+        Destroy(gameObject, waitTime);
+        templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         Invoke("Spawn", 0.1f);
+		
     }
 
 	
@@ -39,18 +47,20 @@ public class RoomSpawner : MonoBehaviour {
 				// Need to spawn a room with a TOP door.
 				rand = Random.Range(0, templates.topRooms.Length);
 				Instantiate(templates.topRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
-			} else if(openingDirection == 3){
+            } else if(openingDirection == 3){
 				// Need to spawn a room with a LEFT door.
 				rand = Random.Range(0, templates.leftRooms.Length);
 				Instantiate(templates.leftRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
-			} else if(openingDirection == 4){
+            } else if(openingDirection == 4){
 				// Need to spawn a room with a RIGHT door.
 				rand = Random.Range(0, templates.rightRooms.Length);
 				Instantiate(templates.rightRooms[rand], transform.position, templates.bottomRooms[rand].transform.rotation);
-			}
+            }
+			templates.lastValue = ++checkSize;
+			templates.lastUpdateTime = DateTime.Now;
             //templates.bottomRooms[rand].transform.rotation
             spawned = true;
-		}
+        }
 	}
 
 	private void OnTriggerEnter(Collider other){
@@ -67,4 +77,5 @@ public class RoomSpawner : MonoBehaviour {
 		}
 		
 	}
+    
 }
