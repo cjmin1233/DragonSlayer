@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AddRoom : MonoBehaviour {
 
 	private RoomTemplates templates;
 
-	void Awake(){
-
+    void Awake()
+	{
 		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
 		templates.rooms.Add(this.gameObject);
-		this.gameObject.GetComponentInChildren<NavMeshSurface>();
     }
 }

@@ -14,28 +14,19 @@ public class RoomTemplates : MonoBehaviour {
 
 	public List<GameObject> rooms;
 
-    public int lastValue;
-    public DateTime lastUpdateTime;
-
     public float waitTime;
-	private bool spawnedBoss;
+	public bool spawnedBoss;
 	public GameObject boss;
 
-    private void Awake()
-    {
-        lastValue = 0;
-        lastUpdateTime = DateTime.Now;
-    }
-
+    
     private void Start()
-    {
-        BossSpawn();
-        CheckIfValueStaysSameForDuration(TimeSpan.FromSeconds(waitTime));
+    {   
+        Invoke(nameof(BossSpawn), 5f);
     }
 
     public void BossSpawn(){
 
-        if (waitTime <= 0 && spawnedBoss == false)
+        if (spawnedBoss == false)
         {
             for (int i = 0; i < rooms.Count; i++)
             {
@@ -51,14 +42,5 @@ public class RoomTemplates : MonoBehaviour {
             waitTime -= Time.deltaTime;
         }
 
-    }
-    public void CheckIfValueStaysSameForDuration(TimeSpan duration)
-    {
-        TimeSpan timeSinceLastUpdate = DateTime.Now - lastUpdateTime;
-
-        if (timeSinceLastUpdate >= duration)
-        {
-            Console.WriteLine("Value stayed the same for " + duration.TotalSeconds + " seconds!");
-        }
     }
 }

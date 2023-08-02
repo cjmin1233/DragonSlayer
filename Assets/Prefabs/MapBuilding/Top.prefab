@@ -208,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 3
+  player: {fileID: 0}
   spawned: 0
   waitTime: 4
 --- !u!1001 &1476581296604093418
