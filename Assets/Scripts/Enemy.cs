@@ -24,7 +24,6 @@ public class Enemy : MonoBehaviour
     protected EnemyData EnemyData { set { enemyData = value; } }
     protected int hp;
 
-
     private NavMeshAgent agent;
     private GameObject player;
     protected Animator animator;
@@ -32,6 +31,10 @@ public class Enemy : MonoBehaviour
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
+
+    private Coroutine timer;
+    [SerializeField] float attackDuration;
+    private bool battleToAttack, attackToBattle;
 
     protected virtual void Awake()
     {
@@ -64,17 +67,21 @@ public class Enemy : MonoBehaviour
                 animator.Play("IdleNormal");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 시작");
                 animator.Play("WalkFWD");
                 animator.SetBool("isAttacking", false);
                 agent.isStopped = false;
                 break;
             case State.Battle:
                 animator.Play("IdleBattle");
+                battleToAttack = false;
+                timer = StartCoroutine(Battle2Attack());
                 break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 animator.Play("Attack01");
+                attackToBattle = false;
+                timer = StartCoroutine(Attack2Battle());
                 animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
@@ -123,14 +130,18 @@ public class Enemy : MonoBehaviour
                 //animator.SetTrigger("Find Player");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 중지");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 중지");
                 agent.velocity = Vector3.zero;
                 agent.isStopped = true;
                 break;
             case State.Battle:
+                StopCoroutine(timer);
+                battleToAttack = false;
                 break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 중지");
+                //Debug.Log($"{enemyData.EnemyName}, 공격 중지");
+                StopCoroutine(timer);
+                attackToBattle = false;
                 break;
             case State.GetHit:
                 break;
@@ -177,7 +188,7 @@ public class Enemy : MonoBehaviour
                     nextState = State.Attack;
                     return true;
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2.0f)
+                else if (battleToAttack)
                 {
                     nextState = State.Attack;
                     return true;
@@ -189,7 +200,7 @@ public class Enemy : MonoBehaviour
                     nextState = State.GetHit;
                     return true;
                 }
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                if (attackToBattle)
                 {
                     nextState = State.Battle;
                     return true;
@@ -215,6 +226,16 @@ public class Enemy : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         return false;
+    }
+    private IEnumerator Battle2Attack()
+    {
+        yield return new WaitForSeconds(2f);
+        battleToAttack = true;
+    }
+    private IEnumerator Attack2Battle()
+    {
+        yield return new WaitForSeconds(attackDuration);
+        attackToBattle = true;
     }
     private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }
