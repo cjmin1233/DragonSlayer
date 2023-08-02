@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59138a0b1a7061a4cb5e4dc71bc99859, type: 3}
+  m_Name: SwordNmCombo03
+  m_EditorClassIdentifier: 
+  animatorOv: {fileID: 22100000, guid: 26db8507873ef2b4f80c4bdd15954745, type: 2}
+  damage: 15
+  loop: 0
+  nextComboInterval: 1
+  assaultDirection: {x: 0, y: 0, z: 1}
+  assaultSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.016914368
+      inSlope: 28.834694
+      outSlope: 28.834694
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.34708312
+      value: 9.991121
+      inSlope: 1.4241647
+      outSlope: 1.4241647
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.35125196
+      value: 9.994091
+      inSlope: -0.004116477
+      outSlope: -0.004116477
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.45216057
+    - serializedVersion: 3
+      time: 0.35509884
+      value: 9.993736
+      inSlope: -0.1795709
+      outSlope: -0.1795709
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.03932804
+      inSlope: -15.435557
+      outSlope: -15.435557
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  vfxPrefabs:
+  - {fileID: 5778676927103893615, guid: 816576dbb81ff4c4c99da368276ebf68, type: 3}
+  particles: []
+  particleIndex: 0

@@ -13,7 +13,7 @@ public enum EnemyType
 }
 public class EnemySpawner : MonoBehaviour
 {
-    public EnemySpawner Instance { get; private set; }
+    public static EnemySpawner Instance { get; private set; }
 
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
@@ -27,9 +27,9 @@ public class EnemySpawner : MonoBehaviour
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 4; i++)
         {
-            EnemySpawn(Random.Range(0, enumLength));
+            EnemySpawn(i);
         }
     }
 

@@ -5,13 +5,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : LIvingEntity
 {
     private enum State
     {
         Idle,
         Trace,
+        Battle,
         Attack,
+        GetHit,
         Die
     }
 
@@ -19,18 +21,28 @@ public class Enemy : MonoBehaviour
     private State nextState = State.Idle;
 
     [SerializeField] EnemyData enemyData;
-    public EnemyData EnemyData { set { enemyData = value; } }
+    protected EnemyData EnemyData { set { enemyData = value; } }
 
     private NavMeshAgent agent;
     private GameObject player;
+    protected Animator animator;
+    protected EnemyEvent enemyEvent;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
 
-    void Awake()
+    private Coroutine timer;
+    [SerializeField] float attackDuration;
+    private bool battleToAttack, attackToBattle;
+
+    protected virtual void Awake()
     {
+        maxHp = enemyData.EnemyHp;
+        currentHp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
+        animator = GetComponent<Animator>();
+        enemyEvent = GetComponent<EnemyEvent>();
     }
 
     private void Update()
@@ -52,14 +64,32 @@ public class Enemy : MonoBehaviour
         switch (curState)
         {
             case State.Idle:
+                animator.Play("IdleNormal");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 시작");
+                animator.Play("WalkFWD");
+                animator.SetBool("isAttacking", false);
+                agent.isStopped = false;
+                break;
+            case State.Battle:
+                animator.Play("IdleBattle");
+                battleToAttack = false;
+                timer = StartCoroutine(Battle2Attack());
                 break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 공격 시작");
+                animator.Play("Attack01");
+                attackToBattle = false;
+                timer = StartCoroutine(Attack2Battle());
+                animator.SetBool("isAttacking", true);
+                break;
+            case State.GetHit:
+                animator.SetBool("isGetHit", false);
+                animator.Play("GetHit");
                 break;
             case State.Die:
+                animator.Play("Die");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -74,15 +104,18 @@ public class Enemy : MonoBehaviour
             case State.Trace:
                 var lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
                 var targetAngleY = lookRotation.eulerAngles.y;
-
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
+                
                 agent.SetDestination(player.transform.position);
                 break;
-            case State.Attack:
+            case State.Battle:
                 lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
                 targetAngleY = lookRotation.eulerAngles.y;
-
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
+                break;
+            case State.Attack:
+                break;
+            case State.GetHit:
                 break;
             case State.Die:
                 break;
@@ -95,17 +128,27 @@ public class Enemy : MonoBehaviour
         switch (curState)
         {
             case State.Idle:
+                //animator.SetTrigger("Find Player");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 중지");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 중지");
                 agent.velocity = Vector3.zero;
                 agent.isStopped = true;
                 break;
+            case State.Battle:
+                StopCoroutine(timer);
+                battleToAttack = false;
+                break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 중지");
-                agent.isStopped = false;
+                //Debug.Log($"{enemyData.EnemyName}, 공격 중지");
+                StopCoroutine(timer);
+                attackToBattle = false;
+                break;
+            case State.GetHit:
                 break;
             case State.Die:
+                Debug.Log($"{enemyData.EnemyName}, 죽음...");
+                Invoke("AfterDie", 5f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -121,24 +164,87 @@ public class Enemy : MonoBehaviour
             case State.Trace:
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
+                    nextState = State.Battle;
+                    return true;
+                }
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
+                break;
+            case State.Battle:
+                if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
+                {
+                    nextState = State.Trace;
+                    return true;
+                }
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
+                if (!animator.GetBool("isAttacking"))
+                {
+                    nextState = State.Attack;
+                    return true;
+                }
+                else if (battleToAttack)
+                {
                     nextState = State.Attack;
                     return true;
                 }
                 break;
             case State.Attack:
-                if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
+                if (attackToBattle)
+                {
+                    nextState = State.Battle;
+                    return true;
+                }
+                break;
+            case State.GetHit:
+                if (currentHp <= 0)
+                {
+                    nextState = State.Die;
+                    return true;
+                }
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
                 {
                     nextState = State.Trace;
                     return true;
                 }
                 break;
             case State.Die:
+                nextState = State.Idle;
                 return true;
             //break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
-
         return false;
     }
+
+    public override void TakeDamage(DamageMessage damageMessage)
+    {
+        base.TakeDamage(damageMessage);
+
+        animator.SetBool("isGetHit", true);
+    }
+
+    private IEnumerator Battle2Attack()
+    {
+        yield return new WaitForSeconds(2f);
+        battleToAttack = true;
+    }
+    private IEnumerator Attack2Battle()
+    {
+        yield return new WaitForSeconds(attackDuration);
+        attackToBattle = true;
+    }
+    private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }
