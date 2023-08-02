@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animatorOv: {fileID: 22100000, guid: 721dd99bcc5fe044db23e63417590ff2, type: 2}
   damage: 25
-  normalizedExitTime: 0.9
-  normalizedComboTime: 0.6
   loop: 1
   nextComboInterval: 0
   assaultDirection: {x: 0, y: 0, z: 1}
@@ -43,3 +41,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  vfxPrefabs:
+  - {fileID: 7761491068625157298, guid: e8a8a599e2466a3409a09d32ea2de61e, type: 3}
+  - {fileID: 7761491068625157298, guid: e8a8a599e2466a3409a09d32ea2de61e, type: 3}

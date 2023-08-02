@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
         var instance = other.gameObject;
         if (hitInstanceIdList.Contains(instance)) return;
         hitInstanceIdList.Add(instance);
-        
+
         // 데미지 처리
         print("weapon hit!");
     }
