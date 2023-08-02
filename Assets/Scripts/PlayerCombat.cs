@@ -7,12 +7,6 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
 public class PlayerCombat : MonoBehaviour
 {
-    public enum PlayerComboType
-    {
-        Nm,
-        Sp,
-        None
-    }
     [SerializeField] private PlayerComboType curComboType;
     public bool IsComboActive
     {
@@ -45,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform weaponParent;
     [SerializeField] private List<WeaponScriptableObject> weapons;
 
-    [SerializeField] private WeaponScriptableObject activeWeaponSo;
+    // [SerializeField] private WeaponScriptableObject activeWeaponSo;
     [SerializeField] private Weapon activeWeapon;
 
     private int _animIDAttackSpeed;
@@ -72,10 +66,7 @@ public class PlayerCombat : MonoBehaviour
 
         foreach (var comboData in playerComboData)
         {
-            foreach (var attackSo in comboData.combos)
-            {
-                attackSo.Init(vfxParent);
-            }
+            comboData.InitComboData(vfxParent);
         }
     }
 
@@ -88,7 +79,7 @@ public class PlayerCombat : MonoBehaviour
             Debug.LogError($"No WeaponScriptableObject found for WeaponType: {weaponType}");
             return;
         }
-        activeWeaponSo = weaponSo;
+        // activeWeaponSo = weaponSo;
         activeWeapon = weaponSo.Spawn(weaponParent);
     }
 
@@ -122,10 +113,10 @@ public class PlayerCombat : MonoBehaviour
                 EndCombo();
             }
             curComboType = comboType;
-            AttackSo attackSo = comboData.combos[comboData.comboCounter];
+            ComboAnimation comboAnimation = comboData.combos[comboData.comboCounter];
 
-            attackSo.particleIndex = 0;
-            _animator.runtimeAnimatorController = attackSo.animatorOv;
+            comboAnimation.effectIndex = 0;
+            _animator.runtimeAnimatorController = comboAnimation.animatorOv;
             _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
@@ -184,8 +175,7 @@ public class PlayerCombat : MonoBehaviour
     private void Assault()
     {
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
-        // assaultVelocity = curComboData.combos[curComboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
-        //                   * curComboData.combos[curComboData.comboCounter].assaultDirection;
+        
         ComboData comboData = playerComboData[(int)curComboType];
         assaultVelocity = comboData.combos[comboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
                           * comboData.combos[comboData.comboCounter].assaultDirection;
