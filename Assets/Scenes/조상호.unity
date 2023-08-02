@@ -224,7 +224,7 @@ MonoBehaviour:
   CameraDistance: 4
   CameraCollisionFilter:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   IgnoreTag: 
   CameraRadius: 0.2
   DampingIntoCollision: 0
@@ -997,7 +997,7 @@ MonoBehaviour:
   m_Priority: 10
   m_StandbyUpdate: 2
   m_LookAt: {fileID: 0}
-  m_Follow: {fileID: 1614650150}
+  m_Follow: {fileID: 2825890367015548792}
   m_Lens:
     FieldOfView: 60.000004
     OrthographicSize: 5
@@ -1221,7 +1221,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
---- !u!4 &1614650150 stripped
+--- !u!4 &2825890367015548792 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2825890367895588100, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
   m_PrefabInstance: {fileID: 1286978172}

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : LIvingEntity
 {
     private enum State
     {
@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] EnemyData enemyData;
     protected EnemyData EnemyData { set { enemyData = value; } }
-    protected int hp;
 
     private NavMeshAgent agent;
     private GameObject player;
@@ -38,7 +37,8 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Awake()
     {
-        hp = enemyData.EnemyHp;
+        maxHp = enemyData.EnemyHp;
+        currentHp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
@@ -85,6 +85,7 @@ public class Enemy : MonoBehaviour
                 animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
+                animator.SetBool("isGetHit", false);
                 animator.Play("GetHit");
                 break;
             case State.Die:
@@ -207,7 +208,7 @@ public class Enemy : MonoBehaviour
                 }
                 break;
             case State.GetHit:
-                if (hp <= 0)
+                if (currentHp <= 0)
                 {
                     nextState = State.Die;
                     return true;
@@ -227,6 +228,14 @@ public class Enemy : MonoBehaviour
         }
         return false;
     }
+
+    public override void TakeDamage(DamageMessage damageMessage)
+    {
+        base.TakeDamage(damageMessage);
+
+        animator.SetBool("isGetHit", true);
+    }
+
     private IEnumerator Battle2Attack()
     {
         yield return new WaitForSeconds(2f);
