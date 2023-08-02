@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2457839391501318946}
   - component: {fileID: 8417929006635528165}
   - component: {fileID: -3904343695184379619}
+  - component: {fileID: 7068723841816232908}
   m_Layer: 0
   m_Name: ChestMonster
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   - {fileID: 1713497942553231274}
   - {fileID: 2729130757116370700}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2457839391501318946
 Animator:
@@ -70,7 +71,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 8cb49806542be1147b9256761134d37c, type: 2}
-  player: {fileID: 2372448991365797206, guid: 3df69d6fca669e048affcd6598df4079, type: 3}
 --- !u!195 &-3904343695184379619
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -93,6 +93,27 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!65 &7068723841816232908
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 704936904938049669}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1.5, z: 1}
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &1409579951725988814
 GameObject:
   m_ObjectHideFlags: 0

@@ -1055,6 +1055,7 @@ GameObject:
   - component: {fileID: 5676528059493538083}
   - component: {fileID: 5298745659008073335}
   - component: {fileID: 5462816954789486455}
+  - component: {fileID: 1290762052672563139}
   m_Layer: 0
   m_Name: TurtleShell
   m_TagString: Untagged
@@ -1077,7 +1078,7 @@ Transform:
   - {fileID: 5850715466974884333}
   - {fileID: 936175195729806503}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5676528059493538083
 Animator:
@@ -1113,7 +1114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 6b7ea3853421e1248b8119d138f5c189, type: 2}
-  player: {fileID: 2372448991365797206, guid: 3df69d6fca669e048affcd6598df4079, type: 3}
 --- !u!195 &5462816954789486455
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1136,6 +1136,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &1290762052672563139
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8644586381533923311}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.5
+  m_Direction: 2
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &8714267654417559569
 GameObject:
   m_ObjectHideFlags: 0

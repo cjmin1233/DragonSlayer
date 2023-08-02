@@ -177,7 +177,7 @@ public class Enemy : MonoBehaviour
                     nextState = State.Attack;
                     return true;
                 }
-                else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+                else if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 2.0f)
                 {
                     nextState = State.Attack;
                     return true;

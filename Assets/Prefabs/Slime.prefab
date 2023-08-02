@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 7422101826880837961}
   - component: {fileID: 6016837105525339464}
   - component: {fileID: 1546267074160341638}
+  - component: {fileID: 2713674730923290500}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -260,7 +261,7 @@ Transform:
   - {fileID: 3652089488500641272}
   - {fileID: 1272803847667883657}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7422101826880837961
 Animator:
@@ -318,6 +319,29 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &2713674730923290500
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872952184048641977}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &5296215740334447274
 GameObject:
   m_ObjectHideFlags: 0
