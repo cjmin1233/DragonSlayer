@@ -34,5 +34,14 @@ public class Weapon : MonoBehaviour
 
         // 데미지 처리
         print("weapon hit!");
+        var livingEntity = other.GetComponent<LIvingEntity>();
+        if(livingEntity != null)
+        {
+            DamageMessage damageMessage;
+            damageMessage.damager = gameObject;
+            damageMessage.damage = weaponDamage;
+
+            livingEntity.TakeDamage(damageMessage);
+        }
     }
 }

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : LIvingEntity
 {
     private enum State
     {
@@ -22,8 +22,6 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] EnemyData enemyData;
     protected EnemyData EnemyData { set { enemyData = value; } }
-    protected int hp;
-
 
     private NavMeshAgent agent;
     private GameObject player;
@@ -33,9 +31,14 @@ public class Enemy : MonoBehaviour
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
 
+    private Coroutine timer;
+    [SerializeField] float attackDuration;
+    private bool battleToAttack, attackToBattle;
+
     protected virtual void Awake()
     {
-        hp = enemyData.EnemyHp;
+        maxHp = enemyData.EnemyHp;
+        currentHp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
@@ -61,22 +64,28 @@ public class Enemy : MonoBehaviour
         switch (curState)
         {
             case State.Idle:
+                animator.Play("IdleNormal");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 시작");
                 animator.Play("WalkFWD");
+                animator.SetBool("isAttacking", false);
                 agent.isStopped = false;
                 break;
             case State.Battle:
                 animator.Play("IdleBattle");
+                battleToAttack = false;
+                timer = StartCoroutine(Battle2Attack());
                 break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 시작");
+                //Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 animator.Play("Attack01");
+                attackToBattle = false;
+                timer = StartCoroutine(Attack2Battle());
+                animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
-                //animator.SetTrigger("GetHit");
-                animator.SetBool("State", false);
+                animator.SetBool("isGetHit", false);
                 animator.Play("GetHit");
                 break;
             case State.Die:
@@ -122,14 +131,18 @@ public class Enemy : MonoBehaviour
                 //animator.SetTrigger("Find Player");
                 break;
             case State.Trace:
-                Debug.Log($"{enemyData.EnemyName}, 추격 중지");
+                //Debug.Log($"{enemyData.EnemyName}, 추격 중지");
                 agent.velocity = Vector3.zero;
                 agent.isStopped = true;
                 break;
             case State.Battle:
+                StopCoroutine(timer);
+                battleToAttack = false;
                 break;
             case State.Attack:
-                Debug.Log($"{enemyData.EnemyName}, 공격 중지");
+                //Debug.Log($"{enemyData.EnemyName}, 공격 중지");
+                StopCoroutine(timer);
+                attackToBattle = false;
                 break;
             case State.GetHit:
                 break;
@@ -152,13 +165,11 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
                     nextState = State.Battle;
-                    //animator.SetBool("State", true);
                     return true;
                 }
                 if (animator.GetBool("isGetHit"))
                 {
                     nextState = State.GetHit;
-                    //animator.SetTrigger("GetHit");
                     return true;
                 }
                 break;
@@ -166,13 +177,21 @@ public class Enemy : MonoBehaviour
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
-                    //animator.SetBool("State", false);
                     return true;
                 }
                 if (animator.GetBool("isGetHit"))
                 {
                     nextState = State.GetHit;
-                    //animator.SetTrigger("GetHit");
+                    return true;
+                }
+                if (!animator.GetBool("isAttacking"))
+                {
+                    nextState = State.Attack;
+                    return true;
+                }
+                else if (battleToAttack)
+                {
+                    nextState = State.Attack;
                     return true;
                 }
                 break;
@@ -182,14 +201,14 @@ public class Enemy : MonoBehaviour
                     nextState = State.GetHit;
                     return true;
                 }
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                if (attackToBattle)
                 {
                     nextState = State.Battle;
                     return true;
                 }
-                return true;
+                break;
             case State.GetHit:
-                if (hp <= 0)
+                if (currentHp <= 0)
                 {
                     nextState = State.Die;
                     return true;
@@ -208,6 +227,24 @@ public class Enemy : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
         return false;
+    }
+
+    public override void TakeDamage(DamageMessage damageMessage)
+    {
+        base.TakeDamage(damageMessage);
+
+        animator.SetBool("isGetHit", true);
+    }
+
+    private IEnumerator Battle2Attack()
+    {
+        yield return new WaitForSeconds(2f);
+        battleToAttack = true;
+    }
+    private IEnumerator Attack2Battle()
+    {
+        yield return new WaitForSeconds(attackDuration);
+        attackToBattle = true;
     }
     private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }
