@@ -34,13 +34,4 @@ public class ComboScriptableObject : ScriptableObject
 
         return comboAnimation;
     }
-
-    // public void EnableParticle(float speed)
-    // {
-    //     if (particleIndex >= particleInstances.Count) return;
-    //     ParticleModifier particleModifier = particleInstances[particleIndex].GetComponent<ParticleModifier>();
-    //     particleModifier.ModifySimulationSpeed(speed);
-    //     particleModifier.PlayParticle();
-    //     particleIndex++;
-    // }
 }
