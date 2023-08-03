@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LIvingEntity : MonoBehaviour, IDamagable
 {
+    protected Rigidbody rb;
     protected float maxHp;
     protected float currentHp;
 

@@ -16,6 +16,6 @@ public class BeholderProjectile : Enemy
 
     private void Shoot()
     {
-        var instance = Instantiate(projectile, firePoint.position, firePoint.rotation, gameObject.transform);
+        var instance = Instantiate(projectile, firePoint.position, firePoint.rotation);
     }
 }

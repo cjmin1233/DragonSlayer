@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 7422101826880837961}
   - component: {fileID: 6016837105525339464}
   - component: {fileID: 1546267074160341638}
+  - component: {fileID: 7847343573443985020}
   - component: {fileID: 2713674730923290500}
   m_Layer: 0
   m_Name: Slime
@@ -322,6 +323,33 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &7847343573443985020
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872952184048641977}
+  serializedVersion: 4
+  m_Mass: 10
+  m_Drag: 2
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!136 &2713674730923290500
 CapsuleCollider:
   m_ObjectHideFlags: 0
