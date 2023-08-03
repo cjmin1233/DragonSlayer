@@ -38,12 +38,12 @@ public class Weapon : MonoBehaviour
         if(livingEntity != null)
         {
             DamageMessage damageMessage;
-            damageMessage.damager = gameObject;
+            damageMessage.damager = GetComponentInParent<PlayerCombat>().gameObject;
             damageMessage.damage = weaponDamage;
 
             livingEntity.TakeDamage(damageMessage);
         }
-        var collisionPointOnBound = other.ClosestPointOnBounds(hitPoint.position);
-        print("collision point : " + collisionPointOnBound);
+        // var collisionPointOnBound = other.ClosestPointOnBounds(hitPoint.position);
+        // print("collision point : " + collisionPointOnBound);
     }
 }

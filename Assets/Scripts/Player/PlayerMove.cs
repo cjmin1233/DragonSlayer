@@ -162,7 +162,7 @@ public class PlayerMove : MonoBehaviour
         
         GroundedCheck();
 
-        if (_playerInput.jump) SelfDamage();
+        // if (_playerInput.jump) SelfDamage();
     }
     private void FixedUpdate()
     {
