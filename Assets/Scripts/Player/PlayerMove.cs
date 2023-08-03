@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(PlayerInputControl))]
 public class PlayerMove : MonoBehaviour
 {
+    [SerializeField] private PlayerScriptableObject playerScriptableObject;
+    
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
     public float moveSpeed = 2.0f;
@@ -115,6 +118,19 @@ public class PlayerMove : MonoBehaviour
         _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
     }
 
+    private void OnEnable()
+    {
+        MovementInit(playerScriptableObject);
+    }
+
+    public void MovementInit(PlayerScriptableObject playerSo)
+    {
+        moveSpeed = playerSo.moveSpeed;
+        sprintSpeed = playerSo.sprintSpeed;
+        rollSpeed = playerSo.rollSpeed;
+        
+    }
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -145,6 +161,8 @@ public class PlayerMove : MonoBehaviour
         }
         
         GroundedCheck();
+
+        // if (_playerInput.jump) SelfDamage();
     }
     private void FixedUpdate()
     {
@@ -371,5 +389,15 @@ public class PlayerMove : MonoBehaviour
         {
             _animator.SetBool(_animIDRoll, false);
         }
+    }
+
+    private void SelfDamage()
+    {
+        DamageMessage dmg;
+        dmg.damager = null;
+        dmg.damage = 10f;
+
+        LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
+        if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    [SerializeField] private Transform hitPoint;
     private WeaponType weaponType;
     private float weaponDamage;
     private BoxCollider boxCollider;
@@ -33,15 +34,16 @@ public class Weapon : MonoBehaviour
         hitInstanceIdList.Add(instance);
 
         // 데미지 처리
-        print("weapon hit!");
         var livingEntity = other.GetComponent<LIvingEntity>();
         if(livingEntity != null)
         {
             DamageMessage damageMessage;
-            damageMessage.damager = gameObject;
+            damageMessage.damager = GetComponentInParent<PlayerCombat>().gameObject;
             damageMessage.damage = weaponDamage;
 
             livingEntity.TakeDamage(damageMessage);
         }
+        // var collisionPointOnBound = other.ClosestPointOnBounds(hitPoint.position);
+        // print("collision point : " + collisionPointOnBound);
     }
 }
