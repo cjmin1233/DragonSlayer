@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
 public class PlayerCombat : MonoBehaviour
 {
+    [SerializeField] private PlayerScriptableObject playerScriptableObject;
+    
     [SerializeField] private PlayerComboType curComboType;
     public bool IsComboActive
     {
@@ -68,6 +71,11 @@ public class PlayerCombat : MonoBehaviour
         {
             comboData.InitComboData(vfxParent);
         }
+    }
+
+    private void OnEnable()
+    {
+        attackSpeed = playerScriptableObject.attackSpeed;
     }
 
     private void Start()
