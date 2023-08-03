@@ -1136,6 +1136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
   attackDuration: 0.733
+  getHitDuration: 0.733
 --- !u!114 &4786177969763960400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1177,6 +1178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
   attackDuration: 0.733
+  getHitDuration: 0
   projectile: {fileID: 5884024000079540302, guid: 3fce9dff2617ed34881016b2fc2c189b, type: 3}
   firePoint: {fileID: 892007476013760662}
 --- !u!195 &1694027724462590660

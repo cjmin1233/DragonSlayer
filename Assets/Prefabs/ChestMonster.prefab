@@ -73,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 8cb49806542be1147b9256761134d37c, type: 2}
   attackDuration: 0.8
+  getHitDuration: 0.6
 --- !u!195 &-3904343695184379619
 NavMeshAgent:
   m_ObjectHideFlags: 0
