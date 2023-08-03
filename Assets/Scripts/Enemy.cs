@@ -33,7 +33,8 @@ public class Enemy : LIvingEntity
 
     private Coroutine timer;
     [SerializeField] float attackDuration;
-    private bool battleToAttack, attackToBattle;
+    [SerializeField] float getHitDuration;
+    private bool battleToAttack, attackToBattle, getHitAgain;
 
     protected virtual void Awake()
     {
@@ -67,26 +68,23 @@ public class Enemy : LIvingEntity
                 animator.Play("IdleNormal");
                 break;
             case State.Trace:
-                //Debug.Log($"{enemyData.EnemyName}, 추격 시작");
                 animator.Play("WalkFWD");
                 animator.SetBool("isAttacking", false);
                 agent.isStopped = false;
                 break;
             case State.Battle:
                 animator.Play("IdleBattle");
-                battleToAttack = false;
                 timer = StartCoroutine(Battle2Attack());
                 break;
             case State.Attack:
-                //Debug.Log($"{enemyData.EnemyName}, 공격 시작");
                 animator.Play("Attack01");
-                attackToBattle = false;
                 timer = StartCoroutine(Attack2Battle());
                 animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
-                animator.SetBool("isGetHit", false);
                 animator.Play("GetHit");
+                animator.SetBool("isGetHit", false);
+                timer = StartCoroutine(GetHitAgain());
                 break;
             case State.Die:
                 animator.Play("Die");
@@ -128,10 +126,8 @@ public class Enemy : LIvingEntity
         switch (curState)
         {
             case State.Idle:
-                //animator.SetTrigger("Find Player");
                 break;
             case State.Trace:
-                //Debug.Log($"{enemyData.EnemyName}, 추격 중지");
                 agent.velocity = Vector3.zero;
                 agent.isStopped = true;
                 break;
@@ -140,11 +136,12 @@ public class Enemy : LIvingEntity
                 battleToAttack = false;
                 break;
             case State.Attack:
-                //Debug.Log($"{enemyData.EnemyName}, 공격 중지");
                 StopCoroutine(timer);
                 attackToBattle = false;
                 break;
             case State.GetHit:
+                StopCoroutine(timer);
+                getHitAgain = false;
                 break;
             case State.Die:
                 Debug.Log($"{enemyData.EnemyName}, 죽음...");
@@ -213,7 +210,11 @@ public class Enemy : LIvingEntity
                     nextState = State.Die;
                     return true;
                 }
-                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+                if (animator.GetBool("isGetHit"))
+                {
+                    return true;
+                }
+                if (getHitAgain)
                 {
                     nextState = State.Trace;
                     return true;
@@ -245,6 +246,11 @@ public class Enemy : LIvingEntity
     {
         yield return new WaitForSeconds(attackDuration);
         attackToBattle = true;
+    }
+    private IEnumerator GetHitAgain()
+    {
+        yield return new WaitForSeconds(getHitDuration);
+        getHitAgain = true;
     }
     private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }

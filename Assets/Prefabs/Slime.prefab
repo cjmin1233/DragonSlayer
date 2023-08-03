@@ -262,7 +262,7 @@ Transform:
   - {fileID: 1272803847667883657}
   - {fileID: 660432631292636104}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7422101826880837961
 Animator:
@@ -299,6 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 1ff6b4aaeb09c2c439576a1711b27413, type: 2}
   attackDuration: 0.833
+  getHitDuration: 0.833
 --- !u!195 &1546267074160341638
 NavMeshAgent:
   m_ObjectHideFlags: 0
