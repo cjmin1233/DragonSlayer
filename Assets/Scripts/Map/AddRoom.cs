@@ -5,11 +5,10 @@ using UnityEngine.AI;
 
 public class AddRoom : MonoBehaviour {
 
-	private RoomTemplates templates;
 
-    void Awake()
+    void Start()
 	{
-		templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
-		templates.rooms.Add(this.gameObject);
+        var spawnManager = GameObject.FindGameObjectWithTag("Rooms").GetComponent<SpawnManager>();
+        spawnManager.rooms.Add(this.gameObject);
     }
 }

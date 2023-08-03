@@ -95,9 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 3
-  player: {fileID: 0}
-  spawned: 0
-  waitTime: 4
 --- !u!1 &1625420715803754720
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,9 +257,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 4
-  player: {fileID: 0}
-  spawned: 0
-  waitTime: 4
 --- !u!1 &6754599725632565962
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,9 +398,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 1
-  player: {fileID: 0}
-  spawned: 0
-  waitTime: 4
 --- !u!1 &7301391597776503027
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,9 +493,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   openingDirection: 2
-  player: {fileID: 0}
-  spawned: 0
-  waitTime: 4
 --- !u!1001 &8478528011481587871
 PrefabInstance:
   m_ObjectHideFlags: 0
