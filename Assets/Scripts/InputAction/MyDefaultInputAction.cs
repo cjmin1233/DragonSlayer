@@ -59,7 +59,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""99d1f0e8-9aa7-4d6f-8c4c-69e81203f12b"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.1,y=0.1)"",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.2,y=0.2)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
                 },
@@ -85,6 +85,15 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""name"": ""AttackSp"",
                     ""type"": ""Button"",
                     ""id"": ""ba59f1ee-9f79-4e12-a081-bf576e4aa1e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Guard"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b00a4ff-d887-47df-ab38-a070d6b31b3b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -212,6 +221,17 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""AttackSp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82b41afa-cd0a-42c2-867b-78cee55bc148"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Guard"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -244,6 +264,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         m_PlayerInput_Roll = m_PlayerInput.FindAction("Roll", throwIfNotFound: true);
         m_PlayerInput_AttackNm = m_PlayerInput.FindAction("AttackNm", throwIfNotFound: true);
         m_PlayerInput_AttackSp = m_PlayerInput.FindAction("AttackSp", throwIfNotFound: true);
+        m_PlayerInput_Guard = m_PlayerInput.FindAction("Guard", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -312,6 +333,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_Roll;
     private readonly InputAction m_PlayerInput_AttackNm;
     private readonly InputAction m_PlayerInput_AttackSp;
+    private readonly InputAction m_PlayerInput_Guard;
     public struct PlayerInputActions
     {
         private @MyDefaultInputAction m_Wrapper;
@@ -323,6 +345,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         public InputAction @Roll => m_Wrapper.m_PlayerInput_Roll;
         public InputAction @AttackNm => m_Wrapper.m_PlayerInput_AttackNm;
         public InputAction @AttackSp => m_Wrapper.m_PlayerInput_AttackSp;
+        public InputAction @Guard => m_Wrapper.m_PlayerInput_Guard;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -353,6 +376,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @AttackSp.started += instance.OnAttackSp;
             @AttackSp.performed += instance.OnAttackSp;
             @AttackSp.canceled += instance.OnAttackSp;
+            @Guard.started += instance.OnGuard;
+            @Guard.performed += instance.OnGuard;
+            @Guard.canceled += instance.OnGuard;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -378,6 +404,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @AttackSp.started -= instance.OnAttackSp;
             @AttackSp.performed -= instance.OnAttackSp;
             @AttackSp.canceled -= instance.OnAttackSp;
+            @Guard.started -= instance.OnGuard;
+            @Guard.performed -= instance.OnGuard;
+            @Guard.canceled -= instance.OnGuard;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -413,5 +442,6 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         void OnRoll(InputAction.CallbackContext context);
         void OnAttackNm(InputAction.CallbackContext context);
         void OnAttackSp(InputAction.CallbackContext context);
+        void OnGuard(InputAction.CallbackContext context);
     }
 }

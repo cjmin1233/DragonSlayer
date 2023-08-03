@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,11 +46,19 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Weapon activeWeapon;
 
     private int _animIDAttackSpeed;
+    private int _animIDIsGuarding;
     [SerializeField] private float attackSpeed = 1f;
 
     [SerializeField] private Transform vfxParent;
 
-    private Quaternion attackLookRotation = Quaternion.identity;
+    private Quaternion attackTargetRotation = Quaternion.identity;
+    
+    // Guard
+    public bool IsGuarding { get; private set; }
+    private Coroutine guardProcess;
+    private float guardDuration;
+    private float guardTimeOut;
+    private float guardTimeOutDelta;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -58,6 +66,7 @@ public class PlayerCombat : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _rigidbody = GetComponent<Rigidbody>();
         _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
+        
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
         _animationEvent.OnStartComboAction += StartCombo;
         _animationEvent.OnEndComboAction += EndCombo;
@@ -67,17 +76,29 @@ public class PlayerCombat : MonoBehaviour
 
         curComboType = PlayerComboType.None;
 
-        _animIDAttackSpeed = Animator.StringToHash("AttackSpeed");
-
+        AssignAnimationIDs();
+        
         foreach (var comboData in playerComboData)
         {
             comboData.InitComboData(vfxParent);
         }
     }
+    private void AssignAnimationIDs()
+    {
+        _animIDAttackSpeed = Animator.StringToHash("AttackSpeed");
+        _animIDIsGuarding = Animator.StringToHash("IsGuarding");
+    }
 
     private void OnEnable()
     {
+        CombatInit(playerScriptableObject);
+    }
+
+    public void CombatInit(PlayerScriptableObject playerSo)
+    {
         attackSpeed = playerScriptableObject.attackSpeed;
+        guardDuration = playerSo.guardDuration;
+        guardTimeOut = playerSo.guardTimeOut;
     }
 
     private void Start()
@@ -95,15 +116,64 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
-        if (_playerInput.attackNormal) Attack(PlayerComboType.Nm);
-        else if (_playerInput.attackSpecial) Attack(PlayerComboType.Sp);
+        if (_playerInput.AttackNormal) Attack(PlayerComboType.Nm);
+        if (_playerInput.AttackSpecial) Attack(PlayerComboType.Sp);
+        if (_playerInput.Guard) Attempt2Guard();
+
+        if (guardTimeOutDelta >= 0f) guardTimeOutDelta -= Time.deltaTime;
+    }
+
+    private void Attempt2Guard()
+    {
+        if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking || IsGuarding) return;
+        if (guardTimeOutDelta >= 0f) return;
+        
+        
+        if (guardProcess is not null) StopCoroutine(guardProcess);
+        guardProcess=StartCoroutine(Guarding());
+    }
+
+    private IEnumerator Guarding()
+    {
+        float timer = guardDuration;
+        IsGuarding = true;
+        _rigidbody.velocity = Vector3.zero;
+        _animator.SetBool(_animIDIsGuarding, true);
+
+        Vector3 cameraForward;
+        
+        TerminateCombo();
+        
+        while (IsGuarding)
+        {
+            cameraForward = _mainCamera.transform.forward;
+            cameraForward.y = 0f;
+            attackTargetRotation = Quaternion.LookRotation(cameraForward);
+
+            transform.rotation=Quaternion.Euler(0f,
+                Mathf.SmoothDampAngle(transform.eulerAngles.y, attackTargetRotation.eulerAngles.y,
+                    ref rotationSmoothVelocity, rotationSmoothTime), 0f);
+            timer -= Time.fixedDeltaTime;
+            if (timer <= 0f || !_playerInput.Guard) EndGuard();
+            
+            yield return new WaitForFixedUpdate();
+        }
+    }
+
+    private void EndGuard()
+    {
+        if (!IsGuarding) return;
+
+        IsGuarding = false;
+        _animator.SetBool(_animIDIsGuarding, false);
+        guardTimeOutDelta = guardTimeOut;
     }
 
     private void FixedUpdate()
     {
         if (IsAttacking)
         {
-            Rotate();
+            Rotate2Target();
             Assault();
         }
     }
@@ -111,7 +181,7 @@ public class PlayerCombat : MonoBehaviour
     private void Attack(PlayerComboType comboType)
     {
         // 공중이거나 구르기 중, 공격 중일 때 리턴
-        if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking) return;
+        if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking || IsGuarding) return;
 
         ComboData comboData = playerComboData[(int)comboType];
         if (comboData.comboCounter < comboData.combos.Count
@@ -168,22 +238,23 @@ public class PlayerCombat : MonoBehaviour
         curComboType = PlayerComboType.None;
         DisableWeapon();
         
+        EndGuard();
+        
         _rigidbody.velocity = Vector3.zero;
     }
-    private void Rotate()
+    private void Rotate2Target()
     {
-        ComboData comboData = playerComboData[(int)curComboType];
-        if (comboData.comboCounter == 0)
+        if (playerComboData[(int)curComboType].comboCounter == 0)
         {
             Vector3 cameraForward = _mainCamera.transform.forward;
             cameraForward.y = 0f;
-            attackLookRotation = Quaternion.LookRotation(cameraForward);
+            attackTargetRotation = Quaternion.LookRotation(cameraForward);
         }
 
         // Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
         
         transform.rotation=Quaternion.Euler(0f,
-            Mathf.SmoothDampAngle(transform.eulerAngles.y, attackLookRotation.eulerAngles.y,
+            Mathf.SmoothDampAngle(transform.eulerAngles.y, attackTargetRotation.eulerAngles.y,
                 ref rotationSmoothVelocity, rotationSmoothTime), 0f);
     }
 

@@ -37,7 +37,7 @@
                     "type": "Value",
                     "id": "99d1f0e8-9aa7-4d6f-8c4c-69e81203f12b",
                     "expectedControlType": "Vector2",
-                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.1,y=0.1)",
+                    "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.2,y=0.2)",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -63,6 +63,15 @@
                     "name": "AttackSp",
                     "type": "Button",
                     "id": "ba59f1ee-9f79-4e12-a081-bf576e4aa1e6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Guard",
+                    "type": "Button",
+                    "id": "4b00a4ff-d887-47df-ab38-a070d6b31b3b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -188,6 +197,17 @@
                     "processors": "",
                     "groups": "KeyboardMouse",
                     "action": "AttackSp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "82b41afa-cd0a-42c2-867b-78cee55bc148",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Guard",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
