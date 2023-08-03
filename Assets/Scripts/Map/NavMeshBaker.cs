@@ -1,3 +1,4 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -7,7 +8,7 @@ public class NavMeshBaker : MonoBehaviour
 
     private void Start()
     {
-        Invoke(nameof(bakeGround), 7f);
+        
     }
     public void bakeGround()
     {

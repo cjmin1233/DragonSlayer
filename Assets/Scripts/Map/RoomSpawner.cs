@@ -8,7 +8,6 @@ using Random = UnityEngine.Random;
 using UnityEditorInternal;
 using Unity.AI.Navigation;
 using UnityEditor;
-using NavMeshSurface = UnityEngine.AI.NavMeshSurface;
 
 public class RoomSpawner : MonoBehaviour {
 
@@ -34,7 +33,7 @@ public class RoomSpawner : MonoBehaviour {
 
 	void RoomSpawn()
 	{
-        Destroy(gameObject, waitTime);
+        //Destroy(gameObject, waitTime);
         templates = GameObject.FindGameObjectWithTag("Rooms").GetComponent<RoomTemplates>();
         Invoke("Spawn", 0.1f);
     }
