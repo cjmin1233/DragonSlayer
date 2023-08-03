@@ -21,7 +21,7 @@ public class RoomTemplates : MonoBehaviour {
     
     private void Start()
     {   
-        Invoke(nameof(BossSpawn), 5f);
+       // Invoke(nameof(BossSpawn), 5f);
     }
 
     public void BossSpawn(){
