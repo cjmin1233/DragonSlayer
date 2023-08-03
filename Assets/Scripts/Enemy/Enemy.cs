@@ -38,6 +38,7 @@ public class Enemy : LIvingEntity
 
     protected virtual void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         maxHp = enemyData.EnemyHp;
         currentHp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
@@ -82,7 +83,7 @@ public class Enemy : LIvingEntity
                 animator.SetBool("isAttacking", true);
                 break;
             case State.GetHit:
-                animator.Play("GetHit");
+                animator.Play("GetHit", -1, 0f);
                 animator.SetBool("isGetHit", false);
                 timer = StartCoroutine(GetHitAgain());
                 break;
@@ -112,8 +113,14 @@ public class Enemy : LIvingEntity
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
                 break;
             case State.Attack:
+                lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+                targetAngleY = lookRotation.eulerAngles.y;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
                 break;
             case State.GetHit:
+                lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
+                targetAngleY = lookRotation.eulerAngles.y;
+                transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
                 break;
             case State.Die:
                 break;
@@ -235,6 +242,8 @@ public class Enemy : LIvingEntity
         base.TakeDamage(damageMessage);
 
         animator.SetBool("isGetHit", true);
+
+         rb.AddForce((damageMessage.damager.transform.position - transform.position).normalized, ForceMode.Impulse);
     }
 
     private IEnumerator Battle2Attack()
