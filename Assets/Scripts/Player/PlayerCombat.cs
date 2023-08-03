@@ -49,6 +49,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float attackSpeed = 1f;
 
     [SerializeField] private Transform vfxParent;
+
+    private Quaternion attackLookRotation = Quaternion.identity;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -170,13 +172,18 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Rotate()
     {
-        Vector3 cameraForward = _mainCamera.transform.forward;
-        cameraForward.y = 0f;
+        ComboData comboData = playerComboData[(int)curComboType];
+        if (comboData.comboCounter == 0)
+        {
+            Vector3 cameraForward = _mainCamera.transform.forward;
+            cameraForward.y = 0f;
+            attackLookRotation = Quaternion.LookRotation(cameraForward);
+        }
 
-        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+        // Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
         
         transform.rotation=Quaternion.Euler(0f,
-            Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation.eulerAngles.y,
+            Mathf.SmoothDampAngle(transform.eulerAngles.y, attackLookRotation.eulerAngles.y,
                 ref rotationSmoothVelocity, rotationSmoothTime), 0f);
     }
 

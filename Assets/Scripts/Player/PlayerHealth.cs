@@ -8,7 +8,7 @@ public class PlayerHealth : LIvingEntity
     private Animator _animator;
     private Rigidbody _rigidbody;
     
-    private bool isDead;
+    // private bool isDead;
     private int _animIDIsDead;
     public event Action OnDeath;
     private void Awake()
@@ -27,7 +27,7 @@ public class PlayerHealth : LIvingEntity
 
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
-        isDead = false;
+        // isDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
@@ -60,7 +60,7 @@ public class PlayerHealth : LIvingEntity
         
         _animator.applyRootMotion = true;
         
-        isDead = true;
+        // isDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
         var playerInput = GetComponent<PlayerInputControl>();
