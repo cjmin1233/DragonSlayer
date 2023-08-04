@@ -50,6 +50,7 @@ public class PlayerHealth : LIvingEntity
     public override void TakeDamage(DamageMessage damageMessage)
     {
         if (damageMessage.damager == gameObject) return;
+        // 무적 시간 있을 시 리턴 ***
         
         if (_playerCombat.IsGuarding)
         {
@@ -57,7 +58,10 @@ public class PlayerHealth : LIvingEntity
 
             float angleToDamager = AngleBetweenVectors(transform.forward, damagerDirection);
             print(angleToDamager);
-            if (angleToDamager <= 30f) print("Guard!!");
+            if (angleToDamager <= 30f)
+            {
+                _playerCombat.Parrying();
+            }
         }
         base.TakeDamage(damageMessage);
 

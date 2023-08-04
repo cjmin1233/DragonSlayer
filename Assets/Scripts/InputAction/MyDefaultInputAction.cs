@@ -225,7 +225,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""82b41afa-cd0a-42c2-867b-78cee55bc148"",
-                    ""path"": ""<Mouse>/middleButton"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",

@@ -73,6 +73,7 @@ public class PlayerCombat : MonoBehaviour
         _animationEvent.OnEnableWeaponAction += EnableWeapon;
         _animationEvent.OnDisableWeaponAction += DisableWeapon;
         _animationEvent.OnEnableVfxAction += EnableVfx;
+        _animationEvent.OnEndParryingAction += EndParrying;
 
         curComboType = PlayerComboType.None;
 
@@ -125,14 +126,17 @@ public class PlayerCombat : MonoBehaviour
 
     private void Attempt2Guard()
     {
-        if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking || IsGuarding) return;
+        // 가드 시작 > n초동안 가드 유지(코루틴) 1. > 노피격시 종료 
+        //                                    2. > 중간에 피격 > 패링 함수 호출(이전 코루틴 종료, 무적 시간 코루틴 시작) > 애니메이션 종료
+        if (!_playerMove.Grounded || _playerMove.IsRolling || IsGuarding) return;
         if (guardTimeOutDelta >= 0f) return;
         
+        TerminateCombo();
         
         if (guardProcess is not null) StopCoroutine(guardProcess);
-        guardProcess=StartCoroutine(Guarding());
+        guardProcess = StartCoroutine(Guarding());
     }
-
+    
     private IEnumerator Guarding()
     {
         float timer = guardDuration;
@@ -140,6 +144,7 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
         _animator.SetBool(_animIDIsGuarding, true);
 
+        // 가드시작시 방향전환
         Vector3 cameraForward = _mainCamera.transform.forward;
         cameraForward.y = 0f;
         attackTargetRotation = Quaternion.LookRotation(cameraForward);
@@ -148,13 +153,31 @@ public class PlayerCombat : MonoBehaviour
         
         while (IsGuarding)
         {
-            timer -= Time.fixedDeltaTime;
+            print("guard process continue...");
+            timer -= Time.deltaTime;
+            // 가드 시간 종료 또는 가드 해제시
             if (timer <= 0f || !_playerInput.Guard) EndGuard();
-            
-            yield return new WaitForFixedUpdate();
+
+            yield return null;
         }
     }
 
+    public void Parrying()
+    {
+        guardTimeOutDelta = guardTimeOut;
+        if (guardProcess is not null) StopCoroutine(guardProcess);
+        _animator.SetBool("Parry", true);
+        print("Parried!!");
+        // 무적 코루틴 시작
+    }
+
+    private void EndParrying()
+    {
+        IsGuarding = false;
+        _animator.SetBool(_animIDIsGuarding, false);
+        _animator.SetBool("Parry", false);
+        print("End parrying");
+    }
     private void EndGuard()
     {
         if (!IsGuarding) return;
@@ -229,8 +252,8 @@ public class PlayerCombat : MonoBehaviour
         IsAttacking = false;
         curComboType = PlayerComboType.None;
         DisableWeapon();
-        
-        EndGuard();
+
+        if (IsGuarding) EndGuard();
         
         _rigidbody.velocity = Vector3.zero;
     }

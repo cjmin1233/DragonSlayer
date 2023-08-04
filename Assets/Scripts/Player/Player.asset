@@ -19,4 +19,4 @@ MonoBehaviour:
   attackSpeed: 1
   defence: 100
   guardDuration: 1
-  guardTimeOut: 2
+  guardTimeOut: 1
