@@ -140,19 +140,14 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
         _animator.SetBool(_animIDIsGuarding, true);
 
-        Vector3 cameraForward;
+        Vector3 cameraForward = _mainCamera.transform.forward;
+        cameraForward.y = 0f;
+        attackTargetRotation = Quaternion.LookRotation(cameraForward);
         
         TerminateCombo();
         
         while (IsGuarding)
         {
-            cameraForward = _mainCamera.transform.forward;
-            cameraForward.y = 0f;
-            attackTargetRotation = Quaternion.LookRotation(cameraForward);
-
-            transform.rotation=Quaternion.Euler(0f,
-                Mathf.SmoothDampAngle(transform.eulerAngles.y, attackTargetRotation.eulerAngles.y,
-                    ref rotationSmoothVelocity, rotationSmoothTime), 0f);
             timer -= Time.fixedDeltaTime;
             if (timer <= 0f || !_playerInput.Guard) EndGuard();
             
@@ -171,11 +166,8 @@ public class PlayerCombat : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (IsAttacking)
-        {
-            Rotate2Target();
-            Assault();
-        }
+        Rotate2Target();
+        Assault();
     }
 
     private void Attack(PlayerComboType comboType)
@@ -244,7 +236,9 @@ public class PlayerCombat : MonoBehaviour
     }
     private void Rotate2Target()
     {
-        if (playerComboData[(int)curComboType].comboCounter == 0)
+        if (!IsAttacking && !IsGuarding) return;
+        
+        if (IsAttacking && playerComboData[(int)curComboType].comboCounter == 0)
         {
             Vector3 cameraForward = _mainCamera.transform.forward;
             cameraForward.y = 0f;
@@ -260,6 +254,7 @@ public class PlayerCombat : MonoBehaviour
 
     private void Assault()
     {
+        if (!IsAttacking) return;
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
         
         ComboData comboData = playerComboData[(int)curComboType];
