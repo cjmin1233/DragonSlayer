@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba83b416cc321b4788a4b32ab512565, type: 3}
   m_Name: ChestMonster Data
   m_EditorClassIdentifier: 
-  enemyName: Chest Monster
   enemyType: 3
   enemyHp: 15
+  damage: 3
   enemyMoveSpeed: 1
   enemyAttackRange: 1.5
+  attackDuration: 0.8
+  getHitDuration: 0.6

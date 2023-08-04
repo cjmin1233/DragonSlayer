@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    //[HideInInspector] public Enemy enemy;
+    [SerializeField] EnemyData enemyData;
+    protected EnemyData EnemyData { set { enemyData = value; } }
 
     private Rigidbody rb;
     
@@ -20,6 +21,14 @@ public class Projectile : MonoBehaviour
         if(other.gameObject.name == "Player")
         {
             Debug.Log("플레이어 명중");
+            var livingEntity = other.GetComponent<LIvingEntity>();
+            if (livingEntity != null)
+            {
+                DamageMessage damageMessage;
+                damageMessage.damager = gameObject;
+                damageMessage.damage = enemyData.Damage;
+                damageMessage.stunTime = 3.0f;
+            }
             Destroy(gameObject);
         }
     }
