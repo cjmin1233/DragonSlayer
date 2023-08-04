@@ -139,6 +139,7 @@ public class PlayerHealth : LIvingEntity
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
+        print("Player Died!");
     }
 
     public void MakeInvincible(float invincibleTime)

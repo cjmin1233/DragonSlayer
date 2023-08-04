@@ -182,10 +182,12 @@ public class PlayerCombat : MonoBehaviour
 
     public void TerminateCombat()
     {
-        if (!IsComboActive) return;
-        ComboData comboData = playerComboData[(int)curComboType];
+        if (IsComboActive)
+        {
+            ComboData comboData = playerComboData[(int)curComboType];
+            comboData.comboCounter = 0;
+        }
         
-        comboData.comboCounter = 0;
         IsAttacking = false;
         curComboType = PlayerComboType.None;
         DisableWeapon();
@@ -269,7 +271,7 @@ public class PlayerCombat : MonoBehaviour
         cameraForward.y = 0f;
         attackTargetRotation = Quaternion.LookRotation(cameraForward);
         
-        TerminateCombat();
+        // TerminateCombat();
         
         while (IsGuarding)
         {
@@ -300,10 +302,8 @@ public class PlayerCombat : MonoBehaviour
     }
     private void EndGuard()
     {
-        if (!IsGuarding) return;
-
         guardTimeOutDelta = guardTimeOut;
-        if(guardFx is not null)guardFx.DisableFx();
+        if (guardFx is not null) guardFx.DisableFx();
         
         IsGuarding = false;
         _animator.SetBool(_animIDIsGuarding, false);
