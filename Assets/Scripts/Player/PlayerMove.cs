@@ -391,13 +391,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void SelfDamage()
-    {
-        DamageMessage dmg;
-        dmg.damager = null;
-        dmg.damage = 10f;
+    //private void SelfDamage()
+    //{
+    //    DamageMessage dmg;
+    //    dmg.damager = null;
+    //    dmg.damage = 10f;
+    //    dmg.stunTime = 0;
 
-        LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
-        if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
-    }
+    //    LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
+    //    if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
+    //}
 }

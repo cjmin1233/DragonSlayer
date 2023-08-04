@@ -14,6 +14,7 @@ public class Enemy : LIvingEntity
         Battle,
         Attack,
         GetHit,
+        Stun,
         Die
     }
 
@@ -32,9 +33,7 @@ public class Enemy : LIvingEntity
     private bool isStateChanged = true;
 
     private Coroutine timer;
-    [SerializeField] float attackDuration;
-    [SerializeField] float getHitDuration;
-    private bool battleToAttack, attackToBattle, getHitAgain;
+    private bool battleToAttack, attackToBattle, getHitEnd;
 
     protected virtual void Awake()
     {
@@ -85,7 +84,10 @@ public class Enemy : LIvingEntity
             case State.GetHit:
                 animator.Play("GetHit", -1, 0f);
                 animator.SetBool("isGetHit", false);
-                timer = StartCoroutine(GetHitAgain());
+                timer = StartCoroutine(GetHit());
+                break;
+            case State.Stun:
+                animator.Play("Dizzy");
                 break;
             case State.Die:
                 animator.Play("Die");
@@ -122,6 +124,8 @@ public class Enemy : LIvingEntity
                 targetAngleY = lookRotation.eulerAngles.y;
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
                 break;
+            case State.Stun:
+                break;
             case State.Die:
                 break;
             default:
@@ -148,10 +152,11 @@ public class Enemy : LIvingEntity
                 break;
             case State.GetHit:
                 StopCoroutine(timer);
-                getHitAgain = false;
+                getHitEnd = false;
+                break;
+            case State.Stun:
                 break;
             case State.Die:
-                Debug.Log($"{enemyData.EnemyName}, Á×À½...");
                 Invoke("AfterDie", 5f);
                 break;
             default:
@@ -221,7 +226,20 @@ public class Enemy : LIvingEntity
                 {
                     return true;
                 }
-                if (getHitAgain)
+                if (getHitEnd)
+                {
+                    if(isStunned) nextState = State.Stun;
+                    else nextState = State.Trace;
+                    return true;
+                }
+                break;
+            case State.Stun:
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
+                if (!isStunned)
                 {
                     nextState = State.Trace;
                     return true;
@@ -230,7 +248,6 @@ public class Enemy : LIvingEntity
             case State.Die:
                 nextState = State.Idle;
                 return true;
-            //break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -243,7 +260,7 @@ public class Enemy : LIvingEntity
 
         animator.SetBool("isGetHit", true);
 
-         rb.AddForce((damageMessage.damager.transform.position - transform.position).normalized, ForceMode.Impulse);
+         rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
     }
 
     private IEnumerator Battle2Attack()
@@ -253,13 +270,13 @@ public class Enemy : LIvingEntity
     }
     private IEnumerator Attack2Battle()
     {
-        yield return new WaitForSeconds(attackDuration);
+        yield return new WaitForSeconds(enemyData.AttackDuration);
         attackToBattle = true;
     }
-    private IEnumerator GetHitAgain()
+    private IEnumerator GetHit()
     {
-        yield return new WaitForSeconds(getHitDuration);
-        getHitAgain = true;
+        yield return new WaitForSeconds(enemyData.GetHitDuration);
+        getHitEnd = true;
     }
     private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
 }

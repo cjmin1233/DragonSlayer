@@ -1072,7 +1072,6 @@ GameObject:
   - component: {fileID: 1335283855905015220}
   - component: {fileID: 8839136715434850391}
   - component: {fileID: 8210490841783368986}
-  - component: {fileID: 4786177969763960400}
   - component: {fileID: 4373292909509474120}
   - component: {fileID: 1694027724462590660}
   - component: {fileID: 2283292091136519290}
@@ -1100,7 +1099,7 @@ Transform:
   - {fileID: 2457920739756065149}
   - {fileID: 892007476013760662}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8839136715434850391
 Animator:
@@ -1136,35 +1135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
-  attackDuration: 0.733
-  getHitDuration: 0.733
---- !u!114 &4786177969763960400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5465432202388800275}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed9a4ae4efbbdfa4cbf290bf7aac0dd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  onShoot:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4786177969763960400}
-        m_TargetAssemblyTypeName: EnemyEvent, Assembly-CSharp
-        m_MethodName: OnShoot
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &4373292909509474120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,14 +1142,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5465432202388800275}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3a860899beaeda4a948a12cad13ddf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
-  attackDuration: 0.733
-  getHitDuration: 0.733
   projectile: {fileID: 5884024000079540302, guid: 3fce9dff2617ed34881016b2fc2c189b, type: 3}
   firePoint: {fileID: 892007476013760662}
 --- !u!195 &1694027724462590660

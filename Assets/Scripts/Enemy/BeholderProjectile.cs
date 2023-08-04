@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeholderProjectile : Enemy
+public class BeholderProjectile : MonoBehaviour
 {
     [SerializeField] GameObject projectile;
     [SerializeField] Transform firePoint;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        enemyEvent.onShoot.AddListener(Shoot);
-    }
 
     private void Shoot()
     {
