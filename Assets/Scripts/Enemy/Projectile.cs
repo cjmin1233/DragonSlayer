@@ -25,7 +25,7 @@ public class Projectile : MonoBehaviour
             if (livingEntity != null)
             {
                 DamageMessage damageMessage;
-                damageMessage.damager = GetComponentInParent<Enemy>().gameObject;
+                damageMessage.damager = gameObject;
                 damageMessage.damage = enemyData.Damage;
                 damageMessage.stunTime = 3.0f;
             }

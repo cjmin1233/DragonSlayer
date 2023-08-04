@@ -90,7 +90,9 @@ public class Enemy : LIvingEntity
                 animator.Play("Dizzy");
                 break;
             case State.Die:
+                Debug.Log("으앙 주금");
                 animator.Play("Die");
+                Invoke("AfterDie", 5f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -157,7 +159,6 @@ public class Enemy : LIvingEntity
             case State.Stun:
                 break;
             case State.Die:
-                Invoke("AfterDie", 5f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -246,8 +247,7 @@ public class Enemy : LIvingEntity
                 }
                 break;
             case State.Die:
-                nextState = State.Idle;
-                return true;
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -259,10 +259,9 @@ public class Enemy : LIvingEntity
         base.TakeDamage(damageMessage);
 
         animator.SetBool("isGetHit", true);
-        currentHp -= damageMessage.damage;
-        Debug.Log($"{damageMessage.damage}만큼 체력 손상");
+        Debug.Log($"{damageMessage.damage}만큼 체력 손상, 남은체력은 {currentHp}");
 
-         rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
+        rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
     }
 
     private IEnumerator Battle2Attack()
@@ -280,5 +279,10 @@ public class Enemy : LIvingEntity
         yield return new WaitForSeconds(enemyData.GetHitDuration);
         getHitEnd = true;
     }
-    private void AfterDie() => EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
+    private void AfterDie()
+    {
+        EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
+        currentHp = maxHp;
+        nextState = State.Idle;
+    }
 }

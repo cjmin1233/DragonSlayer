@@ -39,7 +39,7 @@ public class Weapon : MonoBehaviour
         {
             DamageMessage damageMessage;
             damageMessage.damager = GetComponentInParent<PlayerCombat>().gameObject;
-            damageMessage.damage = weaponDamage;
+            damageMessage.damage = 1;
             damageMessage.stunTime = 3.0f;
 
             livingEntity.TakeDamage(damageMessage);

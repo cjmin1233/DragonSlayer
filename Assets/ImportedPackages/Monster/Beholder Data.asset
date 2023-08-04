@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba83b416cc321b4788a4b32ab512565, type: 3}
   m_Name: Beholder Data
   m_EditorClassIdentifier: 
-  enemyName: Beholder
   enemyType: 2
   enemyHp: 10
+  damage: 2
   enemyMoveSpeed: 1
   enemyAttackRange: 5
-  enemyAttackTerm: 5
+  attackDuration: 0.733
+  getHitDuration: 0.733
