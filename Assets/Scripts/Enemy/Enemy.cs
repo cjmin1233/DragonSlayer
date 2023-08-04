@@ -90,7 +90,6 @@ public class Enemy : LIvingEntity
                 animator.Play("Dizzy");
                 break;
             case State.Die:
-                Debug.Log("으앙 주금");
                 animator.Play("Die");
                 Invoke("AfterDie", 5f);
                 break;
@@ -258,9 +257,8 @@ public class Enemy : LIvingEntity
     {
         base.TakeDamage(damageMessage);
 
-        animator.SetBool("isGetHit", true);
-        Debug.Log($"{damageMessage.damage}만큼 체력 손상, 남은체력은 {currentHp}");
-
+        if(damageMessage.isStiff) animator.SetBool("isGetHit", true);
+        
         rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
     }
 
