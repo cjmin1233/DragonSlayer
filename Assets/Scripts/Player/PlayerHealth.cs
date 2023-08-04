@@ -74,7 +74,8 @@ public class PlayerHealth : LIvingEntity
         OnDeath?.Invoke();
 
         _rigidbody.velocity = Vector3.zero;
-        _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ
+            | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = true;
         

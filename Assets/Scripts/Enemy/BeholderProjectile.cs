@@ -10,5 +10,6 @@ public class BeholderProjectile : MonoBehaviour
     private void Shoot()
     {
         var instance = Instantiate(projectile, firePoint.position, firePoint.rotation);
+        instance.GetComponent<Projectile>().damager = gameObject;
     }
 }

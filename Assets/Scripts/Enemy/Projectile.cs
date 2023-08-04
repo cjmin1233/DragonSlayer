@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     protected EnemyData EnemyData { set { enemyData = value; } }
 
     private Rigidbody rb;
+    public GameObject damager;
     
     private void OnEnable()
     {
@@ -20,14 +21,16 @@ public class Projectile : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î ¸íÁß");
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½");
             var livingEntity = other.GetComponent<LIvingEntity>();
             if (livingEntity != null)
             {
                 DamageMessage damageMessage;
-                damageMessage.damager = gameObject;
+                damageMessage.damager = this.damager;
                 damageMessage.damage = enemyData.Damage;
                 damageMessage.stunTime = 3.0f;
+                
+                livingEntity.TakeDamage(damageMessage);
             }
             Destroy(gameObject);
         }
