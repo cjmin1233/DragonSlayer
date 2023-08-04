@@ -17,8 +17,10 @@ public class PlayerHealth : LIvingEntity
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     
     private Animator _animator;
-    private Rigidbody _rigidbody;
+    private Rigidbody _rigidBody;
     private PlayerCombat _playerCombat;
+    private PlayerMove _playerMove;
+    private PlayerInputControl _playerInputControl;
     private PlayerAnimationEvent _animationEvent;
     
     // private bool isDead;
@@ -32,10 +34,13 @@ public class PlayerHealth : LIvingEntity
     private Coroutine invincibleProcess;
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
         _playerCombat = GetComponent<PlayerCombat>();
-
+        _playerMove = GetComponent<PlayerMove>();
+        _playerInputControl = GetComponent<PlayerInputControl>();
+        _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
+        
         _animationEvent.OnEndHitAction += EndHit;
         _animIDIsDead = Animator.StringToHash("IsDead");
         _animIDIsStunned = Animator.StringToHash("IsStunned");
@@ -56,7 +61,7 @@ public class PlayerHealth : LIvingEntity
         maxHp = playerSo.health;
         currentHp = maxHp;
         
-        _rigidbody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
+        _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = false;
 
@@ -65,7 +70,7 @@ public class PlayerHealth : LIvingEntity
 
     public override void TakeDamage(DamageMessage damageMessage)
     {
-        // 사망 또는 무적 시간 있을 시 리턴 *** >> isDead 추가할것
+        // 가격자가 본인이면 리턴
         if (damageMessage.damager == gameObject) return;
         
         if (_playerCombat.IsGuarding)
@@ -80,7 +85,13 @@ public class PlayerHealth : LIvingEntity
             }
         }
 
-        if (isInvincible) return;
+        if (_playerMove.IsRolling)
+        {
+            // 구르기로 회피
+            return;
+        }
+        // 사망, 또는 무적시 리턴 *** >> isDead 추가할것
+        if (isInvincible || _playerMove.IsRolling) return;
         
         // 데미지 처리
         if (damageMessage.isStiff)
@@ -89,6 +100,7 @@ public class PlayerHealth : LIvingEntity
             ToggleFreezePlayer(true);
             _animator.SetBool(_animIDIsGetHit, true);
         }
+        
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
@@ -118,8 +130,7 @@ public class PlayerHealth : LIvingEntity
     {
         OnDeath?.Invoke();
 
-        _rigidbody.velocity = Vector3.zero;
-        _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ
+        _rigidBody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ
             | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = true;
@@ -152,18 +163,16 @@ public class PlayerHealth : LIvingEntity
 
     private void ToggleFreezePlayer(bool toggle)
     {
-        // toggle player control.
-        var playerInput = GetComponent<PlayerInputControl>();
-        var playerMove = GetComponent<PlayerMove>();
-        var playerCombat = GetComponent<PlayerCombat>();
-        if (playerInput is not null) playerInput.enabled = !toggle;
-        if (playerMove is not null) playerMove.enabled = !toggle;
-        if (playerCombat is not null) playerCombat.enabled = !toggle;
+        // toggle player control and stop player.
+        if (_playerInputControl is not null) _playerInputControl.enabled = !toggle;
+        if (_playerMove is not null) _playerMove.enabled = !toggle;
+        if (_playerCombat is not null) _playerCombat.enabled = !toggle;
+        if (_rigidBody is not null && toggle) _rigidBody.velocity = Vector3.zero;
     }
 
     private void EndHit()
     {
-        ToggleFreezePlayer(false);
+        if (!isStunned) ToggleFreezePlayer(false);
         _animator.SetBool(_animIDIsGetHit, false);
     }
 }
