@@ -25,10 +25,7 @@ public class Projectile : MonoBehaviour
             var livingEntity = other.GetComponent<LIvingEntity>();
             if (livingEntity != null)
             {
-                DamageMessage damageMessage;
-                damageMessage.damager = this.damager;
-                damageMessage.damage = enemyData.Damage;
-                damageMessage.stunTime = 3.0f;
+                DamageMessage damageMessage = new DamageMessage(this.damager, enemyData.Damage, 3f);
                 
                 livingEntity.TakeDamage(damageMessage);
             }
