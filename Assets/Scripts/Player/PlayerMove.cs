@@ -367,7 +367,7 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator Rolling()
     {
         IsRolling = true;
-        _playerCombat.TerminateCombo();
+        _playerCombat.TerminateCombat();
         _rollTimeoutDelta = rollTimeout;
         if (HasAnimator)
         {

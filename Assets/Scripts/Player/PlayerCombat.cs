@@ -180,7 +180,7 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
     }
 
-    public void TerminateCombo()
+    public void TerminateCombat()
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
@@ -249,7 +249,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_playerMove.Grounded || _playerMove.IsRolling || IsGuarding) return;
         if (guardTimeOutDelta >= 0f) return;
         
-        TerminateCombo();
+        TerminateCombat();
         
         if (guardProcess is not null) StopCoroutine(guardProcess);
         guardProcess = StartCoroutine(Guarding());
@@ -269,7 +269,7 @@ public class PlayerCombat : MonoBehaviour
         cameraForward.y = 0f;
         attackTargetRotation = Quaternion.LookRotation(cameraForward);
         
-        TerminateCombo();
+        TerminateCombat();
         
         while (IsGuarding)
         {

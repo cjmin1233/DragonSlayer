@@ -19,10 +19,12 @@ public class PlayerHealth : LIvingEntity
     private Animator _animator;
     private Rigidbody _rigidbody;
     private PlayerCombat _playerCombat;
+    private PlayerAnimationEvent _animationEvent;
     
     // private bool isDead;
     private int _animIDIsDead;
     private int _animIDIsStunned;
+    private int _animIDIsGetHit;
     
     // 무적 시간
     private bool isInvincible;
@@ -33,9 +35,11 @@ public class PlayerHealth : LIvingEntity
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
         _playerCombat = GetComponent<PlayerCombat>();
-        
+
+        _animationEvent.OnEndHitAction += EndHit;
         _animIDIsDead = Animator.StringToHash("IsDead");
         _animIDIsStunned = Animator.StringToHash("IsStunned");
+        _animIDIsGetHit = Animator.StringToHash("IsGetHit");
 
         OnDeath = () => { };
     }
@@ -61,7 +65,7 @@ public class PlayerHealth : LIvingEntity
 
     public override void TakeDamage(DamageMessage damageMessage)
     {
-        // 무적 시간 있을 시 리턴 ***
+        // 사망 또는 무적 시간 있을 시 리턴 *** >> isDead 추가할것
         if (damageMessage.damager == gameObject) return;
         
         if (_playerCombat.IsGuarding)
@@ -77,6 +81,14 @@ public class PlayerHealth : LIvingEntity
         }
 
         if (isInvincible) return;
+        
+        // 데미지 처리
+        if (damageMessage.isStiff)
+        {
+            _playerCombat.TerminateCombat();
+            ToggleFreezePlayer(true);
+            _animator.SetBool(_animIDIsGetHit, true);
+        }
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
@@ -87,9 +99,9 @@ public class PlayerHealth : LIvingEntity
         RemainingStunTime = stunTime;
         isStunned = true;
         _animator.SetBool(_animIDIsStunned, true);
-        _animator.Play("Dizzy", 0, 0f);
+        // _animator.Play("Dizzy", 0, 0f);
         
-        _playerCombat.TerminateCombo();
+        _playerCombat.TerminateCombat();
         ToggleFreezePlayer(true);
         
         while (isStunned)
@@ -147,5 +159,11 @@ public class PlayerHealth : LIvingEntity
         if (playerInput is not null) playerInput.enabled = !toggle;
         if (playerMove is not null) playerMove.enabled = !toggle;
         if (playerCombat is not null) playerCombat.enabled = !toggle;
+    }
+
+    private void EndHit()
+    {
+        ToggleFreezePlayer(false);
+        _animator.SetBool(_animIDIsGetHit, false);
     }
 }
