@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Player", menuName = "Player/PlayerScriptableObject", order = 0)]
@@ -11,4 +9,6 @@ public class PlayerScriptableObject : ScriptableObject
     public float rollSpeed;
     public float attackSpeed;
     public float defence;
+    public float guardDuration;
+    public float guardTimeOut;
 }

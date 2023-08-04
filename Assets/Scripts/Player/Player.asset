@@ -18,3 +18,5 @@ MonoBehaviour:
   rollSpeed: 20
   attackSpeed: 1
   defence: 100
+  guardDuration: 1
+  guardTimeOut: 1

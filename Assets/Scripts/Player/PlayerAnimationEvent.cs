@@ -10,6 +10,7 @@ public class PlayerAnimationEvent : MonoBehaviour
     public event Action OnEnableWeaponAction;
     public event Action OnDisableWeaponAction;
     public event Action OnEnableVfxAction;
+    public event Action OnEndParryingAction;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -17,6 +18,7 @@ public class PlayerAnimationEvent : MonoBehaviour
         OnStartComboAction = () => { };
         OnEndComboAction = () => { };
         OnEnableVfxAction = () => { };
+        OnEndParryingAction = () => { };
     }
     private void OnRollFinish() => OnRollFinishAction?.Invoke();
 
@@ -25,4 +27,5 @@ public class PlayerAnimationEvent : MonoBehaviour
     private void OnEnableWeapon() => OnEnableWeaponAction?.Invoke();
     private void OnDisableWeapon() => OnDisableWeaponAction?.Invoke();
     private void OnEnableVfx() => OnEnableVfxAction?.Invoke();
+    private void OnEndParrying() => OnEndParryingAction?.Invoke();
 }

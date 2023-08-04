@@ -7,14 +7,17 @@ public class PlayerHealth : LIvingEntity
     
     private Animator _animator;
     private Rigidbody _rigidbody;
+    private PlayerCombat _playerCombat;
     
-    private bool isDead;
+    // private bool isDead;
     private int _animIDIsDead;
     public event Action OnDeath;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
+        _playerCombat = GetComponent<PlayerCombat>();
+        
         _animIDIsDead = Animator.StringToHash("IsDead");
 
         OnDeath = () => { };
@@ -27,7 +30,7 @@ public class PlayerHealth : LIvingEntity
 
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
-        isDead = false;
+        // isDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
@@ -46,10 +49,25 @@ public class PlayerHealth : LIvingEntity
 
     public override void TakeDamage(DamageMessage damageMessage)
     {
+        if (damageMessage.damager == gameObject) return;
+        // 무적 시간 있을 시 리턴 ***
+        
+        if (_playerCombat.IsGuarding)
+        {
+            Vector3 damagerDirection = damageMessage.damager.transform.position - transform.position;
+
+            float angleToDamager = AngleBetweenVectors(transform.forward, damagerDirection);
+            print(angleToDamager);
+            if (angleToDamager <= 30f)
+            {
+                _playerCombat.Parrying();
+            }
+        }
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
     }
+    
 
     private void Die()
     {
@@ -60,7 +78,7 @@ public class PlayerHealth : LIvingEntity
         
         _animator.applyRootMotion = true;
         
-        isDead = true;
+        // isDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
         var playerInput = GetComponent<PlayerInputControl>();
@@ -69,5 +87,13 @@ public class PlayerHealth : LIvingEntity
         if (playerInput is not null) playerInput.enabled = false;
         if (playerMove is not null) playerMove.enabled = false;
         if (playerCombat is not null) playerCombat.enabled = false;
+    }
+    public static float AngleBetweenVectors(Vector3 from, Vector3 to)
+    {
+        from.Normalize();
+        to.Normalize();
+
+        float angle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(from, to), -1f, 1f)) * Mathf.Rad2Deg;
+        return angle;
     }
 }
