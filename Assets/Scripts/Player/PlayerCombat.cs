@@ -59,6 +59,7 @@ public class PlayerCombat : MonoBehaviour
     private float guardDuration;
     private float guardTimeOut;
     private float guardTimeOutDelta;
+    [SerializeField] private FxAnimator guardFx;
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
@@ -143,6 +144,8 @@ public class PlayerCombat : MonoBehaviour
         IsGuarding = true;
         _rigidbody.velocity = Vector3.zero;
         _animator.SetBool(_animIDIsGuarding, true);
+        
+        if(guardFx is not null)guardFx.EnableFx();
 
         // 가드시작시 방향전환
         Vector3 cameraForward = _mainCamera.transform.forward;
@@ -164,7 +167,9 @@ public class PlayerCombat : MonoBehaviour
 
     public void Parrying()
     {
-        guardTimeOutDelta = guardTimeOut;
+        guardTimeOutDelta = guardTimeOut;        
+        if(guardFx is not null)guardFx.DisableFx();
+
         if (guardProcess is not null) StopCoroutine(guardProcess);
         _animator.SetBool("Parry", true);
         print("Parried!!");
@@ -182,9 +187,11 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!IsGuarding) return;
 
+        guardTimeOutDelta = guardTimeOut;
+        if(guardFx is not null)guardFx.DisableFx();
+        
         IsGuarding = false;
         _animator.SetBool(_animIDIsGuarding, false);
-        guardTimeOutDelta = guardTimeOut;
     }
 
     private void FixedUpdate()
