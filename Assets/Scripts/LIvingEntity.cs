@@ -18,9 +18,13 @@ public class LIvingEntity : MonoBehaviour, IDamagable
         if (damageMessage.damager == gameObject) return;
 
         currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
-
-        if (stunning is not null) StopCoroutine(stunning);
-        stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
+        if (damageMessage.stunTime > 0f)
+        {
+            if (stunning is not null) StopCoroutine(stunning);
+            stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
+        }
+        // if (stunning is not null) StopCoroutine(stunning);
+        // if (damageMessage.stunTime > 0f) stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
 
         //if (currentHp <= 0f) Die();
     }

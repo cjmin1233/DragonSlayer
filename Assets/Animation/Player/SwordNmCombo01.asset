@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: SwordNmCombo01
   m_EditorClassIdentifier: 
   animatorOv: {fileID: 22100000, guid: 9d5c1940e8483ca47afec5afdb46afa2, type: 2}
-  damage: 5
+  damage: 0.1
   loop: 0
+  stunTime: 0
+  isStiff: 0
   nextComboInterval: 0
   assaultDirection: {x: 0, y: 0, z: 1}
   assaultSpeedCurve:

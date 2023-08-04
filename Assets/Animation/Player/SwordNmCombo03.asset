@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: SwordNmCombo03
   m_EditorClassIdentifier: 
   animatorOv: {fileID: 22100000, guid: 26db8507873ef2b4f80c4bdd15954745, type: 2}
-  damage: 15
+  damage: 0.3
   loop: 0
+  stunTime: 3
+  isStiff: 1
   nextComboInterval: 1
   assaultDirection: {x: 0, y: 0, z: 1}
   assaultSpeedCurve:
@@ -70,5 +72,3 @@ MonoBehaviour:
     m_RotationOrder: 4
   vfxPrefabs:
   - {fileID: 5778676927103893615, guid: 816576dbb81ff4c4c99da368276ebf68, type: 3}
-  particles: []
-  particleIndex: 0

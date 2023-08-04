@@ -206,7 +206,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking || IsGuarding) return;
 
         ComboData comboData = playerComboData[(int)comboType];
-        if (comboData.comboCounter < comboData.combos.Count
+        if (comboData.comboCounter < comboData.Combos.Count
             && Time.time > comboData.nextComboStartTime)
         {
             // 다른 콤보 입력
@@ -215,10 +215,11 @@ public class PlayerCombat : MonoBehaviour
                 EndCombo();
             }
             curComboType = comboType;
-            ComboAnimation comboAnimation = comboData.combos[comboData.comboCounter];
+            ComboAnimation comboAnimation = comboData.Combos[comboData.comboCounter];
+            activeWeapon.WeaponSetup(comboAnimation);
 
-            comboAnimation.effectIndex = 0;
-            _animator.runtimeAnimatorController = comboAnimation.animatorOv;
+            comboAnimation.EffectIndex = 0;
+            _animator.runtimeAnimatorController = comboAnimation.AnimatorOv;
             _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
@@ -229,7 +230,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
-        if (!comboData.combos[comboData.comboCounter].loop) comboData.comboCounter++;
+        if (!comboData.Combos[comboData.comboCounter].Loop) comboData.comboCounter++;
         
         IsAttacking = false;
     }
@@ -238,9 +239,9 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
-        if (comboData.comboCounter >= comboData.combos.Count
-            && comboData.combos[comboData.comboCounter - 1].nextComboInterval > 0f)
-            comboData.nextComboStartTime = Time.time + comboData.combos[comboData.comboCounter - 1].nextComboInterval;
+        if (comboData.comboCounter >= comboData.Combos.Count
+            && comboData.Combos[comboData.comboCounter - 1].NextComboInterval > 0f)
+            comboData.nextComboStartTime = Time.time + comboData.Combos[comboData.comboCounter - 1].NextComboInterval;
 
         comboData.comboCounter = 0;
         IsAttacking = false;
@@ -288,8 +289,8 @@ public class PlayerCombat : MonoBehaviour
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
         
         ComboData comboData = playerComboData[(int)curComboType];
-        assaultVelocity = comboData.combos[comboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
-                          * attackSpeed * comboData.combos[comboData.comboCounter].assaultDirection;
+        assaultVelocity = comboData.Combos[comboData.comboCounter].AssaultSpeedCurve.Evaluate(curAnimNormTime) 
+                          * attackSpeed * comboData.Combos[comboData.comboCounter].AssaultDirection;
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
 
@@ -307,7 +308,7 @@ public class PlayerCombat : MonoBehaviour
         if(IsComboActive)
         {
             ComboData comboData = playerComboData[(int)curComboType];
-            comboData.combos[comboData.comboCounter].EnableParticle(attackSpeed);
+            comboData.Combos[comboData.comboCounter].EnableParticle(attackSpeed);
         }
     }
 }

@@ -1158,6 +1158,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1356739204929251805, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
+      propertyPath: playerComboData.Array.data[1].originCombos.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dc649218c22ad4449dae9f8723c260a, type: 2}
+    - target: {fileID: 1356739204929251805, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
       propertyPath: playerComboData.Array.data[1].originCombos.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: c1e11a88d7cabf74fa11cc8964983f7a, type: 2}
