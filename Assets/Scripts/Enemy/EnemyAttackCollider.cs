@@ -15,10 +15,8 @@ public class EnemyAttackCollider : MonoBehaviour
             var livingEntity = other.GetComponent<LIvingEntity>();
             if(livingEntity != null )
             {
-                DamageMessage damageMessage;
-                damageMessage.damager = GetComponentInParent<Enemy>().gameObject;
-                damageMessage.damage = enemyData.Damage;
-                damageMessage.stunTime = 3.0f;
+                DamageMessage damageMessage =
+                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, 3f);
 
                 livingEntity.TakeDamage(damageMessage);
             }

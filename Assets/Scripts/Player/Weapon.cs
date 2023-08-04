@@ -37,11 +37,8 @@ public class Weapon : MonoBehaviour
         var livingEntity = other.GetComponent<LIvingEntity>();
         if(livingEntity != null)
         {
-            DamageMessage damageMessage;
-            damageMessage.damager = GetComponentInParent<PlayerCombat>().gameObject;
-            damageMessage.damage = 1;
-            damageMessage.stunTime = 3.0f;
-            damageMessage.isStiff = true;
+            DamageMessage damageMessage =
+                new DamageMessage(GetComponentInParent<PlayerCombat>().gameObject, 1f, 3f, true);
 
             livingEntity.TakeDamage(damageMessage);
         }
