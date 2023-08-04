@@ -1,8 +1,19 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerHealth : LIvingEntity
 {
+    public static float AngleBetweenVectors(Vector3 from, Vector3 to)
+    {
+        from.Normalize();
+        to.Normalize();
+
+        float angle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(from, to), -1f, 1f)) * Mathf.Rad2Deg;
+        return angle;
+    }
+    public event Action OnDeath;
+    
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     
     private Animator _animator;
@@ -11,7 +22,12 @@ public class PlayerHealth : LIvingEntity
     
     // private bool isDead;
     private int _animIDIsDead;
-    public event Action OnDeath;
+    private int _animIDIsStunned;
+    
+    // 무적 시간
+    private bool isInvincible;
+    private float invincibleTimer;
+    private Coroutine invincibleProcess;
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -19,6 +35,7 @@ public class PlayerHealth : LIvingEntity
         _playerCombat = GetComponent<PlayerCombat>();
         
         _animIDIsDead = Animator.StringToHash("IsDead");
+        _animIDIsStunned = Animator.StringToHash("IsStunned");
 
         OnDeath = () => { };
     }
@@ -38,19 +55,14 @@ public class PlayerHealth : LIvingEntity
         _rigidbody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = false;
-        
-        var playerInput = GetComponent<PlayerInputControl>();
-        var playerMove = GetComponent<PlayerMove>();
-        var playerCombat = GetComponent<PlayerCombat>();
-        if (playerInput is not null) playerInput.enabled = true;
-        if (playerMove is not null) playerMove.enabled = true;
-        if (playerCombat is not null) playerCombat.enabled = true;
+
+        ToggleFreezePlayer(false);
     }
 
     public override void TakeDamage(DamageMessage damageMessage)
     {
-        if (damageMessage.damager == gameObject) return;
         // 무적 시간 있을 시 리턴 ***
+        if (damageMessage.damager == gameObject) return;
         
         if (_playerCombat.IsGuarding)
         {
@@ -63,11 +75,32 @@ public class PlayerHealth : LIvingEntity
                 _playerCombat.Parrying();
             }
         }
+
+        if (isInvincible) return;
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
     }
-    
+
+    protected override IEnumerator StunProcess(float stunTime)
+    {
+        RemainingStunTime = stunTime;
+        isStunned = true;
+        _animator.SetBool(_animIDIsStunned, true);
+        _animator.Play("Dizzy", 0, 0f);
+        
+        _playerCombat.TerminateCombo();
+        ToggleFreezePlayer(true);
+        
+        while (isStunned)
+        {
+            RemainingStunTime -= Time.deltaTime;
+            if (RemainingStunTime <= 0f) isStunned = false;
+            yield return null;
+        }
+        _animator.SetBool(_animIDIsStunned, false);
+        ToggleFreezePlayer(false);
+    }
 
     private void Die()
     {
@@ -82,19 +115,37 @@ public class PlayerHealth : LIvingEntity
         // isDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
+        ToggleFreezePlayer(true);
+    }
+
+    public void MakeInvincible(float invincibleTime)
+    {
+        if (invincibleTimer >= invincibleTime) return;
+        if (invincibleProcess is not null) StopCoroutine(invincibleProcess);
+        invincibleProcess = StartCoroutine(InvincibleTimer(invincibleTime));
+    }
+
+    private IEnumerator InvincibleTimer(float invincibleTime)
+    {
+        invincibleTimer = invincibleTime;
+        isInvincible = true;
+        while (invincibleTimer >= 0f)
+        {
+            invincibleTimer -= Time.deltaTime;
+            yield return null;
+        }
+
+        isInvincible = false;
+    }
+
+    private void ToggleFreezePlayer(bool toggle)
+    {
+        // toggle player control.
         var playerInput = GetComponent<PlayerInputControl>();
         var playerMove = GetComponent<PlayerMove>();
         var playerCombat = GetComponent<PlayerCombat>();
-        if (playerInput is not null) playerInput.enabled = false;
-        if (playerMove is not null) playerMove.enabled = false;
-        if (playerCombat is not null) playerCombat.enabled = false;
-    }
-    public static float AngleBetweenVectors(Vector3 from, Vector3 to)
-    {
-        from.Normalize();
-        to.Normalize();
-
-        float angle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(from, to), -1f, 1f)) * Mathf.Rad2Deg;
-        return angle;
+        if (playerInput is not null) playerInput.enabled = !toggle;
+        if (playerMove is not null) playerMove.enabled = !toggle;
+        if (playerCombat is not null) playerCombat.enabled = !toggle;
     }
 }

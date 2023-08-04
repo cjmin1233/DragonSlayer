@@ -11,14 +11,14 @@ public class LIvingEntity : MonoBehaviour, IDamagable
     protected bool isStunned;
 
     protected Coroutine stunning;
-    protected float remainTime;
+    protected float RemainingStunTime;
 
     public virtual void TakeDamage(DamageMessage damageMessage)
     {
         if (damageMessage.damager == gameObject) return;
 
         currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
-        if (damageMessage.stunTime > 0f)
+        if (damageMessage.stunTime > 0f && damageMessage.stunTime > RemainingStunTime)
         {
             if (stunning is not null) StopCoroutine(stunning);
             stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
@@ -29,15 +29,15 @@ public class LIvingEntity : MonoBehaviour, IDamagable
         //if (currentHp <= 0f) Die();
     }
 
-    protected IEnumerator StunProcess(float time)
+    protected virtual IEnumerator StunProcess(float stunTime)
     {
-        remainTime = time;
+        RemainingStunTime = stunTime;
         isStunned = true;
 
         while (isStunned)
         {
-            remainTime -= Time.deltaTime;
-            if (remainTime <= 0f) isStunned = false;
+            RemainingStunTime -= Time.deltaTime;
+            if (RemainingStunTime <= 0f) isStunned = false;
             yield return null;
         }
 

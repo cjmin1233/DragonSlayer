@@ -20,3 +20,4 @@ MonoBehaviour:
   defence: 100
   guardDuration: 1
   guardTimeOut: 1
+  parryingInvincibleDuration: 1
