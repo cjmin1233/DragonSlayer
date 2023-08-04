@@ -11,7 +11,6 @@ public class EnemyAttackCollider : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("�÷��̾� ����");
             var livingEntity = other.GetComponent<LIvingEntity>();
             if(livingEntity != null )
             {

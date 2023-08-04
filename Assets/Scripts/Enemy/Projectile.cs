@@ -21,7 +21,6 @@ public class Projectile : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            Debug.Log("�÷��̾� ����");
             var livingEntity = other.GetComponent<LIvingEntity>();
             if (livingEntity != null)
             {
