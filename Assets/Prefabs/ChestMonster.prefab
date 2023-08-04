@@ -520,6 +520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8ced0acec3e6d4ebaadb82a2350adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
 --- !u!65 &6812831283631125769
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -12,6 +12,9 @@ public class EnemyData : ScriptableObject
     [SerializeField] private int enemyHp;
     public int EnemyHp { get {  return enemyHp; } }
 
+    [SerializeField] private int damage;
+    public int Damage { get { return damage; } }
+
     [SerializeField] private float enemyMoveSpeed;
     public float EnemyMoveSpeed { get { return enemyMoveSpeed; } }
 

@@ -259,6 +259,8 @@ public class Enemy : LIvingEntity
         base.TakeDamage(damageMessage);
 
         animator.SetBool("isGetHit", true);
+        currentHp -= damageMessage.damage;
+        Debug.Log($"{damageMessage.damage}만큼 체력 손상");
 
          rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
     }

@@ -299,8 +299,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 1ff6b4aaeb09c2c439576a1711b27413, type: 2}
-  attackDuration: 0.833
-  getHitDuration: 0.833
 --- !u!195 &1546267074160341638
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -418,6 +416,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8ced0acec3e6d4ebaadb82a2350adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 1ff6b4aaeb09c2c439576a1711b27413, type: 2}
 --- !u!136 &945876035317731129
 CapsuleCollider:
   m_ObjectHideFlags: 0
