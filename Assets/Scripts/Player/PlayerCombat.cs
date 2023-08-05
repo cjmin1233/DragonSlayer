@@ -6,7 +6,9 @@ using UnityEngine.Serialization;
 // 콤보가 종료되는 경우는 1. 콤보 도중 구르기 등의 캔슬 액션 사용
 // 2. 콤보 시간 내에 입력하지 않아 자연 종료
 
-[RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
+[RequireComponent(typeof(PlayerInputControl)
+    , typeof(PlayerMove)
+    , typeof(Rigidbody))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
@@ -54,6 +56,7 @@ public class PlayerCombat : MonoBehaviour
     private float guardTimeOut;
     private float guardTimeOutDelta;
     private float parryingInvincibleDuration;
+    private float parryingAngle;
     [SerializeField] private FxAnimator guardFx;
     private void Awake()
     {
@@ -97,6 +100,7 @@ public class PlayerCombat : MonoBehaviour
         guardDuration = playerSo.guardDuration;
         guardTimeOut = playerSo.guardTimeOut;
         parryingInvincibleDuration = playerSo.parryingInvincibleDuration;
+        parryingAngle = playerSo.parryingAngle;
     }
 
     private void Start()
@@ -283,16 +287,30 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void Parrying()
+    public float CheckParrying(GameObject damager)
     {
-        guardTimeOutDelta = guardTimeOut;
-        if (guardFx is not null) guardFx.DisableFx();
+        Vector3 parryingDirection = damager.transform.position - transform.position;
+        float parryingAngle = MyUtility.AngleBetweenVectors(transform.forward, parryingDirection);
 
-        if (guardProcess is not null) StopCoroutine(guardProcess);
-        _animator.SetBool("Parry", true);
+        // 패링 각도(범위)로 판단
+        if (parryingAngle <= this.parryingAngle)
+        {
+            // 패링 성공, 가드 해제
+            guardTimeOutDelta = guardTimeOut;
+            if (guardFx is not null) guardFx.DisableFx();
+            if (guardProcess is not null) StopCoroutine(guardProcess);
+            
+            _animator.SetBool("Parry", true);
+            // 무적 코루틴 시작
+            // GetComponent<PlayerHealth>().MakeInvincible(parryingInvincibleDuration);
+            
+            // 패링 성공시 무적 시간값 리턴
+            return parryingInvincibleDuration;
+        }
         
-        // 무적 코루틴 시작
-        GetComponent<PlayerHealth>().MakeInvincible(parryingInvincibleDuration);
+        // 패링 실패시 -값 리턴
+        return -1f;
+
     }
     private void EndParrying()
     {

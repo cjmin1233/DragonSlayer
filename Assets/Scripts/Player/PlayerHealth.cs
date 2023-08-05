@@ -4,14 +4,6 @@ using UnityEngine;
 
 public class PlayerHealth : LIvingEntity
 {
-    public static float AngleBetweenVectors(Vector3 from, Vector3 to)
-    {
-        from.Normalize();
-        to.Normalize();
-
-        float angle = Mathf.Acos(Mathf.Clamp(Vector3.Dot(from, to), -1f, 1f)) * Mathf.Rad2Deg;
-        return angle;
-    }
     public event Action OnDeath;
     
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
@@ -23,11 +15,11 @@ public class PlayerHealth : LIvingEntity
     private PlayerInputControl _playerInputControl;
     private PlayerAnimationEvent _animationEvent;
     
-    // private bool isDead;
     private int _animIDIsDead;
     private int _animIDIsStunned;
     private int _animIDIsGetHit;
     
+    private bool isDead;
     // 무적 시간
     private bool isInvincible;
     private float invincibleTimer;
@@ -56,7 +48,7 @@ public class PlayerHealth : LIvingEntity
 
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
-        // isDead = false;
+        isDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
@@ -75,14 +67,10 @@ public class PlayerHealth : LIvingEntity
         
         if (_playerCombat.IsGuarding)
         {
-            Vector3 damagerDirection = damageMessage.damager.transform.position - transform.position;
+            // 패링 성공시 리턴
+            float parryingResult = _playerCombat.CheckParrying(damageMessage.damager);
 
-            float angleToDamager = AngleBetweenVectors(transform.forward, damagerDirection);
-            print(angleToDamager);
-            if (angleToDamager <= 30f)
-            {
-                _playerCombat.Parrying();
-            }
+            if (parryingResult > 0f) MakeInvincible(parryingResult);
         }
 
         if (_playerMove.IsRolling)
@@ -91,7 +79,7 @@ public class PlayerHealth : LIvingEntity
             return;
         }
         // 사망, 또는 무적시 리턴 *** >> isDead 추가할것
-        if (isInvincible || _playerMove.IsRolling) return;
+        if (isInvincible || _playerMove.IsRolling || isDead) return;
         
         // 데미지 처리
         if (damageMessage.isStiff)
@@ -137,7 +125,7 @@ public class PlayerHealth : LIvingEntity
         
         _animator.applyRootMotion = true;
         
-        // isDead = true;
+        isDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
