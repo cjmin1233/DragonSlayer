@@ -96,11 +96,13 @@ public class PlayerHealth : LIvingEntity
         // 데미지 처리
         if (damageMessage.isStiff)
         {
+            // 경직 적용
             _playerCombat.TerminateCombat();
             ToggleFreezePlayer(true);
             _animator.SetBool(_animIDIsGetHit, true);
+            _animator.Play("GetHit", 0, 0f);
         }
-        
+        print("플레이어 피격");
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
