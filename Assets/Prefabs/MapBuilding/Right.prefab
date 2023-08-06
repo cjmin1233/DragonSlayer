@@ -44,7 +44,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8270603836964452384}
-  - component: {fileID: 1615244339144984930}
   m_Layer: 0
   m_Name: Right
   m_TagString: Untagged
@@ -69,18 +68,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1615244339144984930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4595673538910571984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5320a9aae68a74b87e0b9383f2e091, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4776554526656348938
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +77,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6493966944513539055}
+  - component: {fileID: 8035882392939536735}
   m_Layer: 0
   m_Name: Spawn Points
   m_TagString: Untagged
@@ -113,6 +101,21 @@ Transform:
   m_Father: {fileID: 8270603836964452384}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8035882392939536735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4776554526656348938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b5320a9aae68a74b87e0b9383f2e091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPoints:
+  - {fileID: 6717308009018846000}
+  roomPrefabs: []
 --- !u!1 &6717308009018846000
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,7 +127,6 @@ GameObject:
   - component: {fileID: 2758678668343108532}
   - component: {fileID: 6530938311618448138}
   - component: {fileID: 163081704300219}
-  - component: {fileID: 2102565138886646965}
   m_Layer: 0
   m_Name: Spawn Point (1)
   m_TagString: SpawnPoint
@@ -195,22 +197,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &2102565138886646965
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6717308009018846000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93cff74f3681344cb8fef1f5f97fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDirection: 3
-  player: {fileID: 0}
-  spawned: 0
-  waitTime: 4
 --- !u!1001 &4697127727451755470
 PrefabInstance:
   m_ObjectHideFlags: 0
