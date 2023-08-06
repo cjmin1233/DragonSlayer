@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba83b416cc321b4788a4b32ab512565, type: 3}
   m_Name: Slime Data
   m_EditorClassIdentifier: 
-  enemyName: Slime
   enemyType: 0
   enemyHp: 5
+  damage: 1
   enemyMoveSpeed: 1
   enemyAttackRange: 1
+  attackDuration: 0.833
+  getHitDuration: 0.833

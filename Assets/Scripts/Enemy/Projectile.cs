@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    //[HideInInspector] public Enemy enemy;
+    [SerializeField] EnemyData enemyData;
+    protected EnemyData EnemyData { set { enemyData = value; } }
 
     private Rigidbody rb;
+    public GameObject damager;
     
     private void OnEnable()
     {
@@ -19,7 +21,14 @@ public class Projectile : MonoBehaviour
     {
         if(other.gameObject.name == "Player")
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î ¸íÁß");
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            var livingEntity = other.GetComponent<LIvingEntity>();
+            if (livingEntity != null)
+            {
+                DamageMessage damageMessage = new DamageMessage(this.damager, enemyData.Damage, 3f);
+                
+                livingEntity.TakeDamage(damageMessage);
+            }
             Destroy(gameObject);
         }
     }

@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class EnemyAttackCollider : MonoBehaviour
 {
+    [SerializeField] EnemyData enemyData;
+    protected EnemyData EnemyData { set { enemyData = value; } }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î °ø°Ý");
+            Debug.Log("ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½ï¿½");
+            var livingEntity = other.GetComponent<LIvingEntity>();
+            if(livingEntity != null )
+            {
+                DamageMessage damageMessage =
+                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, 3f);
+
+                livingEntity.TakeDamage(damageMessage);
+            }
         }
     }
 }

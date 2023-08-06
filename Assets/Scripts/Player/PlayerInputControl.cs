@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,53 +5,57 @@ public class PlayerInputControl : MonoBehaviour
 {
     private MyDefaultInputAction inputAction;
 
-    public Vector2 moveInput { get; private set; }
-    public Vector2 lookInput { get; private set; }
-    public bool jump
+    public Vector2 MoveInput { get; private set; }
+    public Vector2 LookInput { get; private set; }
+    public bool Jump
     {
         get
         {
             return inputAction.PlayerInput.Jump.triggered;
         }
     }
-    public bool sprint { get; private set; }
-    public bool roll
+    public bool Sprint { get; private set; }
+    public bool Roll
     {
         get
         {
             return inputAction.PlayerInput.Roll.triggered;
         }
     }
-    public bool attackNormal { get; private set; }
-    public bool attackSpecial { get; private set; }
+    public bool AttackNormal { get; private set; }
+    public bool AttackSpecial { get; private set; }
+    public bool Guard { get; private set; }
     private void Start()
     {
         inputAction = new MyDefaultInputAction();
         inputAction.PlayerInput.Enable();
 
         inputAction.PlayerInput.Move.performed += MoveControl;
-        inputAction.PlayerInput.Move.canceled += context => moveInput = Vector2.zero;
+        inputAction.PlayerInput.Move.canceled += context => MoveInput = Vector2.zero;
 
         inputAction.PlayerInput.Look.performed += LookControl;
-        inputAction.PlayerInput.Look.canceled += context=>lookInput=Vector2.zero;
+        inputAction.PlayerInput.Look.canceled += context=>LookInput=Vector2.zero;
         
-        inputAction.PlayerInput.Sprint.performed += context => sprint = true;
-        inputAction.PlayerInput.Sprint.canceled += context => sprint = false;
+        inputAction.PlayerInput.Sprint.performed += context => Sprint = true;
+        inputAction.PlayerInput.Sprint.canceled += context => Sprint = false;
 
-        inputAction.PlayerInput.AttackNm.performed += context => attackNormal = true;
-        inputAction.PlayerInput.AttackNm.canceled += context => attackNormal = false;
-        inputAction.PlayerInput.AttackSp.performed += context => attackSpecial = true;
-        inputAction.PlayerInput.AttackSp.canceled += context => attackSpecial = false;
+        inputAction.PlayerInput.AttackNm.performed += context => AttackNormal = true;
+        inputAction.PlayerInput.AttackNm.canceled += context => AttackNormal = false;
+        inputAction.PlayerInput.AttackSp.performed += context => AttackSpecial = true;
+        inputAction.PlayerInput.AttackSp.canceled += context => AttackSpecial = false;
+
+        inputAction.PlayerInput.Guard.performed += context => Guard = true;
+        inputAction.PlayerInput.Guard.canceled += context => Guard = false;
     }
 
     private void LookControl(InputAction.CallbackContext context)
     {
-        lookInput = context.ReadValue<Vector2>();
+        LookInput = context.ReadValue<Vector2>();
     }
 
     private void MoveControl(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
-        if (moveInput.sqrMagnitude > 1) moveInput = moveInput.normalized;
+        MoveInput = context.ReadValue<Vector2>();
+        if (MoveInput.sqrMagnitude > 1) MoveInput = MoveInput.normalized;
     }
 }

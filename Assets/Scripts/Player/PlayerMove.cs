@@ -156,8 +156,11 @@ public class PlayerMove : MonoBehaviour
     {
         if (Grounded && !IsRolling)
         {
-            if (_playerInput.jump && _jumpTimeoutDelta <= 0f && !_playerCombat.IsAttacking) Jump();
-            if (_playerInput.roll && _rollTimeoutDelta <= 0f) Roll();
+            if (_playerInput.Jump 
+                && _jumpTimeoutDelta <= 0f 
+                && !_playerCombat.IsAttacking 
+                && !_playerCombat.IsGuarding) Jump();
+            if (_playerInput.Roll && _rollTimeoutDelta <= 0f) Roll();
         }
         
         GroundedCheck();
@@ -241,11 +244,11 @@ public class PlayerMove : MonoBehaviour
     {
         #region Rotation
         // input direction
-        Vector3 inputDirection = new(_playerInput.moveInput.x, 0f, _playerInput.moveInput.y);
+        Vector3 inputDirection = new(_playerInput.MoveInput.x, 0f, _playerInput.MoveInput.y);
 
         // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         // if there is a move input rotate player when the player is moving
-        if (_playerInput.moveInput != Vector2.zero)
+        if (_playerInput.MoveInput != Vector2.zero)
         {
             _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                               _mainCamera.transform.eulerAngles.y;
@@ -262,13 +265,13 @@ public class PlayerMove : MonoBehaviour
     private void HorizontalMovement()
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
-        float targetSpeed = _playerInput.sprint && Grounded ? sprintSpeed : moveSpeed;
+        float targetSpeed = _playerInput.Sprint && Grounded ? sprintSpeed : moveSpeed;
 
         // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         // if there is no input, set the target speed to 0
-        float inputMagnitude = _playerInput.moveInput.magnitude;
+        float inputMagnitude = _playerInput.MoveInput.magnitude;
         if (inputMagnitude < 0.01f) targetSpeed = 0.0f;
 
         // a reference to the players current horizontal velocity
@@ -289,7 +292,7 @@ public class PlayerMove : MonoBehaviour
             //_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
         }
 
-        if (_playerCombat.IsAttacking) return;
+        if (_playerCombat.IsAttacking || _playerCombat.IsGuarding) return;
         Rotate();
         if (IsRolling) return;
 
@@ -318,11 +321,11 @@ public class PlayerMove : MonoBehaviour
     private void CameraRotation()
     {
         // if there is an input and camera position is not fixed
-        if (_playerInput.lookInput.sqrMagnitude >= Threshold && !lockCameraPosition)
+        if (_playerInput.LookInput.sqrMagnitude >= Threshold && !lockCameraPosition)
         {
             //Don't multiply mouse input by Time.deltaTime;
-            _cineMachineTargetYaw += _playerInput.lookInput.x;
-            _cineMachineTargetPitch += _playerInput.lookInput.y;
+            _cineMachineTargetYaw += _playerInput.LookInput.x;
+            _cineMachineTargetPitch += _playerInput.LookInput.y;
         }
 
         // clamp our rotations so our values are limited 360 degrees
@@ -391,13 +394,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void SelfDamage()
-    {
-        DamageMessage dmg;
-        dmg.damager = null;
-        dmg.damage = 10f;
+    //private void SelfDamage()
+    //{
+    //    DamageMessage dmg;
+    //    dmg.damager = null;
+    //    dmg.damage = 10f;
+    //    dmg.stunTime = 0;
 
-        LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
-        if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
-    }
+    //    LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
+    //    if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
+    //}
 }
