@@ -89,13 +89,11 @@ public class MapGenerator : MonoBehaviour
     }
     private void NavMeshBake(GameObject room)
     {
-        MeshCollider meshCollider = room.GetComponent<MeshCollider>();
-
-        if(meshCollider != null)
+        
+        if(room.TryGetComponent<MeshCollider>(out var meshCollider))
         {
-            NavMeshSurface navMeshSurface = room.GetComponent<NavMeshSurface>();
-
-            if(navMeshSurface != null)
+            
+            if(!room.TryGetComponent<NavMeshSurface>(out var navMeshSurface))
                 navMeshSurface = room.AddComponent<NavMeshSurface>();
 
             navMeshSurface.collectObjects = CollectObjects.Children;

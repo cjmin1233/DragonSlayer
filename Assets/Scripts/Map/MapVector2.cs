@@ -12,7 +12,7 @@ public class MapVector2 : MonoBehaviour
     public List<Vector2Int> candidateVector = new();
 
     public Vector2Int startPoint = new(0, 0);
-    private int distance = 7; // 방사이의 거리 && 방 크기
+    private const int distance = 7; // 방사이의 거리 && 방 크기
     public int Stage = 1;
 
     public delegate void VectorMapAdded(List<Vector2Int> vector);
