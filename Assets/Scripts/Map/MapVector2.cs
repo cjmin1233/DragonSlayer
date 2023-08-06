@@ -12,7 +12,7 @@ public class MapVector2 : MonoBehaviour
     public List<Vector2Int> candidateVector = new();
 
     public Vector2Int startPoint = new(0, 0);
-    private int distance = 5; // 방사이의 거리 && 방 크기
+    private int distance = 7; // 방사이의 거리 && 방 크기
     public int Stage = 1;
 
     public delegate void VectorMapAdded(List<Vector2Int> vector);
@@ -29,7 +29,7 @@ public class MapVector2 : MonoBehaviour
         mapVector.Clear();
         candidateVector.Clear();
 
-        // 보스방제외 뽑기라 각 스테이지당 8, 11, 16 방 구성
+        // 시작점 제외 뽑기라 각 스테이지당 8, 11, 16 방 구성
         if (Stage == 1)
             numOfRooms = 7;
         else if (Stage == 2)

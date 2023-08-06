@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4271261775885458873}
   - component: {fileID: 4594493977772744506}
   - component: {fileID: 1111194959401595126}
-  - component: {fileID: 8141457481088813939}
   m_Layer: 0
   m_Name: Spawn Point (3)
   m_TagString: SpawnPoint
@@ -82,19 +81,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &8141457481088813939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592087431358485432}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93cff74f3681344cb8fef1f5f97fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDirection: 3
 --- !u!1 &1625420715803754720
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +159,6 @@ GameObject:
   - component: {fileID: 4470947565498222893}
   - component: {fileID: 6044394450416863690}
   - component: {fileID: 4862452616609172469}
-  - component: {fileID: 5583002000467182647}
   m_Layer: 0
   m_Name: Spawn Point (4)
   m_TagString: SpawnPoint
@@ -244,19 +229,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &5583002000467182647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5100061111957262816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93cff74f3681344cb8fef1f5f97fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDirection: 4
 --- !u!1 &6754599725632565962
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +238,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4322865579065339537}
-  - component: {fileID: 7499689735441745321}
   m_Layer: 0
   m_Name: EntryRoom
   m_TagString: Untagged
@@ -291,18 +262,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7499689735441745321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6754599725632565962}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b5320a9aae68a74b87e0b9383f2e091, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7144820691406967358
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,7 +273,6 @@ GameObject:
   - component: {fileID: 3063664550197257113}
   - component: {fileID: 4833477976549470028}
   - component: {fileID: 9071650609342470248}
-  - component: {fileID: 629348414635516671}
   m_Layer: 0
   m_Name: Spawn Point (2)
   m_TagString: SpawnPoint
@@ -385,19 +343,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &629348414635516671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144820691406967358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93cff74f3681344cb8fef1f5f97fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDirection: 1
 --- !u!1 &7301391597776503027
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +354,6 @@ GameObject:
   - component: {fileID: 7703519310573135606}
   - component: {fileID: 180874709058710374}
   - component: {fileID: 229821397070590631}
-  - component: {fileID: 472883027901745588}
   m_Layer: 0
   m_Name: Spawn Point (1)
   m_TagString: SpawnPoint
@@ -480,19 +424,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!114 &472883027901745588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7301391597776503027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d93cff74f3681344cb8fef1f5f97fb7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDirection: 2
 --- !u!1001 &8478528011481587871
 PrefabInstance:
   m_ObjectHideFlags: 0
