@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -16,7 +17,8 @@ public class MapGenerator : MonoBehaviour
     public GameObject[] JumpRooms;
     public GameObject[] GoldRooms;
     public GameObject[] TrapRooms;
-
+    public GameObject Room;
+  
     // 2차원 좌표를 3차원 좌표로 변경
     public void DimensionTrans(List<Vector2Int> vector2d)
     {
@@ -43,7 +45,8 @@ public class MapGenerator : MonoBehaviour
     {
         Instantiate(EntryRoom, mapVec3[0], Quaternion.identity);
         EpicRoomCreate();
-        NormalRoomCreate();      
+        NormalRoomCreate();
+        NavMeshBake(Room);
     }
     private void EpicRoomCreate()
     {
@@ -57,19 +60,22 @@ public class MapGenerator : MonoBehaviour
         for(var i = 0; i < EpicRooms[0]; i++)
         {
             var rand = Random.Range(0, 4); //에픽방 랜덤 범위
-            Instantiate(JumpRooms[rand], mapVec3[i+1], Quaternion.identity);
+            Room = Instantiate(JumpRooms[rand], mapVec3[i+1], Quaternion.identity);
+            NavMeshBake(Room);
         }
         // 황금방 개수만큼 방 생성 -> mapVec3[1 + 점프방 수] 그 뒤로 생성
         for(var i = 0; i < EpicRooms[1]; i++)
         {
             var rand = Random.Range(0, 4); //에픽방 랜덤 범위
-            Instantiate(GoldRooms[rand], mapVec3[i + 1 + EpicRooms[0]], Quaternion.identity);
+            Room = Instantiate(GoldRooms[rand], mapVec3[i + 1 + EpicRooms[0]], Quaternion.identity);
+            NavMeshBake(Room);
         }
         // 함정방 개수만큼 방 생성 -> mapVec3[1 + 점프방 + 황금방 수] 그 뒤로 생성
         for (var i = 0; i < EpicRooms[2]; i++)
         {
             var rand = Random.Range(0, 4); //에픽방 랜덤 범위
-            Instantiate(TrapRooms[rand], mapVec3[i + 1 + EpicRooms[0] + EpicRooms[1]], Quaternion.identity);
+            Room = Instantiate(TrapRooms[rand], mapVec3[i + 1 + EpicRooms[0] + EpicRooms[1]], Quaternion.identity);
+            NavMeshBake(Room);
         }
     }
     private void NormalRoomCreate()
@@ -77,7 +83,24 @@ public class MapGenerator : MonoBehaviour
         for(var i = epicSize + 1 ; i < roomSize; i++)
         {
             var randNor = Random.Range(0, NormalRooms.Length);
-            Instantiate(NormalRooms[randNor], mapVec3[i], Quaternion.identity);
+            Room = Instantiate(NormalRooms[randNor], mapVec3[i], Quaternion.identity);
+            NavMeshBake(Room);
         }
+    }
+    private void NavMeshBake(GameObject room)
+    {
+        MeshCollider meshCollider = room.GetComponent<MeshCollider>();
+
+        if(meshCollider != null)
+        {
+            NavMeshSurface navMeshSurface = room.GetComponent<NavMeshSurface>();
+
+            if(navMeshSurface != null)
+                navMeshSurface = room.AddComponent<NavMeshSurface>();
+
+            navMeshSurface.collectObjects = CollectObjects.Children;
+            navMeshSurface.BuildNavMesh();
+        }
+        
     }
 }

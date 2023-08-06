@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7590969483677538362}
   - component: {fileID: 5673547959623412976}
   - component: {fileID: 8374782994422970853}
-  - component: {fileID: 3381374650287423271}
+  - component: {fileID: 6972114848707393467}
   m_Layer: 0
   m_Name: floor3
   m_TagString: Untagged
@@ -116,8 +116,8 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 16a3d2cb34a894f49ba65ad2ee0b8ad6, type: 2}
   m_BuildHeightMesh: 0
---- !u!65 &3381374650287423271
-BoxCollider:
+--- !u!64 &6972114848707393467
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -134,6 +134,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 4.000002, y: 0.2445589, z: 4.000001}
-  m_Center: {x: 0.016750932, y: -0.07652822, z: 0.00000011920929}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8757463438446164566, guid: 6670a1e69c32cf14c805b03a61a90bb0, type: 3}
