@@ -9,7 +9,8 @@ public enum EnemyType
     Slime,
     TurtleShell,
     Beholder,
-    ChestMonster
+    ChestMonster,
+    Golem
 }
 public class EnemySpawner : MonoBehaviour
 {

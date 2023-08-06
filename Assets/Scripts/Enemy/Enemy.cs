@@ -168,8 +168,12 @@ public class Enemy : LIvingEntity
         switch (curState)
         {
             case State.Idle:
-                nextState = State.Trace;
-                return true;
+                if (Vector3.Distance(transform.position, player.transform.position) <= 20)
+                {
+                    nextState = State.Trace;
+                    return true;
+                }
+                break;
             case State.Trace:
                 if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
                 {
