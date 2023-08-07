@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BeholderProjectile : MonoBehaviour
+public class BeholderProjectile : Enemy
 {
     [SerializeField] GameObject projectile;
     [SerializeField] Transform firePoint;
