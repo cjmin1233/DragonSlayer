@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum BossPatternType
 {
@@ -28,15 +29,23 @@ public class Boss : LivingEntity
         Groggy,
         Sleep
     }
-
+    
     private GroundState groundState;
     private FlyingState flyingState;
 
     private Animator _animator;
+    private NavMeshAgent _agent;
 
     [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
     private Coroutine curPatternRoutine;
+
+    public bool Grounded;
+
+    public float groundedOffset = -0.14f;
+    public float groundedRadius = 0.28f;
+    public LayerMask groundLayers;
+
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -47,9 +56,32 @@ public class Boss : LivingEntity
             data.InitPatternData(patternContainer);;
         }
 
-        StartCoroutine(BossBrain());
+        // StartCoroutine(BossBrain());
     }
 
+    private void Update()
+    {
+        GroundedCheck();
+    }
+
+    private void GroundedCheck()
+    {
+        // set sphere position, with offset
+        Vector3 spherePosition = transform.position;
+        spherePosition.y -= groundedOffset;
+        
+        Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
+            QueryTriggerInteraction.Ignore);
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red; // Sphere의 색상 설정
+        Vector3 spherePosition = transform.position;
+        spherePosition.y -= groundedOffset;
+
+        // 현재 오브젝트의 위치에 Sphere를 그림
+        Gizmos.DrawSphere(spherePosition, groundedRadius);
+    }
     private IEnumerator BossBrain()
     {
         while (true)

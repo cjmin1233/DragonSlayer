@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
@@ -13,6 +14,7 @@ public class BossPatternAction : MonoBehaviour
     public float patternEnableTime;
     public Transform target;
 
+    protected AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     protected Animator _animator;
     protected Boss _boss;
     public void Init(AnimatorOverrideController[] animatorOvParam, int priorityParam, float patternCooldownParam)
