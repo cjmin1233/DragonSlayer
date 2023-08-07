@@ -8,34 +8,40 @@ public class BossPatternData
 {
     [SerializeField] private BossPatternType patternType;
     public BossPatternScriptableObject[] originPatterns;
-    public List<BossPatternAction> Patterns;
+    public List<BossPatternAction> patterns;
     public int curPatternIndex;
 
-    public void InitPatternData()
+    public void InitPatternData(Transform patternContainer)
     {
-        Patterns = new List<BossPatternAction>();
+        patterns = new List<BossPatternAction>();
         foreach (var originPattern in originPatterns)
         {
-            var bossPatternAction = originPattern.Init();
-            Patterns.Add(bossPatternAction);
+            var bossPatternAction = originPattern.Init(patternContainer);
+            if (bossPatternAction is null)
+            {
+                Debug.LogError("Boss pattern action is null");
+                continue;
+            }
+            else patterns.Add(bossPatternAction);
         }
 
-        Debug.Log(Patterns.Count);
+        Debug.Log(patterns.Count);
     }
 
     public BossPatternAction SelectPatternAction()
     {
-        BossPatternAction patternAction = new BossPatternAction();
-        
-        foreach (var pattern in Patterns)
+        int highestPriority = -1;
+        int selectedIndex = -1;
+        for (int i = 0; i < patterns.Count; i++)
         {
-            if (Time.time >= pattern.patternEnableTime && pattern.priority > patternAction.priority)
+            if (Time.time >= patterns[i].patternEnableTime && patterns[i].priority > highestPriority)
             {
-                patternAction = pattern;
+                selectedIndex = i;
+                highestPriority = patterns[selectedIndex].priority;
             }
         }
 
-        if (patternAction.priority > 0) return patternAction;
+        if (selectedIndex >= 0) return patterns[selectedIndex];
         else return null;
     }
 }

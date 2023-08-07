@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f49510c6c909f408c32089d3bff856, type: 3}
   m_Name: Basic Attack
   m_EditorClassIdentifier: 
+  patternName: 
   animatorOv: {fileID: 22100000, guid: 4b24fed381fab904f8c94d1d7ff3a5fc, type: 2}
   priority: 2
   patternCooldown: 2
+  patternPrefab: {fileID: 6434611190930987291, guid: a51d8841ad8e9e24abd101e07b6e29e3, type: 3}

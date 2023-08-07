@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.Serialization;
 
-public class BossPatternAction
+public class BossPatternAction : MonoBehaviour
 {
     public AnimatorOverrideController animatorOv;
     public int priority;
@@ -11,15 +12,15 @@ public class BossPatternAction
     public float patternEnableTime;
     public Transform target;
 
-    public BossPatternAction()
+    public void Init(AnimatorOverrideController animatorOvParam, int priorityParam, float patternCooldownParam)
     {
-        this.priority = -1;
+        this.animatorOv = animatorOvParam;
+        this.priority = priorityParam;
+        this.patternCooldown = patternCooldownParam;
     }
 
-    public BossPatternAction(AnimatorOverrideController animatorOv, int priority, float coolDown)
+    protected virtual IEnumerator PatternRoutine()
     {
-        this.animatorOv = animatorOv;
-        this.priority = priority;
-        this.patternCooldown = coolDown;
+        yield break;
     }
 }

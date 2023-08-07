@@ -34,6 +34,7 @@ public class Boss : LIvingEntity
 
     private Animator _animator;
 
+    [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
     private Coroutine curPatternRoutine;
     private void Awake()
@@ -43,7 +44,7 @@ public class Boss : LIvingEntity
         
         foreach (var data in patternData)
         {
-            data.InitPatternData();;
+            data.InitPatternData(patternContainer);;
         }
 
         StartCoroutine(BossBrain());
