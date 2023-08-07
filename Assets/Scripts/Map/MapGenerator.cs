@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -11,9 +12,10 @@ public class MapGenerator : MonoBehaviour
 
     public List<Vector2Int> mapVec2;
     public List<Vector3> mapVec3 = new();
-    public List<int>  EpicRooms = new(); // 점프 골드 트랩 방의 개수를 넣을 에픽방 배열 선언
+    public List<int>  EpicRooms = new(3); // 점프 골드 트랩 방의 개수를 넣을 에픽방 배열 선언
     private int epicSize = 0;
     private int mapSize = 0;
+    private Vector3 bossVector;
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
     public GameObject[] BossRooms;
@@ -34,7 +36,9 @@ public class MapGenerator : MonoBehaviour
         {
             mapVec3.Add(new Vector3(v.x, 0, v.y));
         }
+
         mapSize = mapVec3.Count;
+
     }
     // 게임 오브젝트가 활성화 되어있으면 MapVector2의 OnMapAdded를 받음
     public void OnEnable()
@@ -45,14 +49,13 @@ public class MapGenerator : MonoBehaviour
     private void HandleMapAdded(List<Vector2Int> vector)
     {
         DimensionTrans(vector);
-        Rooms.Clear();
-        EpicRooms.Clear();
         RoomGenerator();
     }
 
     private void RoomGenerator()
     {
         DungeonReset();
+        FindBoss();
         Rooms.Add(Instantiate(EntryRoom, mapVec3[0], Quaternion.identity));
         mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
@@ -61,21 +64,25 @@ public class MapGenerator : MonoBehaviour
     }
     private void EpicRoomCreate()
     {
+        List<int> tempEpicRooms = new List<int>();
+        epicSize = 0;
         //에픽리스트 0: 점프방 1: 황금방 2: 함정방 개수를 스테이지별로 랜덤하게 정하기
-        for (var i = 0; i < EpicRooms.Count; i++)
+        for (var i = 0; i < 3; i++)
         {
-            EpicRooms[i] = Random.Range(0, MapVector2.instance.Stage + 1);
-            epicSize += EpicRooms[i];
+            tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
+            epicSize += tempEpicRooms[i];
         }
+        EpicRooms.AddRange(tempEpicRooms);
+        tempEpicRooms.Clear();
 
-        for(var i = 0; i < EpicRooms[0]; i++)
+        for (var i = 0; i < EpicRooms[0]; i++)
         {
             var rand = Random.Range(0, 4); //점프방 랜덤 범위
             var randMap = Random.Range(0, mapVec3.Count);
             Rooms.Add(Instantiate(JumpRooms[rand], mapVec3[randMap], Quaternion.identity));
             mapVec3.Remove(mapVec3[randMap]);
         }
-        for(var i = 0; i < EpicRooms[1]; i++)
+        for (var i = 0; i < EpicRooms[1]; i++)
         {
             var rand = Random.Range(0, 4); //황금방 랜덤 범위
             var randMap = Random.Range(0, mapVec3.Count);
@@ -92,9 +99,15 @@ public class MapGenerator : MonoBehaviour
     }
     private void NormalRoomCreate()
     {
-        for(var i = 0; i < mapVec3.Count ; i++)
+        for(var i = 0; i < mapSize - epicSize - 1; i++)
         {
             var randNor = Random.Range(0, NormalRooms.Length);
+            if(mapVec3.Count == 0)
+            {
+                Rooms.Add(Instantiate(BossRooms[0], bossVector, Quaternion.identity));
+                mapVec3.Clear();
+                return;
+            }
             var randMap = Random.Range(0, mapVec3.Count);
             Rooms.Add(Instantiate(NormalRooms[randNor], mapVec3[randMap], Quaternion.identity));
             mapVec3.Remove(mapVec3[randMap]);
@@ -126,11 +139,29 @@ public class MapGenerator : MonoBehaviour
     {
         NavMesh.RemoveAllNavMeshData();
 
+        Rooms.Clear();
+        EpicRooms.Clear();
+        bossVector = Vector3.zero;
+
         GameObject[] roomTag = GameObject.FindGameObjectsWithTag("Rooms");
 
         foreach(var room in roomTag)
         {
             Destroy(room);
         }
+    }
+    public void FindBoss()
+    {
+        var minDist = 0f;
+        foreach(Vector3 distance in mapVec3)
+        {
+            if(Vector3.Distance(mapVec3[0], distance) > minDist)
+            {
+                bossVector = distance;
+                minDist = Vector3.Distance(mapVec3[0], distance);
+            }
+        }
+
+        mapVec3.Remove(bossVector);
     }
 }

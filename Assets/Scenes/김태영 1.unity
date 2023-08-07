@@ -619,7 +619,7 @@ MonoBehaviour:
   mapVec2: []
   mapVec3: []
   EpicRooms: 000000000000000000000000
-  EntryRoom: {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
+  EntryRoom: {fileID: 4285790525297136481, guid: ef4fbd3564e2de445a2fd748d42c878d, type: 3}
   NormalRooms:
   - {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
   - {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
