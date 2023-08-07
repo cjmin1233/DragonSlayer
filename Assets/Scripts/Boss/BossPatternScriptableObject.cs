@@ -6,7 +6,7 @@ using UnityEngine;
 public class BossPatternScriptableObject : ScriptableObject
 {
     public string patternName;
-    public AnimatorOverrideController animatorOv;
+    public AnimatorOverrideController[] animatorOv;
     public int priority;
     public float patternCooldown;
     public GameObject patternPrefab;

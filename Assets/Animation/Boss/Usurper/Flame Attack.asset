@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7f49510c6c909f408c32089d3bff856, type: 3}
   m_Name: Flame Attack
   m_EditorClassIdentifier: 
-  patternName: 
-  animatorOv: {fileID: 22100000, guid: 19ec2627b823e214f86925cfce72b635, type: 2}
+  patternName: Flame Attack
+  animatorOv:
+  - {fileID: 22100000, guid: 19ec2627b823e214f86925cfce72b635, type: 2}
   priority: 1
   patternCooldown: 5
-  patternPrefab: {fileID: 5482433389691853427, guid: e49a76bffaf2e9e42b03e293733b387b, type: 3}
+  patternPrefab: {fileID: 6434611190930987291, guid: a51d8841ad8e9e24abd101e07b6e29e3, type: 3}

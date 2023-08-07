@@ -62,11 +62,9 @@ public class Boss : LIvingEntity
                     var selectedPattern = patternData[0].SelectPatternAction();
                     if (selectedPattern is not null)
                     {
-                        if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                        curPatternRoutine = StartCoroutine(PatternRoutine(selectedPattern));
                         groundState = GroundState.Attack;
-                        _animator.runtimeAnimatorController = selectedPattern.animatorOv;
-                        _animator.Play("Pattern", 0, 0f);
+                        if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+                        curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
                         print("패턴 발동");
                     }
                 }
@@ -80,10 +78,13 @@ public class Boss : LIvingEntity
         }
     }
 
-    private IEnumerator PatternRoutine(BossPatternAction patternAction)
+    // private IEnumerator PatternRoutine(BossPatternAction patternAction)
+    // {
+    //     yield break;
+    // }
+
+    public void EndPattern()
     {
-        yield return new WaitUntil(() => _animator.GetBool("Exit"));
-        patternAction.patternEnableTime = Time.time + patternAction.patternCooldown;
         _animator.SetBool("Exit", false);
         groundState = GroundState.Patrol;
     }

@@ -33494,6 +33494,7 @@ MonoBehaviour:
     originPatterns:
     - {fileID: 11400000, guid: 5f4417b92ee704848af3e8138b68874f, type: 2}
     - {fileID: 11400000, guid: aa70cbff197dc4c4aacd374b465309b6, type: 2}
+    - {fileID: 11400000, guid: 20b94f66c403e9d438c216fea5f6d97a, type: 2}
     patterns: []
     curPatternIndex: 0
   - patternType: 1
