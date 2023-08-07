@@ -11,7 +11,7 @@ public class MapGenerator : MonoBehaviour
     public static MapGenerator Instance;
 
     public List<Vector2Int> mapVec2;
-    public List<Vector3> mapVec3 = new();
+    public List<Vector3> mapVec3 = new(); // 받아온 2D 좌표를 3D 좌표로 받을 리스트
     public List<int>  EpicRooms = new(3); // 점프 골드 트랩 방의 개수를 넣을 에픽방 배열 선언
     private int epicSize = 0;
     private int mapSize = 0;
@@ -51,7 +51,6 @@ public class MapGenerator : MonoBehaviour
         DimensionTrans(vector);
         RoomGenerator();
     }
-
     private void RoomGenerator()
     {
         DungeonReset();
