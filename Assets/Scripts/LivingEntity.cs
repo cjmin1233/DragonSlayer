@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LIvingEntity : MonoBehaviour, IDamagable
+public class LivingEntity : MonoBehaviour, IDamagable
 {
     protected Rigidbody rb;
     protected float maxHp;

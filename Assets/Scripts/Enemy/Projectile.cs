@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour
         if(other.gameObject.name == "Player")
         {
             Debug.Log("�÷��̾� ����");
-            var livingEntity = other.GetComponent<LIvingEntity>();
+            var livingEntity = other.GetComponent<LivingEntity>();
             if (livingEntity != null)
             {
                 DamageMessage damageMessage = new DamageMessage(this.damager, enemyData.Damage, 3f);

@@ -10,7 +10,7 @@ public enum BossPatternType
     Sp,
     None
 }
-public class Boss : LIvingEntity
+public class Boss : LivingEntity
 {
     private bool isFlying;
     private enum FlyingState

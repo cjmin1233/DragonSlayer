@@ -16,7 +16,7 @@ public class EnemyAttackCollider : MonoBehaviour
             if (hitList.Contains(other.gameObject)) return;
             
             Debug.Log("�÷��̾� ����");
-            var livingEntity = other.GetComponent<LIvingEntity>();
+            var livingEntity = other.GetComponent<LivingEntity>();
             if (livingEntity is not null)
             {
                 DamageMessage damageMessage =

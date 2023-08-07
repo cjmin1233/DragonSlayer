@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : LIvingEntity
+public class Enemy : LivingEntity
 {
     private enum State
     {

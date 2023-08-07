@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour
         hitInstanceIdList.Add(instance);
 
         // 데미지 처리
-        var livingEntity = other.GetComponent<LIvingEntity>();
+        var livingEntity = other.GetComponent<LivingEntity>();
         if(livingEntity != null)
         {
             DamageMessage damageMessage =
