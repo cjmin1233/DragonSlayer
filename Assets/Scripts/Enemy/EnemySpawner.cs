@@ -9,7 +9,8 @@ public enum EnemyType
     Slime,
     TurtleShell,
     Beholder,
-    ChestMonster
+    ChestMonster,
+    Golem
 }
 public class EnemySpawner : MonoBehaviour
 {
@@ -27,10 +28,20 @@ public class EnemySpawner : MonoBehaviour
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
-        for (int i = 0; i < 4; i++)
+        StartCoroutine(EnemySpawn());
+    }
+
+    private IEnumerator EnemySpawn()
+    {
+        while (true)
         {
-            EnemySpawn(i);
+            for (int i = 0; i < 5; i++)
+            {
+                EnemySpawn(i);
+            }
+            yield return new WaitForSeconds(10f);
         }
+        
     }
 
     private void GrowPool(int index)

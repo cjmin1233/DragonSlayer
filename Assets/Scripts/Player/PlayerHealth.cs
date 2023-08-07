@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class PlayerHealth : LIvingEntity
+public class PlayerHealth : LivingEntity
 {
     public event Action OnDeath;
     
