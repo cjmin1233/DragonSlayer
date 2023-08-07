@@ -12,7 +12,7 @@ public class MapVector2 : MonoBehaviour
     public List<Vector2Int> candidateVector = new();
 
     public Vector2Int startPoint = new(0, 0);
-    private const int distance = 7; // 방사이의 거리 && 방 크기
+    private const int distance = 42; // 방사이의 거리 && 방 크기
     public int Stage = 1;
 
     public delegate void VectorMapAdded(List<Vector2Int> vector);
@@ -23,7 +23,15 @@ public class MapVector2 : MonoBehaviour
         instance = this;
     }
 
-    void Start()
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            GenerateDungeon();
+        }
+    }
+
+    public void GenerateDungeon()
     {
         int numOfRooms;
         mapVector.Clear();
@@ -39,15 +47,14 @@ public class MapVector2 : MonoBehaviour
 
         mapVector.Add(startPoint);
 
-        for(var i = 0; i < numOfRooms; i++)
+        for (var i = 0; i < numOfRooms; i++)
         {
             StartFinding(mapVector[i], distance);
             if (i == numOfRooms - 1)
                 OnMapAdded(mapVector);
-                
+
         }
     }
-
     // 시작지점과 distance만큼 떨어진 벡터를 가져올때 맵과 후보 리스트에 없는 값을 가져옴
     public void StartFinding(Vector2Int startVector, int distance)
     {
