@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public enum BossPatternType
 {
@@ -29,12 +31,34 @@ public class Boss : LivingEntity
         Groggy,
         Sleep
     }
+
+    private enum BossState
+    {
+        Idle,
+        Patrol,
+        Trace,
+        Action,
+        Stun,
+        GetHit,
+        Fly,
+        FlyForward,
+        Glide,
+        Dead,
+    }
     
     private GroundState groundState;
     private FlyingState flyingState;
+    private BossState curState = BossState.Idle;
+    private BossState nextState = BossState.Idle;
 
-    private Animator _animator;
     private NavMeshAgent _agent;
+    private Animator _animator;
+    private Rigidbody _rigidBody;
+
+    [SerializeField] private float turnSmoothTime = .3f;
+    private float turnSmoothVelocity;
+    private bool isStateChanged = true;
+    private Coroutine thinkRoutine;
 
     [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
@@ -62,8 +86,87 @@ public class Boss : LivingEntity
     private void Update()
     {
         GroundedCheck();
+
+        curState = nextState;
+
+        if (isStateChanged) StateEnter();
+        isStateChanged = false;
+        
+        StateUpdate();
+
+        isStateChanged = TransitionCheck();
+
+        if (isStateChanged) StateExit();
     }
 
+    private void StateEnter()
+    {
+        switch (curState)
+        {
+            case BossState.Idle:
+                _animator.Play("Idle");
+                break;
+            case BossState.Fly:
+                _animator.Play("Fly Float");
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void StateUpdate()
+    {
+        switch (curState)
+        {
+            case BossState.Idle:
+                break;
+            case BossState.Fly:
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private void StateExit()
+    {
+        switch (curState)
+        {
+            case BossState.Idle:
+                break;
+            case BossState.Fly:
+                break;
+
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    private bool TransitionCheck()
+    {
+        switch (curState)
+        {
+            case BossState.Idle:
+                if (!Grounded)
+                {
+                    nextState = BossState.Fly;
+                    return true;
+                }
+                break;
+            case BossState.Fly:
+                if (Grounded)
+                {
+                    nextState = BossState.Idle;
+                    return true;
+                }
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return false;
+    }
     private void GroundedCheck()
     {
         // set sphere position, with offset
@@ -82,7 +185,7 @@ public class Boss : LivingEntity
         // 현재 오브젝트의 위치에 Sphere를 그림
         Gizmos.DrawSphere(spherePosition, groundedRadius);
     }
-    private IEnumerator BossBrain()
+    private IEnumerator BossThink()
     {
         while (true)
         {
