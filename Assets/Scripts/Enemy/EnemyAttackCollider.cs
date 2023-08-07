@@ -19,7 +19,7 @@ public class EnemyAttackCollider : MonoBehaviour
             if (livingEntity is not null)
             {
                 DamageMessage damageMessage =
-                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, 1f, true);
+                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, 0.5f);
 
                 livingEntity.TakeDamage(damageMessage);
                 hitList.Add(other.gameObject);
