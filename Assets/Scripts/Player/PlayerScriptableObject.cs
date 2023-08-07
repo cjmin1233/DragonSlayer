@@ -11,4 +11,6 @@ public class PlayerScriptableObject : ScriptableObject
     public float defence;
     public float guardDuration;
     public float guardTimeOut;
+    public float parryingInvincibleDuration;
+    public float parryingAngle;
 }

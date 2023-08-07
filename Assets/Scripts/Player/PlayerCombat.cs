@@ -1,28 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // 콤보가 종료되는 경우는 1. 콤보 도중 구르기 등의 캔슬 액션 사용
 // 2. 콤보 시간 내에 입력하지 않아 자연 종료
 
-[RequireComponent(typeof(PlayerInputControl), typeof(PlayerMove))]
+[RequireComponent(typeof(PlayerInputControl)
+    , typeof(PlayerMove)
+    , typeof(Rigidbody))]
 public class PlayerCombat : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     
     [SerializeField] private PlayerComboType curComboType;
+
     public bool IsComboActive
     {
-        get
-        {
-            return curComboType != PlayerComboType.None;
-        }
+        get { return curComboType != PlayerComboType.None; }
     }
-
-    //private ComboData curComboData;
-    private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     public bool IsAttacking { get; private set; }
+    public bool IsGuarding { get; private set; }
 
+    private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     private Animator _animator;
     private PlayerInputControl _playerInput;
     private PlayerMove _playerMove;
@@ -34,16 +34,13 @@ public class PlayerCombat : MonoBehaviour
     private float rotationSmoothVelocity;
 
     private Vector3 assaultVelocity;
-    // private AttackSo curAttackSo;
     
     [SerializeField] private ComboData[] playerComboData;
     // weapon select
     private WeaponType weaponType;
     [SerializeField] private Transform weaponParent;
-    [SerializeField] private List<WeaponScriptableObject> weapons;
-
-    // [SerializeField] private WeaponScriptableObject activeWeaponSo;
-    [SerializeField] private Weapon activeWeapon;
+    [SerializeField] private List<WeaponScriptableObject> weaponScriptableObjects;
+    private Weapon activeWeapon;
 
     private int _animIDAttackSpeed;
     private int _animIDIsGuarding;
@@ -54,11 +51,12 @@ public class PlayerCombat : MonoBehaviour
     private Quaternion attackTargetRotation = Quaternion.identity;
     
     // Guard
-    public bool IsGuarding { get; private set; }
     private Coroutine guardProcess;
     private float guardDuration;
     private float guardTimeOut;
     private float guardTimeOutDelta;
+    private float parryingInvincibleDuration;
+    private float parryingAngle;
     [SerializeField] private FxAnimator guardFx;
     private void Awake()
     {
@@ -98,21 +96,22 @@ public class PlayerCombat : MonoBehaviour
 
     public void CombatInit(PlayerScriptableObject playerSo)
     {
-        attackSpeed = playerScriptableObject.attackSpeed;
+        attackSpeed = playerSo.attackSpeed;
         guardDuration = playerSo.guardDuration;
         guardTimeOut = playerSo.guardTimeOut;
+        parryingInvincibleDuration = playerSo.parryingInvincibleDuration;
+        parryingAngle = playerSo.parryingAngle;
     }
 
     private void Start()
     {
         // weapon select
-        WeaponScriptableObject weaponSo = weapons.Find(weapon => weapon.type == weaponType);
+        WeaponScriptableObject weaponSo = weaponScriptableObjects.Find(weapon => weapon.type == weaponType);
         if (weaponSo is null)
         {
             Debug.LogError($"No WeaponScriptableObject found for WeaponType: {weaponType}");
             return;
         }
-        // activeWeaponSo = weaponSo;
         activeWeapon = weaponSo.Spawn(weaponParent);
     }
 
@@ -124,81 +123,15 @@ public class PlayerCombat : MonoBehaviour
 
         if (guardTimeOutDelta >= 0f) guardTimeOutDelta -= Time.deltaTime;
     }
-
-    private void Attempt2Guard()
-    {
-        // 가드 시작 > n초동안 가드 유지(코루틴) 1. > 노피격시 종료 
-        //                                    2. > 중간에 피격 > 패링 함수 호출(이전 코루틴 종료, 무적 시간 코루틴 시작) > 애니메이션 종료
-        if (!_playerMove.Grounded || _playerMove.IsRolling || IsGuarding) return;
-        if (guardTimeOutDelta >= 0f) return;
-        
-        TerminateCombo();
-        
-        if (guardProcess is not null) StopCoroutine(guardProcess);
-        guardProcess = StartCoroutine(Guarding());
-    }
-    
-    private IEnumerator Guarding()
-    {
-        float timer = guardDuration;
-        IsGuarding = true;
-        _rigidbody.velocity = Vector3.zero;
-        _animator.SetBool(_animIDIsGuarding, true);
-        
-        if(guardFx is not null)guardFx.EnableFx();
-
-        // 가드시작시 방향전환
-        Vector3 cameraForward = _mainCamera.transform.forward;
-        cameraForward.y = 0f;
-        attackTargetRotation = Quaternion.LookRotation(cameraForward);
-        
-        TerminateCombo();
-        
-        while (IsGuarding)
-        {
-            print("guard process continue...");
-            timer -= Time.deltaTime;
-            // 가드 시간 종료 또는 가드 해제시
-            if (timer <= 0f || !_playerInput.Guard) EndGuard();
-
-            yield return null;
-        }
-    }
-
-    public void Parrying()
-    {
-        guardTimeOutDelta = guardTimeOut;        
-        if(guardFx is not null)guardFx.DisableFx();
-
-        if (guardProcess is not null) StopCoroutine(guardProcess);
-        _animator.SetBool("Parry", true);
-        print("Parried!!");
-        // 무적 코루틴 시작
-    }
-
-    private void EndParrying()
-    {
-        IsGuarding = false;
-        _animator.SetBool(_animIDIsGuarding, false);
-        _animator.SetBool("Parry", false);
-        print("End parrying");
-    }
-    private void EndGuard()
-    {
-        if (!IsGuarding) return;
-
-        guardTimeOutDelta = guardTimeOut;
-        if(guardFx is not null)guardFx.DisableFx();
-        
-        IsGuarding = false;
-        _animator.SetBool(_animIDIsGuarding, false);
-    }
-
     private void FixedUpdate()
     {
         Rotate2Target();
         Assault();
     }
+
+    #region Combo Attack
+
+    
 
     private void Attack(PlayerComboType comboType)
     {
@@ -206,7 +139,7 @@ public class PlayerCombat : MonoBehaviour
         if (!_playerMove.Grounded || _playerMove.IsRolling || IsAttacking || IsGuarding) return;
 
         ComboData comboData = playerComboData[(int)comboType];
-        if (comboData.comboCounter < comboData.combos.Count
+        if (comboData.comboCounter < comboData.Combos.Count
             && Time.time > comboData.nextComboStartTime)
         {
             // 다른 콤보 입력
@@ -215,10 +148,11 @@ public class PlayerCombat : MonoBehaviour
                 EndCombo();
             }
             curComboType = comboType;
-            ComboAnimation comboAnimation = comboData.combos[comboData.comboCounter];
+            ComboAnimation comboAnimation = comboData.Combos[comboData.comboCounter];
+            activeWeapon.WeaponSetup(comboAnimation);
 
-            comboAnimation.effectIndex = 0;
-            _animator.runtimeAnimatorController = comboAnimation.animatorOv;
+            comboAnimation.EffectIndex = 0;
+            _animator.runtimeAnimatorController = comboAnimation.AnimatorOv;
             _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
             IsAttacking = true;
@@ -229,7 +163,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
-        if (!comboData.combos[comboData.comboCounter].loop) comboData.comboCounter++;
+        if (!comboData.Combos[comboData.comboCounter].Loop) comboData.comboCounter++;
         
         IsAttacking = false;
     }
@@ -238,9 +172,9 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!IsComboActive) return;
         ComboData comboData = playerComboData[(int)curComboType];
-        if (comboData.comboCounter >= comboData.combos.Count
-            && comboData.combos[comboData.comboCounter - 1].nextComboInterval > 0f)
-            comboData.nextComboStartTime = Time.time + comboData.combos[comboData.comboCounter - 1].nextComboInterval;
+        if (comboData.comboCounter >= comboData.Combos.Count
+            && comboData.Combos[comboData.comboCounter - 1].NextComboInterval > 0f)
+            comboData.nextComboStartTime = Time.time + comboData.Combos[comboData.comboCounter - 1].NextComboInterval;
 
         comboData.comboCounter = 0;
         IsAttacking = false;
@@ -250,12 +184,14 @@ public class PlayerCombat : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
     }
 
-    public void TerminateCombo()
+    public void TerminateCombat()
     {
-        if (!IsComboActive) return;
-        ComboData comboData = playerComboData[(int)curComboType];
+        if (IsComboActive)
+        {
+            ComboData comboData = playerComboData[(int)curComboType];
+            comboData.comboCounter = 0;
+        }
         
-        comboData.comboCounter = 0;
         IsAttacking = false;
         curComboType = PlayerComboType.None;
         DisableWeapon();
@@ -264,6 +200,7 @@ public class PlayerCombat : MonoBehaviour
         
         _rigidbody.velocity = Vector3.zero;
     }
+    #endregion
     private void Rotate2Target()
     {
         if (!IsAttacking && !IsGuarding) return;
@@ -288,11 +225,10 @@ public class PlayerCombat : MonoBehaviour
         float curAnimNormTime = GetCurStateInfo(0).normalizedTime;
         
         ComboData comboData = playerComboData[(int)curComboType];
-        assaultVelocity = comboData.combos[comboData.comboCounter].assaultSpeedCurve.Evaluate(curAnimNormTime) 
-                          * attackSpeed * comboData.combos[comboData.comboCounter].assaultDirection;
+        assaultVelocity = comboData.Combos[comboData.comboCounter].AssaultSpeedCurve.Evaluate(curAnimNormTime) 
+                          * attackSpeed * comboData.Combos[comboData.comboCounter].AssaultDirection;
         _rigidbody.velocity = transform.TransformDirection(assaultVelocity);
     }
-
     private void EnableWeapon()
     {
         if (activeWeapon is not null) activeWeapon.EnableWeapon();
@@ -307,7 +243,89 @@ public class PlayerCombat : MonoBehaviour
         if(IsComboActive)
         {
             ComboData comboData = playerComboData[(int)curComboType];
-            comboData.combos[comboData.comboCounter].EnableParticle(attackSpeed);
+            comboData.Combos[comboData.comboCounter].EnableParticle(attackSpeed);
         }
     }
+
+    #region Guard
+    private void Attempt2Guard()
+    {
+        // 가드 시작 > n초동안 가드 유지(코루틴) 1. > 노피격시 종료 
+        //                                    2. > 중간에 피격 > 패링 함수 호출(이전 코루틴 종료, 무적 시간 코루틴 시작) > 애니메이션 종료
+        if (!_playerMove.Grounded || _playerMove.IsRolling || IsGuarding) return;
+        if (guardTimeOutDelta >= 0f) return;
+        
+        TerminateCombat();
+        
+        if (guardProcess is not null) StopCoroutine(guardProcess);
+        guardProcess = StartCoroutine(Guarding());
+    }
+    
+    private IEnumerator Guarding()
+    {
+        float timer = guardDuration;
+        IsGuarding = true;
+        _rigidbody.velocity = Vector3.zero;
+        _animator.SetBool(_animIDIsGuarding, true);
+        
+        if(guardFx is not null)guardFx.EnableFx();
+
+        // 가드시작시 방향전환
+        Vector3 cameraForward = _mainCamera.transform.forward;
+        cameraForward.y = 0f;
+        attackTargetRotation = Quaternion.LookRotation(cameraForward);
+        
+        // TerminateCombat();
+        
+        while (IsGuarding)
+        {
+            timer -= Time.deltaTime;
+            // 가드 시간 종료 또는 가드 해제시
+            if (timer <= 0f || !_playerInput.Guard) EndGuard();
+
+            yield return null;
+        }
+    }
+
+    public float CheckParrying(GameObject damager)
+    {
+        Vector3 parryingDirection = damager.transform.position - transform.position;
+        float parryingAngle = MyUtility.AngleBetweenVectors(transform.forward, parryingDirection);
+
+        // 패링 각도(범위)로 판단
+        if (parryingAngle <= this.parryingAngle)
+        {
+            // 패링 성공, 가드 해제
+            guardTimeOutDelta = guardTimeOut;
+            if (guardFx is not null) guardFx.DisableFx();
+            if (guardProcess is not null) StopCoroutine(guardProcess);
+            
+            _animator.SetBool("Parry", true);
+            // 무적 코루틴 시작
+            // GetComponent<PlayerHealth>().MakeInvincible(parryingInvincibleDuration);
+            
+            // 패링 성공시 무적 시간값 리턴
+            return parryingInvincibleDuration;
+        }
+        
+        // 패링 실패시 -값 리턴
+        return -1f;
+
+    }
+    private void EndParrying()
+    {
+        IsGuarding = false;
+        _animator.SetBool(_animIDIsGuarding, false);
+        _animator.SetBool("Parry", false);
+    }
+    private void EndGuard()
+    {
+        guardTimeOutDelta = guardTimeOut;
+        if (guardFx is not null) guardFx.DisableFx();
+        
+        IsGuarding = false;
+        _animator.SetBool(_animIDIsGuarding, false);
+    }
+    #endregion
+
 }
