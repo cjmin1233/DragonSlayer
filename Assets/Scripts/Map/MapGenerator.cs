@@ -62,6 +62,7 @@ public class MapGenerator : MonoBehaviour
         EpicRoomCreate();
         NormalRoomCreate();
         NavMeshBake(Rooms);
+        EnemySpawner.Instance.SelectEnemySpawner();
     }
     private void EpicRoomCreate()
     {

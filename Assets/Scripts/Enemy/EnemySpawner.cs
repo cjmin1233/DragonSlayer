@@ -15,6 +15,8 @@ public enum EnemyType
 }
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance {  get; private set; }
+
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
 
@@ -25,16 +27,17 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if(!Instance) Instance = this;
+        else Destroy(Instance);
+
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
         mapRecord = GameObject.Find("MapGenerator").GetComponent<MapGenerator>().mapRecord;
         player = GameObject.FindGameObjectWithTag("Player");
-
-        SelectEnemySpawner();
     }
 
-    public Vector3 FindPlayerPlace()
+    private Vector3 FindPlayerPlace()
     {
         Vector3 nearestMap = Vector3.zero;
         float closestDistance = 1000;

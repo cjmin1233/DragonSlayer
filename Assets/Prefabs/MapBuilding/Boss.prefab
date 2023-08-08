@@ -252,7 +252,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5270682322320062074}
-  - component: {fileID: 200043255931789961}
   - component: {fileID: 7328237608618564560}
   m_Layer: 0
   m_Name: Boss
@@ -281,24 +280,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &200043255931789961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5230944655015988282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 078c480884a44c842a3a2a83359aa863, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 4872952184048641977, guid: 25d1fe06af1e4c14e8e3378fa2519c6a, type: 3}
-  - {fileID: 8644586381533923311, guid: c27b51d8ae45e3141a05adf56fbb1d08, type: 3}
-  - {fileID: 704936904938049669, guid: 753ea4a0ad047294eb4349403883e94e, type: 3}
-  - {fileID: 5465432202388800275, guid: f21d7e7b2cd4eb149adfea8da7ba87bf, type: 3}
-  - {fileID: 6586619270758151399, guid: 9a3ffa31f011ef14bbf89b3b92e2c51d, type: 3}
 --- !u!114 &7328237608618564560
 MonoBehaviour:
   m_ObjectHideFlags: 0
