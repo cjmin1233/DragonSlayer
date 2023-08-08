@@ -16,6 +16,6 @@ MonoBehaviour:
   enemyHp: 20
   damage: 5
   enemyMoveSpeed: 1
-  enemyAttackRange: 4
-  attackDuration: 2.667
+  enemyAttackRange: 3
+  attackDuration: 2
   getHitDuration: 1.333
