@@ -1,21 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    public FadeUI fadeUI;
+
     public GameObject recordPanel;
     public GameObject optionPanel;
     public GameObject quitPanel;
 
     public AudioMixer mixer;
 
-
     public void OnStartBtn()
     {
-        SceneManager.LoadScene("Main"); //게임씬으로 전환
+        Debug.Log("버튼클릭");
+        fadeUI.gameObject.SetActive(true);
+        fadeUI.StartFadeOut();
+        //SceneManager.LoadScene("Main");
     }
 
     public void OnRecordBtn() 
@@ -67,5 +72,4 @@ public class TitleManager : MonoBehaviour
     {
         quitPanel.transform.localPosition += new Vector3(1400, -1000, 0);
     }
-
 }
