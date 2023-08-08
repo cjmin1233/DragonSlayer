@@ -66,9 +66,12 @@ public class Boss : LivingEntity
     private bool isDead;
     
     // 보스 움직임
-    private Coroutine pathFinding;
+    public LayerMask whatIsTarget;
+    
+    private Coroutine updatePath;
     private Transform targetTransform;
     [SerializeField, Range(1f, 10f)] private float patrolRadius;
+    [SerializeField] private float findTargetRadius;
     private Vector3 agentPosition;
     private void Awake()
     {
@@ -85,7 +88,7 @@ public class Boss : LivingEntity
         currentHp = maxHp;
         isDead = false;
 
-        pathFinding = StartCoroutine(PathFinding());
+        updatePath = StartCoroutine(UpdatePath());
     }
 
     private void Update()
@@ -119,10 +122,20 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 targetTransform = null;
+                _agent.isStopped = true;
                 _animator.Play("Idle");
                 break;
             case BossState.Patrol:
+                _agent.isStopped = false;
                 _animator.Play("Walk");
+                
+                _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
+                break;
+            case BossState.Trace:
+                _agent.isStopped = false;
+                _animator.Play("Walk");
+                
+                _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.TakeOff:
                 _animator.Play("Take Off");
@@ -148,6 +161,8 @@ public class Boss : LivingEntity
             case BossState.Idle:
                 break;
             case BossState.Patrol:
+                break;
+            case BossState.Trace:
                 break;
             case BossState.TakeOff:
                 if (GetCurStateInfo(0).IsTag("TakeOff"))
@@ -186,8 +201,9 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 break;
-            
             case BossState.Patrol:
+                break;
+            case BossState.Trace:
                 break;
             case BossState.TakeOff:
                 break;
@@ -225,23 +241,31 @@ public class Boss : LivingEntity
                     && GetCurStateInfo(0).normalizedTime >= 3f)
                 {
                     // 범위 내 타겟 있는지 확인
+                    var colliders = Physics.OverlapSphere(agentPosition, findTargetRadius, whatIsTarget);
+                    
+                    foreach (var collider in colliders)
+                    {
+                        var livingEntity = collider.GetComponent<LivingEntity>();
+
+                        if (livingEntity is not null)
+                        {
+                            targetTransform = livingEntity.transform;
+                            break;
+                        }
+                    }
                     print("잠깐 쉬고 추적 대상 탐색");
 
                     if (targetTransform is not null)
                     {
                         // 범위 내 타겟 확인
                         print("타겟 확인. trace 시작");
-                        // nextState = BossState.Trace;
-                        // return true;
-                        break;
+                        nextState = BossState.Trace;
+                        return true;
                     }
                     else
                     {
                         print("타겟 없음. patrol 시작");
                         nextState = BossState.Patrol;
-                        Vector3 dest = MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius);
-                        _agent.SetDestination(dest);
-
                         return true;
                     }
                 }
@@ -252,6 +276,24 @@ public class Boss : LivingEntity
                     // patrol 중 destination 도착
                     print("patrol destination 도착. Idle 상태 돌입");
                     nextState = BossState.Idle;
+                    return true;
+                }
+                break;
+            case BossState.Trace:
+                // trace 중 타겟이 사라지면 idle 상태 돌입
+                if (targetTransform is null)
+                {
+                    nextState = BossState.Idle;
+                    return true;
+                }
+                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)
+                {
+                    // patrol 중 destination 도착. 패턴 시작
+                    print("trace destination 도착. 테스트로 이륙하기");
+                    targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
+                    print("target offset is : " + targetFlyOffset);
+                    
+                    nextState = BossState.TakeOff;
                     return true;
                 }
                 break;
@@ -360,7 +402,7 @@ public class Boss : LivingEntity
         Gizmos.DrawSphere(spherePosition, groundedRadius);
     }
 
-    private IEnumerator PathFinding()
+    private IEnumerator UpdatePath()
     {
         while (!isDead)
         {
@@ -371,11 +413,11 @@ public class Boss : LivingEntity
                 case BossState.Idle:
                     break;
                 case BossState.Patrol:
-                    if (targetTransform is not null) targetTransform = null;
-                    if (Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance)
+                    break;
+                case BossState.Trace:
+                    if (targetTransform is not null)
                     {
-                        Vector3 dest = MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius);
-                        _agent.SetDestination(dest);
+                        _agent.SetDestination(targetTransform.position);
                     }
                     break;
             }
