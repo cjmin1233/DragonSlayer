@@ -21,8 +21,8 @@ public class VideoOption : MonoBehaviour
     {
         for(int i = 0; i < Screen.resolutions.Length; i++)
         {
-            if (Screen.resolutions[i].refreshRate == 60)
-                resolutions.Add(Screen.resolutions[i]);
+            // if (Screen.resolutions[i].refreshRate == 60)
+            resolutions.Add(Screen.resolutions[i]);
         }
 
         resolutionDropdown.options.Clear();
@@ -31,7 +31,7 @@ public class VideoOption : MonoBehaviour
         foreach (Resolution item in resolutions)
         {
             TMP_Dropdown.OptionData option = new TMP_Dropdown.OptionData();
-            option.text = item.width + " x " + item.height + " " + item.refreshRateRatio + "hz";
+            option.text = item.width + " x " + item.height;
             resolutionDropdown.options.Add(option);
 
             if (item.width == Screen.width && item.height == Screen.height)
