@@ -40,9 +40,11 @@ public class Boss : LivingEntity
         Action,
         Stun,
         GetHit,
+        TakeOff,
         Fly,
         FlyForward,
         Glide,
+        Land,
         Dead,
     }
     
@@ -69,6 +71,8 @@ public class Boss : LivingEntity
     public float groundedOffset = -0.14f;
     public float groundedRadius = 0.28f;
     public LayerMask groundLayers;
+
+    public bool Fly;
 
     private void Awake()
     {
@@ -106,8 +110,14 @@ public class Boss : LivingEntity
             case BossState.Idle:
                 _animator.Play("Idle");
                 break;
+            case BossState.TakeOff:
+                _animator.Play("Take Off");
+                break;
             case BossState.Fly:
                 _animator.Play("Fly Float");
+                break;
+            case BossState.Land:
+                _animator.Play("Land");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -120,7 +130,11 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 break;
+            case BossState.TakeOff:
+                break;
             case BossState.Fly:
+                break;
+            case BossState.Land:
                 break;
 
             default:
@@ -134,7 +148,11 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 break;
+            case BossState.TakeOff:
+                break;
             case BossState.Fly:
+                break;
+            case BossState.Land:
                 break;
 
             default:
@@ -147,20 +165,37 @@ public class Boss : LivingEntity
         switch (curState)
         {
             case BossState.Idle:
-                if (!Grounded)
+                if (Fly)
+                {
+                    nextState = BossState.TakeOff;
+                    return true;
+                }
+                break;
+            case BossState.TakeOff:
+                if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("TakeOff")
+                    && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
                 {
                     nextState = BossState.Fly;
                     return true;
                 }
                 break;
             case BossState.Fly:
-                if (Grounded)
+                if (!Fly)
                 {
-                    nextState = BossState.Idle;
+                    nextState = BossState.Land;
                     return true;
                 }
 
                 break;
+            case BossState.Land:
+                if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Land")
+                    && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                {
+                    nextState = BossState.Idle;
+                    return true;
+                }
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -176,14 +211,10 @@ public class Boss : LivingEntity
         Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
     }
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red; // Sphere의 색상 설정
-        Vector3 spherePosition = transform.position;
-        spherePosition.y -= groundedOffset;
 
-        // 현재 오브젝트의 위치에 Sphere를 그림
-        Gizmos.DrawSphere(spherePosition, groundedRadius);
+    private void TakeOff()
+    {
+        
     }
     private IEnumerator BossThink()
     {
@@ -213,11 +244,6 @@ public class Boss : LivingEntity
         }
     }
 
-    // private IEnumerator PatternRoutine(BossPatternAction patternAction)
-    // {
-    //     yield break;
-    // }
-
     public void EndPattern()
     {
         _animator.SetBool("Exit", false);
@@ -226,5 +252,14 @@ public class Boss : LivingEntity
     public override void TakeDamage(DamageMessage damageMessage)
     {
         return;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red; // Sphere의 색상 설정
+        Vector3 spherePosition = transform.position;
+        spherePosition.y -= groundedOffset;
+
+        // 현재 오브젝트의 위치에 Sphere를 그림
+        Gizmos.DrawSphere(spherePosition, groundedRadius);
     }
 }
