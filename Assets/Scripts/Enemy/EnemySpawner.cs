@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.AI.Navigation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,39 +15,55 @@ public enum EnemyType
 }
 public class EnemySpawner : MonoBehaviour
 {
-    public static EnemySpawner Instance { get; private set; }
-
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
+
+    private List<Vector3> mapRecord = new();
+
+    private GameObject player;
 
     // Start is called before the first frame update
     void Awake()
     {
-        if (!Instance) Instance = this;
-        else if (Instance != this) Destroy(this);
-
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
-        StartCoroutine(EnemySpawn());
+        mapRecord = GameObject.Find("MapGenerator").GetComponent<MapGenerator>().mapRecord;
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (FindPlayerPlace() == transform.position) StartCoroutine(EnemySpawn(transform.position));
     }
 
-    private IEnumerator EnemySpawn()
+    private Vector3 FindPlayerPlace()
+    {
+        Vector3 nearestMap = Vector3.zero;
+        float closestDistance = 1000;
+        foreach (Vector3 map in mapRecord)
+        {
+            if (Vector3.Distance(player.transform.position, map) < closestDistance)
+            {
+                closestDistance = Vector3.Distance(player.transform.position, map);
+                nearestMap = map;
+            }
+        }
+        return nearestMap;
+    }
+
+    private IEnumerator EnemySpawn(Vector3 map)
     {
         while (true)
         {
             for (int i = 0; i < 5; i++)
             {
-                EnemySpawn(i);
+                EnemySpawn(map, i);
             }
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(5f);
         }
-        
     }
 
     private void GrowPool(int index)
     {
-        for(int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++)
         {
             var instanceToAdd = Instantiate(enemies[index]);
             instanceToAdd.transform.SetParent(transform);
@@ -62,14 +79,14 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject GetFromPool(int index)
     {
-        if(enemyQueue.Count(index) <= 0) GrowPool(index);
+        if (enemyQueue.Count(index) <= 0) GrowPool(index);
         return enemyQueue.Dequeue(index);
     }
 
-    private void EnemySpawn(int index)
+    private void EnemySpawn(Vector3 map, int index)
     {
         var instance = GetFromPool(index);
-        instance.transform.position = new Vector3(Random.Range(-9, 10), 0f, Random.Range(-9, 10));
+        instance.transform.position = new Vector3(map.x + Random.Range(-9, 10), 0f, map.z + Random.Range(-9, 10));
         instance.SetActive(true);
     }
 }
