@@ -31,10 +31,10 @@ public class EnemySpawner : MonoBehaviour
         mapRecord = GameObject.Find("MapGenerator").GetComponent<MapGenerator>().mapRecord;
         player = GameObject.FindGameObjectWithTag("Player");
 
-        if (FindPlayerPlace() == transform.position) StartCoroutine(EnemySpawn(transform.position));
+        SelectEnemySpawner(FindPlayerPlace());
     }
 
-    private Vector3 FindPlayerPlace()
+    public Vector3 FindPlayerPlace()
     {
         Vector3 nearestMap = Vector3.zero;
         float closestDistance = 1000;
@@ -49,15 +49,11 @@ public class EnemySpawner : MonoBehaviour
         return nearestMap;
     }
 
-    private IEnumerator EnemySpawn(Vector3 map)
+    public void SelectEnemySpawner(Vector3 map)
     {
-        while (true)
+        if(map == transform.position)
         {
-            for (int i = 0; i < 5; i++)
-            {
-                EnemySpawn(map, i);
-            }
-            yield return new WaitForSeconds(5f);
+            for (int i = 0; i < 5; i++) EnemySpawn(map, i);
         }
     }
 
