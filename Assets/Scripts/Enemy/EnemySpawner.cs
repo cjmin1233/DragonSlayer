@@ -34,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
         SelectEnemySpawner();
     }
 
-    private Vector3 FindPlayerPlace()
+    public Vector3 FindPlayerPlace()
     {
         Vector3 nearestMap = Vector3.zero;
         float closestDistance = 1000;
