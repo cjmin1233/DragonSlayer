@@ -1,21 +1,21 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using UnityEngine;
 
-//public class Room : MonoBehaviour
-//{
-//    public int num;
-//    public Transform[] spawnPoints;
-//    public GameObject[] roomPrefebs;
+public class Room : MonoBehaviour
+{
+    GameObject[] door = new GameObject[4];
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
 
-//    private void Start()
-//    {
-//        MapGenerator map = FindObjectOfType<MapGenerator>();
-//        if(map != null )
-//        {
-//            map.GenerateMap();
-//        }
-//        Debug.Log("Room");
-//    }
-//}
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}

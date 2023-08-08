@@ -6,80 +6,93 @@ using Random = UnityEngine.Random;
 
 public class MapVector2 : MonoBehaviour
 {
+    public static MapVector2 instance;
+
     public List<Vector2Int> mapVector = new();
     public List<Vector2Int> candidateVector = new();
-    public List<Vector2Int> temp = new();
 
     public Vector2Int startPoint = new(0, 0);
-    public int numOfRooms = 5;
+    private const int distance = 42; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ && ï¿½ï¿½ Å©ï¿½ï¿½
     public int Stage = 1;
 
-    void Start()
+    public delegate void VectorMapAdded(List<Vector2Int> vector);
+    public static event VectorMapAdded OnMapAdded;
+
+    private void Awake()
     {
+        instance = this;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.H))
+        {
+            GenerateDungeon();
+        }
+    }
+
+    public void GenerateDungeon()
+    {
+        int numOfRooms;
         mapVector.Clear();
         candidateVector.Clear();
 
-        if(Stage == 1)
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 8, 11, 16 ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+        if (Stage == 1)
             numOfRooms = 7;
         else if (Stage == 2)
             numOfRooms = 10;
-        else if (Stage == 3)
+        else
             numOfRooms = 15;
-        
+
         mapVector.Add(startPoint);
 
-        StartFindingVector(mapVector[mapVector.Count-1]);
-    }
-
-    public void StartFindingVector(Vector2Int startVector)
-    {
-        if(mapVector.Count < numOfRooms) 
+        for (var i = 0; i < numOfRooms; i++)
         {
-            Temping(temp, startVector, candidateVector);
-            Selecting(mapVector, candidateVector);
-            StartFindingVector(mapVector[mapVector.Count - 1]);
+            StartFinding(mapVector[i], distance);
+            if (i == numOfRooms - 1)
+                OnMapAdded(mapVector);
+
         }
     }
-
-    //»óÇÏÁÂ¿ì ÁÂÇ¥¸¦ ³ÖÀ½ Áßº¹µÇÁö ¾Ê´Â °ªÀ» ÈÄº¸ÀÚº¤ÅÍ¿¡ ³ÖÀ½
-    public void Temping(List<Vector2Int> listVector, Vector2Int vecTemp, List<Vector2Int> candiVector)
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ distanceï¿½ï¿½Å­ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ ï¿½Ê°ï¿½ ï¿½Äºï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    public void StartFinding(Vector2Int startVector, int distance)
     {
-        listVector.Clear();
-        listVector.Add(new Vector2Int(vecTemp.x+5, vecTemp.y));
-        listVector.Add(new Vector2Int(vecTemp.x, vecTemp.y+5));
-        listVector.Add(new Vector2Int(vecTemp.x-5, vecTemp.y));
-        listVector.Add(new Vector2Int(vecTemp.x, vecTemp.y-5));
+        List<Vector2Int> temp = new();
+        
+        temp.Add(new Vector2Int(startVector.x + distance, startVector.y));
+        temp.Add(new Vector2Int(startVector.x + -distance, startVector.y));
+        temp.Add(new Vector2Int(startVector.x , startVector.y + distance));
+        temp.Add(new Vector2Int(startVector.x , startVector.y - distance));
 
-        List<Vector2Int> templist = new(candiVector);
-
-        foreach (Vector2Int vec2 in listVector.Except(templist))
+        foreach(var i in temp)
         {
-            if (vec2.Equals(new Vector2Int(0, 0)))
-                listVector.Remove(vec2);
-            else
-                candiVector.Add(vec2);
+            if (!candidateVector.Contains(i) && !mapVector.Contains(i))
+            {
+                candidateVector.Add(i);
+            }
         }
+        Selecting(); 
     }
-
-    // ÈÄº¸ÀÚ º¤ÅÍÁßÀÇ ÇÏ³ª¸¦ °ñ¶ó¼­ »Ì°í ¸Ê º¤ÅÍ¿¡ µé¾î°¡ÀÖ´ÂÁö ºñ±³ÈÄ Ãß°¡ÇÏ°Å³ª »èÁ¦ÇÏ°í ´Ù½Ã»ÌÀ½
-    public void Selecting(List<Vector2Int> mapVector, List<Vector2Int> candiVector)
+    // ï¿½Äºï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ß°ï¿½
+    public void Selecting()
     {
-        var rand = Random.Range(0, candiVector.Count-1);
-        var randVector = candiVector[rand];
+        var rand = Random.Range(0, candidateVector.Count);
+        var randVector = candidateVector[rand];
 
-        bool check = candiVector.Any(randVector => mapVector.Contains(randVector));
+        bool check = candidateVector.Any(randVector => mapVector.Contains(randVector));
 
-        //Áßº¹°ªÀÌ ¾øÀ¸¸é mapVector¿¡ Ãß°¡ÈÄ ÈÄº¸ÀÚ¿¡¼­ Á¦°ÅÇÔ
+        //ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ mapVectorï¿½ï¿½ ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if (!check)
         {
             mapVector.Add(randVector);
-            candiVector.Remove(randVector);
+            candidateVector.Remove(randVector);
         }
-        //Áßº¹°ªÀ» »Ì¾ÒÀ» °æ¿ì ÈÄº¸ÀÚ¿¡¼­ »èÁ¦ÈÄ ´Ù½Ã »ÌÀ½
+        //ï¿½ßºï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Äºï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ù½ï¿½ ï¿½ï¿½ï¿½ï¿½
         else
         {
-            candiVector.Remove(randVector);
-            Selecting(mapVector, candiVector);
+            candidateVector.Remove(randVector);
+            Selecting();
         }
 
     }
