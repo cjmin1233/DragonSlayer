@@ -12,6 +12,7 @@ public class MapGenerator : MonoBehaviour
 
     public List<Vector2Int> mapVec2;
     public List<Vector3> mapVec3 = new(); // �޾ƿ� 2D ��ǥ�� 3D ��ǥ�� ���� ����Ʈ
+    public List<Vector3> mapRecord = new();
     public List<int>  EpicRooms = new(3); // ���� ��� Ʈ�� ���� ������ ���� ���ȹ� �迭 ����
     private int epicSize = 0;
     private int mapSize = 0;
@@ -35,6 +36,7 @@ public class MapGenerator : MonoBehaviour
         foreach (Vector2Int v in vector2d)
         {
             mapVec3.Add(new Vector3(v.x, 0, v.y));
+            mapRecord.Add(new Vector3(v.x, 0, v.y));
         }
 
         mapSize = mapVec3.Count;

@@ -28,6 +28,7 @@ public class Enemy : LivingEntity
     private GameObject player;
     protected Animator animator;
     protected EnemyEvent enemyEvent;
+    private EnemySpawner enemySpawner;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
@@ -44,6 +45,7 @@ public class Enemy : LivingEntity
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         enemyEvent = GetComponent<EnemyEvent>();
+        enemySpawner = transform.parent.GetComponent<EnemySpawner>();
     }
 
     private void Update()
@@ -107,7 +109,7 @@ public class Enemy : LivingEntity
                 var lookRotation = Quaternion.LookRotation(player.transform.position - transform.position, Vector3.up);
                 var targetAngleY = lookRotation.eulerAngles.y;
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngleY, ref turnSmoothVelocity, turnSmoothTime);
-                
+
                 agent.SetDestination(player.transform.position);
                 break;
             case State.Battle:
@@ -232,7 +234,7 @@ public class Enemy : LivingEntity
                 }
                 if (getHitEnd)
                 {
-                    if(isStunned) nextState = State.Stun;
+                    if (isStunned) nextState = State.Stun;
                     else nextState = State.Trace;
                     return true;
                 }
@@ -261,8 +263,8 @@ public class Enemy : LivingEntity
     {
         base.TakeDamage(damageMessage);
 
-        if(damageMessage.isStiff) animator.SetBool("isGetHit", true);
-        
+        if (damageMessage.isStiff) animator.SetBool("isGetHit", true);
+
         rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
     }
 
@@ -283,7 +285,7 @@ public class Enemy : LivingEntity
     }
     private void AfterDie()
     {
-        EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
+        enemySpawner.Add2Pool((int)enemyData.EnemyType, gameObject);
         currentHp = maxHp;
         nextState = State.Idle;
     }
