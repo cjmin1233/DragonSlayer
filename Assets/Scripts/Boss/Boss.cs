@@ -20,14 +20,15 @@ public class Boss : LivingEntity
         Idle,
         Patrol,
         Trace,
+        TakeOff,
+        Fly,
+        FlyPatrol,
+        FlyTrace,
+        Land,
         Action,
         Stun,
         GetHit,
-        TakeOff,
-        Fly,
-        FlyForward,
         Glide,
-        Land,
         Die,
     }
     private BossState curState = BossState.Idle;
@@ -38,7 +39,8 @@ public class Boss : LivingEntity
     private Rigidbody _rigidBody;
 
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
-    
+    private void AnimCrossFade(int stateHashName) => _animator.CrossFade(stateHashName, animTransDuration);
+
     // [SerializeField] private float turnSmoothTime = .3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
@@ -72,7 +74,37 @@ public class Boss : LivingEntity
     private Transform targetTransform;
     [SerializeField, Range(1f, 10f)] private float patrolRadius;
     [SerializeField] private float findTargetRadius;
-    private Vector3 agentPosition;
+
+    private Vector3 agentPosition
+    {
+        get
+        {
+            Vector3 temp = transform.position;
+            temp.y -= _agent.baseOffset;
+            return temp;
+        }
+    }
+
+    private float animTransDuration = .1f;
+    
+    #region Animator string ID
+    private int _animIdIdle;
+    private int _animIdWalk;
+    private int _animIdTakeOff;
+    private int _animIdFly;
+    private int _animIdFlyForward;
+    private int _animIdLand;
+    private int _animIdDie;
+    private int _animIdAction;
+
+    private string _animTagIdle;
+    private string _animTagTakeOff;
+    private string _animTagFly;
+    private string _animTagLand;
+    private string _animTagDie;
+    #endregion
+
+    public bool ActionEnded { get; private set; }
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -83,19 +115,34 @@ public class Boss : LivingEntity
             data.InitPatternData(patternContainer);;
         }
 
-        // 변수 초기화
+        // 애니메이션 관련 변수 초기화
+        InitAnimatorParams();
+        
         maxHp = maxHealth;
         currentHp = maxHp;
         isDead = false;
 
         updatePath = StartCoroutine(UpdatePath());
     }
+    private void InitAnimatorParams()
+    {
+        _animIdIdle = Animator.StringToHash("Idle");
+        _animIdWalk = Animator.StringToHash("Walk");
+        _animIdTakeOff = Animator.StringToHash("TakeOff");
+        _animIdFly = Animator.StringToHash("Fly");
+        _animIdFlyForward = Animator.StringToHash("FlyForward");
+        _animIdLand = Animator.StringToHash("Land");
+        _animIdDie = Animator.StringToHash("Die");
+
+        _animTagIdle = "Idle";
+        _animTagTakeOff = "TakeOff";
+        _animTagFly = "Fly";
+        _animTagLand = "Land";
+        _animTagDie = "Die";
+    }
 
     private void Update()
     {
-        agentPosition = transform.position;
-        agentPosition.y -= _agent.baseOffset;
-
         // // 보스 데미지 테스트
         // if (Input.GetKeyDown(KeyCode.T))
         // {
@@ -120,71 +167,84 @@ public class Boss : LivingEntity
     {
         switch (curState)
         {
+            case BossState.Action:
+                break;
             case BossState.Idle:
                 targetTransform = null;
                 _agent.isStopped = true;
-                _animator.Play("Idle");
+                AnimCrossFade(_animIdIdle);
                 break;
             case BossState.Patrol:
                 _agent.isStopped = false;
-                _animator.Play("Walk");
+                AnimCrossFade(_animIdWalk);
                 
                 _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
                 break;
             case BossState.Trace:
                 _agent.isStopped = false;
-                _animator.Play("Walk");
+                AnimCrossFade(_animIdWalk);
                 
                 _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.TakeOff:
-                _animator.Play("Take Off");
+                _agent.isStopped = true;
+                AnimCrossFade(_animIdTakeOff);
                 break;
             case BossState.Fly:
-                _animator.Play("Fly Float");
+                _agent.isStopped = true;
+                AnimCrossFade(_animIdFly);
+                break;
+            case BossState.FlyPatrol:
+                _agent.isStopped = false;
+                AnimCrossFade(_animIdFlyForward);
+                
+                _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
+                break;
+            case BossState.FlyTrace:
+                _agent.isStopped = false;
+                AnimCrossFade(_animIdFlyForward);
+
+                _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.Land:
-                _animator.Play("Land");
+                _agent.isStopped = true;
+                AnimCrossFade(_animIdLand);
                 break;
             case BossState.Die:
-                _animator.Play("Die");
+                AnimCrossFade(_animIdDie);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
-
     private void StateUpdate()
     {
         switch (curState)
         {
             case BossState.Idle:
-                break;
             case BossState.Patrol:
-                break;
             case BossState.Trace:
+            case BossState.Fly:
+            case BossState.FlyPatrol:
+            case BossState.FlyTrace:
+            case BossState.Action:
                 break;
             case BossState.TakeOff:
-                if (GetCurStateInfo(0).IsTag("TakeOff"))
+                if (GetCurStateInfo(0).IsTag(_animTagTakeOff))
                 {
                     _agent.baseOffset =
                         Mathf.Lerp(0f, targetFlyOffset, GetCurStateInfo(0).normalizedTime);
                 }
-                // _agent.baseOffset = Mathf.SmoothDamp(_agent.baseOffset, targetFlyOffset, ref smoothFlyVelocity,
-                //     smoothFlyTime);
-                break;
-            case BossState.Fly:
                 break;
             case BossState.Land:
-                if (GetCurStateInfo(0).IsTag("Land"))
+                if (GetCurStateInfo(0).IsTag(_animTagLand))
                 {
                     _agent.baseOffset =
                         Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
                 }
-                // if (_agent.baseOffset <= .1f) _agent.baseOffset = 0f;
                 break;
             case BossState.Die:
-                if (GetCurStateInfo(0).IsTag("Die"))
+                if (GetCurStateInfo(0).IsTag(_animTagDie))
                 {
                     _agent.baseOffset =
                         Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
@@ -199,23 +259,25 @@ public class Boss : LivingEntity
     {
         switch (curState)
         {
+            // loop animation clip
             case BossState.Idle:
-                break;
             case BossState.Patrol:
-                break;
             case BossState.Trace:
-                break;
-            case BossState.TakeOff:
-                break;
             case BossState.Fly:
+            case BossState.FlyPatrol:
+            case BossState.FlyTrace:
+            case BossState.Action:
                 break;
+            
+            // exit time == 1f animation clip
+            case BossState.TakeOff:
             case BossState.Land:
-                break;
             case BossState.Die:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
     }
 
     private bool TransitionCheck()
@@ -237,7 +299,7 @@ public class Boss : LivingEntity
                     return true;
                 }
 
-                if (GetCurStateInfo(0).IsTag("Idle")
+                if (GetCurStateInfo(0).IsTag(_animTagIdle)
                     && GetCurStateInfo(0).normalizedTime >= 3f)
                 {
                     // 범위 내 타겟 있는지 확인
@@ -275,6 +337,7 @@ public class Boss : LivingEntity
                 {
                     // patrol 중 destination 도착
                     print("patrol destination 도착. Idle 상태 돌입");
+                    
                     nextState = BossState.Idle;
                     return true;
                 }
@@ -286,19 +349,24 @@ public class Boss : LivingEntity
                     nextState = BossState.Idle;
                     return true;
                 }
-                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)
+                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)  // 패턴 시작 범위 넣을 것
                 {
-                    // patrol 중 destination 도착. 패턴 시작
-                    print("trace destination 도착. 테스트로 이륙하기");
-                    targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
-                    print("target offset is : " + targetFlyOffset);
+                    // trace 중 destination 도착. 패턴 시작
+                    var selectedPattern = patternData[0].SelectPatternAction();
+                    if (selectedPattern is not null)
+                    {
+                        selectedPattern.targetTransform = targetTransform;
+                        if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+                        curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
+                        print("패턴 발동");
+                        nextState = BossState.Action;
+                    }
                     
-                    nextState = BossState.TakeOff;
                     return true;
                 }
                 break;
             case BossState.TakeOff:
-                if (GetCurStateInfo(0).IsTag("TakeOff")
+                if (GetCurStateInfo(0).IsTag(_animTagTakeOff)
                     && GetCurStateInfo(0).normalizedTime >= 1f)
                 {
                     nextState = BossState.Fly;
@@ -313,15 +381,84 @@ public class Boss : LivingEntity
                     nextState = BossState.Land;
                     return true;
                 }
+                if (GetCurStateInfo(0).IsTag(_animTagFly)
+                    && GetCurStateInfo(0).normalizedTime >= 3f)
+                {
+                    // 범위 내 타겟 있는지 확인
+                    print("잠깐 쉬고 추적 대상 탐색");
+                    var colliders = Physics.OverlapSphere(agentPosition, findTargetRadius, whatIsTarget);
+                    
+                    foreach (var collider in colliders)
+                    {
+                        var livingEntity = collider.GetComponent<LivingEntity>();
+
+                        if (livingEntity is not null)
+                        {
+                            targetTransform = livingEntity.transform;
+                            break;
+                        }
+                    }
+
+                    if (targetTransform is not null)
+                    {
+                        // 범위 내 타겟 확인
+                        print("타겟 확인. trace 시작");
+                        nextState = BossState.FlyTrace;
+                        return true;
+                    }
+                    else
+                    {
+                        print("타겟 없음. fly patrol 시작");
+                        nextState = BossState.FlyPatrol;
+                        return true;
+                    }
+                }
 
                 break;
+            case BossState.FlyPatrol:
+                if (Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance)
+                {
+                    // fly patrol 중 destination 도착
+                    print("fly patrol destination 도착. Fly 상태 돌입");
+                    
+                    nextState = BossState.Fly;
+                    return true;
+                }
+                break;
+            case BossState.FlyTrace:
+                // trace 중 타겟이 사라지면 fly 상태 돌입
+                if (targetTransform is null)
+                {
+                    nextState = BossState.Fly;
+                    return true;
+                }
+                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)  // 패턴 시작 범위 넣을 것
+                {
+                    // fly trace 중 destination 도착. 패턴 시작
+                    print("fly trace destination 도착. 테스트로 착지하기");
+                    Fly = false;
+                    targetFlyOffset = _agent.baseOffset;
+                    
+                    nextState = BossState.Land;
+                    return true;
+                }
+                break;
             case BossState.Land:
-                if (GetCurStateInfo(0).IsTag("Land")
+                if (GetCurStateInfo(0).IsTag(_animTagLand)
                     && GetCurStateInfo(0).normalizedTime >= 1f)
                 {
                     nextState = BossState.Idle;
                     return true;
                 }
+                break;
+            case BossState.Action:
+                if (ActionEnded)
+                {
+                    ActionEnded = false;
+                    nextState = Fly ? BossState.Fly : BossState.Idle;
+                    return true;
+                }
+
                 break;
             case BossState.Die:
                 break;
@@ -339,11 +476,6 @@ public class Boss : LivingEntity
         
         Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
-    }
-
-    private void TakeOff()
-    {
-        
     }
     private IEnumerator BossThink()
     {
@@ -373,9 +505,10 @@ public class Boss : LivingEntity
         }
     }
 
-    public void EndPattern()
+    public void EndAction()
     {
-        _animator.SetBool("Exit", false);
+        ActionEnded = true;
+        // _animator.SetBool("Exit", false);
     }
     public override void TakeDamage(DamageMessage damageMessage)
     {
@@ -406,15 +539,16 @@ public class Boss : LivingEntity
     {
         while (!isDead)
         {
-            agentPosition = transform.position;
-            agentPosition.y -= _agent.baseOffset;
             switch (curState)
             {
                 case BossState.Idle:
-                    break;
                 case BossState.Patrol:
+                case BossState.Fly:
+                case BossState.FlyPatrol:
                     break;
+                // target transform 업데이트해야하는 상태 (추적 갱신)
                 case BossState.Trace:
+                case BossState.FlyTrace:
                     if (targetTransform is not null)
                     {
                         _agent.SetDestination(targetTransform.position);
