@@ -15,23 +15,6 @@ public enum BossPatternType
 }
 public class Boss : LivingEntity
 {
-    private bool isFlying;
-    private enum FlyingState
-    {
-        Float,
-        Glide,
-        Attack
-    }
-
-    private enum GroundState
-    {
-        Patrol,
-        Track,
-        Attack,
-        Groggy,
-        Sleep
-    }
-
     private enum BossState
     {
         Idle,
@@ -45,11 +28,8 @@ public class Boss : LivingEntity
         FlyForward,
         Glide,
         Land,
-        Dead,
+        Die,
     }
-    
-    private GroundState groundState;
-    private FlyingState flyingState;
     private BossState curState = BossState.Idle;
     private BossState nextState = BossState.Idle;
 
@@ -57,6 +37,8 @@ public class Boss : LivingEntity
     private Animator _animator;
     private Rigidbody _rigidBody;
 
+    private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
+    
     // [SerializeField] private float turnSmoothTime = .3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
@@ -66,6 +48,7 @@ public class Boss : LivingEntity
     [SerializeField] private BossPatternData[] patternData;
     private Coroutine curPatternRoutine;
 
+    [SerializeField] private float maxHealth;
     public bool Grounded;
 
     public float groundedOffset = -0.14f;
@@ -74,21 +57,48 @@ public class Boss : LivingEntity
 
     public bool Fly;
 
+    [SerializeField] private float minFlyOffset;
+    [SerializeField] private float maxFlyOffset;
+    // [SerializeField, Range(.1f, 3f)] private float smoothFlyTime; 
+    private float smoothFlyVelocity;
+    private float targetFlyOffset;
+
+    private bool isDead;
+    
+    // 보스 움직임
+    private Coroutine pathFinding;
+    private Transform targetTransform;
+    [SerializeField, Range(1f, 10f)] private float patrolRadius;
+    private Vector3 agentPosition;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        groundState = GroundState.Patrol;
+        _agent = GetComponent<NavMeshAgent>();
         
         foreach (var data in patternData)
         {
             data.InitPatternData(patternContainer);;
         }
 
-        // StartCoroutine(BossBrain());
+        // 변수 초기화
+        maxHp = maxHealth;
+        currentHp = maxHp;
+        isDead = false;
+
+        pathFinding = StartCoroutine(PathFinding());
     }
 
     private void Update()
     {
+        agentPosition = transform.position;
+        agentPosition.y -= _agent.baseOffset;
+
+        // // 보스 데미지 테스트
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     DamageMessage damageMessage = new DamageMessage(null, 50f, 0f);
+        //     TakeDamage(damageMessage);
+        // }
         GroundedCheck();
 
         curState = nextState;
@@ -108,7 +118,11 @@ public class Boss : LivingEntity
         switch (curState)
         {
             case BossState.Idle:
+                targetTransform = null;
                 _animator.Play("Idle");
+                break;
+            case BossState.Patrol:
+                _animator.Play("Walk");
                 break;
             case BossState.TakeOff:
                 _animator.Play("Take Off");
@@ -118,6 +132,9 @@ public class Boss : LivingEntity
                 break;
             case BossState.Land:
                 _animator.Play("Land");
+                break;
+            case BossState.Die:
+                _animator.Play("Die");
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -130,13 +147,34 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 break;
+            case BossState.Patrol:
+                break;
             case BossState.TakeOff:
+                if (GetCurStateInfo(0).IsTag("TakeOff"))
+                {
+                    _agent.baseOffset =
+                        Mathf.Lerp(0f, targetFlyOffset, GetCurStateInfo(0).normalizedTime);
+                }
+                // _agent.baseOffset = Mathf.SmoothDamp(_agent.baseOffset, targetFlyOffset, ref smoothFlyVelocity,
+                //     smoothFlyTime);
                 break;
             case BossState.Fly:
                 break;
             case BossState.Land:
+                if (GetCurStateInfo(0).IsTag("Land"))
+                {
+                    _agent.baseOffset =
+                        Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
+                }
+                // if (_agent.baseOffset <= .1f) _agent.baseOffset = 0f;
                 break;
-
+            case BossState.Die:
+                if (GetCurStateInfo(0).IsTag("Die"))
+                {
+                    _agent.baseOffset =
+                        Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
+                }
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -148,13 +186,17 @@ public class Boss : LivingEntity
         {
             case BossState.Idle:
                 break;
+            
+            case BossState.Patrol:
+                break;
             case BossState.TakeOff:
                 break;
             case BossState.Fly:
                 break;
             case BossState.Land:
                 break;
-
+            case BossState.Die:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -162,18 +204,60 @@ public class Boss : LivingEntity
 
     private bool TransitionCheck()
     {
+        if (isDead)
+        {
+            nextState = BossState.Die;
+            return true;
+        }
         switch (curState)
         {
             case BossState.Idle:
                 if (Fly)
                 {
+                    targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
+                    print("target offset is : " + targetFlyOffset);
+                    
                     nextState = BossState.TakeOff;
+                    return true;
+                }
+
+                if (GetCurStateInfo(0).IsTag("Idle")
+                    && GetCurStateInfo(0).normalizedTime >= 3f)
+                {
+                    // 범위 내 타겟 있는지 확인
+                    print("잠깐 쉬고 추적 대상 탐색");
+
+                    if (targetTransform is not null)
+                    {
+                        // 범위 내 타겟 확인
+                        print("타겟 확인. trace 시작");
+                        // nextState = BossState.Trace;
+                        // return true;
+                        break;
+                    }
+                    else
+                    {
+                        print("타겟 없음. patrol 시작");
+                        nextState = BossState.Patrol;
+                        Vector3 dest = MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius);
+                        _agent.SetDestination(dest);
+
+                        return true;
+                    }
+                }
+                break;
+            case BossState.Patrol:
+                if (Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance)
+                {
+                    // patrol 중 destination 도착
+                    print("patrol destination 도착. Idle 상태 돌입");
+                    nextState = BossState.Idle;
                     return true;
                 }
                 break;
             case BossState.TakeOff:
-                if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("TakeOff")
-                    && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                if (GetCurStateInfo(0).IsTag("TakeOff")
+                    && GetCurStateInfo(0).normalizedTime >= 1f)
                 {
                     nextState = BossState.Fly;
                     return true;
@@ -182,20 +266,23 @@ public class Boss : LivingEntity
             case BossState.Fly:
                 if (!Fly)
                 {
+                    targetFlyOffset = _agent.baseOffset;
+                    
                     nextState = BossState.Land;
                     return true;
                 }
 
                 break;
             case BossState.Land:
-                if (_animator.GetCurrentAnimatorStateInfo(0).IsTag("Land")
-                    && _animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
+                if (GetCurStateInfo(0).IsTag("Land")
+                    && GetCurStateInfo(0).normalizedTime >= 1f)
                 {
                     nextState = BossState.Idle;
                     return true;
                 }
                 break;
-
+            case BossState.Die:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -220,25 +307,25 @@ public class Boss : LivingEntity
     {
         while (true)
         {
-            if (!isFlying)
-            {
-                if (groundState.Equals(GroundState.Patrol))
-                {
-                    // 패턴 선택
-                    var selectedPattern = patternData[0].SelectPatternAction();
-                    if (selectedPattern is not null)
-                    {
-                        groundState = GroundState.Attack;
-                        if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                        curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
-                        print("패턴 발동");
-                    }
-                }
-                else if (groundState.Equals(GroundState.Attack))
-                {
-                    // 공격 중...
-                }
-            }
+            // if (!isFlying)
+            // {
+            //     if (groundState.Equals(GroundState.Patrol))
+            //     {
+            //         // 패턴 선택
+            //         var selectedPattern = patternData[0].SelectPatternAction();
+            //         if (selectedPattern is not null)
+            //         {
+            //             groundState = GroundState.Attack;
+            //             if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+            //             curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
+            //             print("패턴 발동");
+            //         }
+            //     }
+            //     else if (groundState.Equals(GroundState.Attack))
+            //     {
+            //         // 공격 중...
+            //     }
+            // }
 
             yield return new WaitForSeconds(.1f);
         }
@@ -247,12 +334,22 @@ public class Boss : LivingEntity
     public void EndPattern()
     {
         _animator.SetBool("Exit", false);
-        groundState = GroundState.Patrol;
     }
     public override void TakeDamage(DamageMessage damageMessage)
     {
-        return;
+        if (damageMessage.damager == gameObject) return;
+
+        currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
+
+        if (currentHp <= 0f) Die();
     }
+
+    private void Die()
+    {
+        isDead = true;
+        targetFlyOffset = _agent.baseOffset;
+    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red; // Sphere의 색상 설정
@@ -261,5 +358,28 @@ public class Boss : LivingEntity
 
         // 현재 오브젝트의 위치에 Sphere를 그림
         Gizmos.DrawSphere(spherePosition, groundedRadius);
+    }
+
+    private IEnumerator PathFinding()
+    {
+        while (!isDead)
+        {
+            agentPosition = transform.position;
+            agentPosition.y -= _agent.baseOffset;
+            switch (curState)
+            {
+                case BossState.Idle:
+                    break;
+                case BossState.Patrol:
+                    if (targetTransform is not null) targetTransform = null;
+                    if (Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance)
+                    {
+                        Vector3 dest = MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius);
+                        _agent.SetDestination(dest);
+                    }
+                    break;
+            }
+            yield return new WaitForSeconds(.1f);
+        }
     }
 }
