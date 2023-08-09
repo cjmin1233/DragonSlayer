@@ -15,6 +15,8 @@ public enum EnemyType
 }
 public class EnemySpawner : MonoBehaviour
 {
+    public static EnemySpawner Instance {  get; private set; }
+
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
 
@@ -25,13 +27,14 @@ public class EnemySpawner : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        if(!Instance) Instance = this;
+        else Destroy(Instance);
+
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
         mapRecord = GameObject.Find("MapGenerator").GetComponent<MapGenerator>().mapRecord;
         player = GameObject.FindGameObjectWithTag("Player");
-
-        if (FindPlayerPlace() == transform.position) StartCoroutine(EnemySpawn(transform.position));
     }
 
     private Vector3 FindPlayerPlace()
@@ -49,16 +52,11 @@ public class EnemySpawner : MonoBehaviour
         return nearestMap;
     }
 
-    private IEnumerator EnemySpawn(Vector3 map)
+    public void SelectEnemySpawner()
     {
-        while (true)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                EnemySpawn(map, i);
-            }
-            yield return new WaitForSeconds(5f);
-        }
+        Vector3 map = FindPlayerPlace();
+        
+        for (int i = 0; i < 5; i++) EnemySpawn(map, i);
     }
 
     private void GrowPool(int index)

@@ -28,7 +28,6 @@ public class Enemy : LivingEntity
     private GameObject player;
     protected Animator animator;
     protected EnemyEvent enemyEvent;
-    private EnemySpawner enemySpawner;
     private float turnSmoothTime = 0.3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
@@ -45,7 +44,6 @@ public class Enemy : LivingEntity
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         enemyEvent = GetComponent<EnemyEvent>();
-        enemySpawner = transform.parent.GetComponent<EnemySpawner>();
     }
 
     private void Update()
@@ -285,7 +283,7 @@ public class Enemy : LivingEntity
     }
     private void AfterDie()
     {
-        enemySpawner.Add2Pool((int)enemyData.EnemyType, gameObject);
+        EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
         currentHp = maxHp;
         nextState = State.Idle;
     }
