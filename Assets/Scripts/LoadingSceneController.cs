@@ -39,7 +39,10 @@ public class LoadingSceneController : MonoBehaviour
             else
             {
                 timer += Time.unscaledDeltaTime;
-                progressBar.rectTransform.localScale = new Vector3 (Mathf.Lerp(0.9f, 1f, timer), 1, 1);
+                float duration = 5.0f; // fake로딩 지속시간
+                float t = Mathf.Clamp01(timer / duration);
+                
+                progressBar.rectTransform.localScale = new Vector3 (Mathf.Lerp(0.9f, 1f, t), 1, 1);
                 if (progressBar.rectTransform.localScale.x >= 1f)
                 {
                     op.allowSceneActivation = true;
