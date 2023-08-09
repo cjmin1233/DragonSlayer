@@ -16,19 +16,38 @@ public enum DoorType
 
 public class Door : MonoBehaviour
 {
+    public static Door instance;
     public Image doorImage;
     private Color basic;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
     public RoomType connectRoomType;
     private const float distance = 8.5f;
+    private Vector3 doorDirection;
 
-    RaycastHit[] hits;
-    private const float LayDistance = 8.5f;
+    private const float RayDistance = 10f;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
-        basic = doorImage.material.color;
+        doorImage = GetComponent<Image>();
+        //basic = doorImage.material.color;
+        if(doorType == DoorType.Right)
+            doorDirection = Vector3.right;
+        else if(doorType == DoorType.Left)
+            doorDirection = Vector3.left;
+        else if(doorType == DoorType.Up)
+            doorDirection = Vector3.forward;
+        else
+            doorDirection = Vector3.back;
+    }
+
+    private void Update()
+    {
+        Debug.DrawRay(Vector3.up + transform.position + doorDirection, doorDirection * RayDistance, Color.red);
     }
     public void MoveToRoom(Vector3 direction)
     {
@@ -90,18 +109,19 @@ public class Door : MonoBehaviour
                 break;
         }
     }
-    public void DoorGenerate(DoorType dt)
+    public void ShootRay()
     {
-        switch (dt)
+        Ray ray = new(Vector3.up + transform.position + doorDirection, doorDirection);
+
+        if (Physics.Raycast(ray, out _, RayDistance))
         {
-            case DoorType.Up:
-                break;
-            case DoorType.Down:
-                break;
-            case DoorType.Right:
-                break;
-            case DoorType.Left:
-                break; 
+            Debug.Log("ray");
+            return;
         }
+        else
+        {
+            //gameObject.SetActive(false);
+        }
+
     }
 }

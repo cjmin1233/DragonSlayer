@@ -3866,6 +3866,7 @@ GameObject:
   - component: {fileID: 3372296346379810217}
   - component: {fileID: 8213030292467550548}
   - component: {fileID: 3210851372640336587}
+  - component: {fileID: 2910330122368715413}
   m_Layer: 0
   m_Name: Entry
   m_TagString: Rooms
@@ -3945,6 +3946,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 39.90078, y: 1.1556259, z: 40.138954}
   m_Center: {x: 0.027469635, y: -0.578088, z: -0.19434738}
+--- !u!54 &2910330122368715413
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4356106157446346866}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 4
+  m_CollisionDetection: 0
 --- !u!1 &4507754225494818644
 GameObject:
   m_ObjectHideFlags: 0
@@ -5182,9 +5210,10 @@ GameObject:
   - component: {fileID: 1137709092935723062}
   - component: {fileID: 1258689314895317198}
   - component: {fileID: 5582068172415956848}
+  - component: {fileID: 7220148160240092132}
   m_Layer: 0
   m_Name: NomalDoor (3)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5218,8 +5247,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492c9df784a7bce428ca22841ba620c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 5812589581594573142}
+  doorImage: {fileID: 0}
   doorType: 2
+  connectRoomType: 0
 --- !u!65 &5582068172415956848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5241,6 +5271,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3973144, y: 0.86686254, z: 3.2210872}
   m_Center: {x: -1.3053942, y: 0.6523243, z: -0.027177533}
+--- !u!65 &7220148160240092132
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5226398493383310702}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4.221422, z: 4.531645}
+  m_Center: {x: 0, y: 2.187921, z: 0.034353256}
 --- !u!1 &5270641409088446194
 GameObject:
   m_ObjectHideFlags: 0
@@ -6491,9 +6542,10 @@ GameObject:
   - component: {fileID: 3272765730873216181}
   - component: {fileID: 2972712538092841137}
   - component: {fileID: 4839556439913880663}
+  - component: {fileID: 707028020929598282}
   m_Layer: 0
   m_Name: NomalDoor (2)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6527,8 +6579,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492c9df784a7bce428ca22841ba620c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 4240431550870500499}
+  doorImage: {fileID: 0}
   doorType: 0
+  connectRoomType: 0
 --- !u!65 &4839556439913880663
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6550,6 +6603,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0600067, y: 0.86686254, z: 3.2210872}
   m_Center: {x: 0.93246776, y: 0.6523243, z: -0.027178032}
+--- !u!65 &707028020929598282
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6168579511705521368}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4.221422, z: 4.531645}
+  m_Center: {x: 0, y: 2.187921, z: 0.034353256}
 --- !u!1 &6178049059077469663
 GameObject:
   m_ObjectHideFlags: 0
@@ -6711,9 +6785,10 @@ GameObject:
   - component: {fileID: 3695453513609721196}
   - component: {fileID: 6148382184993159933}
   - component: {fileID: 2016177597023865709}
+  - component: {fileID: 1023668297986641530}
   m_Layer: 0
   m_Name: NomalDoor
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6747,8 +6822,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492c9df784a7bce428ca22841ba620c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 6982287546225848491}
+  doorImage: {fileID: 0}
   doorType: 1
+  connectRoomType: 0
 --- !u!65 &2016177597023865709
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6770,6 +6846,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3973144, y: 0.86686254, z: 3.2210872}
   m_Center: {x: -1.3053942, y: 0.6523243, z: -0.027177533}
+--- !u!65 &1023668297986641530
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6539152832018067286}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4.221422, z: 4.531645}
+  m_Center: {x: 0, y: 2.187921, z: 0.034353256}
 --- !u!1 &6571561560423592173
 GameObject:
   m_ObjectHideFlags: 0
@@ -7138,9 +7235,10 @@ GameObject:
   - component: {fileID: 8296285873726531773}
   - component: {fileID: 6080387323611983388}
   - component: {fileID: 7961962344426787344}
+  - component: {fileID: 8338926018245598729}
   m_Layer: 0
   m_Name: NomalDoor (1)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7174,8 +7272,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 492c9df784a7bce428ca22841ba620c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  door: {fileID: 3867779106071169428}
+  doorImage: {fileID: 0}
   doorType: 3
+  connectRoomType: 0
 --- !u!65 &7961962344426787344
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7197,6 +7296,27 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3973144, y: 0.86686254, z: 3.2210872}
   m_Center: {x: -1.3053942, y: 0.6523243, z: -0.027177533}
+--- !u!65 &8338926018245598729
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7150517084162146153}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 4.221422, z: 4.531645}
+  m_Center: {x: 0, y: 2.187921, z: 0.034353256}
 --- !u!1 &7180924845049825056
 GameObject:
   m_ObjectHideFlags: 0

@@ -5655,7 +5655,7 @@ GameObject:
   - component: {fileID: 4996632180502416959}
   m_Layer: 0
   m_Name: NomalDoor
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5668,7 +5668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5704699687421610282}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2, y: 1.23, z: -1.35}
+  m_LocalPosition: {x: -2, y: 0.43, z: -1.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5825,7 +5825,7 @@ GameObject:
   - component: {fileID: 6319404003094455361}
   m_Layer: 0
   m_Name: NomalDoor (1)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6955,7 +6955,7 @@ GameObject:
   - component: {fileID: 2074825700839066011}
   m_Layer: 0
   m_Name: NomalDoor (3)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7286,7 +7286,7 @@ GameObject:
   - component: {fileID: 4026417183100005162}
   m_Layer: 0
   m_Name: NomalDoor (2)
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

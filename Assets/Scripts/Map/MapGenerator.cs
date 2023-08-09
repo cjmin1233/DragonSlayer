@@ -10,6 +10,7 @@ public class MapGenerator : MonoBehaviour
 {
     public static MapGenerator Instance;
 
+    public GameObject[] doors;
     public List<Vector2Int> mapVec2;
     public List<Vector3> mapVec3 = new(); 
     public List<Vector3> mapRecord = new();
@@ -32,12 +33,7 @@ public class MapGenerator : MonoBehaviour
     }
     private void Start()
     {
-        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
-
-        foreach (GameObject door in doors)
-        {
-            door.SetActive(false);
-        }
+        
     }
     public void DimensionTrans(List<Vector2Int> vector2d)
     {
@@ -66,6 +62,7 @@ public class MapGenerator : MonoBehaviour
         mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
         NormalRoomCreate();
+        FindingDoor();
         NavMeshBake(Rooms);
         EnemySpawner.Instance.SelectEnemySpawner();
     }
@@ -170,5 +167,18 @@ public class MapGenerator : MonoBehaviour
         }
 
         mapVec3.Remove(bossVector);
+    }
+    public void FindingDoor()
+    {
+        doors = GameObject.FindGameObjectsWithTag("Door");
+
+        foreach (var door in doors)
+        {
+            door.GetComponent<Door>().ShootRay();
+        }
+
+
+
+        
     }
 }
