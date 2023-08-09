@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
 
-    private List<Vector3> mapRecord = new();
+    [SerializeField] private List<Vector3> mapRecord = new();
 
     private GameObject player;
 
@@ -33,20 +33,21 @@ public class EnemySpawner : MonoBehaviour
         int enumLength = Enum.GetValues(typeof(EnemyType)).Length;
         enemyQueue = new MultiQueue<GameObject>(enumLength);
 
-        mapRecord = GameObject.Find("MapGenerator").GetComponent<MapGenerator>().mapRecord;
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private Vector3 FindPlayerPlace()
     {
+        foreach (var generatedRoomInfo in GameManager.Instance.generatedRooms) mapRecord.Add(generatedRoomInfo.roomPosition);
         Vector3 nearestMap = Vector3.zero;
         float closestDistance = 1000;
-        foreach (Vector3 map in mapRecord)
+        for (int i = 0; i < mapRecord.Count; i++)
         {
-            if (Vector3.Distance(player.transform.position, map) < closestDistance)
+            if (Vector3.Distance(player.transform.position, mapRecord[i]) < closestDistance)
             {
-                closestDistance = Vector3.Distance(player.transform.position, map);
-                nearestMap = map;
+                closestDistance = Vector3.Distance(player.transform.position, mapRecord[i]);
+                nearestMap = mapRecord[i];
+                GameManager.Instance.playerRoomIndex = i;
             }
         }
         return nearestMap;
@@ -55,8 +56,12 @@ public class EnemySpawner : MonoBehaviour
     public void SelectEnemySpawner()
     {
         Vector3 map = FindPlayerPlace();
-        
-        for (int i = 0; i < 5; i++) EnemySpawn(map, i);
+        if (GameManager.Instance.generatedRooms[GameManager.Instance.playerRoomIndex].isRoomClear) return;
+
+        for (int i = 0; i < 1; i++)
+        {
+            EnemySpawn(map, i);   
+        }
     }
 
     private void GrowPool(int index)
@@ -84,8 +89,8 @@ public class EnemySpawner : MonoBehaviour
     private void EnemySpawn(Vector3 map, int index)
     {
         var instance = GetFromPool(index);
-        Debug.Log(map);
         instance.transform.position = new Vector3(map.x + Random.Range(-19, 20), 0f, map.z + Random.Range(-19, 20));
         instance.SetActive(true);
+        GameManager.Instance.aliveEnemies++;
     }
 }

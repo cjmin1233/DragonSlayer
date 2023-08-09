@@ -37,7 +37,7 @@ public class RoomMove : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Player")) // && isCleared
+        if(other.CompareTag("Player") && GameManager.Instance.IsRoomCleared()) // && isCleared
         {
             Vector3 normalVector;
 

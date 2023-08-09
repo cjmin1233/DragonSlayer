@@ -9,7 +9,7 @@ public enum SceneType
 {
     Main,
     Play,
-    Loading
+    Loading,
 }
 
 public enum GameState
@@ -18,10 +18,25 @@ public enum GameState
     Paused
 }
 
+public struct GeneratedRoomInfo
+{
+    public Vector3 roomPosition;
+    public bool isRoomClear;
+
+    public GeneratedRoomInfo(Vector3 roomPosition, bool isRoomClear = false)
+    {
+        this.roomPosition = roomPosition;
+        this.isRoomClear = isRoomClear;
+    }
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    public List<GeneratedRoomInfo> generatedRooms {  get; private set; }
+    public int playerRoomIndex;
+    public int aliveEnemies;
     public GameState gameState { get; private set; }
     public bool isGameOver { get; private set; }
     public int totalHp, currentHp;
@@ -41,6 +56,9 @@ public class GameManager : MonoBehaviour
 
         DontDestroyOnLoad(gameObject);
 
+        generatedRooms = new List<GeneratedRoomInfo>();
+        aliveEnemies = 0;
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         onMainSceneLoaded = new UnityEvent();
         onPlaySceneLoaded = new UnityEvent();
@@ -49,12 +67,12 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == (int)SceneType.Play)
+        if (scene.buildIndex == (int)SceneType.Main)
         {
             gameState = GameState.Running;
             onMainSceneLoaded.Invoke();
         }
-        else if (scene.buildIndex == (int)SceneType.Main)
+        else if (scene.buildIndex == (int)SceneType.Play)
         {
             gameState = GameState.Running;
             onPlaySceneLoaded.Invoke();
@@ -65,6 +83,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator PlaySceneSetupProcess()
     {
         MapVector2.instance.GenerateDungeon();
+        EnemySpawner.Instance.SelectEnemySpawner();
+
         totalHp = PlayerPrefs.HasKey("PlayerTotalHp") ? PlayerPrefs.GetInt("PlayerTotalHp") : 20;
         currentHp = PlayerPrefs.HasKey("PlayerCurrentHp") ? PlayerPrefs.GetInt("PlayerCurrentHp") : 20;
         yield return null;
@@ -74,7 +94,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlaySceneProcess()
     {
-        while (isGameOver)
+        while (!isGameOver)
         {
             yield return null;
         }
@@ -84,6 +104,17 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDeath()
     {
         isGameOver = true;
+    }
+
+    public bool IsRoomCleared()
+    {
+        if (aliveEnemies == 0)
+        {
+            GeneratedRoomInfo generatedRoomInfo = new GeneratedRoomInfo(generatedRooms[playerRoomIndex].roomPosition, true);
+            generatedRooms[playerRoomIndex] = generatedRoomInfo;
+            return true;
+        }
+        return false;
     }
 
     public void PauseGame(bool isPaused)
