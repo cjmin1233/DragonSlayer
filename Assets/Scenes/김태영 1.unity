@@ -618,6 +618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapVec2: []
   mapVec3: []
+  roomVec3: []
   mapRecord: []
   EpicRooms: 000000000000000000000000
   EntryRoom: {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}

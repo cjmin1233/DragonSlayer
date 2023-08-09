@@ -3943,8 +3943,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 40, y: 0.1, z: 40}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 39.90078, y: 1.1556259, z: 40.138954}
+  m_Center: {x: 0.027469635, y: -0.578088, z: -0.19434738}
 --- !u!1 &4507754225494818644
 GameObject:
   m_ObjectHideFlags: 0
@@ -5220,7 +5220,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 5812589581594573142}
   doorType: 2
-  distance: 5
 --- !u!65 &5582068172415956848
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6530,7 +6529,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 4240431550870500499}
   doorType: 0
-  distance: 5
 --- !u!65 &4839556439913880663
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6751,7 +6749,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 6982287546225848491}
   doorType: 1
-  distance: 5
 --- !u!65 &2016177597023865709
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7179,7 +7176,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   door: {fileID: 3867779106071169428}
   doorType: 3
-  distance: 5
 --- !u!65 &7961962344426787344
 BoxCollider:
   m_ObjectHideFlags: 0

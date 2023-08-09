@@ -11,9 +11,9 @@ public class MapGenerator : MonoBehaviour
     public static MapGenerator Instance;
 
     public List<Vector2Int> mapVec2;
-    public List<Vector3> mapVec3 = new(); // �޾ƿ� 2D ��ǥ�� 3D ��ǥ�� ���� ����Ʈ
+    public List<Vector3> mapVec3 = new(); 
     public List<Vector3> mapRecord = new();
-    public List<int>  EpicRooms = new(3); // ���� ��� Ʈ�� ���� ������ ���� ���ȹ� �迭 ����
+    public List<int>  EpicRooms = new(3); 
     private int epicSize = 0;
     private int mapSize = 0;
     private Vector3 bossVector;
@@ -30,24 +30,29 @@ public class MapGenerator : MonoBehaviour
     {
         Instance = this;
     }
-    // 2���� ��ǥ�� 3���� ��ǥ�� ����
+    private void Start()
+    {
+        GameObject[] doors = GameObject.FindGameObjectsWithTag("Door");
+
+        foreach (GameObject door in doors)
+        {
+            door.SetActive(false);
+        }
+    }
     public void DimensionTrans(List<Vector2Int> vector2d)
     {
         foreach (Vector2Int v in vector2d)
         {
             mapVec3.Add(new Vector3(v.x, 0, v.y));
-            mapRecord.Add(new Vector3(v.x, 0, v.y));
         }
 
         mapSize = mapVec3.Count;
 
     }
-    // ���� ������Ʈ�� Ȱ��ȭ �Ǿ������� MapVector2�� OnMapAdded�� ����
     public void OnEnable()
     {
         MapVector2.OnMapAdded += HandleMapAdded;
     }
-    // ���� ��ǥ�� 3������ǥ�� ���� �� �� ����
     private void HandleMapAdded(List<Vector2Int> vector)
     {
         DimensionTrans(vector);
