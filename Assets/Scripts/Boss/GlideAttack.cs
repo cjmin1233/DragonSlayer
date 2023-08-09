@@ -26,6 +26,6 @@ public class GlideAttack : BossPatternAction
         //
         // yield return new WaitUntil(() => _animator.GetBool("Exit"));
         patternEnableTime = Time.time + patternCooldown;
-        _boss.EndPattern();
+        _boss.EndAction();
     }
 }
