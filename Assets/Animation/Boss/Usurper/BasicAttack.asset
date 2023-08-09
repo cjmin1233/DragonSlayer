@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7f49510c6c909f408c32089d3bff856, type: 3}
-  m_Name: Basic Attack
+  m_Name: BasicAttack
   m_EditorClassIdentifier: 
-  patternName: Basic Attack
-  animatorOv:
-  - {fileID: 22100000, guid: 4b24fed381fab904f8c94d1d7ff3a5fc, type: 2}
+  patternName: BasicAttack
+  animationClips:
+  - {fileID: 7400000, guid: ce0fc9bab7b211a4c87062e97dc40741, type: 2}
   priority: 1
   patternCooldown: 2
   fieldOfView: 10

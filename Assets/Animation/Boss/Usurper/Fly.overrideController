@@ -6,8 +6,8 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glide
+  m_Name: Fly
   m_Controller: {fileID: 9100000, guid: 1a7132dbb55d5074096f2db1a0ac0401, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: ce0fc9bab7b211a4c87062e97dc40741, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: b6ced1a7e67ba8e41833f114c35db4ab, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: a93e49f684f3c6f4db5276905a02025a, type: 2}

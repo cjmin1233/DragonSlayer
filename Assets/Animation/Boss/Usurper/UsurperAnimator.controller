@@ -156,7 +156,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Flame Attack
+  m_Name: FlameAttack
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -360,7 +360,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: ActionChange
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -385,7 +391,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 8647461862967406954}
-    m_Position: {x: 160, y: -260, z: 0}
+    m_Position: {x: 150, y: -270, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8664229054849010791}
     m_Position: {x: -220, y: -210, z: 0}
@@ -406,7 +412,7 @@ AnimatorStateMachine:
     m_Position: {x: -20, y: -360, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -5068588451767550732}
-    m_Position: {x: -520, y: -600, z: 0}
+    m_Position: {x: -20, y: -460, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1998847252518273780}
     m_Position: {x: -430, y: -310, z: 0}
@@ -431,6 +437,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -1316011046056042170}
     m_Position: {x: -430, y: -360, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2384748742311701389}
+    m_Position: {x: -20, y: -410, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1022689606026079633}
+    m_Position: {x: 190, y: -460, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5273957251305876901}
+    m_Position: {x: -20, y: -510, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -441,6 +456,32 @@ AnimatorStateMachine:
   m_ExitPosition: {x: -200, y: -480, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -8664229054849010791}
+--- !u!1102 &1022689606026079633
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FlyGlide
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: b6ced1a7e67ba8e41833f114c35db4ab, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &1922097169680318130
 AnimatorState:
   serializedVersion: 6
@@ -493,6 +534,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &2384748742311701389
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: BasicAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: ce0fc9bab7b211a4c87062e97dc40741, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &2851483717712238863
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -505,6 +572,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dd3b7813025fde40ac1c318a6833a46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1102 &5273957251305876901
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ClawAttack
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: e5fc8d297c74f264694f706492ad8488, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &5326713651733885287
 AnimatorState:
   serializedVersion: 6

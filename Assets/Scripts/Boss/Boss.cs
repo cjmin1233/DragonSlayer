@@ -490,7 +490,17 @@ public class Boss : LivingEntity
         Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
     }
-
+    public void Rotate()
+    {
+        if (_agent.isStopped && targetTransform is not null)
+        {
+            // 목적지와의 방향을 계산하여 에이전트를 회전시킵니다.
+            Vector3 direction = targetTransform.position - transform.position;
+            direction.y = 0f;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _agent.angularSpeed);
+        }
+    }
     public bool IsTargetOnSight(float fov, float viewDist)
     {
         if (targetTransform is null) return false;

@@ -5,7 +5,8 @@ using UnityEngine.AI;
 [DisallowMultipleComponent]
 public class BossPatternAction : MonoBehaviour
 {
-    public AnimatorOverrideController[] animatorOv;
+    // public AnimatorOverrideController[] animatorOv;
+    public AnimationClip[] animationClips;
     public int priority;
     public float patternCooldown;
     public float fieldOfView;
@@ -14,20 +15,27 @@ public class BossPatternAction : MonoBehaviour
     public Transform targetTransform;
 
     protected AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
-    private void AnimCrossFade(int stateHashName) => _animator.CrossFade(stateHashName, animTransDuration);
+    protected void AnimCrossFade(int stateHashName) =>
+        _animator.CrossFade(stateHashName, animTransDuration);
+    protected int ClipName2Hash(AnimationClip clip) => Animator.StringToHash(clip.name);
 
+    protected bool IsAnimationEnded(AnimationClip clip) => GetCurStateInfo(0).IsName(clip.name)
+                                                           && GetCurStateInfo(0).normalizedTime >= 1f;
+    
     protected Animator _animator;
     protected Boss _boss;
     protected NavMeshAgent _agent;
 
     protected int _animIdAction;
+    protected int _animIdActionChange;
     protected string _animTagAction;
 
     private float animTransDuration = .1f;
-    public void Init(AnimatorOverrideController[] animatorOvParam, int priorityParam, float patternCooldownParam,
+    public void Init(AnimationClip[] animationClipsParam, int priorityParam, float patternCooldownParam,
         float fovParam, float viewDistanceParam)
     {
-        this.animatorOv = animatorOvParam;
+        this.animationClips = animationClipsParam;
+        // this.animatorOv = animatorOvParam;
         this.priority = priorityParam;
         this.patternCooldown = patternCooldownParam;
         this.fieldOfView = fovParam;
@@ -39,6 +47,7 @@ public class BossPatternAction : MonoBehaviour
         
         // assign animation id
         _animIdAction = Animator.StringToHash("Action");
+        _animIdActionChange = Animator.StringToHash("ActionChange");
         _animTagAction = "Action";
     }
 
@@ -50,7 +59,7 @@ public class BossPatternAction : MonoBehaviour
             yield break;
         }
         Debug.Log("일반 패턴 시작");
-        _animator.runtimeAnimatorController = animatorOv[0];
+        // _animator.runtimeAnimatorController = animatorOv[0];
         
         _agent.isStopped = true;
         AnimCrossFade(_animIdAction);
@@ -72,5 +81,19 @@ public class BossPatternAction : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _agent.angularSpeed);
         }
+    }
+    protected float GetPathLength(NavMeshPath path)
+    {
+        float length = 0f;
+
+        if (path.corners.Length < 2)
+            return length;
+
+        for (int i = 0; i < path.corners.Length - 1; i++)
+        {
+            length += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+        }
+
+        return length;
     }
 }

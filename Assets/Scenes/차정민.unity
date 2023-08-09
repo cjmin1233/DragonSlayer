@@ -26865,7 +26865,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 1
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
@@ -31738,7 +31738,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6410173976271456470}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.04, y: 0, z: -19}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -31763,7 +31763,7 @@ ParticleSystem:
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
-  emitterVelocityMode: 1
+  emitterVelocityMode: 0
   looping: 0
   prewarm: 0
   playOnAwake: 1
@@ -44894,6 +44894,7 @@ MonoBehaviour:
     originPatterns:
     - {fileID: 11400000, guid: 5f4417b92ee704848af3e8138b68874f, type: 2}
     - {fileID: 11400000, guid: aa70cbff197dc4c4aacd374b465309b6, type: 2}
+    - {fileID: 11400000, guid: 20b94f66c403e9d438c216fea5f6d97a, type: 2}
     patterns: []
     curPatternIndex: 0
   - patternType: 1
