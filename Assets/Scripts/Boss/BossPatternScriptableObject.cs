@@ -9,6 +9,8 @@ public class BossPatternScriptableObject : ScriptableObject
     public AnimatorOverrideController[] animatorOv;
     public int priority;
     public float patternCooldown;
+    public float fieldOfView;
+    public float viewDistance;
     public GameObject patternPrefab;
     public BossPatternAction Init(Transform patternContainer)
     {
@@ -16,7 +18,7 @@ public class BossPatternScriptableObject : ScriptableObject
         container.name = patternName;
 
         BossPatternAction patternAction = container.GetComponent<BossPatternAction>();
-        patternAction.Init(animatorOv, priority, patternCooldown);
+        patternAction.Init(animatorOv, priority, patternCooldown, fieldOfView, viewDistance);
 
         return patternAction;
     }

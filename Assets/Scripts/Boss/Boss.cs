@@ -1,8 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -104,6 +101,9 @@ public class Boss : LivingEntity
     private string _animTagDie;
     #endregion
 
+    private float fieldOfView = 50f;
+    private float viewDistance = 10f;
+
     public bool ActionEnded { get; private set; }
     private void Awake()
     {
@@ -112,7 +112,7 @@ public class Boss : LivingEntity
         
         foreach (var data in patternData)
         {
-            data.InitPatternData(patternContainer);;
+            data.InitPatternData(patternContainer, this);;
         }
 
         // 애니메이션 관련 변수 초기화
@@ -349,22 +349,35 @@ public class Boss : LivingEntity
                     nextState = BossState.Idle;
                     return true;
                 }
-                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)  // 패턴 시작 범위 넣을 것
+
+                // 우선 순위, 시야 범위 고려하여 패턴 select
+                var _selectedPattern = patternData[0].SelectPatternAction();
+                if (_selectedPattern is not null)
                 {
-                    // trace 중 destination 도착. 패턴 시작
-                    var selectedPattern = patternData[0].SelectPatternAction();
-                    if (selectedPattern is not null)
-                    {
-                        selectedPattern.targetTransform = targetTransform;
-                        if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                        curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
-                        print("패턴 발동");
-                        nextState = BossState.Action;
-                    }
-                    
+                    _selectedPattern.targetTransform = targetTransform;
+                    if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+                    curPatternRoutine = StartCoroutine(_selectedPattern.PatternRoutine());
+                    nextState = BossState.Action;
                     return true;
                 }
+
                 break;
+                // // 타겟이 시야 범위 내에 포착
+                // if (IsTargetOnSight(targetTransform))
+                // {
+                //     var selectedPattern = patternData[0].SelectPatternAction(targetTransform);
+                //     if (selectedPattern is not null)
+                //     {
+                //         selectedPattern.targetTransform = targetTransform;
+                //         if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+                //         curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
+                //         print("패턴 발동");
+                //         nextState = BossState.Action;
+                //     }
+                //     
+                //     return true;
+                // }
+                // break;
             case BossState.TakeOff:
                 if (GetCurStateInfo(0).IsTag(_animTagTakeOff)
                     && GetCurStateInfo(0).normalizedTime >= 1f)
@@ -388,9 +401,9 @@ public class Boss : LivingEntity
                     print("잠깐 쉬고 추적 대상 탐색");
                     var colliders = Physics.OverlapSphere(agentPosition, findTargetRadius, whatIsTarget);
                     
-                    foreach (var collider in colliders)
+                    foreach (var col in colliders)
                     {
-                        var livingEntity = collider.GetComponent<LivingEntity>();
+                        var livingEntity = col.GetComponent<LivingEntity>();
 
                         if (livingEntity is not null)
                         {
@@ -476,6 +489,45 @@ public class Boss : LivingEntity
         
         Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
+    }
+
+    public bool IsTargetOnSight(float fov, float viewDist)
+    {
+        if (targetTransform is null) return false;
+
+        var direction = targetTransform.position - agentPosition;
+        direction.y = 0f;
+
+        if (Vector3.Angle(direction, transform.forward) > fov * .5f) return false;
+        if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDistance, whatIsTarget))
+        {
+            if (hit.transform.Equals(targetTransform)) return true;
+        }
+        return false;
+    }
+    private bool IsTargetOnSight(Transform target)
+    {
+        var direction = target.position - agentPosition;
+        direction.y = 0f;
+
+        if (Vector3.Angle(direction, transform.forward) > fieldOfView * 0.5f)
+        {
+            return false;
+        }
+
+        if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDistance, whatIsTarget))
+        {
+            if (hit.transform == target) return true;
+        }
+        
+        return false;
+    }
+
+    private float TargetAngle(Transform target)
+    {
+        var direction = target.position - agentPosition;
+        direction.y = 0f;
+        return Vector3.Angle(direction, transform.forward);
     }
     private IEnumerator BossThink()
     {
