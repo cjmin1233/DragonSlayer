@@ -84,7 +84,8 @@ public class EnemySpawner : MonoBehaviour
     private void EnemySpawn(Vector3 map, int index)
     {
         var instance = GetFromPool(index);
-        instance.transform.position = new Vector3(map.x + Random.Range(-9, 10), 0f, map.z + Random.Range(-9, 10));
+        Debug.Log(map);
+        instance.transform.position = new Vector3(map.x + Random.Range(-19, 20), 0f, map.z + Random.Range(-19, 20));
         instance.SetActive(true);
     }
 }

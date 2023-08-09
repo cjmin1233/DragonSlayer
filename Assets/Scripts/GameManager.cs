@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlaySceneSetupProcess()
     {
+        MapVector2.instance.GenerateDungeon();
         totalHp = PlayerPrefs.HasKey("PlayerTotalHp") ? PlayerPrefs.GetInt("PlayerTotalHp") : 20;
         currentHp = PlayerPrefs.HasKey("PlayerCurrentHp") ? PlayerPrefs.GetInt("PlayerCurrentHp") : 20;
         yield return null;

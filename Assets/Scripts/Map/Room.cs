@@ -66,6 +66,7 @@ public class Room : MonoBehaviour
                 default:
                     break;
             }
+            EnemySpawner.Instance.SelectEnemySpawner();
         }
     }
 }
