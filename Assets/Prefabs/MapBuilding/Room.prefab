@@ -5668,7 +5668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5704699687421610282}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: 0, z: -1.35}
+  m_LocalPosition: {x: -2, y: 0, z: -1.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5690,7 +5690,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 7843564013337994883}
-  isCleared: 0
   doorType: 1
   distance: 5
 --- !u!65 &4996632180502416959
@@ -5861,7 +5860,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 1837013128465908556}
-  isCleared: 0
   doorType: 3
   distance: 5
 --- !u!65 &6319404003094455361
@@ -6992,7 +6990,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 348512107024236117}
-  isCleared: 0
   doorType: 2
   distance: 5
 --- !u!65 &2074825700839066011
@@ -7324,7 +7321,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   door: {fileID: 644725624253403400}
-  isCleared: 0
   doorType: 0
   distance: 5
 --- !u!65 &4026417183100005162
