@@ -8,6 +8,14 @@ using UnityEngine.UI;
 //코루틴 안에 있는 SetActive(false)/WaitForSeconds(5)는 test용 이므로 없어두 됨
 public class FadeUI : MonoBehaviour
 {
+    public enum FadeState
+    {
+        None,
+        FadeingIn,
+        Fade,
+        FadingOut
+    }
+    public FadeState fadeState = FadeState.None;
     public Image fadeUI;
 
     public void StartFadeOut()
@@ -23,26 +31,31 @@ public class FadeUI : MonoBehaviour
     IEnumerator FadeOutCoroutine()
     {
         float fadeAlpha = 0;
+        fadeState = FadeState.FadingOut;
         while (fadeAlpha < 1.0f)
         {
             fadeAlpha += 0.01f;
             yield return new WaitForSeconds(0.01f);
             fadeUI.color = new Color(0, 0, 0, fadeAlpha);
         }
-        yield return new WaitForSeconds(5);
-        gameObject.SetActive(false);
+        fadeState = FadeState.Fade;
+        //yield return new WaitForSeconds(3);
+        //gameObject.SetActive(false);
     }
 
     IEnumerator FadeInCoroutine()
     {
         float fadeAlpha = 1;
+        fadeState = FadeState.FadeingIn;
         while (fadeAlpha > 0f)
         {
             fadeAlpha -= 0.01f;
             yield return new WaitForSeconds(0.01f);
             fadeUI.color = new Color(0, 0, 0, fadeAlpha);
         }
-        yield return new WaitForSeconds(5);
-        gameObject.SetActive(false);
+        fadeState = FadeState.None;
+
+        //yield return new WaitForSeconds(3);
+        //gameObject.SetActive(false);
     }
 }
