@@ -9,6 +9,7 @@ public enum SceneType
 {
     Main,
     Play,
+    Boss,
     Loading,
 }
 
@@ -43,11 +44,14 @@ public class GameManager : MonoBehaviour
 
     public UnityEvent onMainSceneLoaded;
     public UnityEvent onPlaySceneLoaded;
+    public UnityEvent onBossSceneLoaded;
     public UnityEvent onGameOver;
     public event Action<bool> onGamePaused;
 
     private Coroutine playSceneSetupProcess;
     private Coroutine playSceneProcess;
+    private Coroutine bossSceneSetupProcess;
+    private Coroutine bossSceneProcess;
 
     void Awake()
     {
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         onMainSceneLoaded = new UnityEvent();
         onPlaySceneLoaded = new UnityEvent();
+        onBossSceneLoaded = new UnityEvent();
         onGameOver = new UnityEvent();
     }
 
@@ -77,6 +82,12 @@ public class GameManager : MonoBehaviour
             gameState = GameState.Running;
             onPlaySceneLoaded.Invoke();
             playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
+        }
+        else if (scene.buildIndex == (int)SceneType.Boss)
+        {
+            gameState = GameState.Running;
+            onBossSceneLoaded.Invoke();
+            bossSceneSetupProcess = StartCoroutine(BossSceneSetupProcess());
         }
     }
 
@@ -99,6 +110,16 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         onGameOver.Invoke();
+    }
+
+    private IEnumerator BossSceneSetupProcess()
+    {
+        yield return null;
+    }
+
+    private IEnumerator BossSceneProcess()
+    {
+        yield return null;
     }
 
     private void OnPlayerDeath()
