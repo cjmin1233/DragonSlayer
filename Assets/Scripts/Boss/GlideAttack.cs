@@ -37,6 +37,7 @@ public class GlideAttack : BossPatternAction
         // 낙하 시작
         AnimCrossFade(ClipName2Hash(animationClips[3]));
         float height = _agent.baseOffset;
+        print("height is : " + height);
         _agent.isStopped = false;
         _agent.SetDestination(targetTransform.position);
         if (!_agent.hasPath)
@@ -50,8 +51,9 @@ public class GlideAttack : BossPatternAction
         _agent.speed = glideSpeed;
         while (!_boss.Grounded)
         {
-            if (GetCurStateInfo(0).IsName(animationClips[3].name))
-                _agent.baseOffset = height * (GetPathLength(_agent.path) / pathLength);
+            float glideRatio = GetPathLength(_agent.path) / pathLength;
+            print("glide progress : " + glideRatio * 100f + "%");
+            _agent.baseOffset = height * (GetPathLength(_agent.path) / pathLength);
             yield return null;
         }
         // while (glideTimer < glideTime)
