@@ -11,10 +11,10 @@ public enum DoorType
     Left
 }
 
-public class Room : MonoBehaviour
+public class RoomMove : MonoBehaviour
 {
     public GameObject door;
-    public bool isCleared = true;
+    //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
     public float distance = 30f;
     // Start is called before the first frame update
