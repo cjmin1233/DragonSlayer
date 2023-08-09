@@ -7986,7 +7986,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\n\n\n\n\n\n\n\n\n\n-\rTap the screen to start the game-"
+  m_text: "\n\n\n\n\n\n\n\n\n\n-\r Tap the screen to start the game-"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c3ca2822c5b7e374481194b26adc5087, type: 2}
   m_sharedMaterial: {fileID: 217448376215568330, guid: c3ca2822c5b7e374481194b26adc5087, type: 2}
