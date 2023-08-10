@@ -17,6 +17,7 @@ public enum DoorType
 public class Door : MonoBehaviour
 {
     public static Door instance;
+    public LayerMask whatIsTarget;
     public Image doorImage;
     private Color basic;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
@@ -55,9 +56,9 @@ public class Door : MonoBehaviour
         var tranPosition = playerTransform.position + direction + (Vector3.up * 0.5f);
         playerTransform.position = tranPosition; 
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if(other.CompareTag("Player")) // && isCleared
+        if(other.gameObject.CompareTag("Player") && GameManager.Instance.IsRoomCleared()) // && isCleared
         {
             Vector3 normalVector;
 
@@ -86,6 +87,7 @@ public class Door : MonoBehaviour
                 default:
                     break;
             }
+            EnemySpawner.Instance.SelectEnemySpawner();
         }
     }
     public void ChangeRoomImage(RoomType rt)
@@ -111,17 +113,12 @@ public class Door : MonoBehaviour
     }
     public void ShootRay()
     {
-        Ray ray = new(Vector3.up + transform.position + doorDirection, doorDirection);
+        Collider[] hitInfo = new Collider[10];
+        int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5f, hitInfo, whatIsTarget, QueryTriggerInteraction.Ignore);
 
-        if (Physics.Raycast(ray, out _, RayDistance))
+        if (numColliders <= 1)
         {
-            Debug.Log("ray");
-            return;
+            gameObject.SetActive(false);
         }
-        else
-        {
-            //gameObject.SetActive(false);
-        }
-
     }
 }

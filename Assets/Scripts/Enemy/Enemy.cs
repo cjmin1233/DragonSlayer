@@ -284,6 +284,7 @@ public class Enemy : LivingEntity
     private void AfterDie()
     {
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
+        GameManager.Instance.aliveEnemies--;
         currentHp = maxHp;
         nextState = State.Idle;
     }
