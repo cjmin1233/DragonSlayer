@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
     private MultiQueue<GameObject> enemyQueue;
 
-    [SerializeField] private List<Vector3> mapRecord = new();
+    private List<Vector3> mapRecord = new();
 
     private GameObject player;
 
@@ -36,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    private Vector3 FindPlayerPlace()
+    public Vector3 FindPlayerPlace()
     {
         foreach (var generatedRoomInfo in GameManager.Instance.generatedRooms) mapRecord.Add(generatedRoomInfo.roomPosition);
         Vector3 nearestMap = Vector3.zero;
