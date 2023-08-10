@@ -58,14 +58,14 @@ public class BossPatternAction : MonoBehaviour
             Debug.LogError("Animator error");
             yield break;
         }
-        Debug.Log("일반 패턴 시작");
+
+        Debug.Log(gameObject.name + " : 일반 패턴 시작");
         // _animator.runtimeAnimatorController = animatorOv[0];
         
         _agent.isStopped = true;
-        AnimCrossFade(_animIdAction);
+        AnimCrossFade(ClipName2Hash(animationClips[0]));
         
-        yield return new WaitUntil(() => GetCurStateInfo(0).IsTag(_animTagAction)
-                                         && GetCurStateInfo(0).normalizedTime >= 1f);
+        yield return new WaitUntil(() => IsAnimationEnded(animationClips[0]));
         patternEnableTime = Time.time + patternCooldown;
         
         _boss.EndAction();

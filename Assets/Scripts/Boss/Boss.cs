@@ -467,6 +467,7 @@ public class Boss : LivingEntity
             case BossState.Action:
                 if (ActionEnded)
                 {
+                    // 패턴이 끝나면 idle 상태로
                     ActionEnded = false;
                     nextState = Fly ? BossState.Fly : BossState.Idle;
                     return true;

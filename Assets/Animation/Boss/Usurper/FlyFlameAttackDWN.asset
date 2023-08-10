@@ -19,7 +19,7 @@ MonoBehaviour:
   - {fileID: 7400000, guid: a93e49f684f3c6f4db5276905a02025a, type: 2}
   - {fileID: 7400000, guid: afa2dd82d0f21984e87b38ae7e37c958, type: 2}
   priority: 5
-  patternCooldown: 10
+  patternCooldown: 100
   fieldOfView: 360
   viewDistance: 20
   patternPrefab: {fileID: 1802622840373365619, guid: 65f8150363a65b644bac2609ff64d754, type: 3}

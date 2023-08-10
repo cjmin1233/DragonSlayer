@@ -137,6 +137,7 @@ public class PlayerHealth : LivingEntity
         if (invincibleTimer >= invincibleTime) return;
         if (invincibleProcess is not null) StopCoroutine(invincibleProcess);
         invincibleProcess = StartCoroutine(InvincibleTimer(invincibleTime));
+        print("플레이어 무적 부여");
     }
 
     private IEnumerator InvincibleTimer(float invincibleTime)
