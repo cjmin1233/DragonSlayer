@@ -11,9 +11,9 @@ public class rayCast : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
-            {
+            {                   
                 Debug.Log(hit.transform.gameObject);
-                hit.transform.GetComponentInChildren<DamageTextTest>().TakenDamage();
+                hit.transform.GetComponentInChildren<DamageTextTest>().TakenDamage();                                            
             }
         }
     }
