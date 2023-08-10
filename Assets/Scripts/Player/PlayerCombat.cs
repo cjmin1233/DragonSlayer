@@ -44,7 +44,7 @@ public class PlayerCombat : MonoBehaviour
 
     private int _animIDAttackSpeed;
     private int _animIDIsGuarding;
-    [SerializeField] private float attackSpeed = 1f;
+    private float attackSpeed = 1f;
 
     [SerializeField] private Transform vfxParent;
 
@@ -301,8 +301,6 @@ public class PlayerCombat : MonoBehaviour
             if (guardProcess is not null) StopCoroutine(guardProcess);
             
             _animator.SetBool("Parry", true);
-            // 무적 코루틴 시작
-            // GetComponent<PlayerHealth>().MakeInvincible(parryingInvincibleDuration);
             
             // 패링 성공시 무적 시간값 리턴
             return parryingInvincibleDuration;

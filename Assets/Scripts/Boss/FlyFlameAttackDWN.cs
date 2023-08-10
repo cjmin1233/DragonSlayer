@@ -21,7 +21,7 @@ public class FlyFlameAttackDWN : BossPatternAction
         AnimCrossFade(ClipName2Hash(animationClips[1]));
         while (!IsAnimationEnded(animationClips[1]))
         {
-            if(GetCurStateInfo(0).IsName(animationClips[1].name)) _agent.baseOffset = Mathf.Lerp(0f, 10f, GetCurStateInfo(0).normalizedTime);
+            if(GetCurStateInfo(0).IsName(animationClips[1].name)) _agent.baseOffset = Mathf.Lerp(0f, 5f, GetCurStateInfo(0).normalizedTime);
 
             yield return null;
         }

@@ -1,14 +1,11 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ParticleCollider : MonoBehaviour
 {
-    private GameObject _boss;
+    private GameObject damager;
     private void Awake()
     {
-        _boss = GetComponentInParent<Boss>().gameObject;
+        damager = GetComponentInParent<LivingEntity>().gameObject;
     }
 
     private void OnParticleCollision(GameObject other)
@@ -17,7 +14,7 @@ public class ParticleCollider : MonoBehaviour
         if (playerHealth is not null)
         {
             print("particle player hit");
-            DamageMessage damageMessage = new DamageMessage(_boss, 10f, 0f, true);
+            DamageMessage damageMessage = new DamageMessage(damager, 10f, 0f, true);
             playerHealth.TakeDamage(damageMessage);
         }
     }

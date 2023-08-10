@@ -70,7 +70,7 @@ public class PlayerHealth : LivingEntity
             // 패링 성공시 리턴
             float parryingResult = _playerCombat.CheckParrying(damageMessage.damager);
 
-            if (parryingResult > 0f) MakeInvincible(parryingResult);
+            if (parryingResult > 0f && !isInvincible) MakeInvincible(parryingResult);
         }
 
         if (_playerMove.IsRolling)

@@ -16,7 +16,7 @@ MonoBehaviour:
   animationClips:
   - {fileID: 7400000, guid: ce0fc9bab7b211a4c87062e97dc40741, type: 2}
   priority: 1
-  patternCooldown: 2
+  patternCooldown: 5
   fieldOfView: 10
   viewDistance: 6
   patternPrefab: {fileID: 6434611190930987291, guid: a51d8841ad8e9e24abd101e07b6e29e3, type: 3}

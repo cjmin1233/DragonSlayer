@@ -38,17 +38,17 @@ public class Boss : LivingEntity
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     private void AnimCrossFade(int stateHashName) => _animator.CrossFade(stateHashName, animTransDuration);
 
-    // [SerializeField] private float turnSmoothTime = .3f;
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
-    private Coroutine thinkRoutine;
+    // private Coroutine thinkRoutine;
 
     [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
+    [SerializeField] private BossPatternData[] flyPatternData;
     private Coroutine curPatternRoutine;
 
     [SerializeField] private float maxHealth;
-    public bool Grounded;
+    public bool Grounded { get; private set; }
 
     public float groundedOffset = -0.14f;
     public float groundedRadius = 0.28f;
@@ -110,9 +110,15 @@ public class Boss : LivingEntity
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         
+        // 패턴 데이터 초기화
         foreach (var data in patternData)
         {
             data.InitPatternData(patternContainer, this);;
+        }
+
+        foreach (var data in flyPatternData)
+        {
+            data.InitPatternData(patternContainer, this);
         }
 
         // 애니메이션 관련 변수 초기화
@@ -351,33 +357,17 @@ public class Boss : LivingEntity
                 }
 
                 // 우선 순위, 시야 범위 고려하여 패턴 select
-                var _selectedPattern = patternData[0].SelectPatternAction();
-                if (_selectedPattern is not null)
+                var patternAction = patternData[(int)BossPatternType.Nm].SelectPatternAction();
+                if (patternAction is not null)
                 {
-                    _selectedPattern.targetTransform = targetTransform;
+                    patternAction.targetTransform = targetTransform;
                     if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                    curPatternRoutine = StartCoroutine(_selectedPattern.PatternRoutine());
+                    curPatternRoutine = StartCoroutine(patternAction.PatternRoutine());
                     nextState = BossState.Action;
                     return true;
                 }
 
                 break;
-                // // 타겟이 시야 범위 내에 포착
-                // if (IsTargetOnSight(targetTransform))
-                // {
-                //     var selectedPattern = patternData[0].SelectPatternAction(targetTransform);
-                //     if (selectedPattern is not null)
-                //     {
-                //         selectedPattern.targetTransform = targetTransform;
-                //         if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                //         curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
-                //         print("패턴 발동");
-                //         nextState = BossState.Action;
-                //     }
-                //     
-                //     return true;
-                // }
-                // break;
             case BossState.TakeOff:
                 if (GetCurStateInfo(0).IsTag(_animTagTakeOff)
                     && GetCurStateInfo(0).normalizedTime >= 1f)
@@ -445,14 +435,14 @@ public class Boss : LivingEntity
                     nextState = BossState.Fly;
                     return true;
                 }
-                if (Vector3.Distance(agentPosition, _agent.destination) <= 5f)  // 패턴 시작 범위 넣을 것
+                // 우선 순위, 시야 범위 고려하여 패턴 select
+                var flyPattern = flyPatternData[(int)BossPatternType.Nm].SelectPatternAction();
+                if (flyPattern is not null)
                 {
-                    // fly trace 중 destination 도착. 패턴 시작
-                    print("fly trace destination 도착. 테스트로 착지하기");
-                    Fly = false;
-                    targetFlyOffset = _agent.baseOffset;
-                    
-                    nextState = BossState.Land;
+                    flyPattern.targetTransform = targetTransform;
+                    if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+                    curPatternRoutine = StartCoroutine(flyPattern.PatternRoutine());
+                    nextState = BossState.Action;
                     return true;
                 }
                 break;
