@@ -26,6 +26,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject[] TrapRooms;
     public GameObject Room;
     public List<GameObject> Rooms;
+    [SerializeField] GameObject minimapTile;
 
     private void Awake()
     {
@@ -141,6 +142,7 @@ public class MapGenerator : MonoBehaviour
             }
         }       
     }
+
     public void DungeonReset()
     {
         NavMesh.RemoveAllNavMeshData();
@@ -177,10 +179,6 @@ public class MapGenerator : MonoBehaviour
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
-        }
-
-
-
-        
+        }        
     }
 }

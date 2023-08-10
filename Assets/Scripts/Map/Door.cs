@@ -88,6 +88,7 @@ public class Door : MonoBehaviour
                     break;
             }
             EnemySpawner.Instance.SelectEnemySpawner();
+            MinimapCameraFollow.Instance.FollowMinimap();
         }
     }
     public void ChangeRoomImage(RoomType rt)
