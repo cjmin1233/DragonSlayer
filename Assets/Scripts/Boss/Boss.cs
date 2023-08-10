@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Animations.Rigging;
 using Random = UnityEngine.Random;
 
 public enum BossPatternType
@@ -12,6 +13,7 @@ public enum BossPatternType
 }
 public class Boss : LivingEntity
 {
+    [SerializeField] private BossScriptableObject bossScriptableObject;
     private enum BossState
     {
         Idle,
@@ -34,20 +36,20 @@ public class Boss : LivingEntity
     private NavMeshAgent _agent;
     private Animator _animator;
     private Rigidbody _rigidBody;
+    private Rig _animRig;
 
     private AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     private void AnimCrossFade(int stateHashName) => _animator.CrossFade(stateHashName, animTransDuration);
 
     private float turnSmoothVelocity;
     private bool isStateChanged = true;
-    // private Coroutine thinkRoutine;
 
     [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
     [SerializeField] private BossPatternData[] flyPatternData;
     private Coroutine curPatternRoutine;
 
-    [SerializeField] private float maxHealth;
+    // private float maxHealth;
     public bool Grounded { get; private set; }
 
     public float groundedOffset = -0.14f;
@@ -56,11 +58,10 @@ public class Boss : LivingEntity
 
     public bool Fly;
 
-    [SerializeField] private float minFlyOffset;
-    [SerializeField] private float maxFlyOffset;
-    // [SerializeField, Range(.1f, 3f)] private float smoothFlyTime; 
+    // [SerializeField] private float minFlyOffset;
+    // [SerializeField] private float maxFlyOffset;
     private float smoothFlyVelocity;
-    private float targetFlyOffset;
+    // private float targetFlyOffset;
 
     private bool isDead;
     
@@ -70,8 +71,14 @@ public class Boss : LivingEntity
     private Coroutine updatePath;
     private Transform targetTransform;
     [SerializeField, Range(1f, 10f)] private float patrolRadius;
-    [SerializeField] private float findTargetRadius;
+    private float findTargetRadius;
+    private float patrolSpeed;
+    private float traceSpeed;
+    private float flyPatrolSpeed;
+    private float flyTraceSpeed;
+    private float takeOffSpeed;
 
+    private float restTime;
     private Vector3 agentPosition
     {
         get
@@ -98,17 +105,15 @@ public class Boss : LivingEntity
     private string _animTagTakeOff;
     private string _animTagFly;
     private string _animTagLand;
-    private string _animTagDie;
+    // private string _animTagDie;
     #endregion
-
-    private float fieldOfView = 50f;
-    private float viewDistance = 10f;
 
     public bool ActionEnded { get; private set; }
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
+        _animRig = GetComponentInChildren<Rig>();
         
         // 패턴 데이터 초기화
         foreach (var data in patternData)
@@ -121,14 +126,36 @@ public class Boss : LivingEntity
             data.InitPatternData(patternContainer, this);
         }
 
+        // 보스 데이터 초기화
+        InitBossData();
         // 애니메이션 관련 변수 초기화
         InitAnimatorParams();
         
-        maxHp = maxHealth;
-        currentHp = maxHp;
-        isDead = false;
+        // maxHp = maxHealth;
+        // currentHp = maxHp;
+        // isDead = false;
 
         updatePath = StartCoroutine(UpdatePath());
+    }
+
+    private void InitBossData()
+    {
+        if (bossScriptableObject is null)
+        {
+            Debug.LogError("Boss data is missing");
+            return;
+        }
+        isDead = false;
+        this.maxHp = bossScriptableObject.maxHp;
+        this.currentHp = this.maxHp;
+        this.findTargetRadius = bossScriptableObject.findTargetRadius;
+        this.patrolSpeed = bossScriptableObject.patrolSpeed;
+        this.traceSpeed = bossScriptableObject.traceSpeed;
+        this.flyPatrolSpeed = bossScriptableObject.flyPatrolSpeed;
+        this.flyTraceSpeed = bossScriptableObject.flyTraceSpeed;
+        this.findTargetRadius = bossScriptableObject.findTargetRadius;
+        this.takeOffSpeed = bossScriptableObject.takeOffSpeed;
+        this.restTime = bossScriptableObject.restTime;
     }
     private void InitAnimatorParams()
     {
@@ -144,17 +171,11 @@ public class Boss : LivingEntity
         _animTagTakeOff = "TakeOff";
         _animTagFly = "Fly";
         _animTagLand = "Land";
-        _animTagDie = "Die";
+        // _animTagDie = "Die";
     }
 
     private void Update()
     {
-        // // 보스 데미지 테스트
-        // if (Input.GetKeyDown(KeyCode.T))
-        // {
-        //     DamageMessage damageMessage = new DamageMessage(null, 50f, 0f);
-        //     TakeDamage(damageMessage);
-        // }
         GroundedCheck();
 
         curState = nextState;
@@ -176,47 +197,60 @@ public class Boss : LivingEntity
             case BossState.Action:
                 break;
             case BossState.Idle:
+                _animRig.weight = 0f;
                 targetTransform = null;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdIdle);
                 break;
             case BossState.Patrol:
+                _animRig.weight = 0f;
                 _agent.isStopped = false;
+                _agent.speed = patrolSpeed;
                 AnimCrossFade(_animIdWalk);
                 
                 _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
                 break;
             case BossState.Trace:
+                _animRig.weight = 1f;
                 _agent.isStopped = false;
+                _agent.speed = traceSpeed;
                 AnimCrossFade(_animIdWalk);
                 
                 _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.TakeOff:
+                _animRig.weight = 0f;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdTakeOff);
                 break;
             case BossState.Fly:
+                _animRig.weight = 0f;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdFly);
                 break;
             case BossState.FlyPatrol:
+                _animRig.weight = 0f;
                 _agent.isStopped = false;
+                _agent.speed = flyPatrolSpeed;
                 AnimCrossFade(_animIdFlyForward);
                 
                 _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
                 break;
             case BossState.FlyTrace:
+                _animRig.weight = 1f;
                 _agent.isStopped = false;
+                _agent.speed = flyTraceSpeed;
                 AnimCrossFade(_animIdFlyForward);
 
                 _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.Land:
+                _animRig.weight = 0f;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdLand);
                 break;
             case BossState.Die:
+                _animRig.weight = 0f;
                 AnimCrossFade(_animIdDie);
                 break;
             default:
@@ -234,26 +268,22 @@ public class Boss : LivingEntity
             case BossState.FlyPatrol:
             case BossState.FlyTrace:
             case BossState.Action:
+            case BossState.Die:
                 break;
             case BossState.TakeOff:
                 if (GetCurStateInfo(0).IsTag(_animTagTakeOff))
                 {
-                    _agent.baseOffset =
-                        Mathf.Lerp(0f, targetFlyOffset, GetCurStateInfo(0).normalizedTime);
+                    _agent.baseOffset += takeOffSpeed * Time.deltaTime;
+                    // _agent.baseOffset =
+                    //     Mathf.Lerp(0f, targetFlyOffset, GetCurStateInfo(0).normalizedTime);
                 }
                 break;
             case BossState.Land:
                 if (GetCurStateInfo(0).IsTag(_animTagLand))
                 {
-                    _agent.baseOffset =
-                        Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
-                }
-                break;
-            case BossState.Die:
-                if (GetCurStateInfo(0).IsTag(_animTagDie))
-                {
-                    _agent.baseOffset =
-                        Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
+                    _agent.baseOffset -= takeOffSpeed * Time.deltaTime;
+                    // _agent.baseOffset =
+                    //     Mathf.Lerp(targetFlyOffset, 0f, GetCurStateInfo(0).normalizedTime);
                 }
                 break;
             default:
@@ -298,15 +328,14 @@ public class Boss : LivingEntity
             case BossState.Idle:
                 if (Fly)
                 {
-                    targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
-                    print("target offset is : " + targetFlyOffset);
-                    
+                    // targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
+                    // print("target offset is : " + targetFlyOffset);
                     nextState = BossState.TakeOff;
                     return true;
                 }
 
                 if (GetCurStateInfo(0).IsTag(_animTagIdle)
-                    && GetCurStateInfo(0).normalizedTime >= 3f)
+                    && GetCurStateInfo(0).normalizedTime >= restTime)
                 {
                     // 범위 내 타겟 있는지 확인
                     var colliders = Physics.OverlapSphere(agentPosition, findTargetRadius, whatIsTarget);
@@ -379,13 +408,12 @@ public class Boss : LivingEntity
             case BossState.Fly:
                 if (!Fly)
                 {
-                    targetFlyOffset = _agent.baseOffset;
-                    
+                    // targetFlyOffset = _agent.baseOffset;
                     nextState = BossState.Land;
                     return true;
                 }
                 if (GetCurStateInfo(0).IsTag(_animTagFly)
-                    && GetCurStateInfo(0).normalizedTime >= 3f)
+                    && GetCurStateInfo(0).normalizedTime >= restTime)
                 {
                     // 범위 내 타겟 있는지 확인
                     print("잠깐 쉬고 추적 대상 탐색");
@@ -416,7 +444,6 @@ public class Boss : LivingEntity
                         return true;
                     }
                 }
-
                 break;
             case BossState.FlyPatrol:
                 if (Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance)
@@ -448,7 +475,7 @@ public class Boss : LivingEntity
                 break;
             case BossState.Land:
                 if (GetCurStateInfo(0).IsTag(_animTagLand)
-                    && GetCurStateInfo(0).normalizedTime >= 1f)
+                    && Grounded)
                 {
                     nextState = BossState.Idle;
                     return true;
@@ -500,63 +527,63 @@ public class Boss : LivingEntity
         direction.y = 0f;
 
         if (Vector3.Angle(direction, transform.forward) > fov * .5f) return false;
-        if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDistance, whatIsTarget))
+        if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDist, whatIsTarget))
         {
             if (hit.transform.Equals(targetTransform)) return true;
         }
         return false;
     }
-    private bool IsTargetOnSight(Transform target)
-    {
-        var direction = target.position - agentPosition;
-        direction.y = 0f;
+    // private bool IsTargetOnSight(Transform target)
+    // {
+    //     var direction = target.position - agentPosition;
+    //     direction.y = 0f;
+    //
+    //     if (Vector3.Angle(direction, transform.forward) > fieldOfView * 0.5f)
+    //     {
+    //         return false;
+    //     }
+    //
+    //     if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDistance, whatIsTarget))
+    //     {
+    //         if (hit.transform == target) return true;
+    //     }
+    //     
+    //     return false;
+    // }
 
-        if (Vector3.Angle(direction, transform.forward) > fieldOfView * 0.5f)
-        {
-            return false;
-        }
-
-        if (Physics.Raycast(agentPosition, direction, out RaycastHit hit, viewDistance, whatIsTarget))
-        {
-            if (hit.transform == target) return true;
-        }
-        
-        return false;
-    }
-
-    private float TargetAngle(Transform target)
-    {
-        var direction = target.position - agentPosition;
-        direction.y = 0f;
-        return Vector3.Angle(direction, transform.forward);
-    }
-    private IEnumerator BossThink()
-    {
-        while (true)
-        {
-            // if (!isFlying)
-            // {
-            //     if (groundState.Equals(GroundState.Patrol))
-            //     {
-            //         // 패턴 선택
-            //         var selectedPattern = patternData[0].SelectPatternAction();
-            //         if (selectedPattern is not null)
-            //         {
-            //             groundState = GroundState.Attack;
-            //             if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-            //             curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
-            //             print("패턴 발동");
-            //         }
-            //     }
-            //     else if (groundState.Equals(GroundState.Attack))
-            //     {
-            //         // 공격 중...
-            //     }
-            // }
-
-            yield return new WaitForSeconds(.1f);
-        }
-    }
+    // private float TargetAngle(Transform target)
+    // {
+    //     var direction = target.position - agentPosition;
+    //     direction.y = 0f;
+    //     return Vector3.Angle(direction, transform.forward);
+    // }
+    // private IEnumerator BossThink()
+    // {
+    //     while (true)
+    //     {
+    //         // if (!isFlying)
+    //         // {
+    //         //     if (groundState.Equals(GroundState.Patrol))
+    //         //     {
+    //         //         // 패턴 선택
+    //         //         var selectedPattern = patternData[0].SelectPatternAction();
+    //         //         if (selectedPattern is not null)
+    //         //         {
+    //         //             groundState = GroundState.Attack;
+    //         //             if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
+    //         //             curPatternRoutine = StartCoroutine(selectedPattern.PatternRoutine());
+    //         //             print("패턴 발동");
+    //         //         }
+    //         //     }
+    //         //     else if (groundState.Equals(GroundState.Attack))
+    //         //     {
+    //         //         // 공격 중...
+    //         //     }
+    //         // }
+    //
+    //         yield return new WaitForSeconds(.1f);
+    //     }
+    // }
 
     public void EndAction()
     {
@@ -575,7 +602,7 @@ public class Boss : LivingEntity
     private void Die()
     {
         isDead = true;
-        targetFlyOffset = _agent.baseOffset;
+        // targetFlyOffset = _agent.baseOffset;
     }
 
     private void OnDrawGizmos()

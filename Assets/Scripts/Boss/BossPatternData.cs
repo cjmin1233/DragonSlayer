@@ -27,7 +27,6 @@ public class BossPatternData
         }
 
         this._boss = boss;
-        Debug.Log(patterns.Count);
     }
 
     public BossPatternAction SelectPatternAction()
