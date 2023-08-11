@@ -4,6 +4,20 @@ using UnityEngine;
 
 public class PlayerHealth : LivingEntity
 {
+    public static PlayerHealth Instance { get; private set; }
+    
+    public float MaxHP
+    {
+        get => maxHp;
+    }
+
+    public float CurHP
+    {
+        get => currentHp;
+    }
+
+    public float MaxVitality { get; private set; }
+    public float CurVitality { get; private set; }
     public event Action OnDeath;
     
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
@@ -26,6 +40,10 @@ public class PlayerHealth : LivingEntity
     private Coroutine invincibleProcess;
     private void Awake()
     {
+        if (Instance is null) Instance = this;
+        else if (!Instance.Equals(this)) Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);
+        
         _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
         _playerCombat = GetComponent<PlayerCombat>();

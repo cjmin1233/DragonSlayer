@@ -17,10 +17,10 @@ public class TitleManager : MonoBehaviour
 
     public void OnStartBtn()
     {
-        Debug.Log("¹öÆ°Å¬¸¯");
-        fadeUI.gameObject.SetActive(true);
-        fadeUI.StartFadeOut();
-        //SceneManager.LoadScene("Main");
+        // Debug.Log("ï¿½ï¿½Æ°Å¬ï¿½ï¿½");
+        // fadeUI.gameObject.SetActive(true);
+        // fadeUI.StartFadeOut();
+        // StartCoroutine(WaitAndLoadScene());
     }
 
     public void OnRecordBtn() 
@@ -71,5 +71,11 @@ public class TitleManager : MonoBehaviour
     public void OnQuitQuit()
     {
         quitPanel.transform.localPosition += new Vector3(1400, -1000, 0);
+    }
+
+    IEnumerator WaitAndLoadScene()
+    {
+        yield return new WaitForSeconds(2);
+        // LoadingSceneController.LoadScene("DamageTest");
     }
 }

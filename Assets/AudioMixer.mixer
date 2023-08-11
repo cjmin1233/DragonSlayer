@@ -20,7 +20,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EFFECT
+  m_Name: Effect
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: dd5029a271faa5d4695ee15d2bb938b2
   m_Children: []
@@ -50,11 +50,11 @@ AudioMixerController:
   m_UpdateMode: 0
   m_ExposedParameters:
   - guid: 9c6395e96dc4ee84d8fbc8d04fbc2c0d
-    name: bgm
+    name: BgmVolume
   - guid: e835ed57793216043853b210f3f0f79d
-    name: effect
+    name: EffectVolume
   - guid: 74288511caa63c4498ed653bfe86f768
-    name: master
+    name: MasterVolume
   m_AudioMixerGroupViews:
   - guids:
     - 3054538ebf410fd4ebf60065f7b38265
@@ -116,7 +116,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BGM
+  m_Name: Bgm
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 8a6e502f069e1744a94a2e6c740ab57b
   m_Children: []
