@@ -178,9 +178,5 @@ public class MapGenerator : MonoBehaviour
         {
             door.GetComponent<Door>().ShootRay();
         }
-
-
-
-        
     }
 }

@@ -19,7 +19,6 @@ public class Door : MonoBehaviour
     public static Door instance;
     public LayerMask whatIsTarget;
     public Image doorImage;
-    private Color basic;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
     public RoomType connectRoomType;
@@ -48,7 +47,7 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawRay(Vector3.up + transform.position + doorDirection, doorDirection * RayDistance, Color.red);
+        
     }
     public void MoveToRoom(Vector3 direction)
     {
@@ -95,19 +94,19 @@ public class Door : MonoBehaviour
         switch (rt)
         {
             case RoomType.Normal:
-                doorImage.material.color = basic;
+                doorImage.color = Color.black;
                 break;
             case RoomType.Golden:
-                doorImage.material.color = Color.yellow;
+                doorImage.color = Color.yellow;
                 break;
             case RoomType.Trap:
-                doorImage.material.color = Color.gray;
+                doorImage.color = Color.gray;
                 break;
             case RoomType.Jump:
-                doorImage.material.color = Color.gray;
+                doorImage.color = Color.gray;
                 break;
             case RoomType.Boss:
-                doorImage.material.color = Color.red;
+                doorImage.color = Color.red;
                 break;
         }
     }
