@@ -10,8 +10,10 @@ public class UiManager : MonoBehaviour
     public static UiManager Instance { get; private set; }
 
     [SerializeField] private GameObject eventSystem;
-    [SerializeField] private GameObject MainPanel;
-    [SerializeField] private GameObject PlayPanel;
+
+    [SerializeField] private MainPanel mainPanel;
+    [SerializeField] private PlayPanel playPanel;
+    
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject PauseMenu;
 
@@ -43,6 +45,7 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
         //
         //
+        
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
     }
@@ -55,9 +58,14 @@ public class UiManager : MonoBehaviour
         inputAction.UI.Cancel.started += OnEscapeTrigger;
     }
 
+    private void Update()
+    {
+        if (playPanel.gameObject.activeSelf) playPanel.UpdateUi();
+    }
+
     private void OnEscapeTrigger(InputAction.CallbackContext context)
     {
-        if (popUpCounter <= 0 && PlayPanel.activeSelf
+        if (popUpCounter <= 0 && playPanel.gameObject.activeSelf
                               && GameManager.Instance.gameState.Equals(GameState.Running))
         {
             popUpCounter = 1;
@@ -70,7 +78,7 @@ public class UiManager : MonoBehaviour
     public void OnPopupUiDisable()
     {
         popUpCounter--;
-        if (popUpCounter <= 0 && PlayPanel.activeSelf)
+        if (popUpCounter <= 0 && playPanel.gameObject.activeSelf)
         {
             popUpCounter = 0;
             GameManager.Instance.PauseGame(false);
@@ -82,9 +90,9 @@ public class UiManager : MonoBehaviour
     {
         fadePanel.StartFadeIn();
 
-        PlayPanel.SetActive(false);
+        playPanel.gameObject.SetActive(false);
         GameOverPanel.SetActive(false);
-        MainPanel.SetActive(true);
+        mainPanel.gameObject.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
     }
@@ -92,17 +100,17 @@ public class UiManager : MonoBehaviour
     {        
         fadePanel.StartFadeIn();
 
-        MainPanel.SetActive(false);
+        mainPanel.gameObject.SetActive(false);
         GameOverPanel.SetActive(false);
-        PlayPanel.SetActive(true);
+        playPanel.gameObject.SetActive(true);
         
         Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void GameOverSetup()
     {
-        MainPanel.SetActive(false);
-        PlayPanel.SetActive(false);
+        mainPanel.gameObject.SetActive(false);
+        playPanel.gameObject.SetActive(false);
         GameOverPanel.SetActive(true);
 
         Cursor.lockState = CursorLockMode.None;
