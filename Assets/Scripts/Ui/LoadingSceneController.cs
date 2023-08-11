@@ -7,14 +7,14 @@ using Unity.VisualScripting;
 
 public class LoadingSceneController : MonoBehaviour
 {
-    static string nextScene;
+    static int nextSceneIndex;
 
     [SerializeField]
     Image progressBar;
 
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(int sceneIndex)
     {
-        nextScene = sceneName;
+        nextSceneIndex = sceneIndex;
         SceneManager.LoadScene("LoadingScene");
     }
 
@@ -24,7 +24,7 @@ public class LoadingSceneController : MonoBehaviour
     }
     IEnumerator LoadSceneProgress()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextSceneIndex);
         op.allowSceneActivation = false;
 
         float timer = 0f;
@@ -39,7 +39,7 @@ public class LoadingSceneController : MonoBehaviour
             else
             {
                 timer += Time.unscaledDeltaTime;
-                float duration = 5.0f; // fake∑Œµ˘ ¡ˆº”Ω√∞£
+                float duration = 5.0f; // fakeÎ°úÎî© ÏßÄÏÜçÏãúÍ∞Ñ
                 float t = Mathf.Clamp01(timer / duration);
                 
                 progressBar.rectTransform.localScale = new Vector3 (Mathf.Lerp(0.9f, 1f, t), 1, 1);

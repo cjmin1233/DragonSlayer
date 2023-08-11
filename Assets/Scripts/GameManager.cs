@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -22,8 +21,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    public GameState gameState { get; private set; }
-    public bool isGameOver { get; private set; }
     public int totalHp, currentHp;
 
     public UnityEvent onMainSceneLoaded;
@@ -33,7 +30,11 @@ public class GameManager : MonoBehaviour
 
     private Coroutine playSceneSetupProcess;
     private Coroutine playSceneProcess;
+    private Coroutine sceneLoadingProcess;
 
+    
+    public bool isGameOver { get; private set; }
+    public GameState gameState { get; private set; }
     void Awake()
     {
         if(!Instance) Instance = this;
@@ -45,20 +46,57 @@ public class GameManager : MonoBehaviour
         onMainSceneLoaded = new UnityEvent();
         onPlaySceneLoaded = new UnityEvent();
         onGameOver = new UnityEvent();
+        onGameOver.AddListener(SaveData);
+    }
+
+    public bool LoadNextScene()
+    {
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            // 씬 로드 시작
+            if (sceneLoadingProcess is not null) StopCoroutine(sceneLoadingProcess);
+            sceneLoadingProcess = StartCoroutine(SceneLoadingProcess(nextSceneIndex));
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool LoadScene(SceneType sceneType)
+    {
+        int nextSceneIndex = (int)sceneType;
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            // 씬 로드
+            if (sceneLoadingProcess is not null) StopCoroutine(sceneLoadingProcess);
+            sceneLoadingProcess = StartCoroutine(SceneLoadingProcess(nextSceneIndex));
+            return true;
+        }
+
+        return false;
+    }
+
+    private IEnumerator SceneLoadingProcess(int nextSceneIndex)
+    {
+       FadeUI.Instance.StartFadeOut();
+        yield return new WaitUntil(() => FadeUI.Instance.CurFadeState.Equals(FadeUI.FadeState.Fade));
+        LoadingSceneController.LoadScene(nextSceneIndex);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        FadeUI.Instance.StartFadeIn();
         if (scene.buildIndex == (int)SceneType.Play)
-        {
-            gameState = GameState.Running;
-            onMainSceneLoaded.Invoke();
-        }
-        else if (scene.buildIndex == (int)SceneType.Main)
         {
             gameState = GameState.Running;
             onPlaySceneLoaded.Invoke();
             playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
+        }
+        else if (scene.buildIndex == (int)SceneType.Main)
+        {
+            gameState = GameState.Running;
+            onMainSceneLoaded.Invoke();
         }
     }
 
@@ -98,5 +136,12 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerCurrentHp", currentHp);
     }
 
-    public void QuitGame() => Application.Quit();
+    public void QuitGame()
+    {
+        Application.Quit();
+        
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
 }

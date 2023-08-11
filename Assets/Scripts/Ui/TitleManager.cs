@@ -17,10 +17,10 @@ public class TitleManager : MonoBehaviour
 
     public void OnStartBtn()
     {
-        Debug.Log("¹öÆ°Å¬¸¯");
-        fadeUI.gameObject.SetActive(true);
-        fadeUI.StartFadeOut();
-        StartCoroutine(WaitAndLoadScene());
+        // Debug.Log("ï¿½ï¿½Æ°Å¬ï¿½ï¿½");
+        // fadeUI.gameObject.SetActive(true);
+        // fadeUI.StartFadeOut();
+        // StartCoroutine(WaitAndLoadScene());
     }
 
     public void OnRecordBtn() 
@@ -76,6 +76,6 @@ public class TitleManager : MonoBehaviour
     IEnumerator WaitAndLoadScene()
     {
         yield return new WaitForSeconds(2);
-        LoadingSceneController.LoadScene("DamageTest");
+        // LoadingSceneController.LoadScene("DamageTest");
     }
 }
