@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 
 public class UiManager : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class UiManager : MonoBehaviour
             return fadePanel.CurFadeState;
         }
     }
+
+    private DefaultInputActions inputAction;
+    private int popUpCounter = 0;
+
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -36,11 +41,41 @@ public class UiManager : MonoBehaviour
         // add listener
         GameManager.Instance.onMainSceneLoaded.AddListener(MainSceneSetup);
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
-        // GameManager.Instance.onMainSceneLoaded.AddListener(GameOverSetup);
         //
         //
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
+    }
+
+    private void Start()
+    {
+        inputAction = new DefaultInputActions();
+        inputAction.UI.Enable();
+
+        inputAction.UI.Cancel.started += OnEscapeTrigger;
+    }
+
+    private void OnEscapeTrigger(InputAction.CallbackContext context)
+    {
+        if (popUpCounter <= 0 && PlayPanel.activeSelf
+                              && GameManager.Instance.gameState.Equals(GameState.Running))
+        {
+            popUpCounter = 1;
+            PauseMenu.SetActive(true);
+            GameManager.Instance.PauseGame(true);
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    public void OnPopupUiDisable()
+    {
+        popUpCounter--;
+        if (popUpCounter <= 0 && PlayPanel.activeSelf)
+        {
+            popUpCounter = 0;
+            GameManager.Instance.PauseGame(false);
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 
     private void MainSceneSetup()
@@ -50,6 +85,8 @@ public class UiManager : MonoBehaviour
         PlayPanel.SetActive(false);
         GameOverPanel.SetActive(false);
         MainPanel.SetActive(true);
+
+        Cursor.lockState = CursorLockMode.None;
     }
     private void PlaySceneSetup()
     {        
@@ -58,6 +95,8 @@ public class UiManager : MonoBehaviour
         MainPanel.SetActive(false);
         GameOverPanel.SetActive(false);
         PlayPanel.SetActive(true);
+        
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void GameOverSetup()
@@ -65,8 +104,8 @@ public class UiManager : MonoBehaviour
         MainPanel.SetActive(false);
         PlayPanel.SetActive(false);
         GameOverPanel.SetActive(true);
-        
-        //
+
+        Cursor.lockState = CursorLockMode.None;
     }
 
 
@@ -88,20 +127,19 @@ public class UiManager : MonoBehaviour
     }
 
     public void FadeOut() => fadePanel.StartFadeOut();
-    
-    public void MasterVolumeLevel(float sliderVal)
+    public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("master", Mathf.Log10(sliderVal) * 20);
+        audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("MasterVolume", volume);
     }
-
-    public void BGMVolumeLevel(float sliderVal)
+    public void SetBgmVolume(float volume)
     {
-        audioMixer.SetFloat("bgm", Mathf.Log10(sliderVal) * 20);
+        audioMixer.SetFloat("BgmVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("BgmVolume", volume);
     }
-
-    public void EffectVolumeLevel(float sliderVal)
+    public void SetEffectVolume(float volume)
     {
-        audioMixer.SetFloat("effect", Mathf.Log10(sliderVal) * 20);
+        audioMixer.SetFloat("EffectVolume", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("EffectVolume", volume);
     }
-
 }

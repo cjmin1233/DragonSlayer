@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent onMainSceneLoaded;
     public UnityEvent onPlaySceneLoaded;
     public UnityEvent onGameOver;
-    public event Action<bool> onGamePaused;
+    public event Action<bool> onGamePaused = _ => { };
 
     private Coroutine playSceneSetupProcess;
     private Coroutine playSceneProcess;
