@@ -14,7 +14,7 @@ public class ParticleCollider : MonoBehaviour
         if (playerHealth is not null)
         {
             print("particle player hit");
-            DamageMessage damageMessage = new DamageMessage(damager, 10f, 0f, true);
+            DamageMessage damageMessage = new DamageMessage(damager, 1f, 0f, true);
             playerHealth.TakeDamage(damageMessage);
         }
     }

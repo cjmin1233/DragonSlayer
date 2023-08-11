@@ -18,6 +18,8 @@ public class PlayerHealth : LivingEntity
 
     public float MaxVitality { get; private set; }
     public float CurVitality { get; private set; }
+
+    private float vitalityRestoreRate;
     public event Action OnDeath;
     
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
@@ -64,12 +66,22 @@ public class PlayerHealth : LivingEntity
         PlayerInit(playerScriptableObject);
     }
 
+    private void Update()
+    {
+        RestoreVitality(vitalityRestoreRate * Time.deltaTime);
+    }
+
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
         isDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
+
+        MaxVitality = playerSo.vitality;
+        CurVitality = MaxVitality;
+
+        vitalityRestoreRate = playerSo.vitalityRestoreRate;
         
         _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
@@ -185,4 +197,13 @@ public class PlayerHealth : LivingEntity
         if (!isStunned) ToggleFreezePlayer(false);
         _animator.SetBool(_animIDIsGetHit, false);
     }
+
+    public bool IsVitalityEnough(float amount) => amount <= CurVitality ? true : false;
+
+    public void SpendVitality(float amount)
+    {
+        CurVitality = Mathf.Clamp(CurVitality - amount, 0f, MaxVitality);
+    }
+
+    public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
 }

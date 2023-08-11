@@ -142,19 +142,25 @@ public class PlayerCombat : MonoBehaviour
         if (comboData.comboCounter < comboData.Combos.Count
             && Time.time > comboData.nextComboStartTime)
         {
+            ComboAnimation comboAnimation = comboData.Combos[comboData.comboCounter];
+            if (!PlayerHealth.Instance.IsVitalityEnough(comboAnimation.ComboVitality))
+            {
+                print("콤보 기력이 부족합니다.");
+                return;
+            }
             // 다른 콤보 입력
             if (IsComboActive && !curComboType.Equals(comboType))
             {
                 EndCombo();
             }
             curComboType = comboType;
-            ComboAnimation comboAnimation = comboData.Combos[comboData.comboCounter];
             activeWeapon.WeaponSetup(comboAnimation);
 
             comboAnimation.EffectIndex = 0;
             _animator.runtimeAnimatorController = comboAnimation.AnimatorOv;
             _animator.SetFloat(_animIDAttackSpeed, attackSpeed);
             _animator.Play("Attack", 0, 0);
+            PlayerHealth.Instance.SpendVitality(comboAnimation.ComboVitality);
             IsAttacking = true;
         }
     }

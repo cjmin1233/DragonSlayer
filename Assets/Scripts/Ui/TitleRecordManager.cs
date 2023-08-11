@@ -10,7 +10,7 @@ public class TitleRecordManager : MonoBehaviour
 
     void Start()
     {
-        // ClearTimeManager¸¦ Ã£¾Æ¼­ LoadClearTimesFromPlayerPrefs() ¸Ş¼­µå È£Ãâ
+        // ClearTimeManagerë¥¼ ì°¾ì•„ì„œ LoadClearTimesFromPlayerPrefs() ë©”ì„œë“œ í˜¸ì¶œ
         ClearTimeManager clearTimeManager = FindObjectOfType<ClearTimeManager>();
         if (clearTimeManager != null)
         {
@@ -27,7 +27,7 @@ public class TitleRecordManager : MonoBehaviour
 
     void UpdateClearTimeUI()
     {
-        // Å¬¸®¾î Å¸ÀÓ µ¥ÀÌÅÍ¸¦ TMPro UI¿¡ Ç¥½Ã
+        // í´ë¦¬ì–´ íƒ€ì„ ë°ì´í„°ë¥¼ TMPro UIì— í‘œì‹œ
         for (int i = 0; i < clearTimeTexts.Length; i++)
         {
             if (i < clearTimeList.Count)

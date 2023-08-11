@@ -18,6 +18,7 @@ MonoBehaviour:
   stunTime: 0
   isStiff: 1
   nextComboInterval: 0
+  comboVitality: 20
   assaultDirection: {x: 0, y: 0, z: 1}
   assaultSpeedCurve:
     serializedVersion: 2

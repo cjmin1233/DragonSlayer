@@ -7,10 +7,10 @@ using UnityEngine;
 //    public GameObject hudDamageText;
 //    public Transform hudPos;
 
-//    public override void TakeDamage(int damage) //µ¥¹ÌÁöÀÔ´Â ÇÔ¼ö¸íÀ¸·Î º¯°æ
+//    public override void TakeDamage(int damage) //ë°ë¯¸ì§€ì…ëŠ” í•¨ìˆ˜ëª…ìœ¼ë¡œ ë³€ê²½
 //    {
-//        GameObject hudText = Instantiate(hudDamageText); //»ı¼ºÇÒ ÅØ½ºÆ® ¿ÀºêÁ§Æ®
-//        hudText.transform.position = hudPos.position; //Ç¥½ÃÇÒ À§Ä¡
+//        GameObject hudText = Instantiate(hudDamageText); //ìƒì„±í•  í…ìŠ¤íŠ¸ ì˜¤ë¸Œì íŠ¸
+//        hudText.transform.position = hudPos.position; //í‘œì‹œí•  ìœ„ì¹˜
 //        hudText.GetComponent<DamageText>().damage = damage;
 //        base.TakeDamage(damage);
 //    }

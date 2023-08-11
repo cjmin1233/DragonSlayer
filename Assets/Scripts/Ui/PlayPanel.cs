@@ -11,5 +11,6 @@ public class PlayPanel : MonoBehaviour
     public void UpdateUi()
     {
         playerHealthBar.UpdateValue(PlayerHealth.Instance.CurHP, PlayerHealth.Instance.MaxHP);
+        playerVitalityBar.UpdateValue(PlayerHealth.Instance.CurVitality, PlayerHealth.Instance.MaxVitality);
     }
 }

@@ -32,7 +32,7 @@ public class VideoOption : MonoBehaviour
 
     private void InitUI()
     {
-        resolutions.Clear(); // ±âÁ¸ÀÇ resolutions ¸®½ºÆ®¸¦ ÃÊ±âÈ­
+        resolutions.Clear(); // ê¸°ì¡´ì˜ resolutions ë¦¬ìŠ¤íŠ¸ë¥¼ ì´ˆê¸°í™”
 
         for (int i = 0; i < Screen.resolutions.Length; i++)
         {
