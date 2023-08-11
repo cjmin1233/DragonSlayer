@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class UiManager : MonoBehaviour
 {
@@ -13,7 +14,17 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject GameOverPanel;
     [SerializeField] private GameObject PauseMenu;
 
-    private FadeUI fadePanel;
+    [SerializeField] private FadeUI fadePanel;
+
+    [SerializeField] private AudioMixer audioMixer;
+
+    public FadeUI.FadeState FadeState
+    {
+        get
+        {
+            return fadePanel.CurFadeState;
+        }
+    }
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -28,17 +39,22 @@ public class UiManager : MonoBehaviour
         // GameManager.Instance.onMainSceneLoaded.AddListener(GameOverSetup);
         //
         //
-        fadePanel = GetComponentInChildren<FadeUI>();
+        fadePanel.gameObject.SetActive(true);
+        fadePanel.Init();
     }
 
     private void MainSceneSetup()
     {
+        fadePanel.StartFadeIn();
+
         PlayPanel.SetActive(false);
         GameOverPanel.SetActive(false);
         MainPanel.SetActive(true);
     }
     private void PlaySceneSetup()
-    {
+    {        
+        fadePanel.StartFadeIn();
+
         MainPanel.SetActive(false);
         GameOverPanel.SetActive(false);
         PlayPanel.SetActive(true);
@@ -70,4 +86,22 @@ public class UiManager : MonoBehaviour
     {
         GameManager.Instance.QuitGame();
     }
+
+    public void FadeOut() => fadePanel.StartFadeOut();
+    
+    public void MasterVolumeLevel(float sliderVal)
+    {
+        audioMixer.SetFloat("master", Mathf.Log10(sliderVal) * 20);
+    }
+
+    public void BGMVolumeLevel(float sliderVal)
+    {
+        audioMixer.SetFloat("bgm", Mathf.Log10(sliderVal) * 20);
+    }
+
+    public void EffectVolumeLevel(float sliderVal)
+    {
+        audioMixer.SetFloat("effect", Mathf.Log10(sliderVal) * 20);
+    }
+
 }

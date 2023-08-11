@@ -79,14 +79,13 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator SceneLoadingProcess(int nextSceneIndex)
     {
-       FadeUI.Instance.StartFadeOut();
-        yield return new WaitUntil(() => FadeUI.Instance.CurFadeState.Equals(FadeUI.FadeState.Fade));
+        UiManager.Instance.FadeOut();
+        yield return new WaitUntil(() => UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade));
         LoadingSceneController.LoadScene(nextSceneIndex);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        FadeUI.Instance.StartFadeIn();
         if (scene.buildIndex == (int)SceneType.Play)
         {
             gameState = GameState.Running;

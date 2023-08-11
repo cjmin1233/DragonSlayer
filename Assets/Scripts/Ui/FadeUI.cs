@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class FadeUI : MonoBehaviour
 {
-    public static FadeUI Instance { get; private set; }
     public enum FadeState
     {
         None,
@@ -19,11 +18,8 @@ public class FadeUI : MonoBehaviour
     private Image fadeImage;
     private Coroutine fadeOutRoutine;
     private Coroutine fadeInRoutine;
-    private void Awake()
+    public void Init()
     {
-        if (Instance is null) Instance = this;
-        else if (!Instance.Equals(this)) Destroy(gameObject);
-        
         CurFadeState = FadeState.None;
         fadeImage = GetComponent<Image>();
     }
