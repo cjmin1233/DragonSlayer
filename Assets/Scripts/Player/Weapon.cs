@@ -10,7 +10,7 @@ public class Weapon : MonoBehaviour
     private bool stiff;
     private BoxCollider boxCollider;
 
-    private List<GameObject> hitInstanceIdList = new List<GameObject>();
+    private List<GameObject> hitList = new List<GameObject>();
     public void WeaponInit(WeaponScriptableObject weaponScriptableObject)
     {
         weaponType = weaponScriptableObject.type;
@@ -28,7 +28,7 @@ public class Weapon : MonoBehaviour
 
     public void EnableWeapon()
     {
-        hitInstanceIdList.Clear();
+        hitList.Clear();
         boxCollider.enabled = true;
     }
 
@@ -39,8 +39,8 @@ public class Weapon : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         var instance = other.gameObject;
-        if (hitInstanceIdList.Contains(instance)) return;
-        hitInstanceIdList.Add(instance);
+        if (hitList.Contains(instance)) return;
+        hitList.Add(instance);
 
         // 데미지 처리
         var livingEntity = other.GetComponent<LivingEntity>();

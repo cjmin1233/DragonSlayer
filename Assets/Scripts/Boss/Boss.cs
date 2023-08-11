@@ -109,6 +109,16 @@ public class Boss : LivingEntity
     #endregion
 
     public bool ActionEnded { get; private set; }
+    
+    public float MaxHP
+    {
+        get => maxHp;
+    }
+
+    public float CurHP
+    {
+        get => currentHp;
+    }
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -318,8 +328,9 @@ public class Boss : LivingEntity
 
     private bool TransitionCheck()
     {
-        if (isDead)
+        if (isDead && !curState.Equals(BossState.Die))
         {
+            print("Boss dead?");
             nextState = BossState.Die;
             return true;
         }

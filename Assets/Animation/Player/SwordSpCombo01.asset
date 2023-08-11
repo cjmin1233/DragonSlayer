@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SwordSpCombo01
   m_EditorClassIdentifier: 
   animatorOv: {fileID: 22100000, guid: e40e2b8678beeb44b8e8fae34c6dd05f, type: 2}
-  damage: 0.2
+  damage: 2
   loop: 0
   stunTime: 0
   isStiff: 1
