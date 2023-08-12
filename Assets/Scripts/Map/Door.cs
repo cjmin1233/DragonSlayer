@@ -113,7 +113,6 @@ public class Door : MonoBehaviour
     }
     public void ShootRay()
     {
-        Debug.Log("shoot");
         Collider[] hitInfo = new Collider[10];
         int numColliders = Physics.OverlapSphereNonAlloc(transform.position, 5f, hitInfo, whatIsTarget, QueryTriggerInteraction.Ignore);
 

@@ -3887,7 +3887,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorImage: {fileID: 7265274417671839621}
-  doorType: 0
+  doorType: 1
   connectRoomType: 0
 --- !u!1 &4173438915245816519
 GameObject:
@@ -6997,7 +6997,7 @@ Transform:
   - {fileID: 4385768496532918389}
   - {fileID: 7619189803501663800}
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7697181789442420502
 GameObject:
@@ -7533,7 +7533,6 @@ Transform:
   - {fileID: 2707876343951903940}
   - {fileID: 2406824298699630617}
   - {fileID: 8386646643676209250}
-  - {fileID: 5119116381233743621}
   m_Father: {fileID: 4817546459055032326}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8151,7 +8150,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1233540983987995829}
-  m_Father: {fileID: 8335504129987687452}
+  m_Father: {fileID: 4817546459055032326}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!65 &4287885804877988019
@@ -8222,6 +8221,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5119116381233743621}
   - {fileID: 8335504129987687452}
   m_Father: {fileID: 4302932244382056460}
   m_RootOrder: -1
