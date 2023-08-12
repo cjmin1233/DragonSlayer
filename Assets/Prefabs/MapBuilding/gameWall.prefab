@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 7789604699858718523}
   m_Layer: 0
   m_Name: NomalDoor
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3826,7 +3826,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7574623475936020109}
   - component: {fileID: 7428250581022587279}
-  - component: {fileID: 4469696077547090640}
+  - component: {fileID: 1592850704731397141}
   m_Layer: 9
   m_Name: Door
   m_TagString: Door
@@ -3871,7 +3871,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 4.2, z: 4.5}
   m_Center: {x: 0, y: 2, z: 0}
---- !u!114 &4469696077547090640
+--- !u!114 &1592850704731397141
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3885,9 +3885,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 512
-  doorImage: {fileID: 0}
-  doorType: 1
+    m_Bits: 0
+  doorImage: {fileID: 7265274417671839621}
+  doorType: 0
   connectRoomType: 0
 --- !u!1 &4173438915245816519
 GameObject:
@@ -5365,8 +5365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 512
-  doorImage: {fileID: 0}
+    m_Bits: 0
+  doorImage: {fileID: 5224665553458276542}
   doorType: 2
   connectRoomType: 0
 --- !u!1 &6003106539802056830
@@ -8130,7 +8130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5119116381233743621}
   - component: {fileID: 4287885804877988019}
-  - component: {fileID: 2579296378102822491}
+  - component: {fileID: 3199331772348179783}
   m_Layer: 9
   m_Name: Door
   m_TagString: Door
@@ -8145,8 +8145,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8558768584163487768}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.50000006}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8175,7 +8175,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 4.2, z: 4.5}
   m_Center: {x: 0, y: 2, z: 0}
---- !u!114 &2579296378102822491
+--- !u!114 &3199331772348179783
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8189,8 +8189,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 512
-  doorImage: {fileID: 0}
+    m_Bits: 0
+  doorImage: {fileID: 2107483080565596863}
   doorType: 3
   connectRoomType: 0
 --- !u!1 &8591863933466930583
@@ -8482,8 +8482,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 512
-  doorImage: {fileID: 0}
+    m_Bits: 0
+  doorImage: {fileID: 6418218393201303472}
   doorType: 0
   connectRoomType: 0
 --- !u!1 &8938487906990185325

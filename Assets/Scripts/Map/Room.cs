@@ -13,16 +13,27 @@ public enum RoomType
 
 public class Room : MonoBehaviour
 {
+    public static Room instance;
+
     public RoomType roomType;
 
-    private void Start()
+    private void Awake()
     {
-        
+        if(instance == null)
+            instance = this;
     }
     public void ClearRoom()
     {
-        foreach (Transform child in transform)
+        Debug.Log("cleared");
+
+        int childCount = transform.childCount;
+
+        for (int i = childCount - 1; i >= 0; i--)
         {
+            Transform child = transform.GetChild(i);
+
+            ClearRoom();
+
             if (child.CompareTag("Entrance"))
             {
                 Destroy(child.gameObject);

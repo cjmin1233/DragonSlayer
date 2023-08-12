@@ -18,7 +18,9 @@ public class ComboScriptableObject : ScriptableObject
     // private List<GameObject> particleInstances = new List<GameObject>();
     public ComboAnimation Init(Transform vfxParent)
     {
-        // particleInstances.Clear();
+        // particleInstances.
+        //
+        // ();
         ComboAnimation comboAnimation = new ComboAnimation(animatorOv, damage, loop, stunTime, isStiff,
             nextComboInterval, assaultDirection, assaultSpeedCurve);
 
