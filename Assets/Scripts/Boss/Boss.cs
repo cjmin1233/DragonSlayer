@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using Random = UnityEngine.Random;
 
 public enum BossPatternType
 {
@@ -27,6 +27,7 @@ public class Boss : LivingEntity
         Action,
         Stun,
         GetHit,
+        Groggy,
         Glide,
         Die,
     }
@@ -98,6 +99,8 @@ public class Boss : LivingEntity
     private int _animIdFly;
     private int _animIdFlyForward;
     private int _animIdLand;
+    private int _animIdGetHit;
+    private int _animIdGroggy;
     private int _animIdDie;
     private int _animIdAction;
 
@@ -105,6 +108,8 @@ public class Boss : LivingEntity
     private string _animTagTakeOff;
     private string _animTagFly;
     private string _animTagLand;
+    private string _animTagGetHit;
+    private string _animTagGroggy;
     // private string _animTagDie;
     #endregion
 
@@ -119,6 +124,11 @@ public class Boss : LivingEntity
     {
         get => currentHp;
     }
+
+    public float[] phaseCheckPoint;
+    public int curPhase;
+    public BossPatternType nextAction;
+    public bool getHitTrigger;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -166,6 +176,15 @@ public class Boss : LivingEntity
         this.findTargetRadius = bossScriptableObject.findTargetRadius;
         this.takeOffSpeed = bossScriptableObject.takeOffSpeed;
         this.restTime = bossScriptableObject.restTime;
+        if (bossScriptableObject.phase > 1) this.phaseCheckPoint = new float[bossScriptableObject.phase];
+        else this.phaseCheckPoint = new float[1];
+        for (int i = 0; i < phaseCheckPoint.Length-1; i++)
+        {
+            phaseCheckPoint[i] = maxHp * (1f - (float)(i + 1) / phaseCheckPoint.Length);
+        }
+
+        phaseCheckPoint[phaseCheckPoint.Length - 1] = 0f;
+        curPhase = 0;
     }
     private void InitAnimatorParams()
     {
@@ -175,12 +194,16 @@ public class Boss : LivingEntity
         _animIdFly = Animator.StringToHash("Fly");
         _animIdFlyForward = Animator.StringToHash("FlyForward");
         _animIdLand = Animator.StringToHash("Land");
+        _animIdGetHit = Animator.StringToHash("GetHit");
+        _animIdGroggy = Animator.StringToHash("Groggy");
         _animIdDie = Animator.StringToHash("Die");
 
         _animTagIdle = "Idle";
         _animTagTakeOff = "TakeOff";
         _animTagFly = "Fly";
         _animTagLand = "Land";
+        _animTagGetHit = "GetHit";
+        _animTagGroggy = "Groggy";
         // _animTagDie = "Die";
     }
 
@@ -259,6 +282,14 @@ public class Boss : LivingEntity
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdLand);
                 break;
+            case BossState.GetHit:
+                _animRig.weight = 0f;
+                AnimCrossFade(_animIdGetHit);
+                break;
+            case BossState.Groggy:
+                _animRig.weight = 0f;
+                AnimCrossFade(_animIdGroggy);
+                break;
             case BossState.Die:
                 _animRig.weight = 0f;
                 AnimCrossFade(_animIdDie);
@@ -278,6 +309,8 @@ public class Boss : LivingEntity
             case BossState.FlyPatrol:
             case BossState.FlyTrace:
             case BossState.Action:
+            case BossState.GetHit:
+            case BossState.Groggy:
             case BossState.Die:
                 break;
             case BossState.TakeOff:
@@ -313,11 +346,13 @@ public class Boss : LivingEntity
             case BossState.FlyPatrol:
             case BossState.FlyTrace:
             case BossState.Action:
+            case BossState.Groggy:
                 break;
             
             // exit time == 1f animation clip
             case BossState.TakeOff:
             case BossState.Land:
+            case BossState.GetHit:
             case BossState.Die:
                 break;
             default:
@@ -332,6 +367,13 @@ public class Boss : LivingEntity
         {
             print("Boss dead?");
             nextState = BossState.Die;
+            return true;
+        }
+
+        if (getHitTrigger && !Fly)
+        {
+            getHitTrigger = false;
+            nextState = BossState.GetHit;
             return true;
         }
         switch (curState)
@@ -502,6 +544,24 @@ public class Boss : LivingEntity
                 }
 
                 break;
+            case BossState.GetHit:
+                if (GetCurStateInfo(0).IsTag(_animTagGetHit)
+                    && GetCurStateInfo(0).normalizedTime >= 1f)
+                {
+                    nextState = BossState.Groggy;
+                    return true;
+                }
+
+                break;
+            case BossState.Groggy:
+                if (GetCurStateInfo(0).IsTag(_animTagGroggy)
+                    && GetCurStateInfo(0).normalizedTime >= 5f)
+                {
+                    nextState = BossState.Idle;
+                    return true;
+                }
+
+                break;
             case BossState.Die:
                 break;
             default:
@@ -606,9 +666,18 @@ public class Boss : LivingEntity
         if (damageMessage.damager == gameObject) return;
 
         currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
+        // 마지막 페이즈 제외, 1칸 체력 소진시 피격 >> 그로기 애니메이션
+        if (curPhase + 1 < phaseCheckPoint.Length && phaseCheckPoint[curPhase] > currentHp)
+        {
+            currentHp = phaseCheckPoint[curPhase];
+            curPhase++;
+            getHitTrigger = true;
+        }
 
         if (currentHp <= 0f) Die();
     }
+
+    // private void Groggy();
 
     private void Die()
     {

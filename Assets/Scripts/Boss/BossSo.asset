@@ -20,3 +20,4 @@ MonoBehaviour:
   findTargetRadius: 100
   takeOffSpeed: 1
   restTime: 2
+  phase: 3
