@@ -11,7 +11,8 @@ public class BossPatternData
     public List<BossPatternAction> patterns;
     public int curPatternIndex;
 
-    public void InitPatternData(Transform patternContainer)
+    private Boss _boss;
+    public void InitPatternData(Transform patternContainer, Boss boss)
     {
         patterns = new List<BossPatternAction>();
         foreach (var originPattern in originPatterns)
@@ -25,7 +26,7 @@ public class BossPatternData
             else patterns.Add(bossPatternAction);
         }
 
-        Debug.Log(patterns.Count);
+        this._boss = boss;
     }
 
     public BossPatternAction SelectPatternAction()
@@ -34,7 +35,9 @@ public class BossPatternData
         int selectedIndex = -1;
         for (int i = 0; i < patterns.Count; i++)
         {
-            if (Time.time >= patterns[i].patternEnableTime && patterns[i].priority > highestPriority)
+            if (Time.time >= patterns[i].patternEnableTime 
+                && patterns[i].priority > highestPriority
+                && _boss.IsTargetOnSight(patterns[i].fieldOfView, patterns[i].viewDistance))
             {
                 selectedIndex = i;
                 highestPriority = patterns[selectedIndex].priority;

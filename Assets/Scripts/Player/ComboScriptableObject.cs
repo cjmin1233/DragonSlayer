@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Attacks/Normal Attack")]
@@ -10,6 +9,7 @@ public class ComboScriptableObject : ScriptableObject
     public float stunTime;
     public bool isStiff;
     public float nextComboInterval;
+    public float comboVitality;
     public Vector3 assaultDirection;
     public AnimationCurve assaultSpeedCurve;
     public GameObject[] vfxPrefabs;
@@ -18,11 +18,9 @@ public class ComboScriptableObject : ScriptableObject
     // private List<GameObject> particleInstances = new List<GameObject>();
     public ComboAnimation Init(Transform vfxParent)
     {
-        // particleInstances.
-        //
-        // ();
-        ComboAnimation comboAnimation = new ComboAnimation(animatorOv, damage, loop, stunTime, isStiff,
-            nextComboInterval, assaultDirection, assaultSpeedCurve);
+        // particleInstances.Clear();
+        ComboAnimation comboAnimation = new ComboAnimation(animatorOv, damage, loop, isStiff, stunTime, 
+            nextComboInterval, comboVitality, assaultDirection, assaultSpeedCurve);
 
         foreach (var vfxPrefab in vfxPrefabs)
         {

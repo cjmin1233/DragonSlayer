@@ -619,7 +619,7 @@ GameObject:
   - component: {fileID: 7789604699858718523}
   m_Layer: 0
   m_Name: NomalDoor
-  m_TagString: Door
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3885,7 +3885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   doorImage: {fileID: 7265274417671839621}
   doorType: 0
   connectRoomType: 0
@@ -5365,7 +5365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   doorImage: {fileID: 5224665553458276542}
   doorType: 2
   connectRoomType: 0
@@ -6997,7 +6997,7 @@ Transform:
   - {fileID: 4385768496532918389}
   - {fileID: 7619189803501663800}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7697181789442420502
 GameObject:
@@ -8189,7 +8189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   doorImage: {fileID: 2107483080565596863}
   doorType: 3
   connectRoomType: 0
@@ -8482,7 +8482,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whatIsTarget:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   doorImage: {fileID: 6418218393201303472}
   doorType: 0
   connectRoomType: 0

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f49510c6c909f408c32089d3bff856, type: 3}
+  m_Name: GlideAttack
+  m_EditorClassIdentifier: 
+  patternName: GlideAttack
+  animationClips:
+  - {fileID: 7400000, guid: f5fbb04eb5e4836489fa45a2afb1899d, type: 2}
+  - {fileID: 7400000, guid: 2cb5d4ff8fdb8e146a7f5c0317b8c634, type: 2}
+  - {fileID: 7400000, guid: a93e49f684f3c6f4db5276905a02025a, type: 2}
+  - {fileID: 7400000, guid: b6ced1a7e67ba8e41833f114c35db4ab, type: 2}
+  - {fileID: 7400000, guid: e5fc8d297c74f264694f706492ad8488, type: 2}
+  priority: 3
+  patternCooldown: 10
+  fieldOfView: 360
+  viewDistance: 100
+  patternPrefab: {fileID: 6675065189597736197, guid: 43456829f1e9fe547886e3ddc2fa4792, type: 3}

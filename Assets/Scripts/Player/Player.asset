@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: Player
   m_EditorClassIdentifier: 
   health: 100
+  vitality: 100
+  vitalityRestoreRate: 10
   moveSpeed: 5
   sprintSpeed: 10
   rollSpeed: 20
+  rollVitality: 30
   attackSpeed: 1
   defence: 100
   guardDuration: 1

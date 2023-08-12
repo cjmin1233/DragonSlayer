@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class PlayerHealth : LivingEntity
 {
+    public static PlayerHealth Instance { get; private set; }
+    
+    public float MaxHP
+    {
+        get => maxHp;
+    }
+
+    public float CurHP
+    {
+        get => currentHp;
+    }
+
+    public float MaxVitality { get; private set; }
+    public float CurVitality { get; private set; }
+
+    private float vitalityRestoreRate;
     public event Action OnDeath;
     
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
@@ -26,6 +42,10 @@ public class PlayerHealth : LivingEntity
     private Coroutine invincibleProcess;
     private void Awake()
     {
+        if (Instance is null) Instance = this;
+        else if (!Instance.Equals(this)) Destroy(gameObject);
+        DontDestroyOnLoad(gameObject);
+        
         _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponentInChildren<Animator>();
         _playerCombat = GetComponent<PlayerCombat>();
@@ -46,12 +66,22 @@ public class PlayerHealth : LivingEntity
         PlayerInit(playerScriptableObject);
     }
 
+    private void Update()
+    {
+        RestoreVitality(vitalityRestoreRate * Time.deltaTime);
+    }
+
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
         isDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
+
+        MaxVitality = playerSo.vitality;
+        CurVitality = MaxVitality;
+
+        vitalityRestoreRate = playerSo.vitalityRestoreRate;
         
         _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
@@ -70,7 +100,7 @@ public class PlayerHealth : LivingEntity
             // 패링 성공시 리턴
             float parryingResult = _playerCombat.CheckParrying(damageMessage.damager);
 
-            if (parryingResult > 0f) MakeInvincible(parryingResult);
+            if (parryingResult > 0f && !isInvincible) MakeInvincible(parryingResult);
         }
 
         if (_playerMove.IsRolling)
@@ -137,6 +167,7 @@ public class PlayerHealth : LivingEntity
         if (invincibleTimer >= invincibleTime) return;
         if (invincibleProcess is not null) StopCoroutine(invincibleProcess);
         invincibleProcess = StartCoroutine(InvincibleTimer(invincibleTime));
+        print("플레이어 무적 부여");
     }
 
     private IEnumerator InvincibleTimer(float invincibleTime)
@@ -166,4 +197,13 @@ public class PlayerHealth : LivingEntity
         if (!isStunned) ToggleFreezePlayer(false);
         _animator.SetBool(_animIDIsGetHit, false);
     }
+
+    public bool IsVitalityEnough(float amount) => amount <= CurVitality ? true : false;
+
+    public void SpendVitality(float amount)
+    {
+        CurVitality = Mathf.Clamp(CurVitality - amount, 0f, MaxVitality);
+    }
+
+    public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
 }

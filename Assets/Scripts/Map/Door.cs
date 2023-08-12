@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
     public static Door instance;
     public LayerMask whatIsTarget;
     public Image doorImage;
-    //public bool isCleared = true; °ÔÀÓ¸Å´ÏÀú¿¡ ÀÖ´Â isCleared ¹Ş¾Æ¿È
+    //public bool isCleared = true; ê²Œì„ë§¤ë‹ˆì €ì— ìˆëŠ” isCleared ë°›ì•„ì˜´
     public DoorType doorType;
     public RoomType connectRoomType;
     private const float distance = 8.5f;

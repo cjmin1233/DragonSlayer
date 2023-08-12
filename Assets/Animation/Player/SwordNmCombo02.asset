@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: SwordNmCombo02
   m_EditorClassIdentifier: 
   animatorOv: {fileID: 22100000, guid: ee5670ee26f30994db09a1079d9b06cf, type: 2}
-  damage: 0.1
+  damage: 1
   loop: 0
   stunTime: 0
   isStiff: 1
   nextComboInterval: 0
+  comboVitality: 0
   assaultDirection: {x: 0, y: 0, z: 1}
   assaultSpeedCurve:
     serializedVersion: 2

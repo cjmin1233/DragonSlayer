@@ -8,7 +8,7 @@ public class DamageText : MonoBehaviour
     private float moveSpeed;
     private float alphaSpeed;
     private float destroyTime;
-    private TextMeshPro text; // TextMeshProUGUI ÄÄÆ÷³ÍÆ® »ç¿ë
+    private TextMeshPro text; // TextMeshProUGUI ì»´í¬ë„ŒíŠ¸ ì‚¬ìš©
     private Color alpha;
 
     private void Awake()
@@ -28,17 +28,17 @@ public class DamageText : MonoBehaviour
 
     private void Update()
     {
-        // ÅØ½ºÆ®¸¦ À§·Î ÀÌµ¿
+        // í…ìŠ¤íŠ¸ë¥¼ ìœ„ë¡œ ì´ë™
         transform.Translate(new Vector3(0, moveSpeed * Time.deltaTime, 0));
 
-        // ÅØ½ºÆ® ¾ËÆÄ°ª Á¶Àı
+        // í…ìŠ¤íŠ¸ ì•ŒíŒŒê°’ ì¡°ì ˆ
         alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed);
         text.color = alpha;
     }
 
     public void ShowDamage(int damage)
     {
-        text.text = damage.ToString(); // ¹ŞÀº µ¥¹ÌÁö °ªÀ» ÅØ½ºÆ®·Î ¼³Á¤
+        text.text = damage.ToString(); // ë°›ì€ ë°ë¯¸ì§€ ê°’ì„ í…ìŠ¤íŠ¸ë¡œ ì„¤ì •
     }
 
     private void DestroyObject()

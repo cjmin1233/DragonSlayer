@@ -112,7 +112,7 @@ public class PlayerMove : MonoBehaviour
 
     public bool IsRolling { get; private set; }
     private Coroutine rolling;
-
+    private float rollVitality;
     private void Awake()
     {
         // get a reference to our main camera
@@ -129,7 +129,7 @@ public class PlayerMove : MonoBehaviour
         moveSpeed = playerSo.moveSpeed;
         sprintSpeed = playerSo.sprintSpeed;
         rollSpeed = playerSo.rollSpeed;
-        
+        rollVitality = playerSo.rollVitality;
     }
 
     private void Start()
@@ -173,7 +173,7 @@ public class PlayerMove : MonoBehaviour
         VerticalMovement();
         HorizontalMovement();
         CameraRotation();
-        MinimapPlayer();
+        // MinimapPlayer();
     }
     private void AssignAnimationIDs()
     {
@@ -198,8 +198,14 @@ public class PlayerMove : MonoBehaviour
     }
     private void Roll()
     {
+        if (!PlayerHealth.Instance.IsVitalityEnough(rollVitality))
+        {
+            Debug.Log("구르기 기력이 부족합니다.");
+            return;
+        }
         if(rolling is not null) StopCoroutine(rolling);
         rolling = StartCoroutine(Rolling());
+        PlayerHealth.Instance.SpendVitality(rollVitality);
     }
     private void VerticalMovement()
     {

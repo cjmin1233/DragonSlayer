@@ -178,7 +178,7 @@ public class MapGenerator : MonoBehaviour
 
         foreach (var door in doors)
         {
-            door.GetComponent<Door>().ShootRay();
+            if(door.activeSelf) door.GetComponent<Door>().ShootRay();
         }        
     }
 }

@@ -9,13 +9,13 @@ public class DamageTextTest : MonoBehaviour
 
     public void TakenDamage()
     {
-        Debug.Log("µ¥¹ÌÁö¸¦ ¹Ş¾Ò½À´Ï´Ù.");
+        Debug.Log("ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ìŠµë‹ˆë‹¤.");
         GameObject hudText = Instantiate(hudDamageText);
         hudText.transform.position = hudPos.position;
         DamageText damageText = hudText.GetComponent<DamageText>();
         if (damageText != null)
         {
-            damageText.ShowDamage(damage); // DamageText ½ºÅ©¸³Æ®ÀÇ ShowDamage È£Ãâ
+            damageText.ShowDamage(damage); // DamageText ìŠ¤í¬ë¦½íŠ¸ì˜ ShowDamage í˜¸ì¶œ
         }
     }
 }
