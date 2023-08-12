@@ -13,6 +13,15 @@ public enum EnemyType
     ChestMonster,
     Golem
 }
+
+public enum RandomSpawn
+{
+    S8T2,
+    S5T5,
+    S5T3B2,
+    S3T3B2C2,
+    G2B2
+}
 public class EnemySpawner : MonoBehaviour
 {
     public static EnemySpawner Instance {  get; private set; }
@@ -58,9 +67,32 @@ public class EnemySpawner : MonoBehaviour
         Vector3 map = FindPlayerPlace();
         if (GameManager.Instance.generatedRooms[GameManager.Instance.playerRoomIndex].isRoomClear) return;
 
-        for (int i = 0; i < 1; i++)
+        switch (GetRandomSpawn())
         {
-            EnemySpawn(map, i);   
+            case RandomSpawn.S8T2:
+                for (int i = 0; i < 8; i++) EnemySpawn(map, 0);
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 1);
+                break;
+            case RandomSpawn.S5T5:
+                for (int i = 0; i < 5; i++) EnemySpawn(map, 0);
+                for (int i = 0; i < 5; i++) EnemySpawn(map, 1);
+                break;
+            case RandomSpawn.S5T3B2:
+                for (int i = 0; i < 5; i++) EnemySpawn(map, 0);
+                for (int i = 0; i < 3; i++) EnemySpawn(map, 1);
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 2);
+                break;
+            case RandomSpawn.S3T3B2C2:
+                for (int i = 0; i < 3; i++) EnemySpawn(map, 0);
+                for (int i = 0; i < 3; i++) EnemySpawn(map, 1);
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 2);
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 3);
+                break;
+            case RandomSpawn.G2B2:
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 2);
+                for (int i = 0; i < 2; i++) EnemySpawn(map, 4);
+                break;
+            default: break;
         }
     }
 
@@ -92,5 +124,11 @@ public class EnemySpawner : MonoBehaviour
         instance.transform.position = new Vector3(map.x + Random.Range(-19, 20), 0f, map.z + Random.Range(-19, 20));
         instance.SetActive(true);
         GameManager.Instance.aliveEnemies++;
+    }
+
+    private RandomSpawn GetRandomSpawn()
+    {
+        var randomSpawn = Enum.GetValues(enumType:typeof(RandomSpawn));
+        return (RandomSpawn)randomSpawn.GetValue(Random.Range(0, randomSpawn.Length));
     }
 }
