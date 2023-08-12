@@ -120,5 +120,10 @@ public class Door : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        foreach(var door in hitInfo)
+        {
+            
+        }
     }
 }
