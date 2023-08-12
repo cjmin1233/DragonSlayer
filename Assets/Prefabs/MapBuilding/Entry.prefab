@@ -450,11 +450,15 @@ PrefabInstance:
       objectReference: {fileID: 4945713902962940512}
     - target: {fileID: 77126280715103101, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
-      value: 0
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 427106988003611905, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1592850704731397141, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: whatIsTarget.m_Bits
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 2579296378102822491, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: doorImage
@@ -464,13 +468,17 @@ PrefabInstance:
       propertyPath: whatIsTarget.m_Bits
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3199331772348179783, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: whatIsTarget.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 3707120217728878300, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: doorImage
       value: 
       objectReference: {fileID: 6138721488807456110}
     - target: {fileID: 3707120217728878300, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
-      value: 0
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 3911844767026042126, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: m_TagString
