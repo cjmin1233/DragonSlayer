@@ -91,7 +91,7 @@ public class Enemy : LivingEntity
                 break;
             case State.Die:
                 animator.Play("Die");
-                Invoke("AfterDie", 5f);
+                Invoke("AfterDie", 2f);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -284,6 +284,7 @@ public class Enemy : LivingEntity
     private void AfterDie()
     {
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
+        GameManager.Instance.aliveEnemies--;
         currentHp = maxHp;
         nextState = State.Idle;
     }
