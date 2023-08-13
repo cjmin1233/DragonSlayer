@@ -6,12 +6,8 @@ public class BossAttackCollider : MonoBehaviour
     [SerializeField] private float damage;
     [SerializeField] private float stunTime;
     [SerializeField] private bool isStiff;
-    private GameObject damager;
+    [SerializeField] private GameObject damager;
     private List<GameObject> hitList = new List<GameObject>();
-    private void Awake()
-    {
-        damager = GetComponentInParent<LivingEntity>().gameObject;
-    }
 
     private void OnTriggerEnter(Collider other)
     {

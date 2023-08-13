@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.Serialization;
+using Cinemachine;
 
 public enum BossPatternType
 {
@@ -26,14 +26,13 @@ public class Boss : LivingEntity
         FlyTrace,
         Land,
         Action,
-        Stun,
         GetHit,
         Groggy,
-        Glide,
+        Scream,
         Die,
     }
-    private BossState curState = BossState.Idle;
-    private BossState nextState = BossState.Idle;
+    private BossState curState = BossState.Fly;
+    private BossState nextState = BossState.Fly;
 
     private NavMeshAgent _agent;
     private Animator _animator;
@@ -58,7 +57,7 @@ public class Boss : LivingEntity
     public float groundedRadius = 0.28f;
     public LayerMask groundLayers;
 
-    public bool Fly;
+    public bool Fly = true;
 
     // [SerializeField] private float minFlyOffset;
     // [SerializeField] private float maxFlyOffset;
@@ -104,6 +103,8 @@ public class Boss : LivingEntity
     private int _animIdGroggy;
     private int _animIdDie;
     private int _animIdAction;
+    private int _animIdScream;
+    private int _animIdFlyScream;
 
     private string _animTagIdle;
     private string _animTagTakeOff;
@@ -111,6 +112,7 @@ public class Boss : LivingEntity
     private string _animTagLand;
     private string _animTagGetHit;
     private string _animTagGroggy;
+    private string _animTagScream;
     // private string _animTagDie;
     #endregion
 
@@ -130,6 +132,10 @@ public class Boss : LivingEntity
     public int curPhase;
     public BossPatternType nextActionType = BossPatternType.Nm;
     public bool getHitTrigger;
+
+    public bool fightStarted = false;
+
+    [SerializeField] private CinemachineVirtualCamera _followVcam;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -151,11 +157,6 @@ public class Boss : LivingEntity
         InitBossData();
         // 애니메이션 관련 변수 초기화
         InitAnimatorParams();
-        
-        // maxHp = maxHealth;
-        // currentHp = maxHp;
-        // isDead = false;
-
         updatePath = StartCoroutine(UpdatePath());
     }
 
@@ -167,6 +168,8 @@ public class Boss : LivingEntity
             return;
         }
         isDead = false;
+        Fly = true;
+        _agent.baseOffset = 3.6f;
         this.maxHp = bossScriptableObject.maxHp;
         this.currentHp = this.maxHp;
         this.findTargetRadius = bossScriptableObject.findTargetRadius;
@@ -197,6 +200,8 @@ public class Boss : LivingEntity
         _animIdLand = Animator.StringToHash("Land");
         _animIdGetHit = Animator.StringToHash("GetHit");
         _animIdGroggy = Animator.StringToHash("Groggy");
+        _animIdScream = Animator.StringToHash("Scream");
+        _animIdFlyScream = Animator.StringToHash("FlyScream");
         _animIdDie = Animator.StringToHash("Die");
 
         _animTagIdle = "Idle";
@@ -205,6 +210,7 @@ public class Boss : LivingEntity
         _animTagLand = "Land";
         _animTagGetHit = "GetHit";
         _animTagGroggy = "Groggy";
+        _animTagScream = "Scream";
         // _animTagDie = "Die";
     }
 
@@ -231,7 +237,7 @@ public class Boss : LivingEntity
             case BossState.Action:
                 break;
             case BossState.Idle:
-                _animRig.weight = 0f;
+                _animRig.weight = targetTransform is not null ? 1f : 0f;
                 targetTransform = null;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdIdle);
@@ -258,7 +264,7 @@ public class Boss : LivingEntity
                 AnimCrossFade(_animIdTakeOff);
                 break;
             case BossState.Fly:
-                _animRig.weight = 0f;
+                _animRig.weight = targetTransform is not null ? 1f : 0f;
                 _agent.isStopped = true;
                 AnimCrossFade(_animIdFly);
                 break;
@@ -291,6 +297,12 @@ public class Boss : LivingEntity
                 _animRig.weight = 0f;
                 AnimCrossFade(_animIdGroggy);
                 break;
+            case BossState.Scream:
+                _animRig.weight = 0f;
+                if (!Fly) AnimCrossFade(_animIdScream);
+                else AnimCrossFade(_animIdFlyScream);
+                ToggleFocusFollowVcam();
+                break;
             case BossState.Die:
                 _animRig.weight = 0f;
                 AnimCrossFade(_animIdDie);
@@ -312,6 +324,7 @@ public class Boss : LivingEntity
             case BossState.Action:
             case BossState.GetHit:
             case BossState.Groggy:
+            case BossState.Scream:
             case BossState.Die:
                 break;
             case BossState.TakeOff:
@@ -335,48 +348,23 @@ public class Boss : LivingEntity
         }
     }
 
-    private void StateExit()
-    {
-        switch (curState)
-        {
-            // loop animation clip
-            case BossState.Idle:
-            case BossState.Patrol:
-            case BossState.Trace:
-            case BossState.Fly:
-            case BossState.FlyPatrol:
-            case BossState.FlyTrace:
-            case BossState.Action:
-            case BossState.Groggy:
-                break;
-            
-            // exit time == 1f animation clip
-            case BossState.TakeOff:
-            case BossState.Land:
-            case BossState.GetHit:
-            case BossState.Die:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
-
-    }
 
     private bool TransitionCheck()
     {
+        // 보스 사망
         if (isDead && !curState.Equals(BossState.Die))
         {
-            print("Boss dead?");
+            print("Boss dead");
             nextState = BossState.Die;
             return true;
         }
-
         if (getHitTrigger && !Fly)
         {
             getHitTrigger = false;
             nextState = BossState.GetHit;
             return true;
         }
+        
         switch (curState)
         {
             case BossState.Idle:
@@ -486,6 +474,11 @@ public class Boss : LivingEntity
                     {
                         // 범위 내 타겟 확인
                         print("타겟 확인. trace 시작");
+                        if (!fightStarted)
+                        {
+                            nextState = BossState.Scream;
+                            return true;
+                        }
                         nextState = BossState.FlyTrace;
                         return true;
                     }
@@ -563,6 +556,21 @@ public class Boss : LivingEntity
                 }
 
                 break;
+            case BossState.Scream:
+                if (GetCurStateInfo(0).IsTag(_animTagScream)
+                    && GetCurStateInfo(0).normalizedTime >= 1f)
+                {
+                    nextState = Fly ? BossState.Fly : BossState.Idle;
+                    if (!fightStarted)
+                    {
+                        fightStarted = true;
+                        Fly = false;
+                    }
+                    nextActionType = BossPatternType.Nm;
+                    return true;
+                }
+
+                break;
             case BossState.Die:
                 break;
             default:
@@ -570,6 +578,35 @@ public class Boss : LivingEntity
         }
 
         return false;
+    }
+    private void StateExit()
+    {
+        switch (curState)
+        {
+            // loop animation clip
+            case BossState.Idle:
+            case BossState.Patrol:
+            case BossState.Trace:
+            case BossState.Fly:
+            case BossState.FlyPatrol:
+            case BossState.FlyTrace:
+            case BossState.Action:
+            case BossState.Groggy:
+                break;
+            
+            // exit time == 1f animation clip
+            case BossState.TakeOff:
+            case BossState.Land:
+            case BossState.GetHit:
+            case BossState.Die:
+                break;
+            case BossState.Scream:
+                ToggleFocusFollowVcam();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
     }
     private void GroundedCheck()
     {
@@ -718,5 +755,10 @@ public class Boss : LivingEntity
             }
             yield return new WaitForSeconds(.1f);
         }
+    }
+
+    private void ToggleFocusFollowVcam()
+    {
+        _followVcam.Priority += _followVcam.Priority > 10 ? -10 : 10;
     }
 }

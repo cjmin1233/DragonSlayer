@@ -26,7 +26,7 @@ public class FlyFlameAttackDWN : BossPatternAction
             yield return null;
         }
         // 쉘터 활성화
-        StartCoroutine(BossActionManager.Instance.EnableShelter());
+        BossActionManager.Instance.EnableShelters();
         // 타겟 주시 3초
         AnimCrossFade(ClipName2Hash(animationClips[2]));
         float timer = 3f;
@@ -39,6 +39,8 @@ public class FlyFlameAttackDWN : BossPatternAction
         
         // 화염 방사
         AnimCrossFade(ClipName2Hash(animationClips[3]));
+        BossActionManager.Instance.EnableHellFireField();
+        
         yield return new WaitUntil(() => IsAnimationEnded(animationClips[3]));
         print("불바다 패턴 종료");
         patternEnableTime = Time.time + patternCooldown;

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BossShockWave : MonoBehaviour
@@ -15,12 +12,12 @@ public class BossShockWave : MonoBehaviour
             Physics.OverlapSphereNonAlloc(transform.position, shockRadius, hitsInfo, whatIsTarget);
         for (int i = 0; i < numColliders; i++)
         {
-            var playerHealth = hitsInfo[i].GetComponent<PlayerHealth>();
-            if (playerHealth is not null)
+            var livingEntity = hitsInfo[i].GetComponent<LivingEntity>();
+            if (livingEntity is not null)
             {
-                var boss = GetComponentInParent<Boss>().gameObject;
-                DamageMessage damageMessage = new DamageMessage(boss, 0f, 2f);
-                playerHealth.TakeDamage(damageMessage);
+                var damagerEntity = GetComponentInParent<LivingEntity>().gameObject;
+                DamageMessage damageMessage = new DamageMessage(damagerEntity, 0f, 2f);
+                livingEntity.TakeDamage(damageMessage);
             }
         }
     }
