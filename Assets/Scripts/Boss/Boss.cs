@@ -78,6 +78,8 @@ public class Boss : LivingEntity
     private float flyPatrolSpeed;
     private float flyTraceSpeed;
     private float takeOffSpeed;
+    
+    public float TakeOffSpeed => takeOffSpeed;
 
     private float restTime;
     private Vector3 agentPosition
@@ -118,15 +120,9 @@ public class Boss : LivingEntity
 
     public bool ActionEnded { get; private set; }
     
-    public float MaxHP
-    {
-        get => maxHp;
-    }
+    public float MaxHP => maxHp;
 
-    public float CurHP
-    {
-        get => currentHp;
-    }
+    public float CurHP => currentHp;
 
     public float[] phaseCheckPoint;
     public int curPhase;
@@ -761,4 +757,6 @@ public class Boss : LivingEntity
     {
         _followVcam.Priority += _followVcam.Priority > 10 ? -10 : 10;
     }
+
+    public bool HasReachedDestination() => Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance;
 }

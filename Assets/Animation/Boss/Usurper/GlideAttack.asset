@@ -23,4 +23,4 @@ MonoBehaviour:
   patternCooldown: 10
   fieldOfView: 360
   viewDistance: 100
-  patternPrefab: {fileID: 6675065189597736197, guid: 43456829f1e9fe547886e3ddc2fa4792, type: 3}
+  componentName: GlideAttack

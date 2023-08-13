@@ -19,4 +19,4 @@ MonoBehaviour:
   patternCooldown: 20
   fieldOfView: 10
   viewDistance: 20
-  patternPrefab: {fileID: 6434611190930987291, guid: a51d8841ad8e9e24abd101e07b6e29e3, type: 3}
+  componentName: BossPatternAction

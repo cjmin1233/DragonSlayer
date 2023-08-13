@@ -2,11 +2,10 @@ using UnityEngine;
 
 public class ParticleCollider : MonoBehaviour
 {
-    private GameObject damager;
-    private void Awake()
-    {
-        damager = GetComponentInParent<LivingEntity>().gameObject;
-    }
+    [SerializeField] private float damage;
+    [SerializeField] private float stunTime;
+    [SerializeField] private bool isStiff;
+    [SerializeField] private GameObject damager;
 
     private void OnParticleCollision(GameObject other)
     {
@@ -14,7 +13,7 @@ public class ParticleCollider : MonoBehaviour
         if (playerHealth is not null)
         {
             print("particle player hit");
-            DamageMessage damageMessage = new DamageMessage(damager, 1f, 0f, true);
+            DamageMessage damageMessage = new DamageMessage(damager, damage, stunTime, isStiff);
             playerHealth.TakeDamage(damageMessage);
         }
     }
