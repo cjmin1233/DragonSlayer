@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.Serialization;
 
 public enum BossPatternType
 {
@@ -127,7 +128,7 @@ public class Boss : LivingEntity
 
     public float[] phaseCheckPoint;
     public int curPhase;
-    public BossPatternType nextAction;
+    public BossPatternType nextActionType = BossPatternType.Nm;
     public bool getHitTrigger;
     private void Awake()
     {
@@ -381,8 +382,6 @@ public class Boss : LivingEntity
             case BossState.Idle:
                 if (Fly)
                 {
-                    // targetFlyOffset = Random.Range(minFlyOffset, maxFlyOffset);
-                    // print("target offset is : " + targetFlyOffset);
                     nextState = BossState.TakeOff;
                     return true;
                 }
@@ -439,7 +438,7 @@ public class Boss : LivingEntity
                 }
 
                 // 우선 순위, 시야 범위 고려하여 패턴 select
-                var patternAction = patternData[(int)BossPatternType.Nm].SelectPatternAction();
+                var patternAction = patternData[(int)nextActionType].SelectPatternAction();
                 if (patternAction is not null)
                 {
                     patternAction.targetTransform = targetTransform;
@@ -516,7 +515,7 @@ public class Boss : LivingEntity
                     return true;
                 }
                 // 우선 순위, 시야 범위 고려하여 패턴 select
-                var flyPattern = flyPatternData[(int)BossPatternType.Nm].SelectPatternAction();
+                var flyPattern = flyPatternData[(int)nextActionType].SelectPatternAction();
                 if (flyPattern is not null)
                 {
                     flyPattern.targetTransform = targetTransform;
@@ -540,6 +539,7 @@ public class Boss : LivingEntity
                     // 패턴이 끝나면 idle 상태로
                     ActionEnded = false;
                     nextState = Fly ? BossState.Fly : BossState.Idle;
+                    nextActionType = BossPatternType.Nm;
                     return true;
                 }
 
@@ -558,6 +558,7 @@ public class Boss : LivingEntity
                     && GetCurStateInfo(0).normalizedTime >= 5f)
                 {
                     nextState = BossState.Idle;
+                    nextActionType = BossPatternType.Sp;
                     return true;
                 }
 

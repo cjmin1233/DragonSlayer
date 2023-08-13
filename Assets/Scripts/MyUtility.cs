@@ -23,4 +23,13 @@ public static class MyUtility
         randomPoint.y = 0f;
         return randomPoint;
     }
+
+    public static Vector3 GetRandomPointBet2Circles(Vector3 origin, float minRadius, float maxRadius)
+    {
+        Vector3 randomPoint = Random.onUnitSphere;
+        randomPoint.y = 0f;
+        randomPoint.Normalize();
+        randomPoint *= Random.Range(minRadius, maxRadius);
+        return origin + randomPoint;
+    }
 }
