@@ -43,7 +43,11 @@ public class PlayerHealth : LivingEntity
     private void Awake()
     {
         if (Instance is null) Instance = this;
-        else if (!Instance.Equals(this)) Destroy(gameObject);
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(gameObject);
         
         _rigidBody = GetComponent<Rigidbody>();

@@ -21,6 +21,6 @@ public class BossUi : MonoBehaviour
 
     public void UpdateHealthBar()
     {
-        healthBar.UpdateValue(_boss.CurHP, _boss.MaxHP);
+        healthBar.UpdateValue(_boss.CurHp, _boss.MaxHp);
     }
 }

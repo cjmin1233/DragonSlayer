@@ -19,4 +19,5 @@ MonoBehaviour:
   patternCooldown: 10
   fieldOfView: 10
   viewDistance: 30
+  fly: 1
   componentName: BossPatternAction

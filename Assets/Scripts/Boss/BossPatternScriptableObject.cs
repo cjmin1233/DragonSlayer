@@ -13,7 +13,7 @@ public class BossPatternScriptableObject : ScriptableObject
     public float patternCooldown;
     public float fieldOfView;
     public float viewDistance;
-
+    public bool fly;
     public string componentName;
     // public GameObject patternPrefab;
     public BossPatternAction Init(Transform patternContainer)
@@ -31,7 +31,8 @@ public class BossPatternScriptableObject : ScriptableObject
             Debug.LogError("패턴 액션 컴포넌트 생성 오류");
             return null;
         }
-        patternAction.Init(animationClips, priority, patternCooldown, fieldOfView, viewDistance);
+
+        patternAction.Init(animationClips, priority, patternCooldown, fieldOfView, viewDistance, fly);
 
         
         return patternAction;

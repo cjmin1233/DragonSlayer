@@ -10,6 +10,7 @@ public class BossPatternAction : MonoBehaviour
     public float patternCooldown;
     public float fieldOfView;
     public float viewDistance;
+    public bool Fly { get; private set; }
     public float patternEnableTime;
     public Transform targetTransform;
 
@@ -34,29 +35,22 @@ public class BossPatternAction : MonoBehaviour
     protected NavMeshAgent _agent;
 
     protected int curAnimClipIndex;
-    // protected int _animIdAction;
-    // protected int _animIdActionChange;
-    // protected string _animTagAction;
 
     private readonly float animTransDuration = .1f;
     
     public void Init(AnimationClip[] animationClipsParam, int priorityParam, float patternCooldownParam,
-        float fovParam, float viewDistanceParam)
+        float fovParam, float viewDistanceParam, bool flyParam)
     {
         this.animationClips = animationClipsParam;
         this.priority = priorityParam;
         this.patternCooldown = patternCooldownParam;
         this.fieldOfView = fovParam;
         this.viewDistance = viewDistanceParam;
+        this.Fly = flyParam;
 
         _animator = GetComponentInParent<Animator>();
         _boss = GetComponentInParent<Boss>();
         _agent = GetComponentInParent<NavMeshAgent>();
-        
-        // // assign animation id
-        // _animIdAction = Animator.StringToHash("Action");
-        // _animIdActionChange = Animator.StringToHash("ActionChange");
-        // _animTagAction = "Action";
     }
 
     public virtual IEnumerator PatternRoutine()
