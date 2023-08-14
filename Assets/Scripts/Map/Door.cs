@@ -22,6 +22,7 @@ public class Door : MonoBehaviour
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
     public RoomType connectRoomType;
+    private Renderer doorRenderer;
     private const float distance = 8.5f;
     private Vector3 doorDirection;
 
@@ -30,6 +31,8 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        doorRenderer = GetComponent<Renderer>();
     }
     private void Start()
     {
@@ -90,26 +93,10 @@ public class Door : MonoBehaviour
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }
-    public void ChangeRoomImage(RoomType rt)
+    public void ChangeDoorColor(Color newColor)
     {
-        switch (rt)
-        {
-            case RoomType.Normal:
-                doorImage.color = Color.black;
-                break;
-            case RoomType.Golden:
-                doorImage.color = Color.yellow;
-                break;
-            case RoomType.Trap:
-                doorImage.color = Color.gray;
-                break;
-            case RoomType.Jump:
-                doorImage.color = Color.gray;
-                break;
-            case RoomType.Boss:
-                doorImage.color = Color.red;
-                break;
-        }
+        // Image 컴포넌트의 색상 변경
+        doorRenderer.material.color = newColor;
     }
     public void ShootRay()
     {
@@ -121,9 +108,6 @@ public class Door : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        foreach(var door in hitInfo)
-        {
-            
-        }
+        
     }
 }

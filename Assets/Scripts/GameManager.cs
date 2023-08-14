@@ -172,7 +172,7 @@ public class GameManager : MonoBehaviour
         {
             GeneratedRoomInfo generatedRoomInfo = new GeneratedRoomInfo(generatedRooms[playerRoomIndex].roomPosition, true);
             generatedRooms[playerRoomIndex] = generatedRoomInfo;
-            Room.instance.ClearRoom();
+            Room.instance.ClearRoom(playerRoomIndex);
             return true;
         }
         return false;
