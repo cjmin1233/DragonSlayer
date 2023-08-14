@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class BossShockWave : MonoBehaviour
 {
+    [SerializeField] private GameObject damager;
     [SerializeField] private float shockRadius;
+    [SerializeField] private float stunTime;
     [SerializeField] private LayerMask whatIsTarget;
     private void OnEnable()
     {
@@ -15,8 +17,8 @@ public class BossShockWave : MonoBehaviour
             var livingEntity = hitsInfo[i].GetComponent<LivingEntity>();
             if (livingEntity is not null)
             {
-                var damagerEntity = GetComponentInParent<LivingEntity>().gameObject;
-                DamageMessage damageMessage = new DamageMessage(damagerEntity, 0f, 2f);
+                DamageMessage damageMessage = new DamageMessage(damager,
+                    hitsInfo[i].ClosestPointOnBounds(transform.position), 0f, stunTime);
                 livingEntity.TakeDamage(damageMessage);
             }
         }

@@ -16,7 +16,8 @@ public class BossAttackCollider : MonoBehaviour
         var playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth is not null)
         {
-            DamageMessage damageMessage = new DamageMessage(damager, damage, stunTime, isStiff);
+            Vector3 hitPoint = other.ClosestPointOnBounds(transform.position);
+            DamageMessage damageMessage = new DamageMessage(damager, hitPoint, damage, stunTime, isStiff);
             
             playerHealth.TakeDamage(damageMessage);
             hitList.Add(other.gameObject);

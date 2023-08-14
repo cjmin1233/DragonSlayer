@@ -12,6 +12,7 @@ public class HellFireFWD : BossPatternAction
         }
 
         Debug.Log(gameObject.name + ": 불바다 패턴 시작");
+        _boss.ToggleInvincible(true);
         curAnimClipIndex = 0;
         // 포효 1번
         _agent.isStopped = true;
@@ -60,5 +61,6 @@ public class HellFireFWD : BossPatternAction
         print("불바다 패턴 종료");
         patternEnableTime = Time.time + patternCooldown;
         _boss.EndAction(nextState);
+        _boss.ToggleInvincible(false);
     }
 }

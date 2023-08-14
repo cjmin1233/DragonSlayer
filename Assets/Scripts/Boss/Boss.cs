@@ -121,6 +121,7 @@ public class Boss : LivingEntity
     #endregion
     public bool ActionEnded { get; private set; }
     public BossState NextStateAfterAction { get; private set; }
+    public bool Invincible { get; private set; }
     public float MaxHp => maxHp;
     public float CurHp => currentHp;
 
@@ -277,6 +278,7 @@ public class Boss : LivingEntity
             case BossState.GetHit:
                 _animRig.weight = 0f;
                 _agent.isStopped = true;
+                _agent.baseOffset = 0f;
                 if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
                 AnimCrossFade(_animIdGetHit);
                 break;
@@ -293,6 +295,7 @@ public class Boss : LivingEntity
             case BossState.Die:
                 _animRig.weight = 0f;
                 _agent.isStopped = true;
+                _agent.baseOffset = 0f;
                 if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
                 AnimCrossFade(_animIdDie);
                 break;
@@ -582,8 +585,11 @@ public class Boss : LivingEntity
     }
     public override void TakeDamage(DamageMessage damageMessage)
     {
-        if (damageMessage.damager == gameObject) return;
+        // 무적이거나 자체 damage return
+        if (damageMessage.damager == gameObject || Invincible) return;
 
+        // 데미지 계산
+        print("Boss hit on point : " + damageMessage.hitPoint);
         currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
         // 마지막 페이즈 제외, 1칸 체력 소진시 피격 >> 그로기 애니메이션
         if (curPhase + 1 < phaseCheckPoint.Length && phaseCheckPoint[curPhase] > currentHp)
@@ -638,4 +644,5 @@ public class Boss : LivingEntity
     }
 
     public bool HasReachedDestination() => Vector3.Distance(agentPosition, _agent.destination) <= _agent.stoppingDistance;
+    public bool ToggleInvincible(bool value) => Invincible = value;
 }

@@ -12,8 +12,8 @@ public class ParticleCollider : MonoBehaviour
         var playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth is not null)
         {
-            print("particle player hit");
-            DamageMessage damageMessage = new DamageMessage(damager, damage, stunTime, isStiff);
+            Vector3 hitPoint = other.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+            DamageMessage damageMessage = new DamageMessage(damager, hitPoint, damage, stunTime, isStiff);
             playerHealth.TakeDamage(damageMessage);
         }
     }

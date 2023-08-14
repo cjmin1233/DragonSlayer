@@ -33,14 +33,19 @@ public class DamagableGround : MonoBehaviour
 
     private void DamageEntities()
     {
-        DamageMessage damageMessage = new DamageMessage(gameObject, damage, 0f, isStiff);
+        // DamageMessage damageMessage = new DamageMessage(gameObject, Vector3.zero, damage, 0f, isStiff);
         var colliders = Physics.OverlapSphere(transform.position, radius, whatIsTarget);
 
         foreach (var coll in colliders)
         {
             if (Mathf.Abs(coll.transform.position.y - transform.position.y) > height) continue;
             var livingEntity = coll.GetComponent<LivingEntity>();
-            if (livingEntity is not null) livingEntity.TakeDamage(damageMessage);
+            if (livingEntity is not null)
+            {
+                Vector3 hitPoint = coll.ClosestPointOnBounds(transform.position);
+                DamageMessage damageMessage = new DamageMessage(gameObject, hitPoint, damage, 0f, isStiff);
+                livingEntity.TakeDamage(damageMessage);
+            }
         }
     }
 }

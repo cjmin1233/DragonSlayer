@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    private GameObject damager;
     [SerializeField] private Transform hitPoint;
     private WeaponType weaponType;
     private float weaponDamage;
@@ -11,12 +12,13 @@ public class Weapon : MonoBehaviour
     private BoxCollider boxCollider;
 
     private List<GameObject> hitList = new List<GameObject>();
-    public void WeaponInit(WeaponScriptableObject weaponScriptableObject)
+    public void WeaponInit(WeaponScriptableObject weaponScriptableObject, PlayerCombat playerCombat)
     {
         weaponType = weaponScriptableObject.type;
         weaponDamage = weaponScriptableObject.damage;
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
+        damager = playerCombat.gameObject;
     }
 
     public void WeaponSetup(ComboAnimation comboAnimation)
@@ -47,7 +49,8 @@ public class Weapon : MonoBehaviour
         if(livingEntity != null)
         {
             DamageMessage damageMessage =
-                new DamageMessage(GetComponentInParent<PlayerCombat>().gameObject, weaponDamage, stunTime, stiff);
+                new DamageMessage(damager,
+                    other.ClosestPointOnBounds(this.hitPoint.position), weaponDamage, stunTime, stiff);
 
             livingEntity.TakeDamage(damageMessage);
         }

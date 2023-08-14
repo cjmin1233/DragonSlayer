@@ -112,7 +112,7 @@ public class PlayerHealth : LivingEntity
             // 구르기로 회피
             return;
         }
-        // 사망, 또는 무적시 리턴 *** >> isDead 추가할것
+        // 사망, 구르기 또는 무적시 리턴
         if (isInvincible || _playerMove.IsRolling || isDead) return;
         
         // 데미지 처리
@@ -124,7 +124,7 @@ public class PlayerHealth : LivingEntity
             _animator.SetBool(_animIDIsGetHit, true);
             _animator.Play("GetHit", 0, 0f);
         }
-        print("플레이어 피격");
+        print("player hit on point : " + damageMessage.hitPoint);
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
