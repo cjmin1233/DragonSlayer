@@ -18,6 +18,8 @@ public class MapGenerator : MonoBehaviour
     public List<int>  EpicRooms = new(3); 
     private int epicSize = 0;
     private int mapSize = 0;
+    private int currentRoomNum = 0;
+    private int connectRoomNum = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
@@ -145,7 +147,6 @@ public class MapGenerator : MonoBehaviour
             }
         }       
     }
-
     public void DungeonReset()
     {
         NavMesh.RemoveAllNavMeshData();
@@ -179,10 +180,46 @@ public class MapGenerator : MonoBehaviour
     {
         doors = GameObject.FindGameObjectsWithTag("Door");
 
+        foreach (GameObject door in doors)
+        {
+            GameObject closestDoor = FindClosestDoor(door);
+
+            if (closestDoor != null)
+            {
+                Door closestDoorObject = closestDoor.GetComponent<Door>();
+                Door doorObject = door.GetComponent<Door>();
+
+                if (closestDoorObject != null && doorObject != null)
+                {
+                    doorObject.connectRoomType = closestDoorObject.currentRoomType;
+                }
+            }
+        }
+
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
-        }        
+        }
+    }
+    private GameObject FindClosestDoor(GameObject currentDoor)
+    {
+        GameObject closestDoor = null;
+        float shortestDistance = Mathf.Infinity;
+
+        foreach (GameObject door in doors)
+        {
+            if (door != currentDoor)
+            {
+                float distance = Vector3.Distance(currentDoor.transform.position, door.transform.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    closestDoor = door;
+                }
+            }
+        }
+
+        return closestDoor;
     }
     public void FindingRoom()
     {
@@ -199,8 +236,9 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-    public void OpenDoor(int playerRoomIndex)
+    public void ClearRoom(int playerRoomIndex)
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
+        listRooms[playerRoomIndex].GetComponent<Room>().Change();
     }
 }

@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 7265274417671839621}
   m_Layer: 5
   m_Name: Image
-  m_TagString: Untagged
+  m_TagString: DoorImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3888,6 +3888,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 7265274417671839621}
   doorType: 1
+  currentRoomType: 0
   connectRoomType: 0
 --- !u!1 &4173438915245816519
 GameObject:
@@ -5368,6 +5369,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 5224665553458276542}
   doorType: 2
+  currentRoomType: 3
   connectRoomType: 0
 --- !u!1 &6003106539802056830
 GameObject:
@@ -8191,6 +8193,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 2107483080565596863}
   doorType: 3
+  currentRoomType: 1
   connectRoomType: 0
 --- !u!1 &8591863933466930583
 GameObject:
@@ -8221,8 +8224,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5119116381233743621}
   - {fileID: 8335504129987687452}
+  - {fileID: 5119116381233743621}
   m_Father: {fileID: 4302932244382056460}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -8485,6 +8488,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 6418218393201303472}
   doorType: 0
+  currentRoomType: 2
   connectRoomType: 0
 --- !u!1 &8938487906990185325
 GameObject:

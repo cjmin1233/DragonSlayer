@@ -26,11 +26,7 @@ public class Room : MonoBehaviour
         if(instance == null)
             instance = this;
     }
-    public void ClearRoom(int playerRoomIndex)
-    {
-        MapGenerator.Instance.OpenDoor(playerRoomIndex);
-        ChangeImage();
-    }
+
     public void Open(Transform parent)
     {
         int childCount = parent.childCount;
@@ -47,23 +43,30 @@ public class Room : MonoBehaviour
             }
         }
     }
-    public void ChangeImage()
+    public void Change()
     {
         // 자식 오브젝트 중 door 태그를 가진 오브젝트 검사
         foreach (Transform child in transform)
         {
             if (child.CompareTag("Door"))
             {
-                // Door 스크립트 컴포넌트 가져오기
-                Door doorScript = child.GetComponent<Door>();
-                if (doorScript != null)
-                {
-                    Image doorImage = doorScript.GetComponent<Image>();
+                Door doorObject = child.GetComponent<Door>();
 
-                    // 인접한 door 오브젝트의 roomType에 따라 색상 변경
-                    if (doorScript.connectRoomType == roomType)
+                foreach(Transform children in child)
+                {
+                    Image doorImage = children.GetComponent<Image>();
+
+                    switch (doorObject.connectRoomType)
                     {
-                        doorScript.ChangeDoorColor(Color.green); // 원하는 색상으로 변경
+                        case RoomType.Normal:
+                            doorImage.color = Color.black;
+                            break;
+                        case RoomType.Golden:
+                            doorImage.color = Color.yellow;
+                            break;
+                        case RoomType.Trap:
+                            doorImage.color = Color.gray;
+                            break;
                     }
                 }
             }

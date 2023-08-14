@@ -21,6 +21,7 @@ public class Door : MonoBehaviour
     public Image doorImage;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
+    public RoomType currentRoomType;
     public RoomType connectRoomType;
     private Renderer doorRenderer;
     private const float distance = 8.5f;
@@ -92,11 +93,6 @@ public class Door : MonoBehaviour
             EnemySpawner.Instance.SelectEnemySpawner();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
-    }
-    public void ChangeDoorColor(Color newColor)
-    {
-        // Image 컴포넌트의 색상 변경
-        doorRenderer.material.color = newColor;
     }
     public void ShootRay()
     {

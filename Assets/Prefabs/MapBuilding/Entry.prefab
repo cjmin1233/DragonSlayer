@@ -353,6 +353,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
+  entrances: []
+  isClearedRoom: 0
 --- !u!1 &8987410333459706964
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +451,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4945713902962940512}
     - target: {fileID: 77126280715103101, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: currentRoomType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 77126280715103101, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
       value: 512
       objectReference: {fileID: 0}
@@ -469,6 +475,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3199331772348179783, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: currentRoomType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3199331772348179783, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
       value: 512
       objectReference: {fileID: 0}
@@ -476,6 +486,10 @@ PrefabInstance:
       propertyPath: doorImage
       value: 
       objectReference: {fileID: 6138721488807456110}
+    - target: {fileID: 3707120217728878300, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: currentRoomType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3707120217728878300, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
       value: 512
