@@ -31,7 +31,7 @@ public class GlideAttack : BossPatternAction
         while (timer >= 0f)
         {
             timer -= Time.deltaTime;
-            _boss.Rotate();
+            _boss.RotateWhenAgentStopped();
             yield return null;
         }
         // 낙하 시작
@@ -44,7 +44,7 @@ public class GlideAttack : BossPatternAction
         {
             Debug.LogError("낙하 경로 없음");
             patternEnableTime = Time.time + patternCooldown;
-            _boss.EndAction();
+            _boss.EndAction(nextState);
             yield break;
         }
         float pathLength = GetPathLength(_agent.path);
@@ -69,7 +69,7 @@ public class GlideAttack : BossPatternAction
         
         print("낙하 패턴 종료");
         patternEnableTime = Time.time + patternCooldown;
-        _boss.EndAction();
+        _boss.EndAction(nextState);
     }
 
 }

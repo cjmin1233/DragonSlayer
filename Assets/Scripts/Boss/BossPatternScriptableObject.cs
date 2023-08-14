@@ -14,6 +14,7 @@ public class BossPatternScriptableObject : ScriptableObject
     public float fieldOfView;
     public float viewDistance;
     public bool fly;
+    public Boss.BossState nextState;
     public string componentName;
     // public GameObject patternPrefab;
     public BossPatternAction Init(Transform patternContainer)
@@ -32,7 +33,7 @@ public class BossPatternScriptableObject : ScriptableObject
             return null;
         }
 
-        patternAction.Init(animationClips, priority, patternCooldown, fieldOfView, viewDistance, fly);
+        patternAction.Init(animationClips, priority, patternCooldown, fieldOfView, viewDistance, fly, nextState);
 
         
         return patternAction;

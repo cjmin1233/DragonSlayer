@@ -25,7 +25,7 @@ public class Shelter : MonoBehaviour
     {
         while (true)
         {
-            if (isPlayerIn) playerTarget.MakeInvincible(3f);
+            if (isPlayerIn && playerTarget is not null) playerTarget.MakeInvincible(3f);
             yield return new WaitForSeconds(.1f);
         }
     }

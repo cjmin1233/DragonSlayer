@@ -41,7 +41,7 @@ public class HellFireFWD : BossPatternAction
         while (timer >= 0f)
         {
             timer -= Time.deltaTime;
-            _boss.Rotate();
+            _boss.RotateWhenAgentStopped();
             yield return null;
         }
         
@@ -51,7 +51,7 @@ public class HellFireFWD : BossPatternAction
         float lastAnimNormTime = 0f;
         while (!IsAnimationEnded(animationClips[curAnimClipIndex]))
         {
-            _boss.Rotate();
+            _boss.RotateWhenAgentStopped();
             if (lastAnimNormTime < .5f && GetCurAnimationNormTime(animationClips[curAnimClipIndex]) >= .5f)
                 BossActionManager.Instance.EnableHellFireField();
             lastAnimNormTime = GetCurAnimationNormTime(animationClips[curAnimClipIndex]);
@@ -59,6 +59,6 @@ public class HellFireFWD : BossPatternAction
         }
         print("불바다 패턴 종료");
         patternEnableTime = Time.time + patternCooldown;
-        _boss.EndAction();
+        _boss.EndAction(nextState);
     }
 }

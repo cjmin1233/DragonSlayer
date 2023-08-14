@@ -18,15 +18,12 @@ public class Boss : LivingEntity
     [SerializeField] private Transform patternContainer;
     [SerializeField] private BossPatternData[] patternData;
     // [SerializeField] private BossPatternData[] flyPatternData;
-    private enum BossState
+    public enum BossState
     {
         Idle,
         Patrol,
         Trace,
         TakeOff,
-        // Fly,
-        // FlyPatrol,
-        // FlyTrace,
         Land,
         Action,
         GetHit,
@@ -123,6 +120,7 @@ public class Boss : LivingEntity
     // private string _animTagDie;
     #endregion
     public bool ActionEnded { get; private set; }
+    public BossState NextStateAfterAction { get; private set; }
     public float MaxHp => maxHp;
     public float CurHp => currentHp;
 
@@ -270,27 +268,6 @@ public class Boss : LivingEntity
                 Fly = true;
                 AnimCrossFade(_animIdTakeOff);
                 break;
-            // case BossState.Fly:
-            //     _animRig.weight = targetTransform is not null ? 1f : 0f;
-            //     _agent.isStopped = true;
-            //     AnimCrossFade(_animIdFly);
-            //     break;
-            // case BossState.FlyPatrol:
-            //     _animRig.weight = 0f;
-            //     _agent.isStopped = false;
-            //     _agent.speed = flyPatrolSpeed;
-            //     AnimCrossFade(_animIdFlyForward);
-            //     
-            //     _agent.SetDestination(MyUtility.GetRandomPointOnNavmesh(agentPosition, patrolRadius));
-            //     break;
-            // case BossState.FlyTrace:
-            //     _animRig.weight = 1f;
-            //     _agent.isStopped = false;
-            //     _agent.speed = flyTraceSpeed;
-            //     AnimCrossFade(_animIdFlyForward);
-            //
-            //     _agent.SetDestination(targetTransform.position);
-            //     break;
             case BossState.Land:
                 _animRig.weight = 0f;
                 _agent.isStopped = true;
@@ -299,6 +276,8 @@ public class Boss : LivingEntity
                 break;
             case BossState.GetHit:
                 _animRig.weight = 0f;
+                _agent.isStopped = true;
+                if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
                 AnimCrossFade(_animIdGetHit);
                 break;
             case BossState.Groggy:
@@ -313,6 +292,8 @@ public class Boss : LivingEntity
                 break;
             case BossState.Die:
                 _animRig.weight = 0f;
+                _agent.isStopped = true;
+                if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
                 AnimCrossFade(_animIdDie);
                 break;
             default:
@@ -435,13 +416,14 @@ public class Boss : LivingEntity
                     return true;
                 }
 
+                if (HasReachedDestination()) Rotate2Target(2f);
                 // 우선 순위, 시야 범위 고려하여 패턴 select
-                var patternAction = patternData[(int)nextActionType].SelectPatternAction();
-                if (patternAction is not null)
+                var selectedAction = patternData[(int)nextActionType].SelectPatternAction();
+                if (selectedAction is not null)
                 {
-                    patternAction.targetTransform = targetTransform;
+                    selectedAction.targetTransform = targetTransform;
                     if (curPatternRoutine is not null) StopCoroutine(curPatternRoutine);
-                    curPatternRoutine = StartCoroutine(patternAction.PatternRoutine());
+                    curPatternRoutine = StartCoroutine(selectedAction.PatternRoutine());
                     nextState = BossState.Action;
                     return true;
                 }
@@ -467,7 +449,13 @@ public class Boss : LivingEntity
                 {
                     // 패턴이 끝나면 idle 상태로
                     ActionEnded = false;
-                    nextState = BossState.Idle;
+                    nextState = NextStateAfterAction;
+                    // nextState = BossState.Idle;
+                    // if (Fly && nextActionType.Equals(BossPatternType.Nm))
+                    // {
+                    //     nextState = BossState.Land;
+                    //     return true;
+                    // }
                     nextActionType = BossPatternType.Nm;
                     return true;
                 }
@@ -547,7 +535,7 @@ public class Boss : LivingEntity
         Grounded = Physics.CheckSphere(spherePosition, groundedRadius, groundLayers,
             QueryTriggerInteraction.Ignore);
     }
-    public void Rotate()
+    public void RotateWhenAgentStopped()
     {
         if (_agent.isStopped && targetTransform is not null)
         {
@@ -556,6 +544,20 @@ public class Boss : LivingEntity
             direction.y = 0f;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, Time.deltaTime * _agent.angularSpeed);
+        }
+    }
+
+    public void Rotate2Target(float spMultiplier)
+    {
+        if (targetTransform is not null)
+        {
+            Vector3 direction = targetTransform.position - transform.position;
+            direction.y = 0f;
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation =
+                Quaternion.RotateTowards(transform.rotation, targetRotation,
+                    Time.deltaTime * _agent.angularSpeed * spMultiplier);
+            print("rotate 2 target called");
         }
     }
     public bool IsTargetOnSight(float fov, float viewDist)
@@ -573,9 +575,10 @@ public class Boss : LivingEntity
         return false;
     }
 
-    public void EndAction()
+    public void EndAction(BossState nextStateAfterAction)
     {
         ActionEnded = true;
+        NextStateAfterAction = nextStateAfterAction;
     }
     public override void TakeDamage(DamageMessage damageMessage)
     {

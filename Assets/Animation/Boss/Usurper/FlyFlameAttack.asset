@@ -20,4 +20,5 @@ MonoBehaviour:
   fieldOfView: 10
   viewDistance: 30
   fly: 1
+  nextState: 4
   componentName: BossPatternAction

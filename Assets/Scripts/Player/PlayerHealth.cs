@@ -86,7 +86,7 @@ public class PlayerHealth : LivingEntity
         CurVitality = MaxVitality;
 
         vitalityRestoreRate = playerSo.vitalityRestoreRate;
-        
+
         _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = false;
@@ -194,6 +194,9 @@ public class PlayerHealth : LivingEntity
         if (_playerMove is not null) _playerMove.enabled = !toggle;
         if (_playerCombat is not null) _playerCombat.enabled = !toggle;
         if (_rigidBody is not null && toggle) _rigidBody.velocity = Vector3.zero;
+
+        if (toggle) _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        else _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
     }
 
     private void EndHit()

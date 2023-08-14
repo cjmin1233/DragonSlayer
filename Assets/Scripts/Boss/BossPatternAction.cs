@@ -13,6 +13,7 @@ public class BossPatternAction : MonoBehaviour
     public bool Fly { get; private set; }
     public float patternEnableTime;
     public Transform targetTransform;
+    public Boss.BossState nextState;
 
     #region 코드 간결화 위한 애니메이션 메서드
     protected AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
@@ -39,7 +40,7 @@ public class BossPatternAction : MonoBehaviour
     private readonly float animTransDuration = .1f;
     
     public void Init(AnimationClip[] animationClipsParam, int priorityParam, float patternCooldownParam,
-        float fovParam, float viewDistanceParam, bool flyParam)
+        float fovParam, float viewDistanceParam, bool flyParam, Boss.BossState nextStateParam)
     {
         this.animationClips = animationClipsParam;
         this.priority = priorityParam;
@@ -47,6 +48,7 @@ public class BossPatternAction : MonoBehaviour
         this.fieldOfView = fovParam;
         this.viewDistance = viewDistanceParam;
         this.Fly = flyParam;
+        this.nextState = nextStateParam;
 
         _animator = GetComponentInParent<Animator>();
         _boss = GetComponentInParent<Boss>();
@@ -69,8 +71,8 @@ public class BossPatternAction : MonoBehaviour
 
         yield return new WaitUntil(() => IsAnimationEnded(animationClips[curAnimClipIndex]));
         patternEnableTime = Time.time + patternCooldown;
-        
-        _boss.EndAction();
+
+        _boss.EndAction(nextState);
     }
 
     protected void Rotate()

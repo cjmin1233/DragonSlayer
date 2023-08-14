@@ -17,6 +17,8 @@ MonoBehaviour:
   - {fileID: 7400000, guid: ce0fc9bab7b211a4c87062e97dc40741, type: 2}
   priority: 1
   patternCooldown: 5
-  fieldOfView: 10
-  viewDistance: 6
+  fieldOfView: 30
+  viewDistance: 7
+  fly: 0
+  nextState: 2
   componentName: BossPatternAction
