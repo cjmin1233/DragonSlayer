@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -419,6 +419,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6456545750839015501, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456545750839015501, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456545750839015501, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456545750839015501, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6456545750839015501, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -100
+      objectReference: {fileID: 0}
     - target: {fileID: 7513333337258414563, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -633,12 +653,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d91191547960db840ad0fcb8b1deadcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerRoomIndex: 0
+  aliveEnemies: 0
   totalHp: 0
   currentHp: 0
   onMainSceneLoaded:
     m_PersistentCalls:
       m_Calls: []
   onPlaySceneLoaded:
+    m_PersistentCalls:
+      m_Calls: []
+  onBossSceneLoaded:
     m_PersistentCalls:
       m_Calls: []
   onGameOver:

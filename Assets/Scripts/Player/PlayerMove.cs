@@ -6,7 +6,6 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
-    [SerializeField] GameObject minimapPlayer;
     
     [Header("Player")]
     [Tooltip("Move speed of the character in m/s")]
@@ -173,7 +172,6 @@ public class PlayerMove : MonoBehaviour
         VerticalMovement();
         HorizontalMovement();
         CameraRotation();
-        // MinimapPlayer();
     }
     private void AssignAnimationIDs()
     {
@@ -412,10 +410,4 @@ public class PlayerMove : MonoBehaviour
     //    LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
     //    if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
     //}
-
-    private void MinimapPlayer()
-    {
-        minimapPlayer.transform.position = new Vector3(transform.position.x, minimapPlayer.transform.position.y, transform.position.z);
-        minimapPlayer.transform.forward = transform.forward;
-    }
 }

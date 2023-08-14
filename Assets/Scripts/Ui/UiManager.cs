@@ -44,7 +44,6 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.onMainSceneLoaded.AddListener(MainSceneSetup);
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
         //
-        //
         
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
@@ -137,6 +136,7 @@ public class UiManager : MonoBehaviour
     public void FadeOut() => fadePanel.StartFadeOut();
     public void SetMasterVolume(float volume)
     {
+        Debug.Log("마스터 소리 설정 변경");
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }

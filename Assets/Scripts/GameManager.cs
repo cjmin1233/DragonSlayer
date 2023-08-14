@@ -57,9 +57,13 @@ public class GameManager : MonoBehaviour
     public GameState gameState { get; private set; }
     void Awake()
     {
-        if(!Instance) Instance = this;
-        else Destroy(gameObject);
-
+        if (!Instance) Instance = this;
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
+        print("gamemanager awake");
         DontDestroyOnLoad(gameObject);
 
         generatedRooms = new List<GeneratedRoomInfo>();
@@ -114,12 +118,13 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Running;
             onMainSceneLoaded.Invoke();
-            // playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
         }
         else if (scene.buildIndex == (int)SceneType.Play)
         {
+            print("play scene loaded");
             gameState = GameState.Running;
             onPlaySceneLoaded.Invoke();
+            playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
         }
         else if (scene.buildIndex == (int)SceneType.Boss)
         {
@@ -127,10 +132,14 @@ public class GameManager : MonoBehaviour
             onBossSceneLoaded.Invoke();
             bossSceneSetupProcess = StartCoroutine(BossSceneSetupProcess());
         }
+        else if(scene.buildIndex==(int)SceneType.Loading) {
+            print("loading scene loaded");
+        }
     }
 
     private IEnumerator PlaySceneSetupProcess()
     {
+        Debug.Log("게임 준비 중~");
         MapVector2.instance.GenerateDungeon();
         Minimap.Instance.MinimapCreate();
         EnemySpawner.Instance.SelectEnemySpawner();
@@ -144,6 +153,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlaySceneProcess()
     {
+        Debug.Log("게임 시작!");
         while (!isGameOver)
         {
             yield return null;
