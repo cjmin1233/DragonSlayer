@@ -5204,6 +5204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5270682322320062074}
   - component: {fileID: 7328237608618564560}
+  - component: {fileID: 8205763620416569823}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Rooms
@@ -5263,6 +5264,20 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: e776a63ec37a30446894ab10129acb89, type: 2}
   m_BuildHeightMesh: 0
+--- !u!114 &8205763620416569823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230944655015988282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5253bea2d7339444aa3c81c5f9671b53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomType: 4
+  entrances: []
 --- !u!1 &5256455272801833377
 GameObject:
   m_ObjectHideFlags: 0
