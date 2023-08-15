@@ -23,18 +23,15 @@ public class InvetoryManager : MonoBehaviour
         get => _selectedSlot;
         set => _selectedSlot = value;
     }
-    
+
     [SerializeField] private List<ItemSlot> itemSlots = new List<ItemSlot>();
 
     private void Start()
     {
-        for(var i = 0;  i < itemSlots.Count; i++)
+        for (var i = 0; i < itemSlots.Count; i++)
         {
             itemSlots[i].Init(this);
         }
-
-        SetItem("Item2");
-        SetItem("Item1");
     }
 
     public void SetItem(string itemName)
