@@ -178,11 +178,6 @@ public class Enemy : LivingEntity
             nextState = State.Victory;
             return true;
         }
-        if (animator.GetBool("isGetHit"))
-        {
-            nextState = State.GetHit;
-            return true;
-        }
         switch (curState)
         {
             case State.Idle:
@@ -200,6 +195,11 @@ public class Enemy : LivingEntity
                 }
                 break;
             case State.Battle:
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
@@ -217,6 +217,11 @@ public class Enemy : LivingEntity
                 }
                 break;
             case State.Attack:
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
                 if (attackToBattle)
                 {
                     nextState = State.Battle;
@@ -229,6 +234,10 @@ public class Enemy : LivingEntity
                     nextState = State.Die;
                     return true;
                 }
+                if (animator.GetBool("isGetHit"))
+                {
+                    return true;
+                }
                 if (getHitEnd)
                 {
                     if (isStunned) nextState = State.Stun;
@@ -237,6 +246,11 @@ public class Enemy : LivingEntity
                 }
                 break;
             case State.Stun:
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
                 if (!isStunned)
                 {
                     nextState = State.Trace;

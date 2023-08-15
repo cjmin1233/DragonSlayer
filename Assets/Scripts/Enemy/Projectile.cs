@@ -24,9 +24,14 @@ public class Projectile : MonoBehaviour
             var livingEntity = other.GetComponent<LivingEntity>();
             if (livingEntity != null)
             {
-                DamageMessage damageMessage = new DamageMessage(this.damager,
-                    other.ClosestPointOnBounds(transform.position), enemyData.Damage, 0.5f);
+                var hitPos = other.ClosestPointOnBounds(transform.position);
+
+                DamageMessage damageMessage = new DamageMessage(this.damager, hitPos, enemyData.Damage, 0f, true);
                 
+                var hitVfx = EffectManager.Instance.GetFromPool(2);
+                hitVfx.transform.position = hitPos;
+                hitVfx.SetActive(true);
+
                 livingEntity.TakeDamage(damageMessage);
             }
             Destroy(gameObject);

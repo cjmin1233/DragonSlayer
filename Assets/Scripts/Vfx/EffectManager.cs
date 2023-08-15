@@ -6,7 +6,8 @@ using UnityEngine;
 public enum EffectType
 {
     SwordHit,
-    EnemyHit
+    EnemyHit,
+    ProjectileHit
 }
 public class EffectManager : MonoBehaviour
 {
