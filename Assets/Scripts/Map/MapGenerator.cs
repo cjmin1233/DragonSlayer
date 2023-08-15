@@ -199,6 +199,7 @@ public class MapGenerator : MonoBehaviour
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
+            door.GetComponent<Door>().ChangeImage();
         }
     }
     private GameObject FindClosestDoor(GameObject currentDoor)
@@ -239,6 +240,5 @@ public class MapGenerator : MonoBehaviour
     public void ClearRoom(int playerRoomIndex)
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
-        listRooms[playerRoomIndex].GetComponent<Room>().Change();
     }
 }

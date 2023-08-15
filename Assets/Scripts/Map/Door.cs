@@ -34,11 +34,10 @@ public class Door : MonoBehaviour
         instance = this;
 
         doorRenderer = GetComponent<Renderer>();
+        doorImage = GetComponentInChildren<Image>();
     }
     private void Start()
     {
-        doorImage = GetComponent<Image>();
-        //basic = doorImage.material.color;
         if(doorType == DoorType.Right)
             doorDirection = Vector3.right;
         else if(doorType == DoorType.Left)
@@ -47,11 +46,6 @@ public class Door : MonoBehaviour
             doorDirection = Vector3.forward;
         else
             doorDirection = Vector3.back;
-    }
-
-    private void Update()
-    {
-        
     }
     public void MoveToRoom(Vector3 direction)
     {
@@ -105,5 +99,20 @@ public class Door : MonoBehaviour
         }
 
         
+    }
+    public void ChangeImage()
+    {
+        switch(connectRoomType)
+        {
+            case RoomType.Normal:
+                doorImage.color = Color.black;
+                break;
+            case RoomType.Golden:
+                doorImage.color = Color.yellow;
+                break;
+            case RoomType.Boss:
+                doorImage.color = Color.red;
+                break;
+        }
     }
 }
