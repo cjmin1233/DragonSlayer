@@ -164,7 +164,7 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    private void OnPlayerDeath()
+    public void OnPlayerDeath()
     {
         isGameOver = true;
     }

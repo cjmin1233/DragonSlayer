@@ -159,6 +159,8 @@ public class PlayerHealth : LivingEntity
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
+
+        GameManager.Instance.OnPlayerDeath();
         print("Player Died!");
     }
 

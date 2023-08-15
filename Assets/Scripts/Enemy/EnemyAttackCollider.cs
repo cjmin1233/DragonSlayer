@@ -19,9 +19,10 @@ public class EnemyAttackCollider : MonoBehaviour
             var livingEntity = other.GetComponent<LivingEntity>();
             if (livingEntity is not null)
             {
-                var stunTIme = Random.Range(0, 10) > 6 ? 0.5f : 0f;
+                var isStiff = Random.Range(0, 10) > 6 ? true : false;
+                var stunTIme = isStiff ? Random.Range(0, 10) > 6 ? 1f : 0f : 0f;
                 DamageMessage damageMessage =
-                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, stunTIme);
+                    new DamageMessage(GetComponentInParent<Enemy>().gameObject, enemyData.Damage, stunTIme, isStiff);
 
                 livingEntity.TakeDamage(damageMessage);
                 hitList.Add(other.gameObject);
