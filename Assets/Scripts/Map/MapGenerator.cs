@@ -18,8 +18,6 @@ public class MapGenerator : MonoBehaviour
     public List<int>  EpicRooms = new(3); 
     private int epicSize = 0;
     private int mapSize = 0;
-    private int currentRoomNum = 0;
-    private int connectRoomNum = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
@@ -153,6 +151,7 @@ public class MapGenerator : MonoBehaviour
 
         Rooms.Clear();
         EpicRooms.Clear();
+        listRooms.Clear();
         bossVector = Vector3.zero;
 
         GameObject[] roomTag = GameObject.FindGameObjectsWithTag("Rooms");

@@ -93,4 +93,9 @@ public class EnemySpawner : MonoBehaviour
         instance.SetActive(true);
         GameManager.Instance.aliveEnemies++;
     }
+
+    public void MapRecordClear()
+    {
+        mapRecord.Clear();
+    }
 }
