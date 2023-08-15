@@ -15,7 +15,8 @@ public class Enemy : LivingEntity
         Attack,
         GetHit,
         Stun,
-        Die
+        Die,
+        Victory
     }
 
     private State curState = State.Idle;
@@ -93,6 +94,9 @@ public class Enemy : LivingEntity
                 animator.Play("Die");
                 Invoke("AfterDie", 2f);
                 break;
+            case State.Victory:
+                animator.Play("Victory");
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -129,6 +133,8 @@ public class Enemy : LivingEntity
                 break;
             case State.Die:
                 break;
+            case State.Victory:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -159,12 +165,19 @@ public class Enemy : LivingEntity
                 break;
             case State.Die:
                 break;
+            case State.Victory:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
     }
     private bool TransitionCheck()
     {
+        if (GameManager.Instance.isGameOver)
+        {
+            nextState = State.Victory;
+            return true;
+        }
         switch (curState)
         {
             case State.Idle:
@@ -180,21 +193,16 @@ public class Enemy : LivingEntity
                     nextState = State.Battle;
                     return true;
                 }
+                break;
+            case State.Battle:
                 if (animator.GetBool("isGetHit"))
                 {
                     nextState = State.GetHit;
                     return true;
                 }
-                break;
-            case State.Battle:
                 if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
                 {
                     nextState = State.Trace;
-                    return true;
-                }
-                if (animator.GetBool("isGetHit"))
-                {
-                    nextState = State.GetHit;
                     return true;
                 }
                 if (!animator.GetBool("isAttacking"))
@@ -250,6 +258,8 @@ public class Enemy : LivingEntity
                 }
                 break;
             case State.Die:
+                break;
+            case State.Victory:
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

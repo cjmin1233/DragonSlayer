@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         onPlaySceneLoaded = new UnityEvent();
         onBossSceneLoaded = new UnityEvent();
         onGameOver = new UnityEvent();
+        onGameOver.AddListener(ShowGameOverPanel);
         onGameOver.AddListener(SaveData);
     }
 
@@ -167,6 +168,11 @@ public class GameManager : MonoBehaviour
     public void OnPlayerDeath()
     {
         isGameOver = true;
+    }
+
+    private void ShowGameOverPanel()
+    {
+        UiManager.Instance.GameOverPanel.gameObject.SetActive(true);
     }
 
     public bool IsRoomCleared()
