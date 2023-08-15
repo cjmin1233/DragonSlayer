@@ -16,7 +16,7 @@ MonoBehaviour:
   damage: 1
   loop: 0
   stunTime: 0
-  isStiff: 0
+  isStiff: 1
   nextComboInterval: 0
   comboVitality: 0
   assaultDirection: {x: 0, y: 0, z: 1}
