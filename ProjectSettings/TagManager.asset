@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Door
   - Entrance
+  - Item
   layers:
   - Default
   - TransparentFX

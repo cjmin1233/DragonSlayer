@@ -9,7 +9,7 @@ public class Tooltip : MonoBehaviour
     private TextMeshProUGUI textMeshProUGUI;
 
     private void Start()
-    {
+    {       
         gameObject.SetActive(false);
         rectTransform = GetComponent<RectTransform>();
         textMeshProUGUI = GetComponentInChildren<TextMeshProUGUI>();

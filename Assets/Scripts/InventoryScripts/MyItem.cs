@@ -12,7 +12,6 @@ public class MyItem : ScriptableObject
 
     public GameObject obj;
 
-
     public GameObject GenerateItemObj()
     {
         return Instantiate(obj);
