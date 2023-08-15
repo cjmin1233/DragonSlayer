@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6649414185365585243}
   - component: {fileID: 7775655444431221502}
   - component: {fileID: 5479853957792089652}
+  - component: {fileID: -5201504274208408641}
   m_Layer: 0
   m_Name: 01_Library_01_Chear_High#2
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-5201504274208408641
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6272571261425608673}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7278452, y: 1.3464297, z: 0.6545814}
+  m_Center: {x: 0.0077445656, y: 0.6145279, z: -0.004340157}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8381231254978846696}
   - component: {fileID: 4899853717909885005}
   - component: {fileID: 7213413890639897735}
+  - component: {fileID: 2101516698241553435}
   m_Layer: 0
   m_Name: 04_Bedroom_01_Beed_1
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2101516698241553435
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9159140522573038930}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.4751093, y: 0.836198, z: 2.4105368}
+  m_Center: {x: 0.0041988194, y: 0.3882001, z: 0.016106725}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4681342262971009165}
   - component: {fileID: 8599813055542855464}
   - component: {fileID: 5817625015620137954}
+  - component: {fileID: 2221499970414245073}
   m_Layer: 0
   m_Name: 99_Decorations_WallBanner_3
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &2221499970414245073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5457420814177096247}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.9076062, y: 2.0156693, z: 0.23754181}
+  m_Center: {x: -0.0052238703, y: -0.64211667, z: -0.029705457}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7703458241115692341}
   - component: {fileID: 6721611319445721744}
   - component: {fileID: 8836909814675039834}
+  - component: {fileID: 4040167488545437635}
   m_Layer: 0
   m_Name: 02_Kitchen_01_CuttingBoard#2
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4040167488545437635
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035747247512995727}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.7975059, y: 0.09588204, z: 1.2411718}
+  m_Center: {x: 0, y: 0.047858745, z: 0.1205385}

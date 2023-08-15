@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9186073473692562337}
   - component: {fileID: 5248002752685702148}
   - component: {fileID: 8011993876175423694}
+  - component: {fileID: -7075466496877305082}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-7075466496877305082
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8372382520106625307}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}

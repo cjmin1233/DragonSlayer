@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7609262588306579781}
   - component: {fileID: 6788705398135320288}
   - component: {fileID: 8778259899347966506}
+  - component: {fileID: -4243496050687891782}
   m_Layer: 0
   m_Name: 01_Library_01_InkWell#1
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-4243496050687891782
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120851468128533503}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.19491357, y: 0.71139693, z: 0.40762118}
+  m_Center: {x: -0.0000039823353, y: 0.36825055, z: -0.09924246}

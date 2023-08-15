@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7949784173253008506}
   - component: {fileID: 6484221393722119135}
   - component: {fileID: 9086120315433215765}
+  - component: {fileID: -1493520026147381219}
   m_Layer: 0
   m_Name: 01_Library_01_BookShelve_2
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-1493520026147381219
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7284746366758471360}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.3982525, y: 2.4338522, z: 0.8691449}
+  m_Center: {x: 0.008782387, y: 1.2201011, z: -0.0074277073}

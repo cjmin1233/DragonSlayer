@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3241744598832099249}
   - component: {fileID: 1968959367145496596}
   - component: {fileID: 4375195726787007710}
+  - component: {fileID: -5268424757055267627}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_GrindingWheel_Wheel
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-5268424757055267627
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2861805725613421835}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.975739, y: 0.7722553, z: 0.7722554}
+  m_Center: {x: 0.123171285, y: 0.0062847584, z: 0.0019218922}

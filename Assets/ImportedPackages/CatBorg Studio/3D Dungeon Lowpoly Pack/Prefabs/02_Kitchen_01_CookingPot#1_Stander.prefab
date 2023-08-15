@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4983134711777692718}
   - component: {fileID: 8252983803847541643}
   - component: {fileID: 6155446810932574017}
+  - component: {fileID: 8096592175919105015}
   m_Layer: 0
   m_Name: 02_Kitchen_01_CookingPot#1_Stander
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8096592175919105015
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5651021592816113300}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.461462, y: 0.52808595, z: 1.4614623}
+  m_Center: {x: -0.00044992566, y: 0.27429044, z: -0.00045001507}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8525799311541981675}
   - component: {fileID: 4755346936816852558}
   - component: {fileID: 7357357395336833668}
+  - component: {fileID: 5300528149757865596}
   m_Layer: 0
   m_Name: 05_Vault_01_Emerald#1
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5300528149757865596
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9014634022513052497}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.30300808, y: 0.24494042, z: 0.2544043}
+  m_Center: {x: 0.006574124, y: 0.114708535, z: 0.12432074}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2441786715350466078}
   - component: {fileID: 1606979682752033211}
   - component: {fileID: 3578625335281091953}
+  - component: {fileID: 6857381595242412052}
   m_Layer: 0
   m_Name: 01_DiningHall_01_WoodenChear#2
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6857381595242412052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074032991447229604}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.78158087, y: 0.61168027, z: 0.77364385}
+  m_Center: {x: -0.000711292, y: 0.3148322, z: 0}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3829448780498102760}
   - component: {fileID: 183298437266761293}
   - component: {fileID: 2697589917449163399}
+  - component: {fileID: -8140622550923027577}
   m_Layer: 0
   m_Name: 02_Kitchen_01_WoodenTable#2
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-8140622550923027577
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4498884702426641234}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.6176472, y: 1.1682833, z: 1.766282}
+  m_Center: {x: -0.0013327003, y: 0.5943641, z: -0.24381655}
