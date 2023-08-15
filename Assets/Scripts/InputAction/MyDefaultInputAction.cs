@@ -98,6 +98,15 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b9235bc-cc48-4650-9145-6964ec714e00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -232,6 +241,45 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
                     ""action"": ""Guard"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9559511-b148-4b52-90ec-52ce22cb5801"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UiInput"",
+            ""id"": ""44054f6b-007d-4f59-a2a5-acb908f48dc4"",
+            ""actions"": [
+                {
+                    ""name"": ""Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""355b0061-39ee-42b4-a4cd-5fad85842499"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b4a44fc2-c319-4863-8cb3-46eed6bb6897"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -265,6 +313,10 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         m_PlayerInput_AttackNm = m_PlayerInput.FindAction("AttackNm", throwIfNotFound: true);
         m_PlayerInput_AttackSp = m_PlayerInput.FindAction("AttackSp", throwIfNotFound: true);
         m_PlayerInput_Guard = m_PlayerInput.FindAction("Guard", throwIfNotFound: true);
+        m_PlayerInput_Interact = m_PlayerInput.FindAction("Interact", throwIfNotFound: true);
+        // UiInput
+        m_UiInput = asset.FindActionMap("UiInput", throwIfNotFound: true);
+        m_UiInput_Inventory = m_UiInput.FindAction("Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -334,6 +386,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerInput_AttackNm;
     private readonly InputAction m_PlayerInput_AttackSp;
     private readonly InputAction m_PlayerInput_Guard;
+    private readonly InputAction m_PlayerInput_Interact;
     public struct PlayerInputActions
     {
         private @MyDefaultInputAction m_Wrapper;
@@ -346,6 +399,7 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         public InputAction @AttackNm => m_Wrapper.m_PlayerInput_AttackNm;
         public InputAction @AttackSp => m_Wrapper.m_PlayerInput_AttackSp;
         public InputAction @Guard => m_Wrapper.m_PlayerInput_Guard;
+        public InputAction @Interact => m_Wrapper.m_PlayerInput_Interact;
         public InputActionMap Get() { return m_Wrapper.m_PlayerInput; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -379,6 +433,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Guard.started += instance.OnGuard;
             @Guard.performed += instance.OnGuard;
             @Guard.canceled += instance.OnGuard;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IPlayerInputActions instance)
@@ -407,6 +464,9 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
             @Guard.started -= instance.OnGuard;
             @Guard.performed -= instance.OnGuard;
             @Guard.canceled -= instance.OnGuard;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IPlayerInputActions instance)
@@ -424,6 +484,52 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         }
     }
     public PlayerInputActions @PlayerInput => new PlayerInputActions(this);
+
+    // UiInput
+    private readonly InputActionMap m_UiInput;
+    private List<IUiInputActions> m_UiInputActionsCallbackInterfaces = new List<IUiInputActions>();
+    private readonly InputAction m_UiInput_Inventory;
+    public struct UiInputActions
+    {
+        private @MyDefaultInputAction m_Wrapper;
+        public UiInputActions(@MyDefaultInputAction wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Inventory => m_Wrapper.m_UiInput_Inventory;
+        public InputActionMap Get() { return m_Wrapper.m_UiInput; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UiInputActions set) { return set.Get(); }
+        public void AddCallbacks(IUiInputActions instance)
+        {
+            if (instance == null || m_Wrapper.m_UiInputActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_UiInputActionsCallbackInterfaces.Add(instance);
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
+        }
+
+        private void UnregisterCallbacks(IUiInputActions instance)
+        {
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
+        }
+
+        public void RemoveCallbacks(IUiInputActions instance)
+        {
+            if (m_Wrapper.m_UiInputActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IUiInputActions instance)
+        {
+            foreach (var item in m_Wrapper.m_UiInputActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_UiInputActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public UiInputActions @UiInput => new UiInputActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -443,5 +549,10 @@ public partial class @MyDefaultInputAction: IInputActionCollection2, IDisposable
         void OnAttackNm(InputAction.CallbackContext context);
         void OnAttackSp(InputAction.CallbackContext context);
         void OnGuard(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+    }
+    public interface IUiInputActions
+    {
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

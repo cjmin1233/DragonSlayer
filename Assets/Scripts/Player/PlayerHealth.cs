@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : LivingEntity
@@ -40,6 +41,9 @@ public class PlayerHealth : LivingEntity
     private bool isInvincible;
     private float invincibleTimer;
     private Coroutine invincibleProcess;
+    
+    // 오브젝트 interaction
+    private List<IInteractable> contactItems = new List<IInteractable>();
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -68,6 +72,11 @@ public class PlayerHealth : LivingEntity
     private void OnEnable()
     {
         PlayerInit(playerScriptableObject);
+    }
+
+    private void Start()
+    {
+        _playerInputControl.OnInteractAction += UseItem;
     }
 
     private void Update()
@@ -215,4 +224,36 @@ public class PlayerHealth : LivingEntity
     }
 
     public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var item = other.GetComponent<IInteractable>();
+        if (item is not null)
+        {
+            contactItems.Add(item);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var item = other.GetComponent<IInteractable>();
+        if (item is not null && contactItems.Contains(item))
+        {
+            contactItems.Remove(item);
+        }
+    }
+
+    private void UseItem()
+    {
+        print("use item!");
+        if (contactItems.Count <= 0) return;
+        var selectedItem = contactItems[0];
+        contactItems.RemoveAt(0);
+        selectedItem.Interact(gameObject);
+    }
+
+    public void RestoreHealth(float amount)
+    {
+        currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+    }
 }

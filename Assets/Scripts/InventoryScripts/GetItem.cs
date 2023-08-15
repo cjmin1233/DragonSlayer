@@ -19,13 +19,13 @@ public class GetItem : MonoBehaviour
     {
         if (other.CompareTag("Item"))
         {
-            string itemName = other.gameObject.name; // Ãæµ¹ÇÑ ¿ÀºêÁ§Æ®ÀÇ ÀÌ¸§ °¡Á®¿À±â
-            InvetoryManager inventoryManager = FindObjectOfType<InvetoryManager>(); // InvetoryManager ÀÎ½ºÅÏ½º °¡Á®¿À±â
+            string itemName = other.gameObject.name; // ï¿½æµ¹ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            InventoryManager inventoryManager = FindObjectOfType<InventoryManager>(); // InvetoryManager ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (inventoryManager != null)
             {
-                inventoryManager.SetItem(itemName); // ¾ÆÀÌÅÛ Ãß°¡
+                inventoryManager.SetItem(itemName); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
             }
-            Destroy(other.gameObject); // ¿ÀºêÁ§Æ® ÆÄ±«
+            Destroy(other.gameObject); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ä±ï¿½
         }
     }
 }

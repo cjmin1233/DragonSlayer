@@ -2,23 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InvetoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour
 {
     public GameObject itemUIPrefab;
-    public RectTransform inventoryPanel;
+    // public RectTransform inventoryPanel;
     public RectTransform dragLayer;
 
     public Tooltip tooltip;
 
     private ItemUI _draggingItem = null;
-    public ItemUI draggingItem
+    public ItemUI DraggingItem
     {
         get => _draggingItem;
         set => _draggingItem = value;
     }
 
     private ItemSlot _selectedSlot = null;
-    public ItemSlot selectedSlot
+    public ItemSlot SelectedSlot
     {
         get => _selectedSlot;
         set => _selectedSlot = value;
@@ -42,8 +42,21 @@ public class InvetoryManager : MonoBehaviour
             {
                 GameObject tempItemUI = Instantiate(itemUIPrefab, itemSlot.transform);
                 ItemUI temp = tempItemUI.GetComponent<ItemUI>();
-                MyItem tempItemData = Resources.Load<MyItem>("Items/" + itemName);
+                ItemScriptableObject tempItemData = Resources.Load<ItemScriptableObject>("Items/" + itemName);
                 temp.Init(tempItemData, this, itemSlot);
+                break;
+            }
+        }
+    }
+
+    public void SetItem(ItemScriptableObject itemData)
+    {
+        foreach (var itemSlot in itemSlots)
+        {
+            if (itemSlot.item is null)
+            {
+                ItemUI itemUI = Instantiate(itemUIPrefab, itemSlot.transform).GetComponent<ItemUI>();
+                itemUI.Init(itemData, this, itemSlot);
                 break;
             }
         }

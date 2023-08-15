@@ -5,21 +5,21 @@ using UnityEngine.EventSystems;
 
 public class ItemSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private InvetoryManager manager;
+    private InventoryManager manager;
     public ItemUI item;
 
-    public void Init(InvetoryManager inventoryManager)
+    public void Init(InventoryManager inventoryManager)
     {
         manager = inventoryManager;
     }
     
     public void OnPointerEnter(PointerEventData eventData)
     {
-        manager.selectedSlot = this;
+        manager.SelectedSlot = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        manager.selectedSlot = null;
+        manager.SelectedSlot = null;
     }
 }
