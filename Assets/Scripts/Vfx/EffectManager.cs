@@ -22,6 +22,8 @@ public class EffectManager : MonoBehaviour
             return;
         }
 
+        DontDestroyOnLoad(gameObject);
+
         int enumLength = Enum.GetValues(typeof(EffectType)).Length;
         effectQueue = new MultiQueue<GameObject>(enumLength);
 

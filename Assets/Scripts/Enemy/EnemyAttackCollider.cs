@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyAttackCollider : MonoBehaviour
 {
@@ -26,9 +27,11 @@ public class EnemyAttackCollider : MonoBehaviour
             if (livingEntity is not null)
             {
                 if (damager is null) GetDamager();
+                var isStiff = Random.Range(0, 10) > 6 ? true : false;
+                var stunTIme = isStiff ? Random.Range(0, 10) > 6 ? 1f : 0f : 0f;
                 DamageMessage damageMessage =
                     new DamageMessage(damager,
-                        other.ClosestPointOnBounds(transform.position), enemyData.Damage, 0.5f);
+                        other.ClosestPointOnBounds(transform.position), enemyData.Damage, stunTIme, isStiff);
                 
                 livingEntity.TakeDamage(damageMessage);
                 hitList.Add(other.gameObject);

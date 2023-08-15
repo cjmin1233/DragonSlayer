@@ -57,9 +57,12 @@ public class GameManager : MonoBehaviour
     public GameState gameState { get; private set; }
     void Awake()
     {
-        if(!Instance) Instance = this;
-        else Destroy(gameObject);
-
+        if (!Instance) Instance = this;
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(gameObject);
 
         generatedRooms = new List<GeneratedRoomInfo>();
@@ -114,12 +117,12 @@ public class GameManager : MonoBehaviour
         {
             gameState = GameState.Running;
             onMainSceneLoaded.Invoke();
-            // playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
         }
         else if (scene.buildIndex == (int)SceneType.Play)
         {
             gameState = GameState.Running;
             onPlaySceneLoaded.Invoke();
+            playSceneSetupProcess = StartCoroutine(PlaySceneSetupProcess());
         }
         else if (scene.buildIndex == (int)SceneType.Boss)
         {
@@ -161,7 +164,7 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    private void OnPlayerDeath()
+    public void OnPlayerDeath()
     {
         isGameOver = true;
     }
