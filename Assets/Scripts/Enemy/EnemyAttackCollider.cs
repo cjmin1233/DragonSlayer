@@ -27,12 +27,18 @@ public class EnemyAttackCollider : MonoBehaviour
             if (livingEntity is not null)
             {
                 if (damager is null) GetDamager();
+                var hitPos = other.ClosestPointOnBounds(transform.position);
+
                 var isStiff = Random.Range(0, 10) > 6 ? true : false;
                 var stunTIme = isStiff ? Random.Range(0, 10) > 6 ? 1f : 0f : 0f;
                 DamageMessage damageMessage =
-                    new DamageMessage(damager,
-                        other.ClosestPointOnBounds(transform.position), enemyData.Damage, stunTIme, isStiff);
-                
+                    new DamageMessage(damager, hitPos, enemyData.Damage, stunTIme, isStiff);
+
+                var hitVfx = EffectManager.Instance.GetFromPool(1);
+                hitVfx.transform.position = hitPos;
+                hitVfx.transform.forward = damager.transform.forward;
+                hitVfx.SetActive(true);
+
                 livingEntity.TakeDamage(damageMessage);
                 hitList.Add(other.gameObject);
             }
