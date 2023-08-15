@@ -120,6 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitPoint: {fileID: 192186954580901179}
+  hitVfx: {fileID: 8582832144684930220, guid: f3b9e5c33a69ef14f94928f3857a8de6, type: 3}
 --- !u!1 &6848664493134544801
 GameObject:
   m_ObjectHideFlags: 0

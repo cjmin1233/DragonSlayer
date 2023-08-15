@@ -124,7 +124,7 @@ public class PlayerHealth : LivingEntity
             _animator.SetBool(_animIDIsGetHit, true);
             _animator.Play("GetHit", 0, 0f);
         }
-        print("player hit on point : " + damageMessage.hitPoint);
+        // print("player hit on point : " + damageMessage.hitPoint);
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();

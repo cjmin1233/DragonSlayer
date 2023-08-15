@@ -589,7 +589,7 @@ public class Boss : LivingEntity
         if (damageMessage.damager == gameObject || Invincible) return;
 
         // 데미지 계산
-        print("Boss hit on point : " + damageMessage.hitPoint);
+        // print("Boss hit on point : " + damageMessage.hitPoint);
         currentHp = Mathf.Clamp(currentHp - damageMessage.damage, 0f, maxHp);
         // 마지막 페이즈 제외, 1칸 체력 소진시 피격 >> 그로기 애니메이션
         if (curPhase + 1 < phaseCheckPoint.Length && phaseCheckPoint[curPhase] > currentHp)

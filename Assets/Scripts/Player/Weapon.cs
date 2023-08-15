@@ -5,6 +5,7 @@ public class Weapon : MonoBehaviour
 {
     private GameObject damager;
     [SerializeField] private Transform hitPoint;
+    [SerializeField] private EffectType hitVfxType;
     private WeaponType weaponType;
     private float weaponDamage;
     private float stunTime;
@@ -48,11 +49,13 @@ public class Weapon : MonoBehaviour
         var livingEntity = other.GetComponent<LivingEntity>();
         if(livingEntity != null)
         {
-            DamageMessage damageMessage =
-                new DamageMessage(damager,
-                    other.ClosestPointOnBounds(this.hitPoint.position), weaponDamage, stunTime, stiff);
+            Vector3 hitPos = other.ClosestPointOnBounds(this.hitPoint.position);
+            DamageMessage damageMessage = new DamageMessage(damager, hitPos, weaponDamage, stunTime, stiff);
 
             livingEntity.TakeDamage(damageMessage);
+            var hitVfx = EffectManager.Instance.GetFromPool((int)hitVfxType);
+            hitVfx.transform.position = hitPos;
+            hitVfx.SetActive(true);
         }
         // var collisionPointOnBound = other.ClosestPointOnBounds(hitPoint.position);
         // print("collision point : " + collisionPointOnBound);
