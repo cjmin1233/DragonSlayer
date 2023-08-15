@@ -14,7 +14,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private MainPanel mainPanel;
     [SerializeField] private PlayPanel playPanel;
     
-    [SerializeField] private GameObject GameOverPanel;
+    public GameObject GameOverPanel;
     [SerializeField] private GameObject PauseMenu;
 
     [SerializeField] private FadeUI fadePanel;
