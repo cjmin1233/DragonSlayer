@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum RoomType
 {
     Normal,
-    Golden=2,
-    Trap=3,
-    Jump=4,
-    Boss=5
+    Golden,
+    Trap,
+    Jump,
+    Boss
 }
 
 public class Room : MonoBehaviour
@@ -16,19 +17,23 @@ public class Room : MonoBehaviour
     public static Room instance;
 
     public RoomType roomType;
+    public List<GameObject> entrances;
 
     private void Awake()
     {
         if(instance == null)
             instance = this;
     }
-    public void ClearRoom()
+
+    public void Open(Transform parent)
     {
-        int childCount = transform.childCount;
+        int childCount = parent.childCount;
 
         for (int i = childCount - 1; i >= 0; i--)
         {
-            Transform child = transform.GetChild(i);
+            Transform child = parent.GetChild(i);
+
+            Open(child);
 
             if (child.CompareTag("Entrance"))
             {

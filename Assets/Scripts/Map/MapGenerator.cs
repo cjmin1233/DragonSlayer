@@ -12,8 +12,9 @@ public class MapGenerator : MonoBehaviour
 
     public GameObject[] doors;
     public List<Vector2Int> mapVec2;
-    public List<Vector3> mapVec3 = new(); 
+    public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
+    public List<Vector3> roomVec3 = new();
     public List<int>  EpicRooms = new(3); 
     private int epicSize = 0;
     private int mapSize = 0;
@@ -26,6 +27,7 @@ public class MapGenerator : MonoBehaviour
     public GameObject[] TrapRooms;
     public GameObject Room;
     public List<GameObject> Rooms;
+    public List<GameObject> listRooms = new();
     [SerializeField] GameObject minimapTile;
 
     private void Awake()
@@ -45,7 +47,7 @@ public class MapGenerator : MonoBehaviour
             GeneratedRoomInfo generatedRoomInfo = new GeneratedRoomInfo(vectorTemp);
             GameManager.Instance.generatedRooms.Add(generatedRoomInfo);
         }
-
+        roomVec3.AddRange(mapVec3);
         mapSize = mapVec3.Count;
 
     }
@@ -68,12 +70,13 @@ public class MapGenerator : MonoBehaviour
         NormalRoomCreate();
         FindingDoor();
         NavMeshBake(Rooms);
+        FindingRoom();
     }
     private void EpicRoomCreate()
     {
         List<int> tempEpicRooms = new List<int>();
         epicSize = 0;
-        //���ȸ���Ʈ 0: ������ 1: Ȳ�ݹ� 2: ������ ������ ������������ �����ϰ� ���ϱ�
+        
         for (var i = 0; i < 3; i++)
         {
             tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
@@ -142,13 +145,13 @@ public class MapGenerator : MonoBehaviour
             }
         }       
     }
-
     public void DungeonReset()
     {
         NavMesh.RemoveAllNavMeshData();
 
         Rooms.Clear();
         EpicRooms.Clear();
+        listRooms.Clear();
         bossVector = Vector3.zero;
 
         GameObject[] roomTag = GameObject.FindGameObjectsWithTag("Rooms");
@@ -176,9 +179,65 @@ public class MapGenerator : MonoBehaviour
     {
         doors = GameObject.FindGameObjectsWithTag("Door");
 
+        foreach (GameObject door in doors)
+        {
+            GameObject closestDoor = FindClosestDoor(door);
+
+            if (closestDoor != null)
+            {
+                Door closestDoorObject = closestDoor.GetComponent<Door>();
+                Door doorObject = door.GetComponent<Door>();
+
+                if (closestDoorObject != null && doorObject != null)
+                {
+                    doorObject.connectRoomType = closestDoorObject.currentRoomType;
+                }
+            }
+        }
+
         foreach (var door in doors)
         {
-            if(door.activeSelf) door.GetComponent<Door>().ShootRay();
-        }        
+            door.GetComponent<Door>().ShootRay();
+            door.GetComponent<Door>().ChangeImage();
+        }
+    }
+    private GameObject FindClosestDoor(GameObject currentDoor)
+    {
+        GameObject closestDoor = null;
+        float shortestDistance = Mathf.Infinity;
+
+        foreach (GameObject door in doors)
+        {
+            if (door != currentDoor)
+            {
+                float distance = Vector3.Distance(currentDoor.transform.position, door.transform.position);
+                if (distance < shortestDistance)
+                {
+                    shortestDistance = distance;
+                    closestDoor = door;
+                }
+            }
+        }
+
+        return closestDoor;
+    }
+    public void FindingRoom()
+    {
+        var distance = 5f;
+
+        for(var i = 0; i < roomVec3.Count; i++)
+        {
+            for(var j = 0; j < Rooms.Count; j++)
+            {
+                if (Vector3.Distance(Rooms[j].transform.position, roomVec3[i]) < distance)
+                {
+                    listRooms.Add(Rooms[j]);
+                }
+            }
+        }
+    }
+    public void ClearRoom(int playerRoomIndex)
+    {
+        listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
     }
 }

@@ -21,7 +21,9 @@ public class Door : MonoBehaviour
     public Image doorImage;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
+    public RoomType currentRoomType;
     public RoomType connectRoomType;
+    private Renderer doorRenderer;
     private const float distance = 8.5f;
     private Vector3 doorDirection;
 
@@ -30,11 +32,12 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         instance = this;
+
+        doorRenderer = GetComponent<Renderer>();
+        doorImage = GetComponentInChildren<Image>();
     }
     private void Start()
     {
-        doorImage = GetComponent<Image>();
-        //basic = doorImage.material.color;
         if(doorType == DoorType.Right)
             doorDirection = Vector3.right;
         else if(doorType == DoorType.Left)
@@ -43,11 +46,6 @@ public class Door : MonoBehaviour
             doorDirection = Vector3.forward;
         else
             doorDirection = Vector3.back;
-    }
-
-    private void Update()
-    {
-        
     }
     public void MoveToRoom(Vector3 direction)
     {
@@ -90,27 +88,6 @@ public class Door : MonoBehaviour
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }
-    public void ChangeRoomImage(RoomType rt)
-    {
-        switch (rt)
-        {
-            case RoomType.Normal:
-                doorImage.color = Color.black;
-                break;
-            case RoomType.Golden:
-                doorImage.color = Color.yellow;
-                break;
-            case RoomType.Trap:
-                doorImage.color = Color.gray;
-                break;
-            case RoomType.Jump:
-                doorImage.color = Color.gray;
-                break;
-            case RoomType.Boss:
-                doorImage.color = Color.red;
-                break;
-        }
-    }
     public void ShootRay()
     {
         Collider[] hitInfo = new Collider[10];
@@ -121,9 +98,21 @@ public class Door : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        foreach(var door in hitInfo)
+        
+    }
+    public void ChangeImage()
+    {
+        switch(connectRoomType)
         {
-            
+            case RoomType.Normal:
+                doorImage.color = Color.black;
+                break;
+            case RoomType.Golden:
+                doorImage.color = Color.yellow;
+                break;
+            case RoomType.Boss:
+                doorImage.color = Color.red;
+                break;
         }
     }
 }

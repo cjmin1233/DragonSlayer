@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: d1fdb8e44b28da34d9e922cca0bc740e, type: 2}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.085362546, g: 0.18886697, b: 0.43178445, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -471,36 +471,35 @@ MonoBehaviour:
   mapVec2: []
   mapVec3: []
   mapRecord: []
+  roomVec3: []
   EpicRooms: 000000000000000000000000
-  EntryRoom: {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  EntryRoom: {fileID: 2681522926843503694, guid: 0de85b0ab8961f14289f53b71bc4a318, type: 3}
   NormalRooms:
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 2681522926843503694, guid: 0de85b0ab8961f14289f53b71bc4a318, type: 3}
+  - {fileID: 6866630098992646503, guid: cfe95217c2cb30943a2285369c52dc8d, type: 3}
+  - {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
+  - {fileID: 6292410096207914501, guid: 44005eaa1d5ba4f41a2b5f25d7461a37, type: 3}
   BossRooms:
   - {fileID: 5230944655015988282, guid: 26e6e2701762e504f87e08aa5ff1e5ad, type: 3}
   JumpRooms:
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
   GoldRooms:
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
   TrapRooms:
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
-  - {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
   Room: {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
   Rooms: []
+  listRooms: []
   minimapTile: {fileID: 1301735801}
 --- !u!4 &1147238105
 Transform:

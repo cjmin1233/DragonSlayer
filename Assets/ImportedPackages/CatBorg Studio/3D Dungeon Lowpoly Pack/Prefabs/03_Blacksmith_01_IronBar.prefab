@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 460061091465641846}
   - component: {fileID: 3588714372778078419}
   - component: {fileID: 1596908683585274905}
+  - component: {fileID: -1499809085621528777}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-1499809085621528777
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948473418716145100}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.4311661, y: 0.26588482, z: 0.85844725}
+  m_Center: {x: -0.0062390342, y: 0.112445146, z: -0.002265364}

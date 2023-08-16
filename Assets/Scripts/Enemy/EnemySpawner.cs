@@ -126,6 +126,11 @@ public class EnemySpawner : MonoBehaviour
         GameManager.Instance.aliveEnemies++;
     }
 
+    public void MapRecordClear()
+    {
+        mapRecord.Clear();
+    }
+
     private RandomSpawn GetRandomSpawn()
     {
         var randomSpawn = Enum.GetValues(enumType:typeof(RandomSpawn));

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1403808698649111759}
   - component: {fileID: 2653903343232639850}
   - component: {fileID: 229815859337140128}
+  - component: {fileID: -4549753644588113564}
   m_Layer: 0
   m_Name: 01_DiningHall_01_Bottle#1
   m_TagString: Untagged
@@ -83,3 +84,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &-4549753644588113564
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1743038458775287413}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.35864463, y: 0.573019, z: 0.37710074}
+  m_Center: {x: 0.000000014901161, y: 0.29572403, z: 0}
