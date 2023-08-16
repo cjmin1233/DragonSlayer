@@ -24,5 +24,8 @@ public class Minimap : MonoBehaviour
         }
     }
 
-
+    public void MinimapClear()
+    {
+        while(minimapTiles.Count > 0) Destroy(minimapTiles.Dequeue());
+    }
 }
