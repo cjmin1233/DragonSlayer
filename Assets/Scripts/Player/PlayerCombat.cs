@@ -65,23 +65,9 @@ public class PlayerCombat : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _rigidbody = GetComponent<Rigidbody>();
         _mainCamera ??= GameObject.FindGameObjectWithTag("MainCamera");
-        
         _animationEvent = GetComponentInChildren<PlayerAnimationEvent>();
-        _animationEvent.OnStartComboAction += StartCombo;
-        _animationEvent.OnEndComboAction += EndCombo;
-        _animationEvent.OnEnableWeaponAction += EnableWeapon;
-        _animationEvent.OnDisableWeaponAction += DisableWeapon;
-        _animationEvent.OnEnableVfxAction += EnableVfx;
-        _animationEvent.OnEndParryingAction += EndParrying;
-
-        curComboType = PlayerComboType.None;
-
-        AssignAnimationIDs();
         
-        foreach (var comboData in playerComboData)
-        {
-            comboData.InitComboData(vfxParent);
-        }
+        AssignAnimationIDs();
     }
     private void AssignAnimationIDs()
     {
@@ -105,6 +91,21 @@ public class PlayerCombat : MonoBehaviour
 
     private void Start()
     {
+        _animationEvent.OnStartComboAction += StartCombo;
+        _animationEvent.OnEndComboAction += EndCombo;
+        _animationEvent.OnEnableWeaponAction += EnableWeapon;
+        _animationEvent.OnDisableWeaponAction += DisableWeapon;
+        _animationEvent.OnEnableVfxAction += EnableVfx;
+        _animationEvent.OnEndParryingAction += EndParrying;
+
+        curComboType = PlayerComboType.None;
+
+        
+        foreach (var comboData in playerComboData)
+        {
+            comboData.InitComboData(vfxParent);
+        }
+
         // weapon select
         WeaponScriptableObject weaponSo = weaponScriptableObjects.Find(weapon => weapon.type == weaponType);
         if (weaponSo is null)
