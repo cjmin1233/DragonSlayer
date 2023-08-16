@@ -332,4 +332,14 @@ public class PlayerCombat : MonoBehaviour
     }
     #endregion
 
+    public void AddCombo(ComboScriptableObject comboScriptableObject)
+    {
+        var comboType = comboScriptableObject.comboType;
+        if (comboType.Equals(PlayerComboType.None))
+        {
+            Debug.LogError("Combo type invalid");
+            return;
+        }
+        playerComboData[(int)comboType].AddCombo(comboScriptableObject, vfxParent);
+    }
 }

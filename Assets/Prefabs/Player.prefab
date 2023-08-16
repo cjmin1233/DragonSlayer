@@ -2305,7 +2305,7 @@ Transform:
   - {fileID: 5829865112261471077}
   - {fileID: 4112934628809016244}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7377818943436352837
 Rigidbody:
@@ -2427,7 +2427,6 @@ MonoBehaviour:
   - comboType: 1
     originCombos:
     - {fileID: 11400000, guid: 6dc649218c22ad4449dae9f8723c260a, type: 2}
-    - {fileID: 11400000, guid: c1e11a88d7cabf74fa11cc8964983f7a, type: 2}
     nextComboStartTime: 0
     comboCounter: 0
   weaponParent: {fileID: 2016190080312371127}
