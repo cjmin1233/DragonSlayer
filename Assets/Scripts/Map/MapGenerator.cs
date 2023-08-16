@@ -194,7 +194,15 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
+        //foreach(GameObject room in MapGenerator.Instance.listRooms)
+        //{
+        //    var roomSpawn = room.GetComponent<Room>();
 
+        //    if(roomSpawn.roomType == RoomType.Normal)
+        //    {
+        //        //스폰
+        //    }
+        //}
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();

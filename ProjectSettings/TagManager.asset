@@ -10,6 +10,8 @@ TagManager:
   - Door
   - Entrance
   - Item
+  - DoorImage
+  - bossItem
   layers:
   - Default
   - TransparentFX
@@ -22,7 +24,7 @@ TagManager:
   - Boss
   - Door
   - Minimap
-  - 
+  - NavMesh
   - 
   - 
   - 
