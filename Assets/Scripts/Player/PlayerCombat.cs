@@ -112,7 +112,7 @@ public class PlayerCombat : MonoBehaviour
             Debug.LogError($"No WeaponScriptableObject found for WeaponType: {weaponType}");
             return;
         }
-        activeWeapon = weaponSo.Spawn(weaponParent);
+        activeWeapon = weaponSo.Spawn(weaponParent, this);
     }
 
     private void Update()

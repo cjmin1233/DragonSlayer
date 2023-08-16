@@ -37,7 +37,8 @@ public class BossPatternData
         {
             if (Time.time >= patterns[i].patternEnableTime 
                 && patterns[i].priority > highestPriority
-                && _boss.IsTargetOnSight(patterns[i].fieldOfView, patterns[i].viewDistance))
+                && _boss.IsTargetOnSight(patterns[i].fieldOfView, patterns[i].viewDistance)
+                && _boss.Fly.Equals(patterns[i].Fly))
             {
                 selectedIndex = i;
                 highestPriority = patterns[selectedIndex].priority;

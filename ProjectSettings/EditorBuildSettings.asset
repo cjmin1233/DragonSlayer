@@ -9,13 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene.unity
     guid: 0e9e15c5461356d49a9e0afd6b01afab
   - enabled: 1
-    path: "Assets/Scenes/\uCC28\uC815\uBBFC.unity"
-    guid: ca6fc79586790f548969c7e37fb61137
+    path: Assets/Scenes/GameScene.unity
+    guid: fccdacdcb313a9141a28301623c4529f
+  - enabled: 1
+    path: Assets/Scenes/DamageTest.unity
+    guid: 489776fe39de0774caa5f5fb8382b4e7
   - enabled: 1
     path: Assets/Scenes/LoadingScene.unity
     guid: 32607afcc6590b740949184a6fdfa025
   - enabled: 1
-    path: Assets/Scenes/DamageTest.unity
+    path: Assets/Scenes/TestScene.unity
     guid: 489776fe39de0774caa5f5fb8382b4e7
   - enabled: 0
     path: "Assets/Scenes/\uAE40\uC900\uC601.unity"

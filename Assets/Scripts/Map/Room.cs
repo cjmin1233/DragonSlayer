@@ -24,15 +24,11 @@ public class Room : MonoBehaviour
     }
     public void ClearRoom()
     {
-        Debug.Log("cleared");
-
         int childCount = transform.childCount;
 
         for (int i = childCount - 1; i >= 0; i--)
         {
             Transform child = transform.GetChild(i);
-
-            ClearRoom();
 
             if (child.CompareTag("Entrance"))
             {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,8 @@ public class PlayerInputControl : MonoBehaviour
     public bool AttackNormal { get; private set; }
     public bool AttackSpecial { get; private set; }
     public bool Guard { get; private set; }
+
+    public event Action OnInteractAction;
     private void Start()
     {
         inputAction = new MyDefaultInputAction();
@@ -46,6 +49,8 @@ public class PlayerInputControl : MonoBehaviour
 
         inputAction.PlayerInput.Guard.performed += context => Guard = true;
         inputAction.PlayerInput.Guard.canceled += context => Guard = false;
+
+        inputAction.PlayerInput.Interact.started += InteractControl;
     }
 
     private void LookControl(InputAction.CallbackContext context)
@@ -58,4 +63,5 @@ public class PlayerInputControl : MonoBehaviour
         MoveInput = context.ReadValue<Vector2>();
         if (MoveInput.sqrMagnitude > 1) MoveInput = MoveInput.normalized;
     }
+    private void InteractControl(InputAction.CallbackContext obj) => OnInteractAction?.Invoke();
 }

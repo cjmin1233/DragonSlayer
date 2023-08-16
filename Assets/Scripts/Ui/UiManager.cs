@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class UiManager : MonoBehaviour
 {
+    private MyDefaultInputAction myInputAction;
     public static UiManager Instance { get; private set; }
 
     [SerializeField] private GameObject eventSystem;
@@ -14,7 +15,7 @@ public class UiManager : MonoBehaviour
     [SerializeField] private MainPanel mainPanel;
     [SerializeField] private PlayPanel playPanel;
     
-    [SerializeField] private GameObject GameOverPanel;
+    public GameObject GameOverPanel;
     [SerializeField] private GameObject PauseMenu;
 
     [SerializeField] private FadeUI fadePanel;
@@ -44,7 +45,6 @@ public class UiManager : MonoBehaviour
         GameManager.Instance.onMainSceneLoaded.AddListener(MainSceneSetup);
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
         //
-        //
         
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
@@ -56,11 +56,19 @@ public class UiManager : MonoBehaviour
         inputAction.UI.Enable();
 
         inputAction.UI.Cancel.started += OnEscapeTrigger;
-    }
 
+        myInputAction = new MyDefaultInputAction();
+        myInputAction.UiInput.Enable();
+
+        myInputAction.UiInput.Inventory.started += OnInventoryTrigger;
+    }
+    
     private void Update()
     {
-        if (playPanel.gameObject.activeSelf) playPanel.UpdateUi();
+        if (playPanel.gameObject.activeSelf)
+        {
+            playPanel.UpdateUi();
+        }
     }
 
     private void OnEscapeTrigger(InputAction.CallbackContext context)
@@ -73,6 +81,10 @@ public class UiManager : MonoBehaviour
             GameManager.Instance.PauseGame(true);
             Cursor.lockState = CursorLockMode.None;
         }
+    }
+    private void OnInventoryTrigger(InputAction.CallbackContext context)
+    {
+        if (playPanel.gameObject.activeSelf) playPanel.ToggleInventory();
     }
 
     public void OnPopupUiDisable()
@@ -137,6 +149,7 @@ public class UiManager : MonoBehaviour
     public void FadeOut() => fadePanel.StartFadeOut();
     public void SetMasterVolume(float volume)
     {
+        Debug.Log("������ �Ҹ� ���� ����");
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
@@ -150,4 +163,6 @@ public class UiManager : MonoBehaviour
         audioMixer.SetFloat("EffectVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("EffectVolume", volume);
     }
+
+    public void GetItem2Inventory(ItemScriptableObject itemData) => playPanel.GetItem2Inventory(itemData);
 }

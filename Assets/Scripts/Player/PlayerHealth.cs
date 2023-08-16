@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : LivingEntity
@@ -40,10 +41,17 @@ public class PlayerHealth : LivingEntity
     private bool isInvincible;
     private float invincibleTimer;
     private Coroutine invincibleProcess;
+    
+    // 오브젝트 interaction
+    private List<IInteractable> contactItems = new List<IInteractable>();
     private void Awake()
     {
         if (Instance is null) Instance = this;
-        else if (!Instance.Equals(this)) Destroy(gameObject);
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
         DontDestroyOnLoad(gameObject);
         
         _rigidBody = GetComponent<Rigidbody>();
@@ -66,6 +74,11 @@ public class PlayerHealth : LivingEntity
         PlayerInit(playerScriptableObject);
     }
 
+    private void Start()
+    {
+        _playerInputControl.OnInteractAction += UseItem;
+    }
+
     private void Update()
     {
         RestoreVitality(vitalityRestoreRate * Time.deltaTime);
@@ -82,7 +95,7 @@ public class PlayerHealth : LivingEntity
         CurVitality = MaxVitality;
 
         vitalityRestoreRate = playerSo.vitalityRestoreRate;
-        
+
         _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
         
         _animator.applyRootMotion = false;
@@ -108,7 +121,7 @@ public class PlayerHealth : LivingEntity
             // 구르기로 회피
             return;
         }
-        // 사망, 또는 무적시 리턴 *** >> isDead 추가할것
+        // 사망, 구르기 또는 무적시 리턴
         if (isInvincible || _playerMove.IsRolling || isDead) return;
         
         // 데미지 처리
@@ -120,7 +133,7 @@ public class PlayerHealth : LivingEntity
             _animator.SetBool(_animIDIsGetHit, true);
             _animator.Play("GetHit", 0, 0f);
         }
-        print("플레이어 피격");
+        // print("player hit on point : " + damageMessage.hitPoint);
         base.TakeDamage(damageMessage);
 
         if (currentHp <= 0f) Die();
@@ -159,6 +172,8 @@ public class PlayerHealth : LivingEntity
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
+
+        GameManager.Instance.OnPlayerDeath();
         print("Player Died!");
     }
 
@@ -190,6 +205,9 @@ public class PlayerHealth : LivingEntity
         if (_playerMove is not null) _playerMove.enabled = !toggle;
         if (_playerCombat is not null) _playerCombat.enabled = !toggle;
         if (_rigidBody is not null && toggle) _rigidBody.velocity = Vector3.zero;
+
+        if (toggle) _rigidBody.constraints = RigidbodyConstraints.FreezeAll;
+        else _rigidBody.constraints = RigidbodyConstraints.None | RigidbodyConstraints.FreezeRotation;
     }
 
     private void EndHit()
@@ -206,4 +224,36 @@ public class PlayerHealth : LivingEntity
     }
 
     public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var item = other.GetComponent<IInteractable>();
+        if (item is not null)
+        {
+            contactItems.Add(item);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var item = other.GetComponent<IInteractable>();
+        if (item is not null && contactItems.Contains(item))
+        {
+            contactItems.Remove(item);
+        }
+    }
+
+    private void UseItem()
+    {
+        print("use item!");
+        if (contactItems.Count <= 0) return;
+        var selectedItem = contactItems[0];
+        contactItems.RemoveAt(0);
+        selectedItem.Interact(gameObject);
+    }
+
+    public void RestoreHealth(float amount)
+    {
+        currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+    }
 }

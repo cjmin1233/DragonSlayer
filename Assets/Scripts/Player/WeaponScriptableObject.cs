@@ -11,7 +11,7 @@ public class WeaponScriptableObject : ScriptableObject
 
     private GameObject model;
     private Weapon weapon;
-    public Weapon Spawn(Transform parent)
+    public Weapon Spawn(Transform parent, PlayerCombat playerCombat)
     {
         model = Instantiate(weaponPrefab, parent, false);
         // model = Instantiate(weaponPrefab);
@@ -20,7 +20,7 @@ public class WeaponScriptableObject : ScriptableObject
         model.transform.localRotation = Quaternion.Euler(spawnRotation);
 
         weapon = model.GetComponent<Weapon>();
-        weapon.WeaponInit(this);
+        weapon.WeaponInit(this, playerCombat);
         return weapon;
     }
 }

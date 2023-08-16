@@ -11,4 +11,6 @@ public class BossScriptableObject : ScriptableObject
     public float findTargetRadius;
     public float takeOffSpeed;
     public float restTime;
+    
+    public int phase;
 }

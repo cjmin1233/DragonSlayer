@@ -5,15 +5,17 @@ using UnityEngine.AI;
 [DisallowMultipleComponent]
 public class BossPatternAction : MonoBehaviour
 {
-    // public AnimatorOverrideController[] animatorOv;
     public AnimationClip[] animationClips;
     public int priority;
     public float patternCooldown;
     public float fieldOfView;
     public float viewDistance;
+    public bool Fly { get; private set; }
     public float patternEnableTime;
     public Transform targetTransform;
+    public Boss.BossState nextState;
 
+    #region 코드 간결화 위한 애니메이션 메서드
     protected AnimatorStateInfo GetCurStateInfo(int layerIndex) => _animator.GetCurrentAnimatorStateInfo(layerIndex);
     protected void AnimCrossFade(int stateHashName) =>
         _animator.CrossFade(stateHashName, animTransDuration);
@@ -21,34 +23,36 @@ public class BossPatternAction : MonoBehaviour
 
     protected bool IsAnimationEnded(AnimationClip clip) => GetCurStateInfo(0).IsName(clip.name)
                                                            && GetCurStateInfo(0).normalizedTime >= 1f;
+
+    protected float GetCurAnimationNormTime(AnimationClip clip)
+    {
+        if (!GetCurStateInfo(0).IsName(clip.name)) return -1f;
+        return GetCurStateInfo(0).normalizedTime;
+    }
+    #endregion
     
     protected Animator _animator;
     protected Boss _boss;
     protected NavMeshAgent _agent;
 
-    protected int _animIdAction;
-    protected int _animIdActionChange;
-    protected string _animTagAction;
+    protected int curAnimClipIndex;
 
-    private float animTransDuration = .1f;
+    private readonly float animTransDuration = .1f;
+    
     public void Init(AnimationClip[] animationClipsParam, int priorityParam, float patternCooldownParam,
-        float fovParam, float viewDistanceParam)
+        float fovParam, float viewDistanceParam, bool flyParam, Boss.BossState nextStateParam)
     {
         this.animationClips = animationClipsParam;
-        // this.animatorOv = animatorOvParam;
         this.priority = priorityParam;
         this.patternCooldown = patternCooldownParam;
         this.fieldOfView = fovParam;
         this.viewDistance = viewDistanceParam;
+        this.Fly = flyParam;
+        this.nextState = nextStateParam;
 
         _animator = GetComponentInParent<Animator>();
         _boss = GetComponentInParent<Boss>();
         _agent = GetComponentInParent<NavMeshAgent>();
-        
-        // assign animation id
-        _animIdAction = Animator.StringToHash("Action");
-        _animIdActionChange = Animator.StringToHash("ActionChange");
-        _animTagAction = "Action";
     }
 
     public virtual IEnumerator PatternRoutine()
@@ -60,15 +64,15 @@ public class BossPatternAction : MonoBehaviour
         }
 
         Debug.Log(gameObject.name + " : 일반 패턴 시작");
-        // _animator.runtimeAnimatorController = animatorOv[0];
+        curAnimClipIndex = 0;
         
         _agent.isStopped = true;
-        AnimCrossFade(ClipName2Hash(animationClips[0]));
-        
-        yield return new WaitUntil(() => IsAnimationEnded(animationClips[0]));
+        AnimCrossFade(ClipName2Hash(animationClips[curAnimClipIndex]));
+
+        yield return new WaitUntil(() => IsAnimationEnded(animationClips[curAnimClipIndex]));
         patternEnableTime = Time.time + patternCooldown;
-        
-        _boss.EndAction();
+
+        _boss.EndAction(nextState);
     }
 
     protected void Rotate()

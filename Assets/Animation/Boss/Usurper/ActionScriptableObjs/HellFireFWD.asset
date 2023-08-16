@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f49510c6c909f408c32089d3bff856, type: 3}
+  m_Name: HellFireFWD
+  m_EditorClassIdentifier: 
+  patternName: HellFireFWD
+  animationClips:
+  - {fileID: 7400000, guid: f5fbb04eb5e4836489fa45a2afb1899d, type: 2}
+  - {fileID: 7400000, guid: 2cb5d4ff8fdb8e146a7f5c0317b8c634, type: 2}
+  - {fileID: 7400000, guid: c582c65a52b77c948b53a6387c879bdf, type: 2}
+  - {fileID: 7400000, guid: a93e49f684f3c6f4db5276905a02025a, type: 2}
+  - {fileID: 7400000, guid: 147c3e5da5cc755418fd6554dd1a7874, type: 2}
+  priority: 6
+  patternCooldown: 100
+  fieldOfView: 360
+  viewDistance: 30
+  componentName: HellFireFWD
