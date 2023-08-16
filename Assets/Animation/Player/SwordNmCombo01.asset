@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59138a0b1a7061a4cb5e4dc71bc99859, type: 3}
   m_Name: SwordNmCombo01
   m_EditorClassIdentifier: 
+  comboType: 0
   animatorOv: {fileID: 22100000, guid: 9d5c1940e8483ca47afec5afdb46afa2, type: 2}
   damage: 1
   loop: 0

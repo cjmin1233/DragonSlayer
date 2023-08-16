@@ -15,12 +15,12 @@ public class PlayerAnimationEvent : MonoBehaviour
     private void Awake()
     {
         _animator = GetComponent<Animator>();
-        OnRollFinishAction = () => { };
-        OnStartComboAction = () => { };
-        OnEndComboAction = () => { };
-        OnEnableVfxAction = () => { };
-        OnEndParryingAction = () => { };
-        OnEndHitAction = () => { };
+        // OnRollFinishAction = () => { };
+        // OnStartComboAction = () => { };
+        // OnEndComboAction = () => { };
+        // OnEnableVfxAction = () => { };
+        // OnEndParryingAction = () => { };
+        // OnEndHitAction = () => { };
     }
     private void OnRollFinish() => OnRollFinishAction?.Invoke();
 

@@ -19,4 +19,10 @@ public class ComboData
             Combos.Add(comboAnimation);
         }
     }
+
+    public void AddCombo(ComboScriptableObject comboScriptableObject, Transform vfxParent)
+    {
+        var comboAnimation = comboScriptableObject.Init(vfxParent);
+        Combos.Add(comboAnimation);
+    }
 }

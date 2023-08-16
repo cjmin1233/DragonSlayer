@@ -245,8 +245,8 @@ public class PlayerHealth : LivingEntity
 
     private void UseItem()
     {
-        print("use item!");
         if (contactItems.Count <= 0) return;
+        print("use item!");
         var selectedItem = contactItems[0];
         contactItems.RemoveAt(0);
         selectedItem.Interact(gameObject);
