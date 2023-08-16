@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Attacks/Normal Attack")]
 public class ComboScriptableObject : ScriptableObject
 {
+    public PlayerComboType comboType;
     public AnimatorOverrideController animatorOv;
     public float damage; 
     public bool loop;
@@ -19,7 +20,7 @@ public class ComboScriptableObject : ScriptableObject
     public ComboAnimation Init(Transform vfxParent)
     {
         // particleInstances.Clear();
-        ComboAnimation comboAnimation = new ComboAnimation(animatorOv, damage, loop, isStiff, stunTime, 
+        ComboAnimation comboAnimation = new ComboAnimation(comboType, animatorOv, damage, loop, isStiff, stunTime, 
             nextComboInterval, comboVitality, assaultDirection, assaultSpeedCurve);
 
         foreach (var vfxPrefab in vfxPrefabs)

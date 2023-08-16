@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ComboAnimation
 {
+    public PlayerComboType ComboType;
     public AnimatorOverrideController AnimatorOv;
     public float AnimationDamage;
     public bool Loop;
@@ -15,11 +16,12 @@ public class ComboAnimation
     public List<ParticleModifier> Effects;
     public int EffectIndex;
 
-    public ComboAnimation(AnimatorOverrideController animatorOv,
+    public ComboAnimation(PlayerComboType comboType, AnimatorOverrideController animatorOv,
         float animationDamage, bool loop, bool isStiff, float stunTime, 
         float nextComboInterval, float comboVitality, 
         Vector3 assaultDirection, AnimationCurve assaultSpeedCurve)
     {
+        this.ComboType = comboType;
         this.AnimatorOv = animatorOv;
         this.AnimationDamage = animationDamage;
         this.Loop = loop;
