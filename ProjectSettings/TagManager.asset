@@ -10,6 +10,9 @@ TagManager:
   - Door
   - Entrance
   - Item
+  - DoorImage
+  - bossItem
+  - Shop
   layers:
   - Default
   - TransparentFX
