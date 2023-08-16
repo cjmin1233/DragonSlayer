@@ -16,3 +16,4 @@ MonoBehaviour:
   weaponPrefab: {fileID: 5003395297972691845, guid: 574c6df6890b70a469d8a123c93c1560, type: 3}
   spawnPoint: {x: 0, y: 0, z: 0}
   spawnRotation: {x: 0, y: 0, z: 0}
+  weaponDamage: 1

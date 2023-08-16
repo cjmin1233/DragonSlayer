@@ -7,7 +7,8 @@ public enum EffectType
 {
     SwordHit,
     EnemyHit,
-    ProjectileHit
+    ProjectileHit,
+    StunCirclingStars
 }
 public class EffectManager : MonoBehaviour
 {
@@ -47,6 +48,7 @@ public class EffectManager : MonoBehaviour
     public void Add2Pool(int index, GameObject instanceToAdd)
     {
         instanceToAdd.SetActive(false);
+        instanceToAdd.transform.SetParent(transform);
         effectQueue.Enqueue(index, instanceToAdd);
     }
 

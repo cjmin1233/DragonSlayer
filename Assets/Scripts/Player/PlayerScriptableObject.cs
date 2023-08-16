@@ -10,6 +10,7 @@ public class PlayerScriptableObject : ScriptableObject
     public float sprintSpeed;
     public float rollSpeed;
     public float rollVitality;
+    public float playerPower;
     public float attackSpeed;
     public float defence;
     public float guardDuration;

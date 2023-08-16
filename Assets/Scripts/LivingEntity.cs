@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour, IDamagable
 {
+    [SerializeField] protected Transform headPoint;
     protected Rigidbody rb;
     protected float maxHp;
     protected float currentHp;
@@ -23,9 +24,6 @@ public class LivingEntity : MonoBehaviour, IDamagable
             if (stunning is not null) StopCoroutine(stunning);
             stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
         }
-        // if (stunning is not null) StopCoroutine(stunning);
-        // if (damageMessage.stunTime > 0f) stunning = StartCoroutine(StunProcess(damageMessage.stunTime));
-
         //if (currentHp <= 0f) Die();
     }
 
@@ -34,6 +32,15 @@ public class LivingEntity : MonoBehaviour, IDamagable
         RemainingStunTime = stunTime;
         isStunned = true;
 
+        if (headPoint is not null)
+        {
+            var stunVfx = EffectManager.Instance.GetFromPool((int)EffectType.StunCirclingStars);
+            stunVfx.transform.SetParent(headPoint);
+            stunVfx.transform.localPosition = Vector3.zero;
+            ParticleSystem.MainModule mainModule = stunVfx.GetComponent<ParticleSystem>().main;
+            mainModule.duration = stunTime;
+            stunVfx.SetActive(true);
+        }
         while (isStunned)
         {
             RemainingStunTime -= Time.deltaTime;

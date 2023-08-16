@@ -138,25 +138,15 @@ public class PlayerHealth : LivingEntity
 
         if (currentHp <= 0f) Die();
     }
-
     protected override IEnumerator StunProcess(float stunTime)
     {
-        RemainingStunTime = stunTime;
-        isStunned = true;
-        _animator.SetBool(_animIDIsStunned, true);
-        // _animator.Play("Dizzy", 0, 0f);
-        
         _playerCombat.TerminateCombat();
+        _animator.SetBool(_animIDIsStunned, true);
         ToggleFreezePlayer(true);
-        
-        while (isStunned)
-        {
-            RemainingStunTime -= Time.deltaTime;
-            if (RemainingStunTime <= 0f) isStunned = false;
-            yield return null;
-        }
+        yield return base.StunProcess(stunTime);
         _animator.SetBool(_animIDIsStunned, false);
         ToggleFreezePlayer(false);
+        print("overrided stun process in playerHealth");
     }
 
     private void Die()
