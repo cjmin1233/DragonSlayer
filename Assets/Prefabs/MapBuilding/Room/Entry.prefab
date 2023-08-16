@@ -557,6 +557,10 @@ PrefabInstance:
       propertyPath: whatIsTarget.m_Bits
       value: 512
       objectReference: {fileID: 0}
+    - target: {fileID: 342651163037375854, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 427106988003611905, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: m_TagString
       value: Untagged
@@ -592,6 +596,10 @@ PrefabInstance:
     - target: {fileID: 3707120217728878300, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
       value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3884998941533462164, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3911844767026042126, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: m_TagString
@@ -647,6 +655,14 @@ PrefabInstance:
       objectReference: {fileID: 8747067577888758357}
     - target: {fileID: 4469696077547090640, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
       propertyPath: whatIsTarget.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590521345846741756, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474634821699873063, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5522346788106935707, guid: 4bbaebdc8fdf25744aba99a1a23d91b5, type: 3}

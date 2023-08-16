@@ -1816,7 +1816,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 1072761506934239409}
   doorType: 2
-  currentRoomType: 0
+  currentRoomType: 4
   connectRoomType: 0
 --- !u!1 &1743666703705215595
 GameObject:
@@ -4049,7 +4049,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 6583633707567725232}
   doorType: 3
-  currentRoomType: 0
+  currentRoomType: 4
   connectRoomType: 0
 --- !u!1 &3520151323839494590
 GameObject:
@@ -5532,7 +5532,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 2265483047119538111}
   doorType: 0
-  currentRoomType: 0
+  currentRoomType: 4
   connectRoomType: 0
 --- !u!1 &4537256269164075656
 GameObject:
@@ -9636,7 +9636,7 @@ MonoBehaviour:
     m_Bits: 512
   doorImage: {fileID: 2500056196527851402}
   doorType: 1
-  currentRoomType: 0
+  currentRoomType: 4
   connectRoomType: 0
 --- !u!1 &8217018938807453154
 GameObject:

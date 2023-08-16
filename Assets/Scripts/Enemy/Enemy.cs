@@ -285,6 +285,8 @@ public class Enemy : LivingEntity
     {
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
         GameManager.Instance.aliveEnemies--;
+        if(GameManager.Instance.aliveEnemies == 0)
+            MapGenerator.Instance.ClearRoom(GameManager.Instance.playerRoomIndex);
         currentHp = maxHp;
         nextState = State.Idle;
     }
