@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 4269566395243001499}
   - component: {fileID: 2968138375863010952}
   - component: {fileID: 4475067506387572953}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,6 +658,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 98e3fbc32251e734cadc7a8d48b39a90, type: 2}
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 65
 --- !u!195 &4269566395243001499
 NavMeshAgent:
   m_ObjectHideFlags: 0
