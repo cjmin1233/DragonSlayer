@@ -427,7 +427,8 @@ GameObject:
   - component: {fileID: 1103972205324146682}
   - component: {fileID: 4106653159476107359}
   - component: {fileID: 2240879479371066517}
-  - component: {fileID: 4246562278456933740}
+  - component: {fileID: 5931115948216507745}
+  - component: {fileID: 4714610466901502704}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_Forge
   m_TagString: Untagged
@@ -500,7 +501,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4246562278456933740
+--- !u!208 &5931115948216507745
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295487650019691840}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1.1220001, y: 0.95900005, z: 1.1220001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.91700006, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &4714610466901502704
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -798,7 +815,8 @@ GameObject:
   - component: {fileID: 208017799303374714}
   - component: {fileID: 3840687038988855519}
   - component: {fileID: 1344372638414298133}
-  - component: {fileID: 6048015525952139905}
+  - component: {fileID: 4501519149691547127}
+  - component: {fileID: 9105964072658140383}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (5)
   m_TagString: Untagged
@@ -871,7 +889,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6048015525952139905
+--- !u!208 &4501519149691547127
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 696043338454793664}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &9105964072658140383
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1143,7 +1177,8 @@ GameObject:
   - component: {fileID: 51300200162926933}
   - component: {fileID: 3970374798362619632}
   - component: {fileID: 1224255199951051322}
-  - component: {fileID: 6984607306612095860}
+  - component: {fileID: 9085549648889835263}
+  - component: {fileID: 7585963224319905872}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (3)
   m_TagString: Untagged
@@ -1216,7 +1251,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6984607306612095860
+--- !u!208 &9085549648889835263
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864007155000179695}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &7585963224319905872
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1847,7 +1898,8 @@ GameObject:
   - component: {fileID: 1799954992129545172}
   - component: {fileID: 3410740122715266161}
   - component: {fileID: 626446045308348603}
-  - component: {fileID: 5378479149725214744}
+  - component: {fileID: 1414130726930079608}
+  - component: {fileID: 3320015190244655695}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar
   m_TagString: Untagged
@@ -1920,7 +1972,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5378479149725214744
+--- !u!208 &1414130726930079608
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419030994343872878}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &3320015190244655695
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2184,7 +2252,8 @@ GameObject:
   - component: {fileID: 2029052846632086887}
   - component: {fileID: 3136615600018629314}
   - component: {fileID: 892706740131321352}
-  - component: {fileID: 3657521685048318154}
+  - component: {fileID: 2792384267195375960}
+  - component: {fileID: 5440400556615305218}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (3)
   m_TagString: Untagged
@@ -2200,7 +2269,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685318764992690141}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 10, y: 0, z: -10}
+  m_LocalPosition: {x: 8.88, y: 0, z: -10}
   m_LocalScale: {x: 3, y: 2, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2259,7 +2328,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3657521685048318154
+--- !u!208 &2792384267195375960
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685318764992690141}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.60300004, y: 1.47, z: 0.59800005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.463, z: -0.0050000004}
+  m_TimeToStationary: 0.5
+--- !u!65 &5440400556615305218
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2556,7 +2641,8 @@ GameObject:
   - component: {fileID: 1245325944672208954}
   - component: {fileID: 2803370698063267743}
   - component: {fileID: 73013644863746901}
-  - component: {fileID: 7604246830185806568}
+  - component: {fileID: 3936839819947828116}
+  - component: {fileID: 1443261175544491942}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (7)
   m_TagString: Untagged
@@ -2629,7 +2715,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7604246830185806568
+--- !u!208 &3936839819947828116
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874511151144080000}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &1443261175544491942
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2777,7 +2879,8 @@ GameObject:
   - component: {fileID: 1725223426886568456}
   - component: {fileID: 2332550171009648045}
   - component: {fileID: 556780921200472423}
-  - component: {fileID: 636301016414934212}
+  - component: {fileID: 5162443072523917074}
+  - component: {fileID: 3473991304896193239}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (10)
   m_TagString: Untagged
@@ -2850,7 +2953,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &636301016414934212
+--- !u!208 &5162443072523917074
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070223424641421490}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &3473991304896193239
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2965,7 +3084,8 @@ GameObject:
   - component: {fileID: 1603821202330839238}
   - component: {fileID: 2444946037532813155}
   - component: {fileID: 435378285534548905}
-  - component: {fileID: 5211509556511767150}
+  - component: {fileID: 2929720919741327847}
+  - component: {fileID: 8504947569992074317}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_Anvil
   m_TagString: Untagged
@@ -3038,7 +3158,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5211509556511767150
+--- !u!208 &2929720919741327847
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092549084666344060}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.367, y: 0.402, z: 0.67200005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.002, y: 0.402, z: 0.165}
+  m_TimeToStationary: 0.5
+--- !u!65 &8504947569992074317
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3446,7 +3582,8 @@ GameObject:
   - component: {fileID: 3449758479262620992}
   - component: {fileID: 1751859136831165157}
   - component: {fileID: 4587811031837369903}
-  - component: {fileID: 8766108623672980659}
+  - component: {fileID: 6904132819804774641}
+  - component: {fileID: 5089539761126243377}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1
   m_TagString: Untagged
@@ -3521,7 +3658,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8766108623672980659
+--- !u!208 &6904132819804774641
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2642436107478190074}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.60300004, y: 1.47, z: 0.59800005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.463, z: -0.0050000004}
+  m_TimeToStationary: 0.5
+--- !u!65 &5089539761126243377
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3655,7 +3808,8 @@ GameObject:
   - component: {fileID: 3325948746886734199}
   - component: {fileID: 1839719718598602450}
   - component: {fileID: 4495445785827678744}
-  - component: {fileID: 1645833212297856440}
+  - component: {fileID: 2978387617197718214}
+  - component: {fileID: 2717046597407148075}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (6)
   m_TagString: Untagged
@@ -3728,7 +3882,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1645833212297856440
+--- !u!208 &2978387617197718214
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2694265763533339597}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &2717046597407148075
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4042,7 +4212,8 @@ GameObject:
   - component: {fileID: 3256655649829235016}
   - component: {fileID: 1918019532817442541}
   - component: {fileID: 4430094885840278055}
-  - component: {fileID: 5439890846856929388}
+  - component: {fileID: 2663611349443354688}
+  - component: {fileID: 6731260027058117592}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_Blower
   m_TagString: Untagged
@@ -4058,7 +4229,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2772572103804154866}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.890686, y: -0.0002746582, z: -4.7179976}
+  m_LocalPosition: {x: 0.03, y: -0.0002746582, z: -4.7179976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4115,7 +4286,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5439890846856929388
+--- !u!208 &2663611349443354688
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2772572103804154866}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.4510002, y: 0.837, z: 0.97300005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.30100003, y: 0.887, z: 0.094000004}
+  m_TimeToStationary: 0.5
+--- !u!65 &6731260027058117592
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4966,7 +5153,8 @@ GameObject:
   - component: {fileID: 4105994655484559931}
   - component: {fileID: 1104710081166986654}
   - component: {fileID: 2931914545793382740}
-  - component: {fileID: 5485592200625040142}
+  - component: {fileID: 7226539476868852269}
+  - component: {fileID: 4773458250688637377}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (11)
   m_TagString: Untagged
@@ -5039,7 +5227,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5485592200625040142
+--- !u!208 &7226539476868852269
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3724684488601442433}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &4773458250688637377
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5202,7 +5406,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3816798263377204144}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5242,7 +5446,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: f89bf6bf22f801e4e8edf5728c921caf, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f6b3869e292f2ed478801365fec6a3b6, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &9211927241144267518
 BoxCollider:
@@ -5373,7 +5577,8 @@ GameObject:
   - component: {fileID: 4514183440212789719}
   - component: {fileID: 651406208042436210}
   - component: {fileID: 3381839619519312568}
-  - component: {fileID: 5930622999908402553}
+  - component: {fileID: 2969808682627937262}
+  - component: {fileID: 7708421642818671024}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (1)
   m_TagString: Untagged
@@ -5446,7 +5651,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5930622999908402553
+--- !u!208 &2969808682627937262
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886124099610989421}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &7708421642818671024
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6234,7 +6455,8 @@ GameObject:
   - component: {fileID: 4017118946628869094}
   - component: {fileID: 4635475461608515}
   - component: {fileID: 2879067595302101129}
-  - component: {fileID: 3262597952379001658}
+  - component: {fileID: 624638484502889320}
+  - component: {fileID: 9067105360846875062}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (2)
   m_TagString: Untagged
@@ -6309,7 +6531,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3262597952379001658
+--- !u!208 &624638484502889320
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4392272740950622556}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.60300004, y: 1.47, z: 0.59800005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.463, z: -0.0050000004}
+  m_TimeToStationary: 0.5
+--- !u!65 &9067105360846875062
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6975,7 +7213,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5649887843496519445}
-  m_Layer: 0
+  - component: {fileID: 1912880211162198106}
+  m_Layer: 11
   m_Name: roomFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7001,6 +7240,27 @@ Transform:
   m_Father: {fileID: 1278279363828000449}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1912880211162198106
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4966352865437020896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 40, y: 0.1, z: 40}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5094022444541138456
 GameObject:
   m_ObjectHideFlags: 0
@@ -7189,7 +7449,8 @@ GameObject:
   - component: {fileID: 4774313757361149571}
   - component: {fileID: 8497763100920551718}
   - component: {fileID: 5911794529934667244}
-  - component: {fileID: 856801584608260173}
+  - component: {fileID: 4742484579941031831}
+  - component: {fileID: 2242133828939929327}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_Hammer#1
   m_TagString: Untagged
@@ -7262,7 +7523,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &856801584608260173
+--- !u!208 &4742484579941031831
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5263043019173907513}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.287, y: 0.102000006, z: 0.53900003}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.027, y: 0.09900001, z: -0.39100003}
+  m_TimeToStationary: 0.5
+--- !u!65 &2242133828939929327
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8357,7 +8634,8 @@ GameObject:
   - component: {fileID: 6361020411743030153}
   - component: {fileID: 8064040145465951276}
   - component: {fileID: 5192032996440158438}
-  - component: {fileID: 2036294621682254472}
+  - component: {fileID: 795179948936927848}
+  - component: {fileID: 3029785528415630812}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (1)
   m_TagString: Untagged
@@ -8432,7 +8710,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2036294621682254472
+--- !u!208 &795179948936927848
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5984495487699620147}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.60300004, y: 1.47, z: 0.59800005}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 1.463, z: -0.0050000004}
+  m_TimeToStationary: 0.5
+--- !u!65 &3029785528415630812
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9688,7 +9982,8 @@ GameObject:
   - component: {fileID: 7616496271115318309}
   - component: {fileID: 6781542067167656832}
   - component: {fileID: 8788800913402072906}
-  - component: {fileID: 6233345621074765244}
+  - component: {fileID: 4472844866172279419}
+  - component: {fileID: 8420760535082611191}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (8)
   m_TagString: Untagged
@@ -9761,7 +10056,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &6233345621074765244
+--- !u!208 &4472844866172279419
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7131709141061086879}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &8420760535082611191
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10230,7 +10541,8 @@ GameObject:
   - component: {fileID: 6997558070919265988}
   - component: {fileID: 6247489291371442529}
   - component: {fileID: 8167134030019462571}
-  - component: {fileID: 5046283302279809023}
+  - component: {fileID: 184671382816706721}
+  - component: {fileID: 6908968000864554383}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (9)
   m_TagString: Untagged
@@ -10303,7 +10615,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5046283302279809023
+--- !u!208 &184671382816706721
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7662735476742104190}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &6908968000864554383
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10619,7 +10947,8 @@ GameObject:
   - component: {fileID: 6983697930801635996}
   - component: {fileID: 6288379476640329017}
   - component: {fileID: 8115548758236731891}
-  - component: {fileID: 3849298512397778311}
+  - component: {fileID: 2337477919170372257}
+  - component: {fileID: 8531949276338428752}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (4)
   m_TagString: Untagged
@@ -10692,7 +11021,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3849298512397778311
+--- !u!208 &2337477919170372257
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7755415062445013030}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &8531949276338428752
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -12157,7 +12502,8 @@ GameObject:
   - component: {fileID: 8392729088523655541}
   - component: {fileID: 4888425634638157520}
   - component: {fileID: 7220354867097084442}
-  - component: {fileID: 8355892431666236320}
+  - component: {fileID: 6932171712397543573}
+  - component: {fileID: 3379046630885715717}
   m_Layer: 0
   m_Name: 03_Blacksmith_01_IronBar (2)
   m_TagString: Untagged
@@ -12230,7 +12576,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8355892431666236320
+--- !u!208 &6932171712397543573
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165711513220678607}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.216, y: 0.133, z: 0.42900002}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: -0.006, y: 0.112, z: -0.002}
+  m_TimeToStationary: 0.5
+--- !u!65 &3379046630885715717
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

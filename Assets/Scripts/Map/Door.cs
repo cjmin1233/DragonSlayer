@@ -21,8 +21,10 @@ public class Door : MonoBehaviour
     public Image doorImage;
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
+
     public RoomType currentRoomType;
     public RoomType connectRoomType;
+
     private Renderer doorRenderer;
     private const float distance = 8.5f;
     private Vector3 doorDirection;
