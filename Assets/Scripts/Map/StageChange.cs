@@ -21,13 +21,11 @@ public class StageChange : MonoBehaviour
             }
 
             GameManager.Instance.generatedRooms.Clear();
-            Minimap.Instance.MinimapClear();
             EnemySpawner.Instance.MapRecordClear();
 
             MapVector2.instance.Stage++;
             player.transform.position = new Vector3(0, 10, 0);
             MapVector2.instance.GenerateDungeon();
-            Minimap.Instance.MinimapCreate();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }

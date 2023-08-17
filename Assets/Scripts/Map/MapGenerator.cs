@@ -28,7 +28,6 @@ public class MapGenerator : MonoBehaviour
     public GameObject Room;
     public List<GameObject> Rooms;
     public List<GameObject> listRooms = new();
-    [SerializeField] GameObject minimapTile;
 
     private void Awake()
     {
