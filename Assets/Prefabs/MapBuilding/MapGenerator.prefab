@@ -31,7 +31,7 @@ Transform:
   m_Children:
   - {fileID: 1367773810441206340}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8229637590724698906
 MonoBehaviour:
@@ -51,13 +51,14 @@ MonoBehaviour:
   epicSize: 0
   EntryRoom: {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
   NormalRooms:
-  - {fileID: 6866630098992646503, guid: cfe95217c2cb30943a2285369c52dc8d, type: 3}
   - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
   - {fileID: 2681522926843503694, guid: 0de85b0ab8961f14289f53b71bc4a318, type: 3}
+  - {fileID: 6866630098992646503, guid: cfe95217c2cb30943a2285369c52dc8d, type: 3}
   - {fileID: 4782093223227990825, guid: 4572093805c7a844a9238dd8532012d8, type: 3}
+  - {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
   - {fileID: 6292410096207914501, guid: 44005eaa1d5ba4f41a2b5f25d7461a37, type: 3}
   BossRoom: {fileID: 5230944655015988282, guid: 26e6e2701762e504f87e08aa5ff1e5ad, type: 3}
-  ShopRoom: {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  ShopRoom: {fileID: 6866630098992646503, guid: 8dddd0e10ee879646872f7d4dd433de8, type: 3}
   GoldRoom: {fileID: 8645926953918926598, guid: 25da39b1cb796a14389d95e3cef946d7, type: 3}
   portals:
   - {fileID: 1209815176174424, guid: 6c4162965c7215f4a8c116238adb30ec, type: 3}
@@ -113,6 +114,6 @@ MonoBehaviour:
   enemies:
   - {fileID: 4872952184048641977, guid: 25d1fe06af1e4c14e8e3378fa2519c6a, type: 3}
   - {fileID: 8644586381533923311, guid: c27b51d8ae45e3141a05adf56fbb1d08, type: 3}
-  - {fileID: 704936904938049669, guid: 753ea4a0ad047294eb4349403883e94e, type: 3}
   - {fileID: 5465432202388800275, guid: f21d7e7b2cd4eb149adfea8da7ba87bf, type: 3}
+  - {fileID: 704936904938049669, guid: 753ea4a0ad047294eb4349403883e94e, type: 3}
   - {fileID: 6586619270758151399, guid: 9a3ffa31f011ef14bbf89b3b92e2c51d, type: 3}

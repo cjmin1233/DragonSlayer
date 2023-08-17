@@ -151,4 +151,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: 67257c99b99f4b2468106f33413e499a, type: 2}
+  interactVfx: {fileID: 3074854339143202478, guid: d736f3f116b50bd46b631ad28b8c47e8, type: 3}
   comboScriptableObject: {fileID: 11400000, guid: c1e11a88d7cabf74fa11cc8964983f7a, type: 2}

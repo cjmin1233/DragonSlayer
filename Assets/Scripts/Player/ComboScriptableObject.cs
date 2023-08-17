@@ -14,12 +14,9 @@ public class ComboScriptableObject : ScriptableObject
     public Vector3 assaultDirection;
     public AnimationCurve assaultSpeedCurve;
     public GameObject[] vfxPrefabs;
-    // public int particleIndex = 0;
 
-    // private List<GameObject> particleInstances = new List<GameObject>();
     public ComboAnimation Init(Transform vfxParent)
     {
-        // particleInstances.Clear();
         ComboAnimation comboAnimation = new ComboAnimation(comboType, animatorOv, damage, loop, isStiff, stunTime, 
             nextComboInterval, comboVitality, assaultDirection, assaultSpeedCurve);
 

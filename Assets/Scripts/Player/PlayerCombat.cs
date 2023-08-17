@@ -44,6 +44,8 @@ public class PlayerCombat : MonoBehaviour
 
     private int _animIDAttackSpeed;
     private int _animIDIsGuarding;
+    
+    private float playerPower;
     private float attackSpeed = 1f;
 
     [SerializeField] private Transform vfxParent;
@@ -82,6 +84,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void CombatInit(PlayerScriptableObject playerSo)
     {
+        playerPower = playerSo.playerPower;
         attackSpeed = playerSo.attackSpeed;
         guardDuration = playerSo.guardDuration;
         guardTimeOut = playerSo.guardTimeOut;
@@ -342,5 +345,19 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
         playerComboData[(int)comboType].AddCombo(comboScriptableObject, vfxParent);
+    }
+
+    public float CalculateDamage()
+    {
+        if (activeWeapon is null || !IsComboActive) return 0f;
+        ComboData comboData = playerComboData[(int)curComboType];
+        return activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
+    }
+
+    public void UpgradeStatus(float power, float speed)
+    {
+        // 전투 능력치 업그레이드
+        playerPower += power;
+        attackSpeed += speed;
     }
 }

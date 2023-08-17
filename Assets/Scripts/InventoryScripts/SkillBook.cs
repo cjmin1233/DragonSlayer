@@ -14,8 +14,7 @@ public class SkillBook : ItemObject
             return;
         }
 
-        UiManager.Instance.GetItem2Inventory(itemData);
         playerCombat.AddCombo(comboScriptableObject);
-        Destroy(gameObject);
+        base.Interact(target);
     }
 }

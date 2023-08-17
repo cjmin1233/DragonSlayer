@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Weapons/Weapon", order = 0)]
 public class WeaponScriptableObject : ScriptableObject
@@ -7,7 +8,7 @@ public class WeaponScriptableObject : ScriptableObject
     public GameObject weaponPrefab;
     public Vector3 spawnPoint;
     public Vector3 spawnRotation;
-    public float damage;
+    public float weaponDamage;
 
     private GameObject model;
     private Weapon weapon;

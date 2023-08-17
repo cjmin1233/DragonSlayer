@@ -27,7 +27,8 @@ Transform:
   m_LocalPosition: {x: -0.29759654, y: 1.7763567e-16, z: 1.7914223e-16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4944467155104510310}
   m_Father: {fileID: 2374056285098306025}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 21.181347, y: -90, z: 0}
@@ -63,6 +64,37 @@ Transform:
   m_Father: {fileID: 5928494537972779475}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: -67.60852}
+--- !u!1 &1465780982418929608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4944467155104510310}
+  m_Layer: 0
+  m_Name: HeadPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4944467155104510310
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465780982418929608}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.282}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5642408735039720161}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2325811799492830084
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,7 +295,7 @@ Transform:
   - {fileID: 1272803847667883657}
   - {fileID: 660432631292636104}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &7422101826880837961
 Animator:
@@ -298,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 079f53197718e2c4081a52a8d7b52a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headPoint: {fileID: 4944467155104510310}
   enemyData: {fileID: 11400000, guid: 1ff6b4aaeb09c2c439576a1711b27413, type: 2}
   whatIsTarget:
     serializedVersion: 2

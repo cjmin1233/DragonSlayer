@@ -3,7 +3,10 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private GameObject damager;
+    public float WeaponDamage
+    {
+        get => weaponDamage;
+    }
     [SerializeField] private Transform hitPoint;
     [SerializeField] private EffectType hitVfxType;
     private WeaponType weaponType;
@@ -13,18 +16,21 @@ public class Weapon : MonoBehaviour
     private BoxCollider boxCollider;
 
     private List<GameObject> hitList = new List<GameObject>();
+    private PlayerCombat _playerCombat;
+
+    private float curDamage;
     public void WeaponInit(WeaponScriptableObject weaponScriptableObject, PlayerCombat playerCombat)
     {
         weaponType = weaponScriptableObject.type;
-        weaponDamage = weaponScriptableObject.damage;
+        weaponDamage = weaponScriptableObject.weaponDamage;
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
-        damager = playerCombat.gameObject;
+        _playerCombat = playerCombat;
     }
 
     public void WeaponSetup(ComboAnimation comboAnimation)
     {
-        weaponDamage = comboAnimation.AnimationDamage;
+        curDamage = _playerCombat.CalculateDamage();
         stunTime = comboAnimation.StunTime;
         stiff = comboAnimation.IsStiff;
     }
@@ -50,8 +56,8 @@ public class Weapon : MonoBehaviour
         if(livingEntity != null)
         {
             Vector3 hitPos = other.ClosestPointOnBounds(this.hitPoint.position);
-            DamageMessage damageMessage = new DamageMessage(damager, hitPos, weaponDamage, stunTime, stiff);
-
+            DamageMessage damageMessage = new DamageMessage(_playerCombat.gameObject, hitPos, curDamage, stunTime, stiff);
+            print("weapon damage : " + damageMessage.damage);
             livingEntity.TakeDamage(damageMessage);
             var hitVfx = EffectManager.Instance.GetFromPool((int)hitVfxType);
             hitVfx.transform.position = hitPos;

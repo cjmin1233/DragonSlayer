@@ -13,6 +13,7 @@ TagManager:
   - DoorImage
   - bossItem
   - Portal
+  - Shop
   layers:
   - Default
   - TransparentFX
