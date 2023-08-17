@@ -17,7 +17,7 @@ public class Room : MonoBehaviour
     public static Room instance;
 
     public RoomType roomType;
-    public List<GameObject> entrances;
+    private List<GameObject> entrances;
 
     private void Awake()
     {

@@ -50,6 +50,8 @@ public class Door : MonoBehaviour
             doorDirection = Vector3.forward;
         else
             doorDirection = Vector3.back;
+
+        currentRoomType = transform.GetComponentInParent<Room>().roomType;
     }
     public void MoveToRoom(Vector3 direction)
     {

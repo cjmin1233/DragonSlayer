@@ -18,7 +18,7 @@ public class StageChange : MonoBehaviour
         {
             if (MapVector2.instance.Stage == 3)
             {
-                //SceneManager.LoadScene("");
+                //SceneManager.LoadScene("BossScene");
             }
 
             GameManager.Instance.generatedRooms.Clear();
