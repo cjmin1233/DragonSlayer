@@ -9540,11 +9540,11 @@ GameObject:
   - component: {fileID: 199369412461651512}
   m_Layer: 0
   m_Name: VortexPortalGreen
-  m_TagString: Untagged
+  m_TagString: Portal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4587011716420812
 Transform:
   m_ObjectHideFlags: 0

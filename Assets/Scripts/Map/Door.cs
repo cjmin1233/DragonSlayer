@@ -88,7 +88,7 @@ public class Door : MonoBehaviour
                 default:
                     break;
             }
-            EnemySpawner.Instance.SelectEnemySpawner();
+            if(connectRoomType == RoomType.Normal) EnemySpawner.Instance.SelectEnemySpawner();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }

@@ -1768,7 +1768,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 1
-  currentRoomType: 0
+  currentRoomType: 1
   connectRoomType: 0
 --- !u!1 &1533982083073920334
 GameObject:
@@ -2097,7 +2097,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 2
-  currentRoomType: 0
+  currentRoomType: 1
   connectRoomType: 0
 --- !u!1 &1810478525931166785
 GameObject:
@@ -3840,7 +3840,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 82bda42f4177d0748b704a2be542e017, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6153,7 +6153,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 0
-  currentRoomType: 0
+  currentRoomType: 1
   connectRoomType: 0
 --- !u!1 &5561505153569168573
 GameObject:
@@ -6165,7 +6165,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3934633424085257974}
   - component: {fileID: 6700613207574495958}
-  - component: {fileID: 6590181504684431546}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -6211,18 +6210,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10.221199, y: 5.7183733, z: 6.4583006}
   m_Center: {x: 0.03795266, y: 2.5, z: 1.7724414}
---- !u!114 &6590181504684431546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5561505153569168573}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fb7457455cd81642960d4b41edf9be1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5588189768878675374
 GameObject:
   m_ObjectHideFlags: 0
@@ -9367,7 +9354,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 3
-  currentRoomType: 0
+  currentRoomType: 1
   connectRoomType: 0
 --- !u!1 &7289894573883078299
 GameObject:
@@ -11687,7 +11674,7 @@ Transform:
   - {fileID: 2409757716897369826}
   - {fileID: 3934633424085257974}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &520706116132116440
 MonoBehaviour:
