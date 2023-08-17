@@ -1126,7 +1126,7 @@ GameObject:
   - component: {fileID: 5462816954789486455}
   - component: {fileID: 5071057744033641242}
   - component: {fileID: 1290762052672563139}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TurtleShell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,6 +1185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 6b7ea3853421e1248b8119d138f5c189, type: 2}
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 65
 --- !u!195 &5462816954789486455
 NavMeshAgent:
   m_ObjectHideFlags: 0

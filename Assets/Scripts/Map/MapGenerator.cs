@@ -11,13 +11,10 @@ public class MapGenerator : MonoBehaviour
 {
     public static MapGenerator Instance;
 
-    public List<GameObject> doors;
-    public List<Vector2Int> mapVec2;
+    public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
-    public List<Vector3> roomVec3 = new();
-    //public List<int>  EpicRooms = new(3); 
-    public int epicSize = 0;
+    private int epicSize = 0;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
@@ -29,11 +26,15 @@ public class MapGenerator : MonoBehaviour
     //public GameObject Room;
     public List<GameObject> Rooms;
     public List<GameObject> listRooms = new();
-    [SerializeField] GameObject minimapTile;
 
     private void Awake()
     {
-        Instance = this;
+        if(!Instance) Instance = this;
+        else
+        {
+            Destroy(this);
+            return;
+        }
     }
     private void Start()
     {
@@ -42,6 +43,13 @@ public class MapGenerator : MonoBehaviour
             portal.SetActive(false);
         }
     }
+
+    private void HandleMapAdded(List<Vector2Int> vector)
+    {
+        DimensionTrans(vector);
+        RoomGenerator();
+    }
+
     public void DimensionTrans(List<Vector2Int> vector2d)
     {
         foreach (Vector2Int v in vector2d)
@@ -51,19 +59,13 @@ public class MapGenerator : MonoBehaviour
             GeneratedRoomInfo generatedRoomInfo = new GeneratedRoomInfo(vectorTemp);
             GameManager.Instance.generatedRooms.Add(generatedRoomInfo);
         }
-        roomVec3.AddRange(mapVec3);
         mapSize = mapVec3.Count;
-
     }
     public void OnEnable()
     {
         MapVector2.OnMapAdded += HandleMapAdded;
     }
-    private void HandleMapAdded(List<Vector2Int> vector)
-    {
-        DimensionTrans(vector);
-        RoomGenerator();
-    }
+
     private void RoomGenerator()
     {
         DungeonReset();
@@ -80,17 +82,6 @@ public class MapGenerator : MonoBehaviour
     }
     private void EpicRoomCreate()
     {
-        //List<int> tempEpicRooms = new List<int>();
-        //epicSize = 0;
-        
-        //for (var i = 0; i < 2; i++)
-        //{
-        //    tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
-        //    epicSize += tempEpicRooms[i];
-        //}
-        //EpicRooms.AddRange(tempEpicRooms);
-        //tempEpicRooms.Clear();
-
         for (var i = 0; i < 1; i++)
         {
             var rand = Random.Range(0,1); //������ ���� ����
@@ -160,9 +151,10 @@ public class MapGenerator : MonoBehaviour
         NavMesh.RemoveAllNavMeshData();
 
         Rooms.Clear();
-        doors.Clear();
-        ResetDoors();
         listRooms.Clear();
+        foreach (var door in doors) door.SetActive(false);
+        doors.Clear();
+
         bossVector = Vector3.zero;
 
         GameObject[] roomTag = GameObject.FindGameObjectsWithTag("Rooms");
@@ -195,12 +187,7 @@ public class MapGenerator : MonoBehaviour
     }
     public void FindingDoor()
     {
-        var doorObj = GameObject.FindGameObjectsWithTag("Door");
-        Debug.Log("door = " + doorObj.Length);
-        foreach(var a in doorObj)
-        {
-            doors.Add(a);
-        }
+        foreach (var door in GameObject.FindGameObjectsWithTag("Door")) doors.Add(door);
 
         foreach (GameObject door in doors)
         {
@@ -249,11 +236,11 @@ public class MapGenerator : MonoBehaviour
     {
         var distance = 5f;
 
-        for(var i = 0; i < roomVec3.Count; i++)
+        for(var i = 0; i < GameManager.Instance.generatedRooms.Count; i++)
         {
             for(var j = 0; j < Rooms.Count; j++)
             {
-                if (Vector3.Distance(Rooms[j].transform.position, roomVec3[i]) < distance)
+                if (Vector3.Distance(Rooms[j].transform.position, GameManager.Instance.generatedRooms[i].roomPosition) < distance)
                 {
                     listRooms.Add(Rooms[j]);
                 }

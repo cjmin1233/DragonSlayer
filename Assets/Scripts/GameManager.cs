@@ -136,8 +136,6 @@ public class GameManager : MonoBehaviour
     private IEnumerator PlaySceneSetupProcess()
     {
         MapVector2.instance.GenerateDungeon();
-        Minimap.Instance.MinimapCreate();
-        EnemySpawner.Instance.SelectEnemySpawner();
 
         totalHp = PlayerPrefs.HasKey("PlayerTotalHp") ? PlayerPrefs.GetInt("PlayerTotalHp") : 20;
         currentHp = PlayerPrefs.HasKey("PlayerCurrentHp") ? PlayerPrefs.GetInt("PlayerCurrentHp") : 20;

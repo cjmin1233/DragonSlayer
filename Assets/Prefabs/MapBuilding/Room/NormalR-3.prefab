@@ -1032,6 +1032,8 @@ GameObject:
   - component: {fileID: 905203858081722912}
   - component: {fileID: 4260464112909761925}
   - component: {fileID: 2072995859567069519}
+  - component: {fileID: 4885216124618043685}
+  - component: {fileID: 8982272311000109926}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_2 (1)
   m_TagString: Untagged
@@ -1104,6 +1106,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &4885216124618043685
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559641181231147162}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.47100002, y: 0.409, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.381, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &8982272311000109926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559641181231147162}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.94156224, y: 0.8184801, z: 0.79930884}
+  m_Center: {x: 0.016296446, y: 0.38121352, z: -0.00006687641}
 --- !u!1 &562478706333326522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,6 +2359,8 @@ GameObject:
   - component: {fileID: 2135949089261283581}
   - component: {fileID: 3029710835962603352}
   - component: {fileID: 1004099023510115218}
+  - component: {fileID: 6488548436422034684}
+  - component: {fileID: 2836187032555127333}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1
   m_TagString: Untagged
@@ -2392,6 +2433,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &6488548436422034684
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652744981540811335}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &2836187032555127333
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652744981540811335}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &1658783084983418102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2991,6 +3069,8 @@ GameObject:
   - component: {fileID: 7173576651904438508}
   - component: {fileID: 4520425531067828755}
   - component: {fileID: 8262793028657193842}
+  - component: {fileID: 1047004190088070331}
+  - component: {fileID: 7927930208282767532}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_2 (5)
   m_TagString: Untagged
@@ -3063,6 +3143,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &1047004190088070331
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157578498673921169}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.47100002, y: 0.409, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.381, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &7927930208282767532
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2157578498673921169}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.94156224, y: 0.8184801, z: 0.79930884}
+  m_Center: {x: 0.016296446, y: 0.38121352, z: -0.00006687641}
 --- !u!1 &2168330410759921722
 GameObject:
   m_ObjectHideFlags: 0
@@ -3495,6 +3612,8 @@ GameObject:
   - component: {fileID: 3238354584228576450}
   - component: {fileID: 1972341081450001255}
   - component: {fileID: 4376336149718517677}
+  - component: {fileID: 3390950228869011983}
+  - component: {fileID: 3370755234578244493}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_2 (2)
   m_TagString: Untagged
@@ -3567,6 +3686,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &3390950228869011983
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862920447996192376}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.47100002, y: 0.409, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.381, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &3370755234578244493
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862920447996192376}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.9415625, y: 0.8184801, z: 0.799309}
+  m_Center: {x: 0.01629645, y: 0.38121352, z: -0.000066876426}
 --- !u!1 &2914154468827127183
 GameObject:
   m_ObjectHideFlags: 0
@@ -4963,6 +5119,8 @@ GameObject:
   - component: {fileID: 8833400932250637228}
   - component: {fileID: 9057123295375985230}
   - component: {fileID: 5606872842310933762}
+  - component: {fileID: 3631825565344581080}
+  - component: {fileID: 6288738799106178365}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_2 (7)
   m_TagString: Untagged
@@ -5035,6 +5193,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &3631825565344581080
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796400486808218132}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.47100002, y: 0.409, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.381, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &6288738799106178365
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3796400486808218132}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.94156224, y: 0.8184801, z: 0.79930884}
+  m_Center: {x: 0.016296446, y: 0.38121352, z: -0.00006687641}
 --- !u!1 &3822222805362004611
 GameObject:
   m_ObjectHideFlags: 0
@@ -5402,6 +5597,8 @@ GameObject:
   - component: {fileID: 4361348294174883203}
   - component: {fileID: 804249599048135206}
   - component: {fileID: 3228434377643083500}
+  - component: {fileID: 8307591666328530741}
+  - component: {fileID: 8725574070348455694}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (1)
   m_TagString: Untagged
@@ -5474,6 +5671,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &8307591666328530741
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020957479570302777}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &8725574070348455694
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4020957479570302777}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792709, y: 1.1486751, z: 1.0794126}
+  m_Center: {x: 0.63546646, y: 0.5430297, z: 0.5364416}
 --- !u!1 &4102562566448679907
 GameObject:
   m_ObjectHideFlags: 0
@@ -6777,6 +7011,8 @@ GameObject:
   - component: {fileID: 5744856327158207444}
   - component: {fileID: 8653121262335597681}
   - component: {fileID: 6913861851251239099}
+  - component: {fileID: 9161195543935392599}
+  - component: {fileID: 1926413425652639967}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_2 (3)
   m_TagString: Untagged
@@ -6849,6 +7085,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &9161195543935392599
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968038599260621166}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.47100002, y: 0.409, z: 0.4}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.016, y: 0.381, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!65 &1926413425652639967
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4968038599260621166}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.94156224, y: 0.8184801, z: 0.79930884}
+  m_Center: {x: 0.016296446, y: 0.38121352, z: -0.00006687641}
 --- !u!1 &4999170010026551787
 GameObject:
   m_ObjectHideFlags: 0
@@ -7391,6 +7664,8 @@ GameObject:
   - component: {fileID: 2945445710022402444}
   - component: {fileID: 2935492342215289702}
   - component: {fileID: 5822922331856453526}
+  - component: {fileID: 7157836951010803270}
+  - component: {fileID: 5477780328801545558}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (6)
   m_TagString: Untagged
@@ -7463,6 +7738,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &7157836951010803270
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416710845012554083}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &5477780328801545558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416710845012554083}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &5479996319127886096
 GameObject:
   m_ObjectHideFlags: 0
@@ -7579,6 +7891,8 @@ GameObject:
   - component: {fileID: 2746368886812705874}
   - component: {fileID: 2581846772228021638}
   - component: {fileID: 364564548136812513}
+  - component: {fileID: 1206116688266094455}
+  - component: {fileID: 5716134708972765345}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (5)
   m_TagString: Untagged
@@ -7651,6 +7965,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &1206116688266094455
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510700404911196480}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &5716134708972765345
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5510700404911196480}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792709, y: 1.1486751, z: 1.0794126}
+  m_Center: {x: 0.63546646, y: 0.5430297, z: 0.5364416}
 --- !u!1 &5719785320928133078
 GameObject:
   m_ObjectHideFlags: 0
@@ -9966,6 +10317,8 @@ GameObject:
   - component: {fileID: 7308509688704560413}
   - component: {fileID: 5963558945484399288}
   - component: {fileID: 8441476377364108914}
+  - component: {fileID: 7434545361921100384}
+  - component: {fileID: 5379553176888911302}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (2)
   m_TagString: Untagged
@@ -10038,6 +10391,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &7434545361921100384
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7937271612452911015}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &5379553176888911302
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7937271612452911015}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &7965331549076241884
 GameObject:
   m_ObjectHideFlags: 0
@@ -10331,6 +10721,8 @@ GameObject:
   - component: {fileID: 4736585042641561960}
   - component: {fileID: 5522425416276736949}
   - component: {fileID: 3403777345649215120}
+  - component: {fileID: 3970283877093059618}
+  - component: {fileID: 2225452785125571556}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (7)
   m_TagString: Untagged
@@ -10403,6 +10795,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &3970283877093059618
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8066535572915619308}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &2225452785125571556
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8066535572915619308}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &8072979942273698602
 GameObject:
   m_ObjectHideFlags: 0
@@ -10552,6 +10981,8 @@ GameObject:
   - component: {fileID: 8876682721843264273}
   - component: {fileID: 5521294889374954676}
   - component: {fileID: 7744893089504772222}
+  - component: {fileID: 8497088966309151221}
+  - component: {fileID: 4819609643794378229}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (3)
   m_TagString: Untagged
@@ -10624,6 +11055,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &8497088966309151221
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105247099825742251}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &4819609643794378229
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8105247099825742251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &8163145171724988153
 GameObject:
   m_ObjectHideFlags: 0
@@ -11091,6 +11559,8 @@ GameObject:
   - component: {fileID: 8120617931546722767}
   - component: {fileID: 5827307956585511155}
   - component: {fileID: 3175801111467837180}
+  - component: {fileID: 5921407704696638046}
+  - component: {fileID: 4855415188723956096}
   m_Layer: 0
   m_Name: 99_Decorations_SpiderWebb_1 (4)
   m_TagString: Untagged
@@ -11163,6 +11633,43 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!208 &5921407704696638046
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511532405883074280}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.64000005, y: 0.574, z: 0.54}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0.63500005, y: 0.54300004, z: 0.536}
+  m_TimeToStationary: 0.5
+--- !u!65 &4855415188723956096
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511532405883074280}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2792705, y: 1.1486751, z: 1.0794123}
+  m_Center: {x: 0.6354663, y: 0.5430297, z: 0.5364415}
 --- !u!1 &8623576340258579836
 GameObject:
   m_ObjectHideFlags: 0

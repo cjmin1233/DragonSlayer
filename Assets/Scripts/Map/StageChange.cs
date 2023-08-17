@@ -49,6 +49,7 @@ public class StageChange : MonoBehaviour
             // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
             MapVector2.instance.GenerateDungeon();
+            MinimapCameraFollow.Instance.FollowMinimap();
         }
 
         

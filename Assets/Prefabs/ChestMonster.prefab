@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3904343695184379619}
   - component: {fileID: 9178867560843115665}
   - component: {fileID: 7068723841816232908}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: ChestMonster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,6 +73,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 8cb49806542be1147b9256761134d37c, type: 2}
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 65
 --- !u!195 &-3904343695184379619
 NavMeshAgent:
   m_ObjectHideFlags: 0
