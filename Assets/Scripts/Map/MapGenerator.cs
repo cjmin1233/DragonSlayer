@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -10,34 +11,45 @@ public class MapGenerator : MonoBehaviour
 {
     public static MapGenerator Instance;
 
-    public GameObject[] doors;
-    public List<Vector2Int> mapVec2;
+    public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
-    public List<Vector3> roomVec3 = new();
-    public List<int>  EpicRooms = new(3); 
-    private int epicSize = 0;
+    public int epicSize = 0;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
-    public GameObject[] BossRooms;
-    public GameObject[] JumpRooms;
-    public GameObject[] GoldRooms;
-    public GameObject[] TrapRooms;
-    public GameObject Room;
+    public GameObject BossRoom;
+    public GameObject ShopRoom;
+    public GameObject GoldRoom;
+    public List<GameObject> portals = new();
+    //public GameObject Room;
     public List<GameObject> Rooms;
     public List<GameObject> listRooms = new();
-    [SerializeField] GameObject minimapTile;
 
     private void Awake()
     {
-        Instance = this;
+        if(!Instance) Instance = this;
+        else
+        {
+            Destroy(this);
+            return;
+        }
     }
     private void Start()
     {
-        
+        foreach(var portal in portals)
+        {
+            portal.SetActive(false);
+        }
     }
+
+    private void HandleMapAdded(List<Vector2Int> vector)
+    {
+        DimensionTrans(vector);
+        RoomGenerator();
+    }
+
     public void DimensionTrans(List<Vector2Int> vector2d)
     {
         foreach (Vector2Int v in vector2d)
@@ -47,19 +59,13 @@ public class MapGenerator : MonoBehaviour
             GeneratedRoomInfo generatedRoomInfo = new GeneratedRoomInfo(vectorTemp);
             GameManager.Instance.generatedRooms.Add(generatedRoomInfo);
         }
-        roomVec3.AddRange(mapVec3);
         mapSize = mapVec3.Count;
-
     }
     public void OnEnable()
     {
         MapVector2.OnMapAdded += HandleMapAdded;
     }
-    private void HandleMapAdded(List<Vector2Int> vector)
-    {
-        DimensionTrans(vector);
-        RoomGenerator();
-    }
+
     private void RoomGenerator()
     {
         DungeonReset();
@@ -68,44 +74,43 @@ public class MapGenerator : MonoBehaviour
         mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
         NormalRoomCreate();
-        FindingDoor();
+        //FindingDoor();
         NavMeshBake(Rooms);
         FindingRoom();
+        FindingDoor();
+        foreach(var listRoom in listRooms)
+        {
+            var a = listRoom.GetComponent<Room>().roomType;
+            if (a != RoomType.Normal)
+                Room.instance.Open(listRoom.transform);
+        }
+        
     }
     private void EpicRoomCreate()
     {
-        List<int> tempEpicRooms = new List<int>();
-        epicSize = 0;
-        
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < 1; i++)
         {
-            tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
-            epicSize += tempEpicRooms[i];
+            var rand = Random.Range(0,1); //������ ���� ����
+            var randMap = Random.Range(0, mapVec3.Count);
+            if(rand < MapVector2.instance.Stage)
+            {
+                Rooms.Add(Instantiate(ShopRoom, mapVec3[randMap], Quaternion.identity));
+                epicSize++;
+                mapVec3.Remove(mapVec3[randMap]);
+            }
         }
-        EpicRooms.AddRange(tempEpicRooms);
-        tempEpicRooms.Clear();
+        for (var i = 0; i < 1; i++)
+        {
+            var rand = Random.Range(0, 1); //Ȳ�ݹ� ���� ����
+            var randMap = Random.Range(0, mapVec3.Count);
+            if (rand < MapVector2.instance.Stage)
+            {
+                Rooms.Add(Instantiate(GoldRoom, mapVec3[randMap], Quaternion.identity));
+                epicSize++;
+                mapVec3.Remove(mapVec3[randMap]);
+            }
+        }
 
-        for (var i = 0; i < EpicRooms[0]; i++)
-        {
-            var rand = Random.Range(0, 4); //������ ���� ����
-            var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(JumpRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
-        }
-        for (var i = 0; i < EpicRooms[1]; i++)
-        {
-            var rand = Random.Range(0, 4); //Ȳ�ݹ� ���� ����
-            var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(GoldRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
-        }
-        for (var i = 0; i < EpicRooms[2]; i++)
-        {
-            var rand = Random.Range(0, 4); //Ʈ���� ���� ����
-            var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(TrapRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
-        }
     }
     private void NormalRoomCreate()
     {
@@ -114,7 +119,7 @@ public class MapGenerator : MonoBehaviour
             var randNor = Random.Range(0, NormalRooms.Length);
             if(mapVec3.Count == 0)
             {
-                Rooms.Add(Instantiate(BossRooms[0], bossVector, Quaternion.identity));
+                Rooms.Add(Instantiate(BossRoom, bossVector, Quaternion.identity));
                 mapVec3.Clear();
                 return;
             }
@@ -122,6 +127,8 @@ public class MapGenerator : MonoBehaviour
             Rooms.Add(Instantiate(NormalRooms[randNor], mapVec3[randMap], Quaternion.identity));
             mapVec3.Remove(mapVec3[randMap]);
         }
+
+      
     }
     private void NavMeshBake(List<GameObject> bakeroom)
     {
@@ -150,8 +157,10 @@ public class MapGenerator : MonoBehaviour
         NavMesh.RemoveAllNavMeshData();
 
         Rooms.Clear();
-        EpicRooms.Clear();
         listRooms.Clear();
+        foreach (var door in doors) door.SetActive(false);
+        doors.Clear();
+
         bossVector = Vector3.zero;
 
         GameObject[] roomTag = GameObject.FindGameObjectsWithTag("Rooms");
@@ -159,6 +168,13 @@ public class MapGenerator : MonoBehaviour
         foreach(var room in roomTag)
         {
             Destroy(room);
+        }
+    }
+    public void ResetDoors()
+    {
+        foreach(var door in doors)
+        {
+            door.SetActive(false);
         }
     }
     public void FindBoss()
@@ -177,7 +193,7 @@ public class MapGenerator : MonoBehaviour
     }
     public void FindingDoor()
     {
-        doors = GameObject.FindGameObjectsWithTag("Door");
+        foreach (var door in GameObject.FindGameObjectsWithTag("Door")) doors.Add(door);
 
         foreach (GameObject door in doors)
         {
@@ -193,8 +209,9 @@ public class MapGenerator : MonoBehaviour
                     doorObject.connectRoomType = closestDoorObject.currentRoomType;
                 }
             }
+            closestDoor = null;
         }
-
+        
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
@@ -225,11 +242,11 @@ public class MapGenerator : MonoBehaviour
     {
         var distance = 5f;
 
-        for(var i = 0; i < roomVec3.Count; i++)
+        for(var i = 0; i < GameManager.Instance.generatedRooms.Count; i++)
         {
             for(var j = 0; j < Rooms.Count; j++)
             {
-                if (Vector3.Distance(Rooms[j].transform.position, roomVec3[i]) < distance)
+                if (Vector3.Distance(Rooms[j].transform.position, GameManager.Instance.generatedRooms[i].roomPosition) < distance)
                 {
                     listRooms.Add(Rooms[j]);
                 }
@@ -239,5 +256,6 @@ public class MapGenerator : MonoBehaviour
     public void ClearRoom(int playerRoomIndex)
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
+        //listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
     }
 }

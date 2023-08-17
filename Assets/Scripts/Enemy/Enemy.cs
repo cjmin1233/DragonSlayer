@@ -24,6 +24,7 @@ public class Enemy : LivingEntity
 
     [SerializeField] EnemyData enemyData;
     protected EnemyData EnemyData { set { enemyData = value; } }
+    [SerializeField] LayerMask whatIsTarget;
 
     private NavMeshAgent agent;
     private GameObject player;
@@ -181,14 +182,14 @@ public class Enemy : LivingEntity
         switch (curState)
         {
             case State.Idle:
-                if (Vector3.Distance(transform.position, player.transform.position) <= 20)
+                if (Vector3.Distance(transform.position, player.transform.position) <= 60)
                 {
                     nextState = State.Trace;
                     return true;
                 }
                 break;
             case State.Trace:
-                if (Vector3.Distance(transform.position, player.transform.position) <= enemyData.EnemyAttackRange)
+                if (IsTargetOnSight(enemyData.EnemyAttackRange))
                 {
                     nextState = State.Battle;
                     return true;
@@ -263,6 +264,15 @@ public class Enemy : LivingEntity
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
+        }
+        return false;
+    }
+
+    private bool IsTargetOnSight(float attackRange)
+    {
+        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, attackRange, whatIsTarget))
+        {
+            if(hit.transform.Equals(player.transform)) return true;
         }
         return false;
     }

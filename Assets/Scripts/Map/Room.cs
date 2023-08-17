@@ -7,9 +7,9 @@ public enum RoomType
 {
     Normal,
     Golden,
-    Trap,
-    Jump,
-    Boss
+    Shop,
+    Boss,
+    Entry
 }
 
 public class Room : MonoBehaviour
@@ -38,6 +38,11 @@ public class Room : MonoBehaviour
             if (child.CompareTag("Entrance"))
             {
                 Destroy(child.gameObject);
+            }
+
+            if (child.CompareTag("Portal"))
+            {
+                child.gameObject.SetActive(true);
             }
         }
     }

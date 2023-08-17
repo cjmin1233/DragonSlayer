@@ -10,6 +10,9 @@ TagManager:
   - Door
   - Entrance
   - Item
+  - DoorImage
+  - bossItem
+  - Portal
   layers:
   - Default
   - TransparentFX
@@ -22,8 +25,8 @@ TagManager:
   - Boss
   - Door
   - Minimap
-  - 
-  - 
+  - NavMesh
+  - Enemy
   - 
   - 
   - 

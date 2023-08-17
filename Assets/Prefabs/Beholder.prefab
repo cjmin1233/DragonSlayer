@@ -1075,7 +1075,7 @@ GameObject:
   - component: {fileID: 1694027724462590660}
   - component: {fileID: 2283292091136519290}
   - component: {fileID: 2791427808612861933}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Beholder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1134,6 +1134,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: b237d1c5e938ac742b6826e75795b738, type: 2}
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 65
   projectile: {fileID: 5884024000079540302, guid: 3fce9dff2617ed34881016b2fc2c189b, type: 3}
   firePoint: {fileID: 892007476013760662}
 --- !u!195 &1694027724462590660

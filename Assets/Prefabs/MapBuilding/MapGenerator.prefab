@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &343980316878723345
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6600215309175988896}
+  - component: {fileID: 8229637590724698906}
+  m_Layer: 0
+  m_Name: MapGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6600215309175988896
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343980316878723345}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1367773810441206340}
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8229637590724698906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343980316878723345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a718ccc2ff382624cad73ea3780e471e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doors: []
+  mapVec3: []
+  mapRecord: []
+  epicSize: 0
+  EntryRoom: {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
+  NormalRooms:
+  - {fileID: 6866630098992646503, guid: cfe95217c2cb30943a2285369c52dc8d, type: 3}
+  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  - {fileID: 2681522926843503694, guid: 0de85b0ab8961f14289f53b71bc4a318, type: 3}
+  - {fileID: 4782093223227990825, guid: 4572093805c7a844a9238dd8532012d8, type: 3}
+  - {fileID: 6292410096207914501, guid: 44005eaa1d5ba4f41a2b5f25d7461a37, type: 3}
+  BossRoom: {fileID: 5230944655015988282, guid: 26e6e2701762e504f87e08aa5ff1e5ad, type: 3}
+  ShopRoom: {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  GoldRoom: {fileID: 8645926953918926598, guid: 25da39b1cb796a14389d95e3cef946d7, type: 3}
+  portals:
+  - {fileID: 1209815176174424, guid: 6c4162965c7215f4a8c116238adb30ec, type: 3}
+  - {fileID: 1694299061694646, guid: 3d9c7d967c0192a4bb26314c14e52056, type: 3}
+  - {fileID: 1995332637409282, guid: 89f922e4ef84bdc40a6248f3379c1208, type: 3}
+  - {fileID: 1831969664268716, guid: bc10ab94cceccfc48b5e7832a8dc015b, type: 3}
+  Rooms: []
+  listRooms: []
+--- !u!1 &7312263195872992144
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1367773810441206340}
+  - component: {fileID: 6472544484527927686}
+  m_Layer: 0
+  m_Name: EnemySpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1367773810441206340
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7312263195872992144}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6600215309175988896}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6472544484527927686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7312263195872992144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078c480884a44c842a3a2a83359aa863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies:
+  - {fileID: 4872952184048641977, guid: 25d1fe06af1e4c14e8e3378fa2519c6a, type: 3}
+  - {fileID: 8644586381533923311, guid: c27b51d8ae45e3141a05adf56fbb1d08, type: 3}
+  - {fileID: 704936904938049669, guid: 753ea4a0ad047294eb4349403883e94e, type: 3}
+  - {fileID: 5465432202388800275, guid: f21d7e7b2cd4eb149adfea8da7ba87bf, type: 3}
+  - {fileID: 6586619270758151399, guid: 9a3ffa31f011ef14bbf89b3b92e2c51d, type: 3}

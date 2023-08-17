@@ -11,11 +11,12 @@ public class StageChange : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void Update()
     {
-        if (other.gameObject.CompareTag("Player") && GameManager.Instance.IsRoomCleared())
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(MapVector2.instance.Stage == 3)
+            if (MapVector2.instance.Stage == 3)
             {
                 //SceneManager.LoadScene("");
             }
@@ -23,9 +24,34 @@ public class StageChange : MonoBehaviour
             GameManager.Instance.generatedRooms.Clear();
             EnemySpawner.Instance.MapRecordClear();
 
+            MapGenerator.Instance.epicSize = 0;
             MapVector2.instance.Stage++;
+            // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
+
             MapVector2.instance.GenerateDungeon();
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            if(MapVector2.instance.Stage == 3)
+            {
+                //SceneManager.LoadScene("");
+            }
+ 
+            GameManager.Instance.generatedRooms.Clear();
+            EnemySpawner.Instance.MapRecordClear();
+
+            MapGenerator.Instance.epicSize = 0;
+            MapVector2.instance.Stage++;
+            // fade in/out
+            player.transform.position = new Vector3(0, 10, 0);
+            MapVector2.instance.GenerateDungeon();
+            MinimapCameraFollow.Instance.FollowMinimap();
+        }
+
+        
     }
 }
