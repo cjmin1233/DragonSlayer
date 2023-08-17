@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b97122d86685a242a2688fe91f333ac, type: 3}
-  m_Name: WhirlWindData
+  m_Name: LightningOrb
   m_EditorClassIdentifier: 
-  itemName: WhirlWind
+  itemName: LightningOrb
   pickUp: 1
-  description: This is WhirlWind
+  description: This is LightningOrb
   itemTier: 2
   itemWeight: 10
-  itemImage: {fileID: 21300000, guid: c0f08c6961a8b164982cf40cf6043a74, type: 3}
-  itemPrefab: {fileID: 8937284652728222754, guid: f6d267b5d056f8b41bc65735d021ce70, type: 3}
+  itemImage: {fileID: 21300000, guid: e831699c754eb40499c29ce8d53e9c5b, type: 3}
+  itemPrefab: {fileID: 5007636960665219480, guid: 7249d35ecd18b5c4caa233a8386cdffb, type: 3}

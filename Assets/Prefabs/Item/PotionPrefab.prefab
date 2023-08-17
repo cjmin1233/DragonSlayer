@@ -117,7 +117,7 @@ Transform:
   m_Children:
   - {fileID: 3759946689816912623}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &7873946859107579113
 BoxCollider:
@@ -153,5 +153,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: fe456e4b3cd309e468f03cae49de1dfb, type: 2}
+  interactVfx: {fileID: 6329026609822820110, guid: 6f9ae47199bfecf43afb1a63e3896d3f, type: 3}
   healAmount: 50
-  healVfx: {fileID: 6329026609822820110, guid: 6f9ae47199bfecf43afb1a63e3896d3f, type: 3}

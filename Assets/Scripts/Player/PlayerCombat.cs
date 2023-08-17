@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 // 콤보가 종료되는 경우는 1. 콤보 도중 구르기 등의 캔슬 액션 사용
 // 2. 콤보 시간 내에 입력하지 않아 자연 종료
@@ -77,10 +76,10 @@ public class PlayerCombat : MonoBehaviour
         _animIDIsGuarding = Animator.StringToHash("IsGuarding");
     }
 
-    private void OnEnable()
-    {
-        CombatInit(playerScriptableObject);
-    }
+    // private void OnEnable()
+    // {
+    //     CombatInit(playerScriptableObject);
+    // }
 
     public void CombatInit(PlayerScriptableObject playerSo)
     {
@@ -117,6 +116,8 @@ public class PlayerCombat : MonoBehaviour
             return;
         }
         activeWeapon = weaponSo.Spawn(weaponParent, this);
+        
+        CombatInit(playerScriptableObject);
     }
 
     private void Update()
