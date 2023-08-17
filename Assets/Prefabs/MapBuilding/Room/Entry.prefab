@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5253bea2d7339444aa3c81c5f9671b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomType: 0
+  roomType: 4
   entrances: []
 --- !u!1 &7736092541457493623
 GameObject:

@@ -28,7 +28,7 @@ public class StageChange : MonoBehaviour
             MapVector2.instance.Stage++;
             // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
-            MapGenerator.Instance.roomVec3.Clear();
+
             MapVector2.instance.GenerateDungeon();
         }
     }

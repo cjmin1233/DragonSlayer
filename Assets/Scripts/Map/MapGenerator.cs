@@ -14,7 +14,7 @@ public class MapGenerator : MonoBehaviour
     public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
-    private int epicSize = 0;
+    public int epicSize = 0;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
@@ -78,7 +78,13 @@ public class MapGenerator : MonoBehaviour
         NavMeshBake(Rooms);
         FindingRoom();
         FindingDoor();
-        Room.instance.Open(listRooms[0].transform);
+        foreach(var listRoom in listRooms)
+        {
+            var a = listRoom.GetComponent<Room>().roomType;
+            if (a != RoomType.Normal)
+                Room.instance.Open(listRoom.transform);
+        }
+        
     }
     private void EpicRoomCreate()
     {

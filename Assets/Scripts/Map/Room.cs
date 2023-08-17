@@ -8,7 +8,8 @@ public enum RoomType
     Normal,
     Golden,
     Shop,
-    Boss
+    Boss,
+    Entry
 }
 
 public class Room : MonoBehaviour
