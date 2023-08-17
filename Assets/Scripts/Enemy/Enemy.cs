@@ -189,6 +189,11 @@ public class Enemy : LivingEntity
                 }
                 break;
             case State.Trace:
+                if (animator.GetBool("isGetHit"))
+                {
+                    nextState = State.GetHit;
+                    return true;
+                }
                 if (IsTargetOnSight(enemyData.EnemyAttackRange))
                 {
                     nextState = State.Battle;
