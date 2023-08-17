@@ -25,7 +25,7 @@ public class MapVector2 : MonoBehaviour
 
     void Start()
     {
-       GenerateDungeon();  
+       //GenerateDungeon();  
     }
 
     public void GenerateDungeon()
@@ -49,7 +49,6 @@ public class MapVector2 : MonoBehaviour
             StartFinding(mapVector[i], distance);
             if (i == numOfRooms - 1)
                 OnMapAdded(mapVector);
-
         }
     }
     // ���������� distance��ŭ ������ ���͸� �����ö� �ʰ� �ĺ� ����Ʈ�� ���� ���� ������

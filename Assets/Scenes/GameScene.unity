@@ -195,6 +195,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4112934628809016244, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4112934628809016244, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5829865112261471077, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5829865112261471077, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4
+      objectReference: {fileID: 0}
     - target: {fileID: 6204613011790119850, guid: 74a061109ca29ea4ab83d2f8570bd46f, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -472,7 +488,6 @@ MonoBehaviour:
   mapVec3: []
   mapRecord: []
   roomVec3: []
-  EpicRooms: 000000000000000000000000
   EntryRoom: {fileID: 4356106157446346866, guid: 29a4d467f45111c45ba3e2433baad8b6, type: 3}
   NormalRooms:
   - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
@@ -481,23 +496,16 @@ MonoBehaviour:
   - {fileID: 4782093223227990825, guid: 4572093805c7a844a9238dd8532012d8, type: 3}
   - {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
   - {fileID: 6292410096207914501, guid: 44005eaa1d5ba4f41a2b5f25d7461a37, type: 3}
-  BossRooms:
-  - {fileID: 5230944655015988282, guid: 26e6e2701762e504f87e08aa5ff1e5ad, type: 3}
-  JumpRooms:
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  GoldRooms: []
-  TrapRooms:
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  - {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
-  Room: {fileID: 8099201103662058814, guid: 87ecf9e6c90c0b244a7da27ab518b045, type: 3}
+  BossRoom: {fileID: 5230944655015988282, guid: 26e6e2701762e504f87e08aa5ff1e5ad, type: 3}
+  ShopRoom: {fileID: 3816798263377204144, guid: 1fbd9aa1f0c2e0c419d80e334d381e64, type: 3}
+  GoldRoom: {fileID: 8645926953918926598, guid: 25da39b1cb796a14389d95e3cef946d7, type: 3}
+  portals:
+  - {fileID: 1209815176174424, guid: 6c4162965c7215f4a8c116238adb30ec, type: 3}
+  - {fileID: 1694299061694646, guid: 3d9c7d967c0192a4bb26314c14e52056, type: 3}
+  - {fileID: 1995332637409282, guid: 89f922e4ef84bdc40a6248f3379c1208, type: 3}
+  - {fileID: 1831969664268716, guid: bc10ab94cceccfc48b5e7832a8dc015b, type: 3}
   Rooms: []
   listRooms: []
-  minimapTile: {fileID: 1301735801}
 --- !u!4 &1147238105
 Transform:
   m_ObjectHideFlags: 0
