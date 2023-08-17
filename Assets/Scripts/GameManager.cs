@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     
     public bool isGameOver { get; private set; }
     public GameState gameState { get; private set; }
-    void Awake()
+    private void Start()
     {
         if (!Instance) Instance = this;
         else if (!Instance.Equals(this))
@@ -114,6 +114,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade)) UiManager.Instance.FadeIn();
+        
         if (scene.buildIndex == (int)SceneType.Main)
         {
             gameState = GameState.Running;

@@ -27,19 +27,20 @@ public class FadeUI : MonoBehaviour
     public void StartFadeOut()
     {
         gameObject.SetActive(true);
-        if (fadeInRoutine is not null) StopCoroutine(fadeInRoutine);
+        if (fadeOutRoutine is not null) StopCoroutine(fadeOutRoutine);
         fadeOutRoutine = StartCoroutine(FadeOutCoroutine());
     }
 
     public void StartFadeIn()
     {
         gameObject.SetActive(true);
-        if (fadeOutRoutine is not null) StopCoroutine(fadeOutRoutine);
+        if (fadeInRoutine is not null) StopCoroutine(fadeInRoutine);
         fadeInRoutine = StartCoroutine(FadeInCoroutine());
     }
 
     IEnumerator FadeOutCoroutine()
-    { float fadeAlpha = 0;
+    { 
+        float fadeAlpha = 0;
         CurFadeState = FadeState.FadingOut;
         while (fadeAlpha < 1.0f)
         {

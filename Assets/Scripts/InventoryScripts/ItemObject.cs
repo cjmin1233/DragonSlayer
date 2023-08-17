@@ -15,6 +15,12 @@ public class ItemObject : MonoBehaviour, IInteractable
         Destroy(gameObject);
     }
 
+    public virtual void EnterInteract(GameObject target)
+    {
+        // enable ui
+        UiManager.Instance.ShowInteractInfo($"Use {itemData.itemName}");
+    }
+
     public float GetItemWeight() => itemData.itemWeight;
     public ItemTier GetItemTier() => itemData.itemTier;
 }

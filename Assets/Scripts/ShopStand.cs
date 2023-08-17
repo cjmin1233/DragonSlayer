@@ -15,6 +15,7 @@ public class ShopStand : MonoBehaviour, IInteractable
         gameObject.SetActive(false);
     }
 
+    public void EnterInteract(GameObject target) => UiManager.Instance.ShowInteractInfo($"Purchase {price}G");
     public void StandSetup(GameObject item, int priceUnit)
     {
         _item = item;
@@ -22,17 +23,5 @@ public class ShopStand : MonoBehaviour, IInteractable
         _item.transform.position = standPoint.position;
         _item.GetComponent<Collider>().enabled = false;
         price = priceUnit * ((int)item.GetComponent<ItemObject>().GetItemTier() + 1);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        var playerHealth = other.GetComponent<PlayerHealth>();
-        if (playerHealth is not null) print("가격 ui 활성화, 가격 : " + price);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        var playerHealth = other.GetComponent<PlayerHealth>();
-        if (playerHealth is not null) print("가격 ui 비활성화");
     }
 }
