@@ -473,7 +473,7 @@ public class Boss : LivingEntity
 
                 break;
             case BossState.Groggy:
-                if (GetCurAnimationNormTime(_animIdGroggy) >= 5f)
+                if (GetCurAnimationNormTime(_animIdGroggy) >= 1f)
                 {
                     nextState = BossState.Idle;
                     nextActionType = BossPatternType.Sp;
