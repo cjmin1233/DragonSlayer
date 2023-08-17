@@ -5,7 +5,13 @@ using System.Xml.Linq;
 using UnityEngine;
 using UnityEngine.Timeline;
 using UnityEngine.UI;
-
+public enum DoorPortal
+{
+    Normal,
+    Golden,
+    Shop,
+    Boss
+}
 public enum DoorType
 {
     Up,
@@ -18,14 +24,13 @@ public class Door : MonoBehaviour
 {
     public static Door instance;
     public LayerMask whatIsTarget;
-    public Image doorImage;
+
     //public bool isCleared = true; 게임매니저에 있는 isCleared 받아옴
     public DoorType doorType;
 
     public RoomType currentRoomType;
     public RoomType connectRoomType;
 
-    private Renderer doorRenderer;
     private const float distance = 8.5f;
     private Vector3 doorDirection;
 
@@ -34,9 +39,6 @@ public class Door : MonoBehaviour
     private void Awake()
     {
         instance = this;
-
-        doorRenderer = GetComponent<Renderer>();
-        doorImage = GetComponentInChildren<Image>();
     }
     private void Start()
     {
@@ -106,14 +108,17 @@ public class Door : MonoBehaviour
     {
         switch(connectRoomType)
         {
-            case RoomType.Normal:
-                doorImage.color = Color.black;
+            case RoomType.Normal: //Blue
+                Instantiate(MapGenerator.Instance.portals[0], transform);
                 break;
-            case RoomType.Golden:
-                doorImage.color = Color.yellow;
+            case RoomType.Golden: //Gold
+                Instantiate(MapGenerator.Instance.portals[1], transform);
                 break;
-            case RoomType.Boss:
-                doorImage.color = Color.red;
+            case RoomType.Shop: //Green
+                Instantiate(MapGenerator.Instance.portals[2], transform);
+                break;
+            case RoomType.Boss: //Red
+                Instantiate(MapGenerator.Instance.portals[3], transform);
                 break;
         }
     }

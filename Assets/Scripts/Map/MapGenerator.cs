@@ -22,9 +22,9 @@ public class MapGenerator : MonoBehaviour
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
     public GameObject[] BossRooms;
-    public GameObject[] JumpRooms;
+    public GameObject[] ShopRooms;
     public GameObject[] GoldRooms;
-    public GameObject[] TrapRooms;
+    public List<GameObject> portals = new();
     public GameObject Room;
     public List<GameObject> Rooms;
     public List<GameObject> listRooms = new();
@@ -77,7 +77,7 @@ public class MapGenerator : MonoBehaviour
         List<int> tempEpicRooms = new List<int>();
         epicSize = 0;
         
-        for (var i = 0; i < 3; i++)
+        for (var i = 0; i < 2; i++)
         {
             tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
             epicSize += tempEpicRooms[i];
@@ -87,9 +87,9 @@ public class MapGenerator : MonoBehaviour
 
         for (var i = 0; i < EpicRooms[0]; i++)
         {
-            var rand = Random.Range(0, 4); //������ ���� ����
+            var rand = Random.Range(0,0); //������ ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(JumpRooms[rand], mapVec3[randMap], Quaternion.identity));
+            Rooms.Add(Instantiate(ShopRooms[rand], mapVec3[randMap], Quaternion.identity));
             mapVec3.Remove(mapVec3[randMap]);
         }
         for (var i = 0; i < EpicRooms[1]; i++)
@@ -97,13 +97,6 @@ public class MapGenerator : MonoBehaviour
             var rand = Random.Range(0, 4); //Ȳ�ݹ� ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
             Rooms.Add(Instantiate(GoldRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
-        }
-        for (var i = 0; i < EpicRooms[2]; i++)
-        {
-            var rand = Random.Range(0, 4); //Ʈ���� ���� ����
-            var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(TrapRooms[rand], mapVec3[randMap], Quaternion.identity));
             mapVec3.Remove(mapVec3[randMap]);
         }
     }
@@ -194,15 +187,6 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        //foreach(GameObject room in MapGenerator.Instance.listRooms)
-        //{
-        //    var roomSpawn = room.GetComponent<Room>();
-
-        //    if(roomSpawn.roomType == RoomType.Normal)
-        //    {
-        //        //스폰
-        //    }
-        //}
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
@@ -247,5 +231,6 @@ public class MapGenerator : MonoBehaviour
     public void ClearRoom(int playerRoomIndex)
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
+        listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
     }
 }
