@@ -3678,6 +3678,7 @@ GameObject:
   - component: {fileID: 1565167537545712582}
   - component: {fileID: 3628881901444556556}
   - component: {fileID: 1569786066988786127}
+  - component: {fileID: 8056688516406015286}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (1)
   m_TagString: Untagged
@@ -3768,6 +3769,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.463, z: -0.0050000004}
   m_TimeToStationary: 0.5
+--- !u!65 &8056688516406015286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2980429319951468249}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2058449, y: 2.9395177, z: 1.1960166}
+  m_Center: {x: -6.9834055e-17, y: 1.463447, z: -0.004914136}
 --- !u!1 &2998619051536986000
 GameObject:
   m_ObjectHideFlags: 0
@@ -5173,6 +5195,7 @@ GameObject:
   - component: {fileID: 8809561679036629929}
   - component: {fileID: 6747851181588985699}
   - component: {fileID: 380259254892169643}
+  - component: {fileID: 4139666479583260921}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (2)
   m_TagString: Untagged
@@ -5263,6 +5286,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.463, z: -0.0050000004}
   m_TimeToStationary: 0.5
+--- !u!65 &4139666479583260921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5090706494784018102}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2058446, y: 2.9395177, z: 1.1960163}
+  m_Center: {x: 0, y: 1.463447, z: -0.0049141347}
 --- !u!1 &5279225993032980280
 GameObject:
   m_ObjectHideFlags: 0
@@ -7541,6 +7585,7 @@ GameObject:
   - component: {fileID: 7070216862508139791}
   - component: {fileID: 5042487383884739013}
   - component: {fileID: 3997608821614877848}
+  - component: {fileID: 8950740760412816286}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1
   m_TagString: Untagged
@@ -7631,6 +7676,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.463, z: -0.0050000004}
   m_TimeToStationary: 0.5
+--- !u!65 &8950740760412816286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843923316977766416}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2058446, y: 2.9395177, z: 1.1960163}
+  m_Center: {x: 0, y: 1.463447, z: -0.0049141347}
 --- !u!1 &6885561832637278184
 GameObject:
   m_ObjectHideFlags: 0
@@ -8685,6 +8751,7 @@ GameObject:
   - component: {fileID: 5897130670505948456}
   - component: {fileID: 8516911971751264738}
   - component: {fileID: 5724957052370883875}
+  - component: {fileID: 7179519293957603141}
   m_Layer: 0
   m_Name: 99_Enviroment_Column_Rocky_1 (3)
   m_TagString: Untagged
@@ -8775,6 +8842,27 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 1.463, z: -0.0050000004}
   m_TimeToStationary: 0.5
+--- !u!65 &7179519293957603141
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7868591331641008183}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2058449, y: 2.9395177, z: 1.1960166}
+  m_Center: {x: 6.9834055e-17, y: 1.463447, z: -0.004914136}
 --- !u!1 &7892602854764552463
 GameObject:
   m_ObjectHideFlags: 0
@@ -9008,13 +9096,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AgentTypeID: 0
-  m_CollectObjects: 0
+  m_CollectObjects: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 311
-  m_UseGeometry: 0
+    m_Bits: 2048
+  m_UseGeometry: 1
   m_DefaultArea: 0
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
