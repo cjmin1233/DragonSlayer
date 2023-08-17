@@ -31,12 +31,11 @@ public class LivingEntity : MonoBehaviour, IDamagable
     {
         RemainingStunTime = stunTime;
         isStunned = true;
-
+        GameObject stunVfx = null;
         if (headPoint is not null)
         {
-            var stunVfx = EffectManager.Instance.GetFromPool((int)EffectType.StunCirclingStars);
-            stunVfx.transform.SetParent(headPoint);
-            stunVfx.transform.localPosition = Vector3.zero;
+            stunVfx = EffectManager.Instance.GetFromPool((int)EffectType.StunCirclingStars);
+            stunVfx.transform.position = headPoint.position;
             ParticleSystem.MainModule mainModule = stunVfx.GetComponent<ParticleSystem>().main;
             mainModule.duration = stunTime;
             stunVfx.SetActive(true);
@@ -45,9 +44,9 @@ public class LivingEntity : MonoBehaviour, IDamagable
         {
             RemainingStunTime -= Time.deltaTime;
             if (RemainingStunTime <= 0f) isStunned = false;
+            if (stunVfx is not null) stunVfx.transform.position = headPoint.position;
             yield return null;
         }
-
     }
 }
 

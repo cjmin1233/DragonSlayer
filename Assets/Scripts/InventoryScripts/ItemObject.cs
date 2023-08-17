@@ -14,4 +14,7 @@ public class ItemObject : MonoBehaviour, IInteractable
             Instantiate(interactVfx, target.transform, false);
         Destroy(gameObject);
     }
+
+    public float GetItemWeight() => itemData.itemWeight;
+    public ItemTier GetItemTier() => itemData.itemTier;
 }
