@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -15,17 +16,17 @@ public class MapGenerator : MonoBehaviour
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
     public List<Vector3> roomVec3 = new();
-    public List<int>  EpicRooms = new(3); 
+    //public List<int>  EpicRooms = new(3); 
     private int epicSize = 0;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
     public GameObject[] NormalRooms;
-    public GameObject[] BossRooms;
-    public GameObject[] JumpRooms;
-    public GameObject[] GoldRooms;
-    public GameObject[] TrapRooms;
-    public GameObject Room;
+    public GameObject BossRoom;
+    public GameObject ShopRoom;
+    public GameObject GoldRoom;
+    public List<GameObject> portals = new();
+    //public GameObject Room;
     public List<GameObject> Rooms;
     public List<GameObject> listRooms = new();
 
@@ -73,37 +74,38 @@ public class MapGenerator : MonoBehaviour
     }
     private void EpicRoomCreate()
     {
-        List<int> tempEpicRooms = new List<int>();
-        epicSize = 0;
+        //List<int> tempEpicRooms = new List<int>();
+        //epicSize = 0;
         
-        for (var i = 0; i < 3; i++)
-        {
-            tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
-            epicSize += tempEpicRooms[i];
-        }
-        EpicRooms.AddRange(tempEpicRooms);
-        tempEpicRooms.Clear();
+        //for (var i = 0; i < 2; i++)
+        //{
+        //    tempEpicRooms.Add(Random.Range(0, MapVector2.instance.Stage + 1));
+        //    epicSize += tempEpicRooms[i];
+        //}
+        //EpicRooms.AddRange(tempEpicRooms);
+        //tempEpicRooms.Clear();
 
-        for (var i = 0; i < EpicRooms[0]; i++)
+        for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0, 4); //������ ���� ����
+            var rand = Random.Range(0,3); //������ ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(JumpRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
+            if(rand < MapVector2.instance.Stage)
+            {
+                Rooms.Add(Instantiate(ShopRoom, mapVec3[randMap], Quaternion.identity));
+                epicSize++;
+                mapVec3.Remove(mapVec3[randMap]);
+            }
         }
-        for (var i = 0; i < EpicRooms[1]; i++)
+        for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0, 4); //Ȳ�ݹ� ���� ����
+            var rand = Random.Range(0, 2); //Ȳ�ݹ� ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(GoldRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
-        }
-        for (var i = 0; i < EpicRooms[2]; i++)
-        {
-            var rand = Random.Range(0, 4); //Ʈ���� ���� ����
-            var randMap = Random.Range(0, mapVec3.Count);
-            Rooms.Add(Instantiate(TrapRooms[rand], mapVec3[randMap], Quaternion.identity));
-            mapVec3.Remove(mapVec3[randMap]);
+            if (rand < MapVector2.instance.Stage)
+            {
+                Rooms.Add(Instantiate(GoldRoom, mapVec3[randMap], Quaternion.identity));
+                epicSize++;
+                mapVec3.Remove(mapVec3[randMap]);
+            }
         }
     }
     private void NormalRoomCreate()
@@ -113,7 +115,7 @@ public class MapGenerator : MonoBehaviour
             var randNor = Random.Range(0, NormalRooms.Length);
             if(mapVec3.Count == 0)
             {
-                Rooms.Add(Instantiate(BossRooms[0], bossVector, Quaternion.identity));
+                Rooms.Add(Instantiate(BossRoom, bossVector, Quaternion.identity));
                 mapVec3.Clear();
                 return;
             }
@@ -149,7 +151,7 @@ public class MapGenerator : MonoBehaviour
         NavMesh.RemoveAllNavMeshData();
 
         Rooms.Clear();
-        EpicRooms.Clear();
+        //EpicRooms.Clear();
         listRooms.Clear();
         bossVector = Vector3.zero;
 
@@ -193,15 +195,6 @@ public class MapGenerator : MonoBehaviour
                 }
             }
         }
-        //foreach(GameObject room in MapGenerator.Instance.listRooms)
-        //{
-        //    var roomSpawn = room.GetComponent<Room>();
-
-        //    if(roomSpawn.roomType == RoomType.Normal)
-        //    {
-        //        //스폰
-        //    }
-        //}
         foreach (var door in doors)
         {
             door.GetComponent<Door>().ShootRay();
@@ -246,5 +239,6 @@ public class MapGenerator : MonoBehaviour
     public void ClearRoom(int playerRoomIndex)
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
+        listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
     }
 }

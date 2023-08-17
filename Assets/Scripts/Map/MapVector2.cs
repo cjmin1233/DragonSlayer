@@ -23,12 +23,9 @@ public class MapVector2 : MonoBehaviour
         instance = this;
     }
 
-    void Update()
+    void Start()
     {
-        if(Input.GetKeyDown(KeyCode.H))
-        {
-            GenerateDungeon();
-        }
+       GenerateDungeon();  
     }
 
     public void GenerateDungeon()

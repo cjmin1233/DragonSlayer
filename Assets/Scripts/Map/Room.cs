@@ -7,8 +7,7 @@ public enum RoomType
 {
     Normal,
     Golden,
-    Trap,
-    Jump,
+    Shop,
     Boss
 }
 
@@ -38,6 +37,32 @@ public class Room : MonoBehaviour
             if (child.CompareTag("Entrance"))
             {
                 Destroy(child.gameObject);
+            }
+        }
+    }
+    public void PortalOn()
+    {
+        foreach(Transform child in transform)
+        {
+            Door doorPortal = child.GetComponent<Door>();
+
+            if(doorPortal != null)
+            {
+                switch(doorPortal.connectRoomType)
+                {
+                    case RoomType.Normal:
+                        MapGenerator.Instance.portals[0].SetActive(true);
+                        break;
+                    case RoomType.Golden:
+                        MapGenerator.Instance.portals[1].SetActive(true);
+                        break;
+                    case RoomType.Shop:
+                        MapGenerator.Instance.portals[2].SetActive(true);
+                        break;
+                    case RoomType.Boss:
+                        MapGenerator.Instance.portals[3].SetActive(true);
+                        break;
+                }
             }
         }
     }

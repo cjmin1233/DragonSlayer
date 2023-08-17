@@ -13,7 +13,7 @@ public class StageChange : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player") && GameManager.Instance.IsRoomCleared())
+        if (other.gameObject.CompareTag("Player"))
         {
             if(MapVector2.instance.Stage == 3)
             {
@@ -24,6 +24,7 @@ public class StageChange : MonoBehaviour
             EnemySpawner.Instance.MapRecordClear();
 
             MapVector2.instance.Stage++;
+            // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
             MapVector2.instance.GenerateDungeon();
             MinimapCameraFollow.Instance.FollowMinimap();
