@@ -43,7 +43,7 @@ public class PlayerHealth : LivingEntity
     private Coroutine invincibleProcess;
     
     // 오브젝트 interaction
-    private List<IInteractable> contactItems = new List<IInteractable>();
+    private List<IInteractable> contactObjects = new List<IInteractable>();
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -217,28 +217,28 @@ public class PlayerHealth : LivingEntity
 
     private void OnTriggerEnter(Collider other)
     {
-        var item = other.GetComponent<IInteractable>();
-        if (item is not null)
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable is not null)
         {
-            contactItems.Add(item);
+            contactObjects.Add(interactable);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        var item = other.GetComponent<IInteractable>();
-        if (item is not null && contactItems.Contains(item))
+        var interactable = other.GetComponent<IInteractable>();
+        if (interactable is not null && contactObjects.Contains(interactable))
         {
-            contactItems.Remove(item);
+            contactObjects.Remove(interactable);
         }
     }
 
     private void UseItem()
     {
-        if (contactItems.Count <= 0) return;
+        if (contactObjects.Count <= 0) return;
         print("use item!");
-        var selectedItem = contactItems[0];
-        contactItems.RemoveAt(0);
+        var selectedItem = contactObjects[0];
+        contactObjects.RemoveAt(0);
         selectedItem.Interact(gameObject);
     }
 

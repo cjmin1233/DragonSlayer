@@ -15,4 +15,5 @@ MonoBehaviour:
   itemName: WhirlWind
   description: This is WhirlWind
   itemImage: {fileID: 21300000, guid: c0f08c6961a8b164982cf40cf6043a74, type: 3}
+  itemPrice: 300
   itemPrefab: {fileID: 8937284652728222754, guid: f6d267b5d056f8b41bc65735d021ce70, type: 3}
