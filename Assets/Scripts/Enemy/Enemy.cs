@@ -206,14 +206,14 @@ public class Enemy : LivingEntity
                     nextState = State.GetHit;
                     return true;
                 }
-                if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
-                {
-                    nextState = State.Trace;
-                    return true;
-                }
                 if (!animator.GetBool("isAttacking"))
                 {
                     nextState = State.Attack;
+                    return true;
+                }
+                if (Vector3.Distance(transform.position, player.transform.position) > enemyData.EnemyAttackRange)
+                {
+                    nextState = State.Trace;
                     return true;
                 }
                 else if (battleToAttack)
