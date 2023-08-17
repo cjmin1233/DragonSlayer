@@ -13,7 +13,6 @@ public enum ItemTier
 public class ItemSpawner : MonoBehaviour
 {
     public static ItemSpawner Instacne { get; private set; }
-    public bool trigger;
 
     private List<ItemObject> itemList;
     private void Awake()
@@ -39,16 +38,7 @@ public class ItemSpawner : MonoBehaviour
             item.gameObject.SetActive(false);
         }
     }
-
-    private void Update()
-    {
-        if (trigger)
-        {
-            trigger = false;
-            GetRandomItem();
-        }
-    }
-
+    
     public GameObject GetRandomItem()
     {
         float totalWeight = 0f;

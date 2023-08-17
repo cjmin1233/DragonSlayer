@@ -76,7 +76,7 @@ public class PlayerHealth : LivingEntity
 
     private void Start()
     {
-        _playerInputControl.OnInteractAction += UseItem;
+        _playerInputControl.OnInteractAction += InteractWithObject;
     }
 
     private void Update()
@@ -218,7 +218,7 @@ public class PlayerHealth : LivingEntity
     private void OnTriggerEnter(Collider other)
     {
         var interactable = other.GetComponent<IInteractable>();
-        if (interactable is not null)
+        if (interactable is not null && !contactObjects.Contains(interactable))
         {
             contactObjects.Add(interactable);
         }
@@ -233,12 +233,12 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    private void UseItem()
+    private void InteractWithObject()
     {
         if (contactObjects.Count <= 0) return;
-        print("use item!");
-        var selectedItem = contactObjects[0];
-        contactObjects.RemoveAt(0);
+        print("player interact object!");
+        var selectedItem = contactObjects[^1];
+        contactObjects.Remove(selectedItem);
         selectedItem.Interact(gameObject);
     }
 
