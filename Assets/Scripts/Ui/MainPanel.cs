@@ -33,15 +33,10 @@ public class MainPanel : MonoBehaviour
         bgmVolumeSlider.value = PlayerPrefs.GetFloat("BgmVolume");
         if (!PlayerPrefs.HasKey("EffectVolume")) UiManager.Instance.SetEffectVolume(.75f);
         effectVolumeSlider.value = PlayerPrefs.GetFloat("EffectVolume");
-
-        //UiManager.Instance.SetMasterVolume(masterVolumeSlider.value);
-        //UiManager.Instance.SetBgmVolume(bgmVolumeSlider.value);
-        //UiManager.Instance.SetEffectVolume(effectVolumeSlider.value);
     }
 
     private void OnStartBtn()
     {
-        print("start btn click");
         UiManager.Instance.Attempt2LoadNextScene();
     }
 

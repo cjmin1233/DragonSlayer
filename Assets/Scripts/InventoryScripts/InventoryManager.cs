@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class InventoryManager : MonoBehaviour, IDefaultUi
 {
     public GameObject itemUIPrefab;
     // public RectTransform inventoryPanel;
@@ -26,13 +26,13 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] private List<ItemSlot> itemSlots = new List<ItemSlot>();
 
-    private void Start()
-    {
-        for (var i = 0; i < itemSlots.Count; i++)
-        {
-            itemSlots[i].Init(this);
-        }
-    }
+    // private void Start()
+    // {
+    //     for (var i = 0; i < itemSlots.Count; i++)
+    //     {
+    //         itemSlots[i].Init(this);
+    //     }
+    // }
 
     public void SetItem(string itemName)
     {
@@ -60,5 +60,15 @@ public class InventoryManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void InitUi()
+    {
+        foreach (var slot in itemSlots)
+        {
+            slot.Init(this);
+        }
+
+        gameObject.SetActive(false);
     }
 }

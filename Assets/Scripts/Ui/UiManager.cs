@@ -54,7 +54,9 @@ public class UiManager : MonoBehaviour
         fadePanel.Init();
 
         InitInputAction();
-        FadeIn();
+        playPanel.InitPanel();
+        
+        MainSceneSetup();
     }
 
     private void InitInputAction()

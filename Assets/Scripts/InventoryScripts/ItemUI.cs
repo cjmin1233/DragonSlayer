@@ -13,11 +13,6 @@ public class ItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     private InventoryManager inventoryManager;
     private ItemSlot itemSlot;
 
-    private void Start()
-    {
-        // rectTransform = GetComponent<RectTransform>();
-    }
-
     public void Init(ItemScriptableObject data, InventoryManager manager, ItemSlot slot)
     {
         rectTransform = GetComponent<RectTransform>();

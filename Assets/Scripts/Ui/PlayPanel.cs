@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,10 +11,23 @@ public class PlayPanel : MonoBehaviour
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private SmallPopup interactInfo;
 
+    public void InitPanel()
+    {
+        var instances = GetComponentsInChildren<IDefaultUi>();
+        foreach (var _ in instances) _.InitUi();
+    }
+    // private void Start()
+    // {
+    //     interactInfo.
+    // }
+
     public void UpdateUi()
     {
-        playerHealthBar.UpdateValue(PlayerHealth.Instance.CurHP, PlayerHealth.Instance.MaxHP);
-        playerVitalityBar.UpdateValue(PlayerHealth.Instance.CurVitality, PlayerHealth.Instance.MaxVitality);
+        if (PlayerHealth.Instance is not null)
+        {
+            playerHealthBar.UpdateValue(PlayerHealth.Instance.CurHP, PlayerHealth.Instance.MaxHP);
+            playerVitalityBar.UpdateValue(PlayerHealth.Instance.CurVitality, PlayerHealth.Instance.MaxVitality);
+        }
     }
 
     public void ToggleInventory() => inventoryManager.gameObject.SetActive(!inventoryManager.gameObject.activeSelf);
