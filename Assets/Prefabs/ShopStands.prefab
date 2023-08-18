@@ -308,7 +308,7 @@ GameObject:
   - component: {fileID: 1519964676185815398}
   - component: {fileID: 6642253191033025092}
   m_Layer: 0
-  m_Name: Shop
+  m_Name: ShopStands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,7 +330,7 @@ Transform:
   - {fileID: 1594152390132937742}
   - {fileID: 151080010265232444}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6642253191033025092
 MonoBehaviour:
