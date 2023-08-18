@@ -6268,7 +6268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
-  entrances: []
 --- !u!1 &6313999085837862986
 GameObject:
   m_ObjectHideFlags: 0
