@@ -22,13 +22,12 @@ public class GoldenBox : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
         {
-            animator.SetTrigger("Open");
-
             if (openSound != null)
             {
                 Debug.Log("soundss");
                 audioSource.PlayOneShot(openSound, 2f);
             }
+            animator.SetTrigger("Open");
             // Item script
             StartCoroutine("BoxDestroy");
         }
