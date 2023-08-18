@@ -36,6 +36,7 @@ public class Door : MonoBehaviour
 
     private const float RayDistance = 10f;
 
+    private DoorType goldDoorType;
     private void Awake()
     {
         instance = this;
@@ -70,28 +71,28 @@ public class Door : MonoBehaviour
                 case DoorType.Up:
                     normalVector = new Vector3(0, 0, distance);
                     MoveToRoom(normalVector);
-                    Debug.Log("up");
+                    goldDoorType = DoorType.Up;
                     break;
                 case DoorType.Down:
                     normalVector = new Vector3(0, 0, -distance);
                     MoveToRoom(normalVector);
-                    Debug.Log("down");
+                    goldDoorType = DoorType.Down;
                     break;
                 case DoorType.Right:
                     normalVector = new Vector3(distance, 0, 0);
                     MoveToRoom(normalVector);
-                    Debug.Log("right");
+                    goldDoorType = DoorType.Right;
                     break;
                 case DoorType.Left:
                     normalVector = new Vector3(-distance, 0, 0);
                     MoveToRoom(normalVector);
-                    Debug.Log("left");
+                    goldDoorType = DoorType.Left;
                     break;
                 default:
                     break;
             }
             if(connectRoomType == RoomType.Normal) EnemySpawner.Instance.SelectEnemySpawner();
-            if (currentRoomType == RoomType.Golden) Room.instance.LookPlayer();
+            if (connectRoomType == RoomType.Golden) Room.instance.LookPlayer();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }

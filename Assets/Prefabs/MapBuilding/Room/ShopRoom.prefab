@@ -187,7 +187,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 2
-  currentRoomType: 0
+  currentRoomType: 2
   connectRoomType: 0
 --- !u!1 &58582613668153598
 GameObject:
@@ -1197,7 +1197,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 3
-  currentRoomType: 0
+  currentRoomType: 2
   connectRoomType: 0
 --- !u!1 &985432908723753051
 GameObject:
@@ -4133,7 +4133,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 1
-  currentRoomType: 0
+  currentRoomType: 2
   connectRoomType: 0
 --- !u!1 &3698805849452537921
 GameObject:
@@ -8865,7 +8865,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   doorType: 0
-  currentRoomType: 0
+  currentRoomType: 2
   connectRoomType: 0
 --- !u!1 &7763350448155562095
 GameObject:
