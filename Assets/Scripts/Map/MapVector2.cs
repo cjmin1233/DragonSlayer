@@ -42,6 +42,7 @@ public class MapVector2 : MonoBehaviour
         else
             numOfRooms = 15;
 
+
         mapVector.Add(startPoint);
 
         for (var i = 0; i < numOfRooms; i++)

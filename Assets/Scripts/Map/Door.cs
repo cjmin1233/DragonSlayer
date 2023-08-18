@@ -50,6 +50,8 @@ public class Door : MonoBehaviour
             doorDirection = Vector3.forward;
         else
             doorDirection = Vector3.back;
+
+        currentRoomType = transform.GetComponentInParent<Room>().roomType;
     }
     public void MoveToRoom(Vector3 direction)
     {
@@ -89,6 +91,7 @@ public class Door : MonoBehaviour
                     break;
             }
             if(connectRoomType == RoomType.Normal) EnemySpawner.Instance.SelectEnemySpawner();
+            if (currentRoomType == RoomType.Golden) Room.instance.LookPlayer();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }

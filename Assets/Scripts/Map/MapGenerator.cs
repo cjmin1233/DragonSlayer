@@ -74,7 +74,6 @@ public class MapGenerator : MonoBehaviour
         mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
         NormalRoomCreate();
-        //FindingDoor();
         NavMeshBake(Rooms);
         FindingRoom();
         FindingDoor();
