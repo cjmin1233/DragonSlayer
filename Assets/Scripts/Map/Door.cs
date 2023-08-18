@@ -91,6 +91,7 @@ public class Door : MonoBehaviour
                     break;
             }
             if(connectRoomType == RoomType.Normal) EnemySpawner.Instance.SelectEnemySpawner();
+            if (currentRoomType == RoomType.Golden) Room.instance.LookPlayer();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
     }

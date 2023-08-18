@@ -18,11 +18,13 @@ public class Room : MonoBehaviour
 
     public RoomType roomType;
     private List<GameObject> entrances;
-
+    private GameObject player;
     private void Awake()
     {
         if(instance == null)
             instance = this;
+
+        player = GameObject.FindWithTag("Player");
     }
 
     public void Open(Transform parent)
@@ -44,6 +46,14 @@ public class Room : MonoBehaviour
             {
                 child.gameObject.SetActive(true);
             }
+        }
+    }
+    public void LookPlayer()
+    {
+        if(roomType == RoomType.Golden) 
+        {
+            var GoldenBox = GameObject.FindWithTag("GoldenItem");
+            GoldenBox.transform.LookAt(player.transform);
         }
     }
 }

@@ -2431,7 +2431,6 @@ GameObject:
   - component: {fileID: 9104865948074619535}
   - component: {fileID: 1973757492745921790}
   - component: {fileID: 6583633707567725232}
-  - component: {fileID: 4750889003829594122}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -2497,18 +2496,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4750889003829594122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2356799678528945378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f684775448fb4e4cacb3b6aabcfb3d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2492281718896468418
 GameObject:
   m_ObjectHideFlags: 0
@@ -5824,7 +5811,6 @@ GameObject:
   - component: {fileID: 572169515489451265}
   - component: {fileID: 2247304385115795794}
   - component: {fileID: 2500056196527851402}
-  - component: {fileID: 2660473423572944035}
   m_Layer: 5
   m_Name: Image
   m_TagString: DoorImage
@@ -5890,18 +5876,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2660473423572944035
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4756562550665089717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f684775448fb4e4cacb3b6aabcfb3d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4801923663125874017
 GameObject:
   m_ObjectHideFlags: 0
@@ -6584,7 +6558,6 @@ GameObject:
   - component: {fileID: 169631201468447982}
   - component: {fileID: 4802136936532502269}
   - component: {fileID: 1072761506934239409}
-  - component: {fileID: 5454272967220323924}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -6650,18 +6623,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5454272967220323924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5222821224408598416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f684775448fb4e4cacb3b6aabcfb3d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5230944655015988282
 GameObject:
   m_ObjectHideFlags: 0
@@ -6746,7 +6707,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 3
-  entrances: []
 --- !u!65 &298137563782290001
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7245,7 +7205,6 @@ GameObject:
   - component: {fileID: 5929481220231888295}
   - component: {fileID: 4393354192791430900}
   - component: {fileID: 2265483047119538111}
-  - component: {fileID: 3068908878757424093}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -7311,18 +7270,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3068908878757424093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5867290926605380266}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f684775448fb4e4cacb3b6aabcfb3d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5933771461663790352
 GameObject:
   m_ObjectHideFlags: 0

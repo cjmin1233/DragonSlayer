@@ -11,9 +11,9 @@ TagManager:
   - Entrance
   - Item
   - DoorImage
-  - bossItem
   - Portal
   - Shop
+  - GoldenItem
   layers:
   - Default
   - TransparentFX

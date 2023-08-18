@@ -7,6 +7,7 @@ public class StageChange : MonoBehaviour
 {
     private GameObject player;
 
+    
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -18,7 +19,7 @@ public class StageChange : MonoBehaviour
         {
             if (MapVector2.instance.Stage == 3)
             {
-                //SceneManager.LoadScene("BossScene");
+                SceneManager.LoadScene("BossScene");
             }
 
             GameManager.Instance.generatedRooms.Clear();
