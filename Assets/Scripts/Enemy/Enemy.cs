@@ -308,6 +308,12 @@ public class Enemy : LivingEntity
     }
     private void AfterDie()
     {
+        var coinVfx = EffectManager.Instance.GetFromPool((int)EffectType.CoinBlast);
+        if (coinVfx is not null)
+        {
+            coinVfx.transform.position = transform.position;
+            coinVfx.SetActive(true);
+        }
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
         GameManager.Instance.aliveEnemies--;
         if(GameManager.Instance.aliveEnemies == 0)
