@@ -400,6 +400,13 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    public void BossSceneEnterCamera()
+    {
+        _cineMachineTargetYaw = 0.0f;
+        _cineMachineTargetPitch = -13f;
+        //cineMachineCameraTarget.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+    }
+
     //private void SelfDamage()
     //{
     //    DamageMessage dmg;

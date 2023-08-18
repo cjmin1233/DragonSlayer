@@ -262,4 +262,11 @@ public class PlayerHealth : LivingEntity
     {
         currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
     }
+
+    public void BossSceneEnter()
+    {
+        transform.position = new Vector3(0, -3, -21);
+        transform.rotation = Quaternion.identity;
+        _playerMove.BossSceneEnterCamera();
+    }
 }
