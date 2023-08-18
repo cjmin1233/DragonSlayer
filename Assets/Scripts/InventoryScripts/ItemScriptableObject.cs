@@ -11,7 +11,8 @@ public class ItemScriptableObject : ScriptableObject
     public string description;
     public ItemTier itemTier;
     public float itemWeight;
-    public Sprite itemImage;
+    // public Sprite itemImage;
+    public Texture itemRawImage;
 
     public GameObject itemPrefab;
 

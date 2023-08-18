@@ -355,10 +355,10 @@ public class PlayerCombat : MonoBehaviour
         return activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
     }
 
-    public void UpgradeStatus(float power, float speed)
+    public void UpgradeStatus(float powerIncrease, float speedIncrease)
     {
         // 전투 능력치 업그레이드
-        playerPower += power;
-        attackSpeed += speed;
+        playerPower += powerIncrease;
+        attackSpeed += speedIncrease;
     }
 }

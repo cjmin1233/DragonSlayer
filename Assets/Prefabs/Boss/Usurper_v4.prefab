@@ -41607,7 +41607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4469712737702168177
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41719,7 +41719,7 @@ GameObject:
   - component: {fileID: 8704271231184542366}
   - component: {fileID: 1614719856519643434}
   - component: {fileID: 5353878198167593414}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Usurper_v4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41747,7 +41747,7 @@ Transform:
   - {fileID: 7784096902303783819}
   - {fileID: 3570568119397453102}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!54 &3451150455097861045
 Rigidbody:
@@ -57828,7 +57828,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0.49, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

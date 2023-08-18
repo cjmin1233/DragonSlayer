@@ -10,7 +10,8 @@ public enum EffectType
     ProjectileHit,
     StunCirclingStars,
     DamageText,
-    CoinBlast
+    CoinBlast,
+    LightningStrike
 }
 public class EffectManager : MonoBehaviour
 {

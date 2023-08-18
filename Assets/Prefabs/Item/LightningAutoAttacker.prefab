@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4946043757746377073
 Transform:
   m_ObjectHideFlags: 0
@@ -4967,9 +4967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11d7b5024f8244f49b15c0e59ef8ec77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 5
-  attackDuration: 0.5
-  attackObject: {fileID: 398269453880385759}
+  spawnRadius: 3
+  spawnDuration: 0.3
+  effectType: 6
 --- !u!1 &3099784086322134848
 GameObject:
   m_ObjectHideFlags: 0

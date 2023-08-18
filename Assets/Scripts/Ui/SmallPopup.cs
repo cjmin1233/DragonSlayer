@@ -22,7 +22,7 @@ public class SmallPopup : MonoBehaviour, IDefaultUi
 
     public void EnableInfo(string description)
     {
-        gameObject.SetActive(true);
+        if(!gameObject.activeSelf) gameObject.SetActive(true);
         infoText.text = description;
         _animator.SetBool(_animIdTrigger, true);
     }

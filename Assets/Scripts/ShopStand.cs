@@ -24,4 +24,16 @@ public class ShopStand : MonoBehaviour, IInteractable
         _item.GetComponent<Collider>().enabled = false;
         price = priceUnit * ((int)item.GetComponent<ItemObject>().GetItemTier() + 1);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var playerHealth = other.GetComponent<PlayerHealth>();
+        if (playerHealth is not null) playerHealth.Add2InteractList(this);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        var playerHealth = other.GetComponent<PlayerHealth>();
+        if (playerHealth is not null) playerHealth.RemoveInteractable(this);
+    }
 }

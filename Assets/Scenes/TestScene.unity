@@ -1237,7 +1237,6 @@ GameObject:
   - component: {fileID: 203725412}
   - component: {fileID: 203725411}
   - component: {fileID: 203725410}
-  - component: {fileID: 203725413}
   - component: {fileID: 203725414}
   - component: {fileID: 203725415}
   - component: {fileID: 203725416}
@@ -1315,21 +1314,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &203725413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 203725408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0a95dec41cbf334990666efcfc9685a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 1111
-  hudDamageText: {fileID: 6995644140844261617, guid: 3fdea4fc1a35baf44bd78a0a02eea381, type: 3}
-  hudPos: {fileID: 1939360122}
 --- !u!114 &203725414
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHealth : LivingEntity
@@ -215,14 +216,9 @@ public class PlayerHealth : LivingEntity
 
     public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
 
-    private void OnTriggerEnter(Collider other)
+    public void Add2InteractList(IInteractable interactable)
     {
-        var interactable = other.GetComponent<IInteractable>();
-        if (interactable is not null && !contactObjects.Contains(interactable))
-        {
-            contactObjects.Add(interactable);
-        }
-
+        if (!contactObjects.Contains(interactable)) contactObjects.Add(interactable);
         if (contactObjects.Count > 0)
         {
             var lastContact = contactObjects[^1];
@@ -230,19 +226,45 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void RemoveInteractable(IInteractable interactable)
     {
-        var interactable = other.GetComponent<IInteractable>();
-        if (interactable is not null && contactObjects.Contains(interactable))
+        if (!contactObjects.Contains(interactable)) return;
+        contactObjects.Remove(interactable);
+        if (contactObjects.Count <= 0) UiManager.Instance.HideInteractInfo();
+        else
         {
-            contactObjects.Remove(interactable);
-        }
-        if (contactObjects.Count <= 0)
-        {
-            // ui disable
-            UiManager.Instance.HideInteractInfo();
+            var lastContact = contactObjects[^1];
+            lastContact.EnterInteract(gameObject);
         }
     }
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     var interactable = other.GetComponent<IInteractable>();
+    //     if (interactable is not null && !contactObjects.Contains(interactable))
+    //     {
+    //         contactObjects.Add(interactable);
+    //     }
+    //
+    //     if (contactObjects.Count > 0)
+    //     {
+    //         var lastContact = contactObjects[^1];
+    //         lastContact.EnterInteract(gameObject);
+    //     }
+    // }
+    //
+    // private void OnTriggerExit(Collider other)
+    // {
+    //     var interactable = other.GetComponent<IInteractable>();
+    //     if (interactable is not null && contactObjects.Contains(interactable))
+    //     {
+    //         contactObjects.Remove(interactable);
+    //     }
+    //     if (contactObjects.Count <= 0)
+    //     {
+    //         // ui disable
+    //         UiManager.Instance.HideInteractInfo();
+    //     }
+    // }
 
     private void InteractWithObject()
     {
@@ -255,6 +277,11 @@ public class PlayerHealth : LivingEntity
         {
             // ui disable
             UiManager.Instance.HideInteractInfo();
+        }
+        else
+        {
+            var lastContact = contactObjects[^1];
+            lastContact.EnterInteract(gameObject);
         }
     }
 
