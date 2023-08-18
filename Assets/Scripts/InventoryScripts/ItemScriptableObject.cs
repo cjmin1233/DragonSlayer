@@ -7,6 +7,7 @@ using UnityEngine;
 public class ItemScriptableObject : ScriptableObject
 {
     public string itemName;
+    public bool pickUp;
     public string description;
     public ItemTier itemTier;
     public float itemWeight;

@@ -1,48 +1,49 @@
-using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine;
 using TMPro;
 
 public class DamageText : MonoBehaviour
 {
-    private float moveSpeed;
-    private float alphaSpeed;
-    private float destroyTime;
-    private TextMeshPro text; // TextMeshProUGUI 컴포넌트 사용
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float alphaSpeed;
+    [SerializeField] private float lifeTime;
+    private float damageAmount;
+    
+    private TextMeshPro damageText; // TextMeshProUGUI 컴포넌트 사용
     private Color alpha;
+    private Coroutine damageTextRoutine;
 
+    public void SetDamageValue(float damage) => damageAmount = damage;
+    
     private void Awake()
     {
-        text = GetComponent<TextMeshPro>();
-        alpha = text.color;
+        damageText = GetComponent<TextMeshPro>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        moveSpeed = 2.0f;
-        alphaSpeed = 2.0f;
-        destroyTime = 2.0f;
-
-        Invoke("DestroyObject", destroyTime);
+        if (damageTextRoutine is not null) StopCoroutine(damageTextRoutine);
+        damageTextRoutine = StartCoroutine(DamageTextRoutine());
     }
 
-    private void Update()
+    private IEnumerator DamageTextRoutine()
     {
-        // 텍스트를 위로 이동
-        transform.Translate(new Vector3(0, moveSpeed * Time.deltaTime, 0));
+        damageText.text = damageAmount.ToString("F0");
+        alpha = damageText.color;
+        alpha.a = 1f;
+        float timer = lifeTime;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            // 텍스트를 위로 이동
+            transform.Translate(new Vector3(0, moveSpeed * Time.deltaTime, 0));
 
-        // 텍스트 알파값 조절
-        alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed);
-        text.color = alpha;
-    }
+            // 텍스트 알파값 조절
+            alpha.a = Mathf.Lerp(alpha.a, 0, Time.deltaTime * alphaSpeed);
+            damageText.color = alpha;
+            yield return null;
+        }
 
-    public void ShowDamage(int damage)
-    {
-        text.text = damage.ToString(); // 받은 데미지 값을 텍스트로 설정
-    }
-
-    private void DestroyObject()
-    {
-        Destroy(gameObject);
+        EffectManager.Instance.Add2Pool((int)EffectType.DamageText, gameObject);
     }
 }

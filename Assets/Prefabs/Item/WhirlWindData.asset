@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: WhirlWindData
   m_EditorClassIdentifier: 
   itemName: WhirlWind
+  pickUp: 1
   description: This is WhirlWind
   itemTier: 2
   itemWeight: 10

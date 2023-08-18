@@ -8,6 +8,7 @@ public class PlayPanel : MonoBehaviour
     [SerializeField] private StandardSlider playerHealthBar;
     [SerializeField] private StandardSlider playerVitalityBar;
     [SerializeField] private InventoryManager inventoryManager;
+    [SerializeField] private SmallPopup interactInfo;
 
     public void UpdateUi()
     {
@@ -17,4 +18,7 @@ public class PlayPanel : MonoBehaviour
 
     public void ToggleInventory() => inventoryManager.gameObject.SetActive(!inventoryManager.gameObject.activeSelf);
     public void GetItem2Inventory(ItemScriptableObject itemData) => inventoryManager.SetItem(itemData);
+
+    public void ShowInteractInfo(string description) => interactInfo.EnableInfo(description);
+    public void HideInteractInfo() => interactInfo.DisableInfo();
 }

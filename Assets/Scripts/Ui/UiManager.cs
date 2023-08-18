@@ -33,10 +33,14 @@ public class UiManager : MonoBehaviour
     private DefaultInputActions inputAction;
     private int popUpCounter = 0;
 
-    private void Awake()
+    private void Start()
     {
         if (Instance is null) Instance = this;
-        else if (!Instance.Equals(this)) Destroy(gameObject);
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         eventSystem.SetActive(true);
         DontDestroyOnLoad(gameObject);
@@ -48,9 +52,12 @@ public class UiManager : MonoBehaviour
         
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
+
+        InitInputAction();
+        FadeIn();
     }
 
-    private void Start()
+    private void InitInputAction()
     {
         inputAction = new DefaultInputActions();
         inputAction.UI.Enable();
@@ -147,9 +154,10 @@ public class UiManager : MonoBehaviour
     }
 
     public void FadeOut() => fadePanel.StartFadeOut();
+    public void FadeIn() => fadePanel.StartFadeIn();
+
     public void SetMasterVolume(float volume)
     {
-        Debug.Log("������ �Ҹ� ���� ����");
         audioMixer.SetFloat("MasterVolume", Mathf.Log10(volume) * 20);
         PlayerPrefs.SetFloat("MasterVolume", volume);
     }
@@ -165,4 +173,6 @@ public class UiManager : MonoBehaviour
     }
 
     public void GetItem2Inventory(ItemScriptableObject itemData) => playPanel.GetItem2Inventory(itemData);
+    public void ShowInteractInfo(string description) => playPanel.ShowInteractInfo(description);
+    public void HideInteractInfo() => playPanel.HideInteractInfo();
 }

@@ -222,6 +222,12 @@ public class PlayerHealth : LivingEntity
         {
             contactObjects.Add(interactable);
         }
+
+        if (contactObjects.Count > 0)
+        {
+            var lastContact = contactObjects[^1];
+            lastContact.EnterInteract(gameObject);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -230,6 +236,11 @@ public class PlayerHealth : LivingEntity
         if (interactable is not null && contactObjects.Contains(interactable))
         {
             contactObjects.Remove(interactable);
+        }
+        if (contactObjects.Count <= 0)
+        {
+            // ui disable
+            UiManager.Instance.HideInteractInfo();
         }
     }
 
@@ -240,6 +251,11 @@ public class PlayerHealth : LivingEntity
         var selectedItem = contactObjects[^1];
         contactObjects.Remove(selectedItem);
         selectedItem.Interact(gameObject);
+        if (contactObjects.Count <= 0)
+        {
+            // ui disable
+            UiManager.Instance.HideInteractInfo();
+        }
     }
 
     public void RestoreHealth(float amount)

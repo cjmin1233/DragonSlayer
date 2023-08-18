@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ParticleCollider : MonoBehaviour
@@ -9,12 +10,18 @@ public class ParticleCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        var playerHealth = other.GetComponent<PlayerHealth>();
-        if (playerHealth is not null)
+        print("particle collision!");
+        var livingEntity = other.GetComponent<LivingEntity>();
+        if (livingEntity is not null)
         {
             Vector3 hitPoint = other.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
             DamageMessage damageMessage = new DamageMessage(damager, hitPoint, damage, stunTime, isStiff);
-            playerHealth.TakeDamage(damageMessage);
+            livingEntity.TakeDamage(damageMessage);
         }
+    }
+
+    private void OnParticleTrigger()
+    {
+        // print("particle trigger!");
     }
 }

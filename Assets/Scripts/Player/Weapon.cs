@@ -59,11 +59,26 @@ public class Weapon : MonoBehaviour
             DamageMessage damageMessage = new DamageMessage(_playerCombat.gameObject, hitPos, curDamage, stunTime, stiff);
             print("weapon damage : " + damageMessage.damage);
             livingEntity.TakeDamage(damageMessage);
-            var hitVfx = EffectManager.Instance.GetFromPool((int)hitVfxType);
-            hitVfx.transform.position = hitPos;
+            SpawnEffects(damageMessage);
+        }
+    }
+
+    private void SpawnEffects(DamageMessage damageMessage)
+    {
+        var hitVfx = EffectManager.Instance.GetFromPool((int)hitVfxType);
+        if (hitVfx is not null)
+        {
+            hitVfx.transform.position = damageMessage.hitPoint;
             hitVfx.SetActive(true);
         }
-        // var collisionPointOnBound = other.ClosestPointOnBounds(hitPoint.position);
-        // print("collision point : " + collisionPointOnBound);
+
+        var damageText = EffectManager.Instance.GetFromPool((int)EffectType.DamageText);
+        if (damageText is not null)
+        {
+            damageText.transform.position = damageMessage.hitPoint;
+            damageText.GetComponent<DamageText>().SetDamageValue(damageMessage.damage);
+            damageText.transform.rotation = Quaternion.LookRotation(damageMessage.damager.transform.forward);
+            damageText.SetActive(true);
+        }
     }
 }
