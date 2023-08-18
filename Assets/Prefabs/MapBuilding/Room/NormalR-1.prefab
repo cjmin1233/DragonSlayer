@@ -5160,7 +5160,7 @@ Transform:
   - {fileID: 8229961290196408517}
   - {fileID: 5900733189760561909}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2021413341008172932
 MonoBehaviour:
@@ -5191,7 +5191,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: f6b3869e292f2ed478801365fec6a3b6, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 777e3e471be35b74b914411114f1b3fa, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &9211927241144267518
 BoxCollider:
@@ -5227,7 +5227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
-  entrances: []
 --- !u!1 &3850141967669196251
 GameObject:
   m_ObjectHideFlags: 0

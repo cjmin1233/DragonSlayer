@@ -13,6 +13,7 @@ public class GoldenBox : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
     }
 
@@ -22,9 +23,11 @@ public class GoldenBox : MonoBehaviour
         if(other.gameObject.CompareTag("Player") && Input.GetKeyDown(KeyCode.E))
         {
             animator.SetTrigger("Open");
+
             if (openSound != null)
             {
-                audioSource.PlayOneShot(openSound);
+                Debug.Log("soundss");
+                audioSource.PlayOneShot(openSound, 2f);
             }
             // Item script
             StartCoroutine("BoxDestroy");
@@ -33,7 +36,7 @@ public class GoldenBox : MonoBehaviour
 
     private IEnumerator BoxDestroy()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 }
