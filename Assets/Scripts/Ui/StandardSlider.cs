@@ -7,10 +7,10 @@ public class StandardSlider : MonoBehaviour, IDefaultUi
     private float smoothVelocity;
     private Slider slider;
 
-    // private void Awake()
-    // {
-    //     slider = GetComponent<Slider>();
-    // }
+    private void Awake()
+    {
+        slider = GetComponent<Slider>();
+    }
 
     public void UpdateValue(float curValue, float maxValue)
     {

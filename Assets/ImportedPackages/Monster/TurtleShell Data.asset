@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TurtleShell Data
   m_EditorClassIdentifier: 
   enemyType: 1
-  enemyHp: 10
+  enemyHp: 1000
   damage: 2
   enemyMoveSpeed: 1
   enemyAttackRange: 1.5

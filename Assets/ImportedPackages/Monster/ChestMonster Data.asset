@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChestMonster Data
   m_EditorClassIdentifier: 
   enemyType: 3
-  enemyHp: 15
+  enemyHp: 1500
   damage: 3
   enemyMoveSpeed: 1
   enemyAttackRange: 1.5

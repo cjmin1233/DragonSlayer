@@ -45,6 +45,8 @@ public class LoadingSceneController : MonoBehaviour
                 progressBar.rectTransform.localScale = new Vector3 (Mathf.Lerp(0.9f, 1f, t), 1, 1);
                 if (progressBar.rectTransform.localScale.x >= 1f)
                 {
+                    UiManager.Instance.FadeOut();
+                    yield return new WaitUntil(() => UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade));
                     op.allowSceneActivation = true;
                     yield break;
                 }

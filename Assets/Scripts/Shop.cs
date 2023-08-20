@@ -17,6 +17,7 @@ public class Shop : MonoBehaviour
 
     private void SpawnItems()
     {
+        print("spawn items ****************");
         for (int i = 0; i < itemStands.Length; i++)
         {
             var item = ItemSpawner.Instacne.GetRandomItem();

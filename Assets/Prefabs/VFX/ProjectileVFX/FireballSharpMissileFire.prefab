@@ -14368,7 +14368,7 @@ Transform:
   - {fileID: 4533939835290492187}
   - {fileID: 747671395285086997}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &32359788528588238
 ParticleSystem:
@@ -19219,7 +19219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectType: 0
-  damage: 5
+  damage: 50
   stunTime: 0
   isStiff: 0
   whatIsTarget:

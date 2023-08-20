@@ -51,8 +51,8 @@ public class GameManager : MonoBehaviour
     private Coroutine bossSceneSetupProcess;
     private Coroutine bossSceneProcess;
     private Coroutine sceneLoadingProcess;
+    private Coroutine stageMovingProcess;
 
-    
     public bool isGameOver { get; private set; }
     public GameState gameState { get; private set; }
     private void Start()
@@ -110,12 +110,13 @@ public class GameManager : MonoBehaviour
     {
         UiManager.Instance.FadeOut();
         yield return new WaitUntil(() => UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade));
+        UiManager.Instance.LoadingSceneSetup();
         LoadingSceneController.LoadScene(nextSceneIndex);
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade)) UiManager.Instance.FadeIn();
+        if (!UiManager.Instance.FadeState.Equals(FadeUI.FadeState.None)) UiManager.Instance.FadeIn();
         
         if (scene.buildIndex == (int)SceneType.Main)
         {
@@ -159,7 +160,9 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator BossSceneSetupProcess()
     {
-        yield return null;
+        // PlayerHealth.Instance.transform.position = Vector3.zero;
+        PlayerHealth.Instance.BossSceneEnter();
+        yield break;
     }
 
     private IEnumerator BossSceneProcess()
@@ -219,5 +222,27 @@ public class GameManager : MonoBehaviour
         if(PlayerHealth.Instance is not null) Destroy(PlayerHealth.Instance.gameObject);
         if(MapVector2.Instance is not null) Destroy(MapVector2.Instance.gameObject);
         if(MapGenerator.Instance is not null) Destroy(MapGenerator.Instance.gameObject);
+    }
+
+    public void MoveNextStage()
+    {
+        if (stageMovingProcess is not null) StopCoroutine(stageMovingProcess);
+        stageMovingProcess = StartCoroutine(StageMovingProcess());
+        print("stage move");
+    }
+
+    private IEnumerator StageMovingProcess()
+    {
+        UiManager.Instance.FadeOut();
+        yield return new WaitUntil(() => UiManager.Instance.FadeState.Equals(FadeUI.FadeState.Fade));
+        generatedRooms.Clear();
+        EnemySpawner.Instance.MapRecordClear();
+
+        MapGenerator.Instance.epicSize = 0;
+        MapVector2.Instance.Stage++;
+        PlayerHealth.Instance.transform.position = Vector3.zero;
+        MapVector2.Instance.GenerateDungeon();
+        MinimapCameraFollow.Instance.FollowMinimap();
+        UiManager.Instance.FadeIn();
     }
 }

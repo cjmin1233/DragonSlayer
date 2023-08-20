@@ -36,4 +36,9 @@ public class ShopStand : MonoBehaviour, IInteractable
         var playerHealth = other.GetComponent<PlayerHealth>();
         if (playerHealth is not null) playerHealth.RemoveInteractable(this);
     }
+
+    private void OnDestroy()
+    {
+        if (_item is not null) Destroy(_item);
+    }
 }

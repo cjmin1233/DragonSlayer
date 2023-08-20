@@ -19,7 +19,7 @@ MonoBehaviour:
   sprintSpeed: 10
   rollSpeed: 20
   rollVitality: 30
-  playerPower: 1
+  playerPower: 100
   attackSpeed: 1
   defence: 100
   guardDuration: 1

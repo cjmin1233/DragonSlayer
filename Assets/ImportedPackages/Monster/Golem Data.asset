@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Golem Data
   m_EditorClassIdentifier: 
   enemyType: 4
-  enemyHp: 20
+  enemyHp: 2000
   damage: 5
   enemyMoveSpeed: 1
   enemyAttackRange: 3

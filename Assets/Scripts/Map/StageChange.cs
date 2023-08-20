@@ -22,20 +22,21 @@ public class StageChange : MonoBehaviour
         {
             if (MapVector2.Instance.Stage == 3)
             {
-                SceneManager.LoadScene("BossScene");
-                PlayerHealth.Instance.BossSceneEnter();
+                // SceneManager.LoadScene("BossScene");
+                GameManager.Instance.LoadScene(SceneType.Boss);
                 return;
             }
 
-            GameManager.Instance.generatedRooms.Clear();
-            EnemySpawner.Instance.MapRecordClear();
-
-            MapGenerator.Instance.epicSize = 0;
-            MapVector2.Instance.Stage++;
-            // fade in/out
-            player.transform.position = new Vector3(0, 0, 0);
-
-            MapVector2.Instance.GenerateDungeon();
+            // GameManager.Instance.generatedRooms.Clear();
+            // EnemySpawner.Instance.MapRecordClear();
+            //
+            // MapGenerator.Instance.epicSize = 0;
+            // MapVector2.Instance.Stage++;
+            // // fade in/out
+            // player.transform.position = new Vector3(0, 0, 0);
+            //
+            // MapVector2.Instance.GenerateDungeon();
+            GameManager.Instance.MoveNextStage();
         }
     }
     
@@ -45,18 +46,20 @@ public class StageChange : MonoBehaviour
         {
             if(MapVector2.Instance.Stage == 3)
             {
-                SceneManager.LoadScene("BossScene");
+                GameManager.Instance.LoadScene(SceneType.Boss);
+                return;
             }
- 
-            GameManager.Instance.generatedRooms.Clear();
-            EnemySpawner.Instance.MapRecordClear();
-
-            MapGenerator.Instance.epicSize = 0;
-            MapVector2.Instance.Stage++;
-            // fade in/out
-            player.transform.position = new Vector3(0, 0, 0);
-            MapVector2.Instance.GenerateDungeon();
-            MinimapCameraFollow.Instance.FollowMinimap();
+            
+            // GameManager.Instance.generatedRooms.Clear();
+            // EnemySpawner.Instance.MapRecordClear();
+            //
+            // MapGenerator.Instance.epicSize = 0;
+            // MapVector2.Instance.Stage++;
+            // // fade in/out
+            // player.transform.position = Vector3.zero;
+            // MapVector2.Instance.GenerateDungeon();
+            // MinimapCameraFollow.Instance.FollowMinimap();
+            GameManager.Instance.MoveNextStage();
         }
 
         

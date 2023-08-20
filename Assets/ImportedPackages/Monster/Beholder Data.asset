@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Beholder Data
   m_EditorClassIdentifier: 
   enemyType: 2
-  enemyHp: 10
+  enemyHp: 500
   damage: 2
   enemyMoveSpeed: 1
   enemyAttackRange: 5
