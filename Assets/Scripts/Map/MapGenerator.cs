@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
     public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
-    public int epicSize = 0;
+    public int epicSize;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
@@ -95,9 +95,11 @@ public class MapGenerator : MonoBehaviour
     }
     private void EpicRoomCreate()
     {
+        epicSize = 0;
+
         for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0,1); //������ ���� ����
+            var rand = Random.Range(0,1); // 0, 3
             var randMap = Random.Range(0, mapVec3.Count);
             if(rand < MapVector2.Instance.Stage)
             {
@@ -108,7 +110,7 @@ public class MapGenerator : MonoBehaviour
         }
         for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0, 1); //Ȳ�ݹ� ���� ����
+            var rand = Random.Range(0, 1); //0, 3
             var randMap = Random.Range(0, mapVec3.Count);
             if (rand < MapVector2.Instance.Stage)
             {
