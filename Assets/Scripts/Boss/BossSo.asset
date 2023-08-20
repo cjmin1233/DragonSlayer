@@ -17,7 +17,7 @@ MonoBehaviour:
   traceSpeed: 8
   flyPatrolSpeed: 4
   flyTraceSpeed: 8
-  findTargetRadius: 60
+  findTargetRadius: 30
   takeOffSpeed: 1
   restTime: 1
   phase: 3

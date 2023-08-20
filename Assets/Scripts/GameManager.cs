@@ -216,8 +216,8 @@ public class GameManager : MonoBehaviour
         isGameOver = false;
         aliveEnemies = 0;
         PlayerHealth.Instance.OnDeath -= OnPlayerDeath;
-        Destroy(PlayerHealth.Instance.gameObject);
-        Destroy(MapVector2.Instance.gameObject);
-        Destroy(MapGenerator.Instance.gameObject);
+        if(PlayerHealth.Instance is not null) Destroy(PlayerHealth.Instance.gameObject);
+        if(MapVector2.Instance is not null) Destroy(MapVector2.Instance.gameObject);
+        if(MapGenerator.Instance is not null) Destroy(MapGenerator.Instance.gameObject);
     }
 }

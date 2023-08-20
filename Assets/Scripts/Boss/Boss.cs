@@ -261,7 +261,7 @@ public class Boss : LivingEntity
                 _agent.speed = traceSpeed;
                 int idTrace = Fly ? _animIdFlyForward : _animIdWalk;
                 AnimCrossFade(idTrace);
-                _agent.SetDestination(targetTransform.position);
+                if(targetTransform is not null) _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.TakeOff:
                 _animRig.weight = 0f;
