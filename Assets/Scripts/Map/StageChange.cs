@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 public class StageChange : MonoBehaviour
@@ -10,7 +12,8 @@ public class StageChange : MonoBehaviour
     
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = PlayerHealth.Instance.gameObject;
+        // player = GameObject.FindGameObjectWithTag("Player");
     }
 
     private void Update()
@@ -20,6 +23,8 @@ public class StageChange : MonoBehaviour
             if (MapVector2.Instance.Stage == 3)
             {
                 SceneManager.LoadScene("BossScene");
+                PlayerHealth.Instance.BossSceneEnter();
+                return;
             }
 
             GameManager.Instance.generatedRooms.Clear();
@@ -28,18 +33,19 @@ public class StageChange : MonoBehaviour
             MapGenerator.Instance.epicSize = 0;
             MapVector2.Instance.Stage++;
             // fade in/out
-            player.transform.position = new Vector3(0, 10, 0);
+            player.transform.position = new Vector3(0, 0, 0);
 
             MapVector2.Instance.GenerateDungeon();
         }
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             if(MapVector2.Instance.Stage == 3)
             {
-                //SceneManager.LoadScene("");
+                SceneManager.LoadScene("BossScene");
             }
  
             GameManager.Instance.generatedRooms.Clear();
@@ -48,7 +54,7 @@ public class StageChange : MonoBehaviour
             MapGenerator.Instance.epicSize = 0;
             MapVector2.Instance.Stage++;
             // fade in/out
-            player.transform.position = new Vector3(0, 10, 0);
+            player.transform.position = new Vector3(0, 0, 0);
             MapVector2.Instance.GenerateDungeon();
             MinimapCameraFollow.Instance.FollowMinimap();
         }

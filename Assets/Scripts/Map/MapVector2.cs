@@ -31,7 +31,7 @@ public class MapVector2 : MonoBehaviour
 
     void Start()
     {
-        //GenerateDungeon();  
+        GenerateDungeon();  
     }
 
     public void GenerateDungeon()

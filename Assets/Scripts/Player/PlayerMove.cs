@@ -384,4 +384,9 @@ public class PlayerMove : MonoBehaviour
         // move status upgrade
         speedMultiplier += speedIncrease;
     }
+    public void BossSceneEnterCamera()
+    {
+        _cineMachineTargetYaw = 0.0f;
+        _cineMachineTargetPitch = -13.0f;
+    }
 }

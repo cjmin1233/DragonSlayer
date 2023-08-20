@@ -146,7 +146,7 @@ public class PlayerHealth : LivingEntity
         ToggleFreezePlayer(true);
         yield return base.StunProcess(stunTime);
         _animator.SetBool(_animIDIsStunned, false);
-        ToggleFreezePlayer(false);
+        if(!isDead) ToggleFreezePlayer(false);
     }
 
     private void Die()
@@ -292,5 +292,13 @@ public class PlayerHealth : LivingEntity
     private void OnDestroy()
     {
         Instance = null;
+    }
+
+    public void BossSceneEnter()
+    {
+        // transform.position = new Vector3(0, -3, -21);
+        // transform.rotation = Quaternion.identity;
+        transform.SetPositionAndRotation(new Vector3(0f,-3f, -21f), Quaternion.identity);
+        _playerMove.BossSceneEnterCamera();
     }
 }
