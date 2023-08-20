@@ -278,8 +278,8 @@ public class PlayerCombat : MonoBehaviour
         IsGuarding = true;
         _rigidbody.velocity = Vector3.zero;
         _animator.SetBool(_animIDIsGuarding, true);
-        
-        if(guardFx is not null)guardFx.EnableFx();
+
+        if (guardFx is not null) guardFx.EnableFx();
 
         // 가드시작시 방향전환
         Vector3 cameraForward = _mainCamera.transform.forward;
@@ -360,5 +360,11 @@ public class PlayerCombat : MonoBehaviour
         // 전투 능력치 업그레이드
         playerPower += powerIncrease;
         attackSpeed += speedIncrease;
+    }
+
+    public void UpgradeGuard()
+    {
+        guardTimeOut = Mathf.Clamp(guardTimeOut - 2f, 0f, guardTimeOut);
+        parryingInvincibleDuration += 1f;
     }
 }

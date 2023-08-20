@@ -17,5 +17,5 @@ MonoBehaviour:
   description: Upgrade movement speed +20%.
   itemTier: 1
   itemWeight: 20
-  itemRawImage: {fileID: 2800000, guid: 2f9ce14943868fc448842738a096465b, type: 3}
-  itemPrefab: {fileID: 1184584870121054642, guid: aea1efeddc53b734fa156921b47d8993, type: 3}
+  itemRawImage: {fileID: 2800000, guid: 178a8918012170449aff4d5667a9fda8, type: 3}
+  itemPrefab: {fileID: 4148696698451417958, guid: 5987af38cca9c3644becf5e15d83e8f5, type: 3}

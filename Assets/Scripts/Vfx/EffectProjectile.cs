@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Collider))]
 public class EffectProjectile : MonoBehaviour
@@ -15,9 +14,18 @@ public class EffectProjectile : MonoBehaviour
     [SerializeField] private EffectType hitVfxType;
     private List<GameObject> hitList = new List<GameObject>();
     private GameObject _attacker;
+    private Collider _collider;
     public void SetAttacker(GameObject attacker) => _attacker = attacker;
+
+    private void Start()
+    {
+        _collider = GetComponent<Collider>();
+        _collider.enabled = true;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
+        if (hitList.Contains(other.gameObject)) return;
         var damagable = other.GetComponent<IDamagable>();
         if (damagable is null) return;
         if (whatIsTarget == (whatIsTarget | (1 << other.gameObject.layer)))
@@ -27,12 +35,13 @@ public class EffectProjectile : MonoBehaviour
 
             damagable.TakeDamage(damageMessage);
             SpawnEffects(damageMessage);
+            hitList.Add(other.gameObject);
         }
     }
 
     private void OnParticleSystemStopped()
     {
-        hitList.Clear();
+        ClearHitList();
         EffectManager.Instance.Add2Pool((int)effectType, gameObject);
     }
     private void SpawnEffects(DamageMessage damageMessage)
@@ -54,4 +63,10 @@ public class EffectProjectile : MonoBehaviour
         }
     }
 
+    public void ClearHitList()
+    {
+        _collider.enabled = false;
+        hitList.Clear();
+        _collider.enabled = true;
+    }
 }

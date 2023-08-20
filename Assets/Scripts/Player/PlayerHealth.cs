@@ -285,8 +285,11 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    public void RestoreHealth(float amount)
+    public void RestoreHealth(float amount) => currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+
+    public void UpgradeMaxHealth(float amount)
     {
-        currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+        maxHp += amount;
+        currentHp += amount;
     }
 }

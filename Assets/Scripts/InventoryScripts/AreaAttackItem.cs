@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LightningOrb : ItemObject
+public class AreaAttackItem : ItemObject
 {
     [SerializeField] private GameObject effectGeneratorPrefab;
     public override void Interact(GameObject target)

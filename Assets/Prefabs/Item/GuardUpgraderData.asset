@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b97122d86685a242a2688fe91f333ac, type: 3}
+  m_Name: GuardUpgraderData
+  m_EditorClassIdentifier: 
+  itemName: GuardUpgrader
+  pickUp: 1
+  description: Guard cooldown -2s. Parrying invincible time +1s.
+  itemTier: 2
+  itemWeight: 10
+  itemRawImage: {fileID: 2800000, guid: 37899a6ffa6f23b4faac6aeae4a28bda, type: 3}
+  itemPrefab: {fileID: 1129641529753923090, guid: d00d751f10db7754a914749af7926b92, type: 3}

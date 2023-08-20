@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b97122d86685a242a2688fe91f333ac, type: 3}
+  m_Name: MaxHealthUpgraderData
+  m_EditorClassIdentifier: 
+  itemName: MaxHealthUpgrader
+  pickUp: 1
+  description: Upgrade max health +25HP.
+  itemTier: 1
+  itemWeight: 20
+  itemRawImage: {fileID: 2800000, guid: c934701123658d84aae84c73575b3fa7, type: 3}
+  itemPrefab: {fileID: 4467423916404929171, guid: 5504d8a3ce2870c4a84894cc4f0e76e7, type: 3}

@@ -17,5 +17,5 @@ MonoBehaviour:
   description: Upgrade attack speed +10%.
   itemTier: 1
   itemWeight: 20
-  itemRawImage: {fileID: 2800000, guid: 2f9ce14943868fc448842738a096465b, type: 3}
+  itemRawImage: {fileID: 2800000, guid: be856ca46fe5002439bd740afeabf09f, type: 3}
   itemPrefab: {fileID: 1184584870121054642, guid: aea1efeddc53b734fa156921b47d8993, type: 3}
