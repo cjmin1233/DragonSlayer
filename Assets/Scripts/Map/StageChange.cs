@@ -17,7 +17,7 @@ public class StageChange : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if (MapVector2.instance.Stage == 3)
+            if (MapVector2.Instance.Stage == 3)
             {
                 SceneManager.LoadScene("BossScene");
             }
@@ -26,18 +26,18 @@ public class StageChange : MonoBehaviour
             EnemySpawner.Instance.MapRecordClear();
 
             MapGenerator.Instance.epicSize = 0;
-            MapVector2.instance.Stage++;
+            MapVector2.Instance.Stage++;
             // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
 
-            MapVector2.instance.GenerateDungeon();
+            MapVector2.Instance.GenerateDungeon();
         }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            if(MapVector2.instance.Stage == 3)
+            if(MapVector2.Instance.Stage == 3)
             {
                 //SceneManager.LoadScene("");
             }
@@ -46,10 +46,10 @@ public class StageChange : MonoBehaviour
             EnemySpawner.Instance.MapRecordClear();
 
             MapGenerator.Instance.epicSize = 0;
-            MapVector2.instance.Stage++;
+            MapVector2.Instance.Stage++;
             // fade in/out
             player.transform.position = new Vector3(0, 10, 0);
-            MapVector2.instance.GenerateDungeon();
+            MapVector2.Instance.GenerateDungeon();
             MinimapCameraFollow.Instance.FollowMinimap();
         }
 

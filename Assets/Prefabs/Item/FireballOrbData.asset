@@ -17,5 +17,5 @@ MonoBehaviour:
   description: Summon 3 fire balls.
   itemTier: 2
   itemWeight: 10
-  itemRawImage: {fileID: 2800000, guid: df0b0047b45990c4c981742bc63bf66f, type: 3}
+  itemRawImage: {fileID: 2800000, guid: 6d2327f3c50813448819fec20ee05ae2, type: 3}
   itemPrefab: {fileID: 5469199788319929002, guid: 07d28a062e71d9449853452d6a8f41cb, type: 3}

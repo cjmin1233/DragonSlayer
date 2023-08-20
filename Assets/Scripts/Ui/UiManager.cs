@@ -48,6 +48,7 @@ public class UiManager : MonoBehaviour
         // add listener
         GameManager.Instance.onMainSceneLoaded.AddListener(MainSceneSetup);
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
+        GameManager.Instance.onGameOver.AddListener(GameOverSetup);
         //
         
         fadePanel.gameObject.SetActive(true);
@@ -130,6 +131,7 @@ public class UiManager : MonoBehaviour
 
     private void GameOverSetup()
     {
+        print("uimanager game over setup");
         mainPanel.gameObject.SetActive(false);
         playPanel.gameObject.SetActive(false);
         GameOverPanel.SetActive(true);

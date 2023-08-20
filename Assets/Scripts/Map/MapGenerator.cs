@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
@@ -9,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
-    public static MapGenerator Instance;
+    public static MapGenerator Instance { get; private set; }
 
     public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
@@ -30,7 +31,7 @@ public class MapGenerator : MonoBehaviour
     private void Awake()
     {
         if(!Instance) Instance = this;
-        else
+        else if(!Instance.Equals(this))
         {
             Destroy(this);
             return;
@@ -38,10 +39,12 @@ public class MapGenerator : MonoBehaviour
     }
     private void Start()
     {
-        foreach(var portal in portals)
-        {
-            portal.SetActive(false);
-        }
+        // MapVector2.OnMapAdded += HandleMapAdded;
+
+        // foreach(var portal in portals)
+        // {
+        //     portal.SetActive(false);
+        // }
     }
 
     private void HandleMapAdded(List<Vector2Int> vector)
@@ -64,6 +67,11 @@ public class MapGenerator : MonoBehaviour
     public void OnEnable()
     {
         MapVector2.OnMapAdded += HandleMapAdded;
+
+        foreach(var portal in portals)
+        {
+            portal.SetActive(false);
+        }
     }
 
     private void RoomGenerator()
@@ -91,7 +99,7 @@ public class MapGenerator : MonoBehaviour
         {
             var rand = Random.Range(0,1); //������ ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
-            if(rand < MapVector2.instance.Stage)
+            if(rand < MapVector2.Instance.Stage)
             {
                 Rooms.Add(Instantiate(ShopRoom, mapVec3[randMap], Quaternion.identity));
                 epicSize++;
@@ -102,7 +110,7 @@ public class MapGenerator : MonoBehaviour
         {
             var rand = Random.Range(0, 1); //Ȳ�ݹ� ���� ����
             var randMap = Random.Range(0, mapVec3.Count);
-            if (rand < MapVector2.instance.Stage)
+            if (rand < MapVector2.Instance.Stage)
             {
                 Rooms.Add(Instantiate(GoldRoom, mapVec3[randMap], Quaternion.identity));
                 epicSize++;
@@ -256,5 +264,14 @@ public class MapGenerator : MonoBehaviour
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
         //listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+        MapVector2.OnMapAdded -= HandleMapAdded;
+        Rooms.Clear();
+        listRooms.Clear();
+        doors.Clear();
     }
 }

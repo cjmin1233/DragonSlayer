@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         onPlaySceneLoaded = new UnityEvent();
         onBossSceneLoaded = new UnityEvent();
         onGameOver = new UnityEvent();
-        onGameOver.AddListener(ShowGameOverPanel);
+        // onGameOver.AddListener(ShowGameOverPanel);
         onGameOver.AddListener(SaveData);
     }
 
@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
         int nextSceneIndex = (int)sceneType;
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
         {
+            if (sceneType.Equals(SceneType.Main)) ClearSingleton();
             // 씬 로드
             if (sceneLoadingProcess is not null) StopCoroutine(sceneLoadingProcess);
             sceneLoadingProcess = StartCoroutine(SceneLoadingProcess(nextSceneIndex));
@@ -137,13 +138,14 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator PlaySceneSetupProcess()
     {
-        MapVector2.instance.GenerateDungeon();
+        MapVector2.Instance.GenerateDungeon();
 
         totalHp = PlayerPrefs.HasKey("PlayerTotalHp") ? PlayerPrefs.GetInt("PlayerTotalHp") : 20;
         currentHp = PlayerPrefs.HasKey("PlayerCurrentHp") ? PlayerPrefs.GetInt("PlayerCurrentHp") : 20;
         yield return null;
 
         playSceneProcess = StartCoroutine(PlaySceneProcess());
+        PlayerHealth.Instance.OnDeath += OnPlayerDeath;
     }
 
     private IEnumerator PlaySceneProcess()
@@ -165,15 +167,16 @@ public class GameManager : MonoBehaviour
         yield return null;
     }
 
-    public void OnPlayerDeath()
+    private void OnPlayerDeath()
     {
         isGameOver = true;
+        print("Gamemanager on player death");
     }
 
-    private void ShowGameOverPanel()
-    {
-        UiManager.Instance.GameOverPanel.gameObject.SetActive(true);
-    }
+    // private void ShowGameOverPanel()
+    // {
+    //     UiManager.Instance.GameOverPanel.gameObject.SetActive(true);
+    // }
 
     public bool IsRoomCleared()
     {
@@ -206,5 +209,15 @@ public class GameManager : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+
+    private void ClearSingleton()
+    {
+        isGameOver = false;
+        aliveEnemies = 0;
+        PlayerHealth.Instance.OnDeath -= OnPlayerDeath;
+        Destroy(PlayerHealth.Instance.gameObject);
+        Destroy(MapVector2.Instance.gameObject);
+        Destroy(MapGenerator.Instance.gameObject);
     }
 }

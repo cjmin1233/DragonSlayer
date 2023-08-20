@@ -147,7 +147,6 @@ public class PlayerHealth : LivingEntity
         yield return base.StunProcess(stunTime);
         _animator.SetBool(_animIDIsStunned, false);
         ToggleFreezePlayer(false);
-        print("overrided stun process in playerHealth");
     }
 
     private void Die()
@@ -163,9 +162,6 @@ public class PlayerHealth : LivingEntity
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
-
-        GameManager.Instance.OnPlayerDeath();
-        print("Player Died!");
     }
 
     public void MakeInvincible(float invincibleTime)
@@ -291,5 +287,10 @@ public class PlayerHealth : LivingEntity
     {
         maxHp += amount;
         currentHp += amount;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }
