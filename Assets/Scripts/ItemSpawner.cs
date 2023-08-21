@@ -16,6 +16,7 @@ public class ItemSpawner : MonoBehaviour
 
     // private List<ItemObject> itemList;
     private ItemObject[] _items;
+    [SerializeField] private GameObject[] itemSparkleVfx;
     private void Awake()
     {
         if (Instacne is null) Instacne = this;
@@ -79,8 +80,9 @@ public class ItemSpawner : MonoBehaviour
         if (selectedItemObject is null) return null;
 
         // if (selectedItemObject.GetItemTier().Equals(ItemTier.Epic)) itemList.Remove(selectedItemObject);
-
-        return Instantiate(selectedItemObject.gameObject);
+        var selectedItem = Instantiate(selectedItemObject.gameObject);
+        Instantiate(itemSparkleVfx[(int)selectedItemObject.GetItemTier()], selectedItem.transform, false);
+        return selectedItem;
     }
 
     public void DisableItem(int itemIndex)

@@ -53,6 +53,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6575fc5fa3c8f4baf6036abaa4da7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemSparkleVfx:
+  - {fileID: 3718998422857447719, guid: 63b69a8d8e317444c9ff4d8b4c5a0a0d, type: 3}
+  - {fileID: 283987330385571954, guid: c9e640062e93e1f4695bfbf3e8040666, type: 3}
+  - {fileID: 6165117420888819264, guid: 80788d51692c2714ba40e6c044424cc6, type: 3}
 --- !u!1001 &379646009886223420
 PrefabInstance:
   m_ObjectHideFlags: 0
