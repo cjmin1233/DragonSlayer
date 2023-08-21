@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayPanel : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class PlayPanel : MonoBehaviour
     [SerializeField] private StandardSlider playerVitalityBar;
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private SmallPopup interactInfo;
+    [SerializeField] private TextMeshProUGUI goldText;
 
     public void InitPanel()
     {
@@ -27,6 +29,7 @@ public class PlayPanel : MonoBehaviour
         {
             playerHealthBar.UpdateValue(PlayerHealth.Instance.CurHP, PlayerHealth.Instance.MaxHP);
             playerVitalityBar.UpdateValue(PlayerHealth.Instance.CurVitality, PlayerHealth.Instance.MaxVitality);
+            goldText.text = PlayerHealth.Instance.Gold.ToString("F0") + "G";
         }
     }
 

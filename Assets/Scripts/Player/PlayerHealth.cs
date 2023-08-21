@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerHealth : LivingEntity
@@ -45,6 +44,9 @@ public class PlayerHealth : LivingEntity
     
     // 오브젝트 interaction
     private List<IInteractable> contactObjects = new List<IInteractable>();
+    
+    // 골드
+    public float Gold { get; private set; }
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -78,6 +80,7 @@ public class PlayerHealth : LivingEntity
     private void Start()
     {
         _playerInputControl.OnInteractAction += InteractWithObject;
+        Gold = 200f;
     }
 
     private void Update()
@@ -88,6 +91,7 @@ public class PlayerHealth : LivingEntity
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
         isDead = false;
+        IsDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
@@ -159,6 +163,7 @@ public class PlayerHealth : LivingEntity
         _animator.applyRootMotion = true;
         
         isDead = true;
+        IsDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
@@ -233,34 +238,6 @@ public class PlayerHealth : LivingEntity
             lastContact.EnterInteract(gameObject);
         }
     }
-    // private void OnTriggerEnter(Collider other)
-    // {
-    //     var interactable = other.GetComponent<IInteractable>();
-    //     if (interactable is not null && !contactObjects.Contains(interactable))
-    //     {
-    //         contactObjects.Add(interactable);
-    //     }
-    //
-    //     if (contactObjects.Count > 0)
-    //     {
-    //         var lastContact = contactObjects[^1];
-    //         lastContact.EnterInteract(gameObject);
-    //     }
-    // }
-    //
-    // private void OnTriggerExit(Collider other)
-    // {
-    //     var interactable = other.GetComponent<IInteractable>();
-    //     if (interactable is not null && contactObjects.Contains(interactable))
-    //     {
-    //         contactObjects.Remove(interactable);
-    //     }
-    //     if (contactObjects.Count <= 0)
-    //     {
-    //         // ui disable
-    //         UiManager.Instance.HideInteractInfo();
-    //     }
-    // }
 
     private void InteractWithObject()
     {
@@ -300,5 +277,14 @@ public class PlayerHealth : LivingEntity
         // transform.rotation = Quaternion.identity;
         transform.SetPositionAndRotation(new Vector3(0f,-3f, -21f), Quaternion.identity);
         _playerMove.BossSceneEnterCamera();
+    }
+
+    public void GainGold(float amount) => Gold += amount;
+
+    public bool SpendGold(float amount)
+    {
+        if (Gold < amount || amount <= 0f) return false;
+        Gold -= amount;
+        return true;
     }
 }

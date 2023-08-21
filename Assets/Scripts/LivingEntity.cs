@@ -14,6 +14,7 @@ public class LivingEntity : MonoBehaviour, IDamagable
     protected Coroutine stunning;
     protected float RemainingStunTime;
 
+    public bool IsDead { get; protected set; }
     public virtual void TakeDamage(DamageMessage damageMessage)
     {
         if (damageMessage.damager == gameObject) return;

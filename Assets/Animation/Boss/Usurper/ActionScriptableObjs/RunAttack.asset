@@ -18,7 +18,7 @@ MonoBehaviour:
   priority: 2
   patternCooldown: 10
   fieldOfView: 180
-  viewDistance: 20
+  viewDistance: 10
   fly: 0
   nextState: 2
   componentName: RunAttack

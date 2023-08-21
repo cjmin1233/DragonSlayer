@@ -7,16 +7,27 @@ public class ShopStand : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform standPoint;
     private GameObject _item;
-    private int price;
+    private float price;
     public void Interact(GameObject target)
     {
         // 플레이어 골드 소모
-        _item.GetComponent<Collider>().enabled = true;
-        gameObject.SetActive(false);
+        var playerHealth = target.GetComponent<PlayerHealth>();
+        if (playerHealth is not null)
+        {
+            if (playerHealth.SpendGold(price))
+            {
+                _item.GetComponent<Collider>().enabled = true;
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                print("Can't purchase item.");
+            }
+        }
     }
 
-    public void EnterInteract(GameObject target) => UiManager.Instance.ShowInteractInfo($"Purchase {price}G");
-    public void StandSetup(GameObject item, int priceUnit)
+    public void EnterInteract(GameObject target) => UiManager.Instance.ShowInteractInfo($"Purchase {price:F0}G");
+    public void StandSetup(GameObject item, float priceUnit)
     {
         _item = item;
         _item.SetActive(true);

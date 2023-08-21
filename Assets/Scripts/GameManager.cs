@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
 
     public void MoveNextStage()
     {
+        if (!UiManager.Instance.FadeState.Equals(FadeUI.FadeState.None)) return;
         if (stageMovingProcess is not null) StopCoroutine(stageMovingProcess);
         stageMovingProcess = StartCoroutine(StageMovingProcess());
         print("stage move");

@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private ShopStand[] itemStands;
-    [SerializeField] private int priceUnit;
+    [SerializeField] private float priceUnit;
 
     private void Start()
     {

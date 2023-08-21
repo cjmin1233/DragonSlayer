@@ -4877,7 +4877,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemData: {fileID: 11400000, guid: f30ba1e23f4b9824b9ced3bb34d7cded, type: 2}
   interactVfx: {fileID: 5791466352899019709, guid: 2492c68330a6c43448f81d28698c1bcb, type: 3}
-  upgradePower: 0.1
+  ItemIndex: 0
+  ItemEnabled: 0
+  upgradePower: 10
   upgradeSpeed: 0
 --- !u!1 &5899622055672255930
 GameObject:
