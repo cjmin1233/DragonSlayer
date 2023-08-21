@@ -116,6 +116,8 @@ public class UiManager : MonoBehaviour
         }
     }
 
+    public void PopupUiEnable() => popUpCounter++;
+
     private void MainSceneSetup()
     {
         fadePanel.StartFadeIn();
@@ -134,7 +136,8 @@ public class UiManager : MonoBehaviour
         GameOverPanel.SetActive(false);
         playPanel.gameObject.SetActive(true);
         
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.None;
+        popUpCounter = 1;
     }
 
     private void BossSceneSetup()
@@ -161,6 +164,8 @@ public class UiManager : MonoBehaviour
         mainPanel.gameObject.SetActive(false);
         playPanel.gameObject.SetActive(false);
         GameOverPanel.SetActive(false);
+        
+        Cursor.lockState = CursorLockMode.None;
     }
     public void Attempt2LoadNextScene()
     {

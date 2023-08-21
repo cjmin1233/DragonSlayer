@@ -114,8 +114,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         _cineMachineTargetYaw = cineMachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
