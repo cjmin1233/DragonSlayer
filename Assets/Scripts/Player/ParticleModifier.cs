@@ -2,12 +2,14 @@ using UnityEngine;
 
 public class ParticleModifier : MonoBehaviour
 {
+    private AudioSource _audioSource;
     private ParticleSystem _particleSystem;
     private ParticleSystem[] _childParticleSystems;
     private void Awake()
     {
         _particleSystem = GetComponent<ParticleSystem>();
         _childParticleSystems = GetComponentsInChildren<ParticleSystem>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void ModifySimulationSpeed(float speed)
@@ -25,4 +27,9 @@ public class ParticleModifier : MonoBehaviour
     {
         if (_particleSystem is not null) _particleSystem.Play();
     }
+    public void PlaySound()
+    {
+        if (_audioSource is not null) _audioSource.Play();
+    }
+
 }

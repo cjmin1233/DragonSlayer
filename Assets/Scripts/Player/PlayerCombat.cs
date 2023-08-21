@@ -99,6 +99,8 @@ public class PlayerCombat : MonoBehaviour
         _animationEvent.OnDisableWeaponAction += DisableWeapon;
         _animationEvent.OnEnableVfxAction += EnableVfx;
         _animationEvent.OnEndParryingAction += EndParrying;
+        _animationEvent.OnPlaySoundAction += PlayAttackSound;
+        
 
         curComboType = PlayerComboType.None;
 
@@ -258,6 +260,15 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void PlayAttackSound()
+    {
+        if (IsComboActive)
+        {
+            ComboData comboData = playerComboData[(int)curComboType];
+            comboData.Combos[comboData.comboCounter].PlaySound();
+        }
+    }
+
     #region Guard
     private void Attempt2Guard()
     {
@@ -352,7 +363,7 @@ public class PlayerCombat : MonoBehaviour
     {
         if (activeWeapon is null || !IsComboActive) return 0f;
         ComboData comboData = playerComboData[(int)curComboType];
-        return activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
+        return Random.Range(.9f, 1f) * activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
     }
 
     public void UpgradeStatus(float powerIncrease, float speedIncrease)

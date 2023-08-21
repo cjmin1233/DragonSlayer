@@ -38,6 +38,7 @@ public class PlayerHealth : LivingEntity
     
     private bool isDead;
     // 무적 시간
+    [SerializeField] private GameObject invincibleVfx;
     private bool isInvincible;
     private float invincibleTimer;
     private Coroutine invincibleProcess;
@@ -80,7 +81,7 @@ public class PlayerHealth : LivingEntity
     private void Start()
     {
         _playerInputControl.OnInteractAction += InteractWithObject;
-        Gold = 200f;
+        Gold = 0f;
     }
 
     private void Update()
@@ -179,6 +180,7 @@ public class PlayerHealth : LivingEntity
 
     private IEnumerator InvincibleTimer(float invincibleTime)
     {
+        invincibleVfx.SetActive(true);
         invincibleTimer = invincibleTime;
         isInvincible = true;
         while (invincibleTimer >= 0f)
@@ -187,6 +189,7 @@ public class PlayerHealth : LivingEntity
             yield return null;
         }
 
+        invincibleVfx.SetActive(false);
         isInvincible = false;
     }
 

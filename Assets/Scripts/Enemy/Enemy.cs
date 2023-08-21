@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Enemy : LivingEntity
 {
@@ -328,6 +329,7 @@ public class Enemy : LivingEntity
         {
             coinVfx.transform.position = transform.position;
             coinVfx.SetActive(true);
+            PlayerHealth.Instance.GainGold(Random.Range(enemyData.GoldAmount * 0.5f, enemyData.GoldAmount));
         }
         
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);

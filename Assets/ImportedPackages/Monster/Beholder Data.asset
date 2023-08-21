@@ -19,3 +19,4 @@ MonoBehaviour:
   enemyAttackRange: 5
   attackDuration: 0.733
   getHitDuration: 0.733
+  goldAmount: 5

@@ -48,7 +48,6 @@ public class GoldenBox : MonoBehaviour, IInteractable
     {
         if (openSound != null)
         {
-            Debug.Log("soundss");
             audioSource.PlayOneShot(openSound, 2f);
         }
         animator.SetTrigger("Open");

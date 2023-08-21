@@ -50,9 +50,9 @@ public class Room : MonoBehaviour
     }
     public void LookPlayer()
     {
-        var GoldenBox = GameObject.FindWithTag("GoldenItem");
-        
-        GoldenBox.transform.LookAt(player.transform);
-        
+        var goldenBox = GameObject.FindWithTag("GoldenItem");
+
+        if (goldenBox is null) return;
+        goldenBox.transform.LookAt(player.transform);
     }
 }
