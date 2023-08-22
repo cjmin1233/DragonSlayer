@@ -2020,6 +2020,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8189372936997967970, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8226997316597266360, guid: d08fbf8a1aabf964db4fb7d736f45218, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
