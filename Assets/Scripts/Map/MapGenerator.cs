@@ -78,23 +78,18 @@ public class MapGenerator : MonoBehaviour
     {
         DungeonReset();
         FindBoss();
-        Rooms.Add(Instantiate(EntryRoom, mapVec3[0], Quaternion.identity));
-        mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
         NormalRoomCreate();
         NavMeshBake(Rooms);
         FindingRoom();
         FindingDoor();
-        foreach(var listRoom in listRooms)
-        {
-            var a = listRoom.GetComponent<Room>().roomType;
-            if (a != RoomType.Normal)
-                Room.instance.Open(listRoom.transform);
-        }
-        
+        OpenDoor();     
     }
     private void EpicRoomCreate()
     {
+        Rooms.Add(Instantiate(EntryRoom, mapVec3[0], Quaternion.identity));
+        mapVec3.Remove(mapVec3[0]);
+
         epicSize = 0;
 
         for (var i = 0; i < 1; i++)
@@ -266,6 +261,16 @@ public class MapGenerator : MonoBehaviour
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
         //listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
+    }
+
+    private void OpenDoor()
+    {
+        foreach (var listRoom in listRooms)
+        {
+            var a = listRoom.GetComponent<Room>().roomType;
+            if (a != RoomType.Normal)
+                Room.instance.Open(listRoom.transform);
+        }
     }
 
     private void OnDestroy()
