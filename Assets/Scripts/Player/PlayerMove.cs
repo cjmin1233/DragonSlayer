@@ -7,20 +7,14 @@ public class PlayerMove : MonoBehaviour
 {
     [SerializeField] private PlayerScriptableObject playerScriptableObject;
     
-    [Header("Player")]
-    [Tooltip("Move speed of the character in m/s")]
+    [Header("Player"), Tooltip("Move speed of the character in m/s")]
     public float moveSpeed = 2.0f;
-
     [Tooltip("Sprint speed of the character in m/s")]
     public float sprintSpeed = 5.335f;
-
     [Tooltip("Roll speed of the character in m/s")]
     public float rollSpeed = 10f;
-
-    [Tooltip("How fast the character turns to face movement direction")]
-    [Range(0.0f, 0.3f)]
+    [Tooltip("How fast the character turns to face movement direction"), Range(0.0f, 0.3f)]
     public float rotationSmoothTime = 0.12f;
-
     [Tooltip("Acceleration and deceleration")]
     public float speedChangeRate = 10.0f;
 
@@ -31,42 +25,31 @@ public class PlayerMove : MonoBehaviour
     [Space(10)]
     [Tooltip("The amount of force applied when player jump"), Range(5f, 20f)]
     public float jumpForce = 10f;
-    
     [Space(10)]
     [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
     public float jumpTimeout = 0.50f;
-
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
     public float fallTimeout = 0.15f;
-
     [Tooltip("Time required to pass before being able to roll again.")]
     public float rollTimeout = 1f;
-
+    public bool IsRolling { get; private set; }
     public bool Grounded { get; private set; }
-
     [Tooltip("Useful for rough ground")]
     public float groundedOffset = -0.14f;
-
     [Tooltip("The radius of the grounded check. Should match the radius of the CharacterController")]
     public float groundedRadius = 0.28f;
-
     [Tooltip("What layers the character uses as ground")]
     public LayerMask groundLayers;
-
     
     [Header("CineMachine")]
     [Tooltip("The follow target set in the CineMachine Virtual Camera that the camera will follow")]
     public GameObject cineMachineCameraTarget;
-
     [Tooltip("How far in degrees can you move the camera up")]
     public float topClamp = 70.0f;
-
     [Tooltip("How far in degrees can you move the camera down")]
     public float bottomClamp = -30.0f;
-
     [Tooltip("Additional degrees to override the camera. Useful for fine tuning camera position when locked")]
     public float cameraAngleOverride;
-
     [Tooltip("For locking the camera position on all axis")]
     public bool lockCameraPosition;
 
@@ -81,7 +64,6 @@ public class PlayerMove : MonoBehaviour
     private float _targetRotation;
     private float _rotationVelocity;
     private float _verticalVelocity;
-    //private float _terminalVelocity = 53.0f;
     private float _camYawVelocity;
 
     // timeout delta time
@@ -94,7 +76,6 @@ public class PlayerMove : MonoBehaviour
     private int _animIDGrounded;
     private int _animIDJump;
     private int _animIDFreeFall;
-    // private int _animIDMotionSpeed;
     private int _animIDRoll;
 
     private PlayerInputControl _playerInput;
@@ -109,9 +90,9 @@ public class PlayerMove : MonoBehaviour
 
     private bool HasAnimator => _animator is not null;
 
-    public bool IsRolling { get; private set; }
     private Coroutine rolling;
     private float rollVitality;
+    private float speedMultiplier = 1f;
     private void Awake()
     {
         // get a reference to our main camera
@@ -133,8 +114,6 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-
         _cineMachineTargetYaw = cineMachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _animator = GetComponentInChildren<Animator>();
@@ -272,7 +251,6 @@ public class PlayerMove : MonoBehaviour
     {
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = _playerInput.Sprint && Grounded ? sprintSpeed : moveSpeed;
-
         // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
@@ -305,7 +283,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
         // move the player
-        Vector3 targetVelocity = targetDirection.normalized * _speed + Vector3.up * _rigidBody.velocity.y;
+        Vector3 targetVelocity = targetDirection.normalized * (_speed * speedMultiplier) + Vector3.up * _rigidBody.velocity.y;
         _rigidBody.velocity = targetVelocity;
         
     }
@@ -380,8 +358,8 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_animIDRoll, true);
         }
         Rotate();
-        Vector3 rollingDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward; 
-        _rigidBody.velocity = rollingDirection.normalized * rollSpeed;
+        Vector3 rollingDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
+        _rigidBody.velocity = rollingDirection.normalized * (rollSpeed * speedMultiplier);
         
         while (_rollTimeoutDelta > 0f)
         {
@@ -399,15 +377,14 @@ public class PlayerMove : MonoBehaviour
             _animator.SetBool(_animIDRoll, false);
         }
     }
-
-    //private void SelfDamage()
-    //{
-    //    DamageMessage dmg;
-    //    dmg.damager = null;
-    //    dmg.damage = 10f;
-    //    dmg.stunTime = 0;
-
-    //    LIvingEntity lIvingEntity = GetComponent<LIvingEntity>();
-    //    if (lIvingEntity is not null) lIvingEntity.TakeDamage(dmg);
-    //}
+    public void UpgradeStatus(float speedIncrease)
+    {
+        // move status upgrade
+        speedMultiplier += speedIncrease;
+    }
+    public void BossSceneEnterCamera()
+    {
+        _cineMachineTargetYaw = 0.0f;
+        _cineMachineTargetPitch = -13.0f;
+    }
 }

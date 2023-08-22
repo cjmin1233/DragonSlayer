@@ -261,7 +261,7 @@ public class Boss : LivingEntity
                 _agent.speed = traceSpeed;
                 int idTrace = Fly ? _animIdFlyForward : _animIdWalk;
                 AnimCrossFade(idTrace);
-                _agent.SetDestination(targetTransform.position);
+                if(targetTransform is not null) _agent.SetDestination(targetTransform.position);
                 break;
             case BossState.TakeOff:
                 _animRig.weight = 0f;
@@ -373,7 +373,7 @@ public class Boss : LivingEntity
                     {
                         var livingEntity = coll.GetComponent<LivingEntity>();
 
-                        if (livingEntity is not null)
+                        if (livingEntity is not null && !livingEntity.IsDead)
                         {
                             targetTransform = livingEntity.transform;
                             break;
@@ -381,7 +381,7 @@ public class Boss : LivingEntity
                     }
                     print("잠깐 쉬고 추적 대상 탐색");
 
-                    if (targetTransform is not null)
+                    if (targetTransform is not null && !targetTransform.GetComponent<LivingEntity>().IsDead)
                     {
                         // 범위 내 타겟 확인
                         print("타겟 확인. trace 시작");
@@ -413,7 +413,7 @@ public class Boss : LivingEntity
                 break;
             case BossState.Trace:
                 // trace 중 타겟이 사라지면 idle 상태 돌입
-                if (targetTransform is null)
+                if (targetTransform is null || PlayerHealth.Instance.IsDead)
                 {
                     nextState = BossState.Idle;
                     return true;

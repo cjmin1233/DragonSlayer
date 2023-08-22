@@ -7,24 +7,22 @@ using UnityEngine.UI;
 public class ItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private ItemScriptableObject itemData;
-    private Image itemImage;
+    // private Image itemImage;
+    private RawImage itemRawImage;
     private RectTransform rectTransform;
 
     private InventoryManager inventoryManager;
     private ItemSlot itemSlot;
-
-    private void Start()
-    {
-        // rectTransform = GetComponent<RectTransform>();
-    }
 
     public void Init(ItemScriptableObject data, InventoryManager manager, ItemSlot slot)
     {
         rectTransform = GetComponent<RectTransform>();
         
         itemData = data;
-        itemImage = GetComponent<Image>();
-        itemImage.sprite = itemData.itemImage;
+        // itemImage = GetComponent<Image>();
+        // itemImage.sprite = itemData.itemImage;
+        itemRawImage = GetComponentInChildren<RawImage>();
+        itemRawImage.texture = itemData.itemRawImage;
 
         inventoryManager = manager;
         itemSlot = slot;
@@ -47,7 +45,8 @@ public class ItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
     public void OnPointerDown(PointerEventData eventData)
     {
         inventoryManager.DraggingItem = this;
-        itemImage.raycastTarget = false;
+        // itemImage.raycastTarget = false;
+        itemRawImage.raycastTarget = false;
         
         rectTransform.SetParent(inventoryManager.dragLayer);
     }
@@ -77,7 +76,8 @@ public class ItemUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         }
 
         rectTransform.localPosition = Vector3.zero;
-        itemImage.raycastTarget = true;
+        // itemImage.raycastTarget = true;
+        itemRawImage.raycastTarget = true;
     }
 
     public void OnDrag(PointerEventData eventData)

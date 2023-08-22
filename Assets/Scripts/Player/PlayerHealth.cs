@@ -38,12 +38,16 @@ public class PlayerHealth : LivingEntity
     
     private bool isDead;
     // 무적 시간
+    [SerializeField] private GameObject invincibleVfx;
     private bool isInvincible;
     private float invincibleTimer;
     private Coroutine invincibleProcess;
     
     // 오브젝트 interaction
     private List<IInteractable> contactObjects = new List<IInteractable>();
+    
+    // 골드
+    public float Gold { get; private set; }
     private void Awake()
     {
         if (Instance is null) Instance = this;
@@ -77,6 +81,7 @@ public class PlayerHealth : LivingEntity
     private void Start()
     {
         _playerInputControl.OnInteractAction += InteractWithObject;
+        Gold = 0f;
     }
 
     private void Update()
@@ -87,6 +92,7 @@ public class PlayerHealth : LivingEntity
     public void PlayerInit(PlayerScriptableObject playerSo)
     {
         isDead = false;
+        IsDead = false;
 
         maxHp = playerSo.health;
         currentHp = maxHp;
@@ -145,8 +151,7 @@ public class PlayerHealth : LivingEntity
         ToggleFreezePlayer(true);
         yield return base.StunProcess(stunTime);
         _animator.SetBool(_animIDIsStunned, false);
-        ToggleFreezePlayer(false);
-        print("overrided stun process in playerHealth");
+        if(!isDead) ToggleFreezePlayer(false);
     }
 
     private void Die()
@@ -159,12 +164,10 @@ public class PlayerHealth : LivingEntity
         _animator.applyRootMotion = true;
         
         isDead = true;
+        IsDead = true;
         _animator.SetBool(_animIDIsDead, true);
 
         ToggleFreezePlayer(true);
-
-        GameManager.Instance.OnPlayerDeath();
-        print("Player Died!");
     }
 
     public void MakeInvincible(float invincibleTime)
@@ -177,6 +180,7 @@ public class PlayerHealth : LivingEntity
 
     private IEnumerator InvincibleTimer(float invincibleTime)
     {
+        invincibleVfx.SetActive(true);
         invincibleTimer = invincibleTime;
         isInvincible = true;
         while (invincibleTimer >= 0f)
@@ -185,6 +189,7 @@ public class PlayerHealth : LivingEntity
             yield return null;
         }
 
+        invincibleVfx.SetActive(false);
         isInvincible = false;
     }
 
@@ -215,14 +220,9 @@ public class PlayerHealth : LivingEntity
 
     public void RestoreVitality(float amount) => CurVitality = Mathf.Clamp(CurVitality + amount, 0f, MaxVitality);
 
-    private void OnTriggerEnter(Collider other)
+    public void Add2InteractList(IInteractable interactable)
     {
-        var interactable = other.GetComponent<IInteractable>();
-        if (interactable is not null && !contactObjects.Contains(interactable))
-        {
-            contactObjects.Add(interactable);
-        }
-
+        if (!contactObjects.Contains(interactable)) contactObjects.Add(interactable);
         if (contactObjects.Count > 0)
         {
             var lastContact = contactObjects[^1];
@@ -230,17 +230,15 @@ public class PlayerHealth : LivingEntity
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    public void RemoveInteractable(IInteractable interactable)
     {
-        var interactable = other.GetComponent<IInteractable>();
-        if (interactable is not null && contactObjects.Contains(interactable))
+        if (!contactObjects.Contains(interactable)) return;
+        contactObjects.Remove(interactable);
+        if (contactObjects.Count <= 0) UiManager.Instance.HideInteractInfo();
+        else
         {
-            contactObjects.Remove(interactable);
-        }
-        if (contactObjects.Count <= 0)
-        {
-            // ui disable
-            UiManager.Instance.HideInteractInfo();
+            var lastContact = contactObjects[^1];
+            lastContact.EnterInteract(gameObject);
         }
     }
 
@@ -256,10 +254,40 @@ public class PlayerHealth : LivingEntity
             // ui disable
             UiManager.Instance.HideInteractInfo();
         }
+        else
+        {
+            var lastContact = contactObjects[^1];
+            lastContact.EnterInteract(gameObject);
+        }
     }
 
-    public void RestoreHealth(float amount)
+    public void RestoreHealth(float amount) => currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+
+    public void UpgradeMaxHealth(float amount)
     {
-        currentHp = Mathf.Clamp(currentHp + amount, 0f, maxHp);
+        maxHp += amount;
+        currentHp += amount;
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+    }
+
+    public void BossSceneEnter()
+    {
+        // transform.position = new Vector3(0, -3, -21);
+        // transform.rotation = Quaternion.identity;
+        transform.SetPositionAndRotation(new Vector3(0f,-3f, -21f), Quaternion.identity);
+        _playerMove.BossSceneEnterCamera();
+    }
+
+    public void GainGold(float amount) => Gold += amount;
+
+    public bool SpendGold(float amount)
+    {
+        if (Gold < amount || amount <= 0f) return false;
+        Gold -= amount;
+        return true;
     }
 }

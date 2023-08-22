@@ -26,6 +26,8 @@ public class RunAttack : BossPatternAction
         }
 
         patternEnableTime = Time.time + patternCooldown;
+        _agent.isStopped = true;
+        _agent.velocity = Vector3.zero;
         _boss.EndAction(nextState);
     }
 

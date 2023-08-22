@@ -1,20 +1,28 @@
 using UnityEngine;
 using TMPro;
 
-public class SmallPopup : MonoBehaviour
+public class SmallPopup : MonoBehaviour, IDefaultUi
 {
     [SerializeField] private TextMeshProUGUI infoText;
     private Animator _animator;
     private int _animIdTrigger;
-    
-    private void Start()
+
+    public void InitUi()
     {
         _animator = GetComponent<Animator>();
         _animIdTrigger = Animator.StringToHash("Trigger");
+        gameObject.SetActive(false);
     }
+    
+    // private void Start()
+    // {
+    //     _animator = GetComponent<Animator>();
+    //     _animIdTrigger = Animator.StringToHash("Trigger");
+    // }
 
     public void EnableInfo(string description)
     {
+        if(!gameObject.activeSelf) gameObject.SetActive(true);
         infoText.text = description;
         _animator.SetBool(_animIdTrigger, true);
     }

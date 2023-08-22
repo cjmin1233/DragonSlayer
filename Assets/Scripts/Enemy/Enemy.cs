@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 public class Enemy : LivingEntity
 {
@@ -37,13 +38,15 @@ public class Enemy : LivingEntity
     private Coroutine timer;
     private bool battleToAttack, attackToBattle, getHitEnd;
 
+    private bool isDead;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         maxHp = enemyData.EnemyHp;
         currentHp = enemyData.EnemyHp;
         agent = GetComponent<NavMeshAgent>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        // player = GameObject.FindGameObjectWithTag("Player");
+        player = PlayerHealth.Instance.gameObject;
         animator = GetComponent<Animator>();
         enemyEvent = GetComponent<EnemyEvent>();
     }
@@ -179,6 +182,12 @@ public class Enemy : LivingEntity
             nextState = State.Victory;
             return true;
         }
+
+        if (isDead && !curState.Equals(State.Die))
+        {
+            nextState = State.Die;
+            return true;
+        }
         switch (curState)
         {
             case State.Idle:
@@ -289,6 +298,13 @@ public class Enemy : LivingEntity
         if (damageMessage.isStiff) animator.SetBool("isGetHit", true);
 
         rb.AddForce(damageMessage.damager.transform.forward, ForceMode.Impulse);
+
+        if (currentHp <= 0f) Die();
+    }
+
+    private void Die()
+    {
+        isDead = true;
     }
 
     private IEnumerator Battle2Attack()
@@ -308,11 +324,30 @@ public class Enemy : LivingEntity
     }
     private void AfterDie()
     {
+        var coinVfx = EffectManager.Instance.GetFromPool((int)EffectType.CoinBlast);
+        if (coinVfx is not null)
+        {
+            coinVfx.transform.position = transform.position;
+            coinVfx.SetActive(true);
+            PlayerHealth.Instance.GainGold(Random.Range(enemyData.GoldAmount * 0.5f, enemyData.GoldAmount));
+        }
+        
         EnemySpawner.Instance.Add2Pool((int)enemyData.EnemyType, gameObject);
         GameManager.Instance.aliveEnemies--;
-        if(GameManager.Instance.aliveEnemies == 0)
+        if(GameManager.Instance.aliveEnemies <= 0)
             MapGenerator.Instance.ClearRoom(GameManager.Instance.playerRoomIndex);
+    }
+
+    private void OnEnable()
+    {
+        InitEnemy();
+    }
+
+    private void InitEnemy()
+    {
+        isDead = false;
         currentHp = maxHp;
+        curState = State.Idle;
         nextState = State.Idle;
     }
 }

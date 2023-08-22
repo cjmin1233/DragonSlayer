@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Slime Data
   m_EditorClassIdentifier: 
   enemyType: 0
-  enemyHp: 1
+  enemyHp: 500
   damage: 1
   enemyMoveSpeed: 1
   enemyAttackRange: 1
   attackDuration: 0.833
   getHitDuration: 0.833
+  goldAmount: 5

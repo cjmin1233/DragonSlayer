@@ -12,6 +12,7 @@ public class PlayerAnimationEvent : MonoBehaviour
     public event Action OnEnableVfxAction;
     public event Action OnEndParryingAction;
     public event Action OnEndHitAction;
+    public event Action OnPlaySoundAction;
     private void Awake()
     {
         _animator = GetComponent<Animator>();
@@ -31,4 +32,5 @@ public class PlayerAnimationEvent : MonoBehaviour
     private void OnEnableVfx() => OnEnableVfxAction?.Invoke();
     private void OnEndParrying() => OnEndParryingAction?.Invoke();
     private void OnEndHit() => OnEndHitAction?.Invoke();
+    private void OnPlaySound() => OnPlaySoundAction?.Invoke();
 }

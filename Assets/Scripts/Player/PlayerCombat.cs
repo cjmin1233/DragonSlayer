@@ -99,6 +99,8 @@ public class PlayerCombat : MonoBehaviour
         _animationEvent.OnDisableWeaponAction += DisableWeapon;
         _animationEvent.OnEnableVfxAction += EnableVfx;
         _animationEvent.OnEndParryingAction += EndParrying;
+        _animationEvent.OnPlaySoundAction += PlayAttackSound;
+        
 
         curComboType = PlayerComboType.None;
 
@@ -258,6 +260,15 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    private void PlayAttackSound()
+    {
+        if (IsComboActive)
+        {
+            ComboData comboData = playerComboData[(int)curComboType];
+            comboData.Combos[comboData.comboCounter].PlaySound();
+        }
+    }
+
     #region Guard
     private void Attempt2Guard()
     {
@@ -278,8 +289,8 @@ public class PlayerCombat : MonoBehaviour
         IsGuarding = true;
         _rigidbody.velocity = Vector3.zero;
         _animator.SetBool(_animIDIsGuarding, true);
-        
-        if(guardFx is not null)guardFx.EnableFx();
+
+        if (guardFx is not null) guardFx.EnableFx();
 
         // 가드시작시 방향전환
         Vector3 cameraForward = _mainCamera.transform.forward;
@@ -352,13 +363,19 @@ public class PlayerCombat : MonoBehaviour
     {
         if (activeWeapon is null || !IsComboActive) return 0f;
         ComboData comboData = playerComboData[(int)curComboType];
-        return activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
+        return Random.Range(.9f, 1f) * activeWeapon.WeaponDamage * comboData.Combos[comboData.comboCounter].AnimationDamage * playerPower;
     }
 
-    public void UpgradeStatus(float power, float speed)
+    public void UpgradeStatus(float powerIncrease, float speedIncrease)
     {
         // 전투 능력치 업그레이드
-        playerPower += power;
-        attackSpeed += speed;
+        playerPower += powerIncrease;
+        attackSpeed += speedIncrease;
+    }
+
+    public void UpgradeGuard()
+    {
+        guardTimeOut = Mathf.Clamp(guardTimeOut - 2f, 0f, guardTimeOut);
+        parryingInvincibleDuration += 1f;
     }
 }

@@ -48,13 +48,17 @@ public class UiManager : MonoBehaviour
         // add listener
         GameManager.Instance.onMainSceneLoaded.AddListener(MainSceneSetup);
         GameManager.Instance.onPlaySceneLoaded.AddListener(PlaySceneSetup);
+        GameManager.Instance.onBossSceneLoaded.AddListener(BossSceneSetup);
+        GameManager.Instance.onGameOver.AddListener(GameOverSetup);
         //
         
         fadePanel.gameObject.SetActive(true);
         fadePanel.Init();
 
         InitInputAction();
-        FadeIn();
+        playPanel.InitPanel();
+        
+        MainSceneSetup();
     }
 
     private void InitInputAction()
@@ -81,7 +85,8 @@ public class UiManager : MonoBehaviour
     private void OnEscapeTrigger(InputAction.CallbackContext context)
     {
         if (popUpCounter <= 0 && playPanel.gameObject.activeSelf
-                              && GameManager.Instance.gameState.Equals(GameState.Running))
+                              && GameManager.Instance.gameState.Equals(GameState.Running)
+                              && FadeState.Equals(FadeUI.FadeState.None))
         {
             popUpCounter = 1;
             PauseMenu.SetActive(true);
@@ -91,7 +96,13 @@ public class UiManager : MonoBehaviour
     }
     private void OnInventoryTrigger(InputAction.CallbackContext context)
     {
-        if (playPanel.gameObject.activeSelf) playPanel.ToggleInventory();
+        if (playPanel.gameObject.activeSelf)
+        {
+            playPanel.ToggleInventory();
+            Cursor.lockState = Cursor.lockState.Equals(CursorLockMode.Locked)
+                ? CursorLockMode.None
+                : CursorLockMode.Locked;
+        }
     }
 
     public void OnPopupUiDisable()
@@ -104,6 +115,8 @@ public class UiManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
+
+    public void PopupUiEnable() => popUpCounter++;
 
     private void MainSceneSetup()
     {
@@ -123,6 +136,17 @@ public class UiManager : MonoBehaviour
         GameOverPanel.SetActive(false);
         playPanel.gameObject.SetActive(true);
         
+        Cursor.lockState = CursorLockMode.None;
+        popUpCounter = 1;
+    }
+
+    private void BossSceneSetup()
+    {
+        fadePanel.StartFadeIn();
+        mainPanel.gameObject.SetActive(false);
+        GameOverPanel.SetActive(false);
+        playPanel.gameObject.SetActive(true);
+        
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -135,7 +159,14 @@ public class UiManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-
+    public void LoadingSceneSetup()
+    {
+        mainPanel.gameObject.SetActive(false);
+        playPanel.gameObject.SetActive(false);
+        GameOverPanel.SetActive(false);
+        
+        Cursor.lockState = CursorLockMode.None;
+    }
     public void Attempt2LoadNextScene()
     {
         if (GameManager.Instance.LoadNextScene()) print("next scene load complete");

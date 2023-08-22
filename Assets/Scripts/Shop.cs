@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class Shop : MonoBehaviour
 {
     [SerializeField] private ShopStand[] itemStands;
-    [SerializeField] private int priceUnit;
+    [SerializeField] private float priceUnit;
 
     private void Start()
     {
@@ -17,6 +17,7 @@ public class Shop : MonoBehaviour
 
     private void SpawnItems()
     {
+        print("spawn items ****************");
         for (int i = 0; i < itemStands.Length; i++)
         {
             var item = ItemSpawner.Instacne.GetRandomItem();

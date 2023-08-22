@@ -42,4 +42,10 @@ public class ComboAnimation
         
         EffectIndex++;
     }
+
+    public void PlaySound()
+    {
+        if (EffectIndex >= Effects.Count) return;
+        Effects[EffectIndex].PlaySound();
+    }
 }

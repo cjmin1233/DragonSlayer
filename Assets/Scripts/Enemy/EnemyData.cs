@@ -26,4 +26,9 @@ public class EnemyData : ScriptableObject
 
     [SerializeField] private float getHitDuration;
     public float GetHitDuration { get { return getHitDuration; } }
+    [SerializeField] private float goldAmount;
+    public float GoldAmount
+    {
+        get => goldAmount;
+    }
 }

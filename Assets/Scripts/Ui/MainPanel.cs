@@ -33,32 +33,35 @@ public class MainPanel : MonoBehaviour
         bgmVolumeSlider.value = PlayerPrefs.GetFloat("BgmVolume");
         if (!PlayerPrefs.HasKey("EffectVolume")) UiManager.Instance.SetEffectVolume(.75f);
         effectVolumeSlider.value = PlayerPrefs.GetFloat("EffectVolume");
-
-        //UiManager.Instance.SetMasterVolume(masterVolumeSlider.value);
-        //UiManager.Instance.SetBgmVolume(bgmVolumeSlider.value);
-        //UiManager.Instance.SetEffectVolume(effectVolumeSlider.value);
     }
 
     private void OnStartBtn()
     {
-        print("start btn click");
+        AudioSource startSound = startBtn.GetComponent<AudioSource>();
+        startSound.Play();
         UiManager.Instance.Attempt2LoadNextScene();
     }
 
     private void OnRecordBtn()
     {
+        AudioSource btnsound = recordBtn.GetComponent<AudioSource>();
+        btnsound.Play();
         mainMenu.SetActive(false);
         recordMenu.SetActive(true);
     }
 
     private void OnOptionBtn()
     {
+        AudioSource btnsound = optionBtn.GetComponent<AudioSource>();
+        btnsound.Play();
         mainMenu.SetActive(false);
         optionMenu.SetActive(true);
     }
 
     private void OnQuitBtn()
     {
+        AudioSource btnsound = quitBtn.GetComponent<AudioSource>();
+        btnsound.Play();
         mainMenu.SetActive(false);
         quitMenu.SetActive(true);
     }

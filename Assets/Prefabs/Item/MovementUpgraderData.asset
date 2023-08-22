@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b97122d86685a242a2688fe91f333ac, type: 3}
+  m_Name: MovementUpgraderData
+  m_EditorClassIdentifier: 
+  itemName: MovementUpgrader
+  pickUp: 1
+  description: Upgrade movement speed +20%.
+  itemTier: 0
+  itemWeight: 20
+  itemRawImage: {fileID: 2800000, guid: 178a8918012170449aff4d5667a9fda8, type: 3}
+  itemPrefab: {fileID: 4148696698451417958, guid: 5987af38cca9c3644becf5e15d83e8f5, type: 3}

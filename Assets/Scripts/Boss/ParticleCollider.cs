@@ -10,18 +10,14 @@ public class ParticleCollider : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        print("particle collision!");
+        print($"particle collision with {other.name}!");
         var livingEntity = other.GetComponent<LivingEntity>();
-        if (livingEntity is not null)
-        {
-            Vector3 hitPoint = other.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
-            DamageMessage damageMessage = new DamageMessage(damager, hitPoint, damage, stunTime, isStiff);
-            livingEntity.TakeDamage(damageMessage);
-        }
-    }
-
-    private void OnParticleTrigger()
-    {
-        // print("particle trigger!");
+        if (!livingEntity) return;
+        var col = livingEntity.GetComponent<Collider>();
+        if (!col) return;
+        
+        Vector3 hitPoint = livingEntity.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+        DamageMessage damageMessage = new DamageMessage(damager, hitPoint, damage, stunTime, isStiff);
+        livingEntity.TakeDamage(damageMessage);
     }
 }

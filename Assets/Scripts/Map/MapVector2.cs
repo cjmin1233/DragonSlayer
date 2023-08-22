@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class MapVector2 : MonoBehaviour
 {
-    public static MapVector2 instance;
+    public static MapVector2 Instance { get; private set; }
 
     public List<Vector2Int> mapVector = new();
     public List<Vector2Int> candidateVector = new();
@@ -20,12 +21,17 @@ public class MapVector2 : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (Instance is null) Instance = this;
+        else if (!Instance.Equals(this))
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
     void Start()
     {
-        //GenerateDungeon();  
+        // GenerateDungeon();  
     }
 
     public void GenerateDungeon()
@@ -92,5 +98,10 @@ public class MapVector2 : MonoBehaviour
             Selecting();
         }
 
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
     }
 }

@@ -19,10 +19,10 @@ MonoBehaviour:
   sprintSpeed: 10
   rollSpeed: 20
   rollVitality: 30
-  playerPower: 1
+  playerPower: 100
   attackSpeed: 1
   defence: 100
   guardDuration: 1
-  guardTimeOut: 1
+  guardTimeOut: 5
   parryingInvincibleDuration: 1
   parryingAngle: 45

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471a9e9e684ccc944a76eb70e5c3c677, type: 3}
   m_Name: BossSo
   m_EditorClassIdentifier: 
-  maxHp: 1000
-  patrolSpeed: 4
+  maxHp: 80000
+  patrolSpeed: 2
   traceSpeed: 8
   flyPatrolSpeed: 4
   flyTraceSpeed: 8
-  findTargetRadius: 60
+  findTargetRadius: 30
   takeOffSpeed: 1
   restTime: 1
   phase: 3

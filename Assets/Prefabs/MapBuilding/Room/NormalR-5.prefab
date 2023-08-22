@@ -9112,7 +9112,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 4871e271cc87d1a4ea75d582e3ed1ba0, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e8186c1fe40155049bf27ca167b86a40, type: 2}
   m_BuildHeightMesh: 0
 --- !u!65 &8276128477196381503
 BoxCollider:
@@ -9148,7 +9148,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomType: 0
-  entrances: []
 --- !u!1 &8100802580169152528
 GameObject:
   m_ObjectHideFlags: 0

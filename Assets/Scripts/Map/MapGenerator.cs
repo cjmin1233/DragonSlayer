@@ -1,20 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
 using Unity.VisualScripting;
-using UnityEditor.SceneManagement;
+// using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 public class MapGenerator : MonoBehaviour
 {
-    public static MapGenerator Instance;
+    public static MapGenerator Instance { get; private set; }
 
     public List<GameObject> doors = new();
     public List<Vector3> mapVec3 = new();
     public List<Vector3> mapRecord = new();
-    public int epicSize = 0;
+    public int epicSize;
     private int mapSize = 0;
     private Vector3 bossVector;
     public GameObject EntryRoom;
@@ -30,7 +31,7 @@ public class MapGenerator : MonoBehaviour
     private void Awake()
     {
         if(!Instance) Instance = this;
-        else
+        else if(!Instance.Equals(this))
         {
             Destroy(this);
             return;
@@ -38,10 +39,12 @@ public class MapGenerator : MonoBehaviour
     }
     private void Start()
     {
-        foreach(var portal in portals)
-        {
-            portal.SetActive(false);
-        }
+        // MapVector2.OnMapAdded += HandleMapAdded;
+
+        // foreach(var portal in portals)
+        // {
+        //     portal.SetActive(false);
+        // }
     }
 
     private void HandleMapAdded(List<Vector2Int> vector)
@@ -64,34 +67,36 @@ public class MapGenerator : MonoBehaviour
     public void OnEnable()
     {
         MapVector2.OnMapAdded += HandleMapAdded;
+
+        foreach(var portal in portals)
+        {
+            portal.SetActive(false);
+        }
     }
 
     private void RoomGenerator()
     {
         DungeonReset();
         FindBoss();
-        Rooms.Add(Instantiate(EntryRoom, mapVec3[0], Quaternion.identity));
-        mapVec3.Remove(mapVec3[0]);
         EpicRoomCreate();
         NormalRoomCreate();
         NavMeshBake(Rooms);
         FindingRoom();
         FindingDoor();
-        foreach(var listRoom in listRooms)
-        {
-            var a = listRoom.GetComponent<Room>().roomType;
-            if (a != RoomType.Normal)
-                Room.instance.Open(listRoom.transform);
-        }
-        
+        OpenDoor();     
     }
     private void EpicRoomCreate()
     {
+        Rooms.Add(Instantiate(EntryRoom, mapVec3[0], Quaternion.identity));
+        mapVec3.Remove(mapVec3[0]);
+
+        epicSize = 0;
+
         for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0,1); //������ ���� ����
+            var rand = Random.Range(0,1); // 0, 3
             var randMap = Random.Range(0, mapVec3.Count);
-            if(rand < MapVector2.instance.Stage)
+            if(rand < MapVector2.Instance.Stage)
             {
                 Rooms.Add(Instantiate(ShopRoom, mapVec3[randMap], Quaternion.identity));
                 epicSize++;
@@ -100,9 +105,9 @@ public class MapGenerator : MonoBehaviour
         }
         for (var i = 0; i < 1; i++)
         {
-            var rand = Random.Range(0, 1); //Ȳ�ݹ� ���� ����
+            var rand = Random.Range(0, 1); //0, 3
             var randMap = Random.Range(0, mapVec3.Count);
-            if (rand < MapVector2.instance.Stage)
+            if (rand < MapVector2.Instance.Stage)
             {
                 Rooms.Add(Instantiate(GoldRoom, mapVec3[randMap], Quaternion.identity));
                 epicSize++;
@@ -256,5 +261,24 @@ public class MapGenerator : MonoBehaviour
     {
         listRooms[playerRoomIndex].GetComponent<Room>().Open(listRooms[playerRoomIndex].transform);
         //listRooms[playerRoomIndex].GetComponent<Room>().PortalOn();
+    }
+
+    private void OpenDoor()
+    {
+        foreach (var listRoom in listRooms)
+        {
+            var a = listRoom.GetComponent<Room>().roomType;
+            if (a != RoomType.Normal)
+                Room.instance.Open(listRoom.transform);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        Instance = null;
+        MapVector2.OnMapAdded -= HandleMapAdded;
+        Rooms.Clear();
+        listRooms.Clear();
+        doors.Clear();
     }
 }
