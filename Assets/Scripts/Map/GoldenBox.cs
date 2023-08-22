@@ -36,7 +36,6 @@ public class GoldenBox : MonoBehaviour, IInteractable
 
     private IEnumerator BoxDestroy()
     {
-        yield return new WaitForSeconds(3f);
         var item = ItemSpawner.Instacne.GetRandomItem();
         item.transform.position = transform.position;
         item.SetActive(true);
