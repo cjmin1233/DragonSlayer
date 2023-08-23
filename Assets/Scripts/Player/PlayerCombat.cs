@@ -152,7 +152,7 @@ public class PlayerCombat : MonoBehaviour
             ComboAnimation comboAnimation = comboData.Combos[comboData.comboCounter];
             if (!PlayerHealth.Instance.IsVitalityEnough(comboAnimation.ComboVitality))
             {
-                print("콤보 기력이 부족합니다.");
+                UiManager.Instance.PopupInfo("Not enough energy.");
                 return;
             }
             // 다른 콤보 입력

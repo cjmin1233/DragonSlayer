@@ -206,4 +206,5 @@ public class UiManager : MonoBehaviour
     public void GetItem2Inventory(ItemScriptableObject itemData) => playPanel.GetItem2Inventory(itemData);
     public void ShowInteractInfo(string description) => playPanel.ShowInteractInfo(description);
     public void HideInteractInfo() => playPanel.HideInteractInfo();
+    public void PopupInfo(string description) => playPanel.PopupInfo(description);
 }

@@ -21,7 +21,7 @@ public class ShopStand : MonoBehaviour, IInteractable
             }
             else
             {
-                print("Can't purchase item.");
+                UiManager.Instance.PopupInfo("Not enough gold.");
             }
         }
     }

@@ -87,6 +87,8 @@ public class PlayerHealth : LivingEntity
     private void Update()
     {
         RestoreVitality(vitalityRestoreRate * Time.deltaTime);
+        if (Input.GetKeyDown(KeyCode.X)) GainGold(100f);
+        if (Input.GetKeyDown(KeyCode.C)) _playerCombat.UpgradeStatus(50f, .1f);
     }
 
     public void PlayerInit(PlayerScriptableObject playerSo)

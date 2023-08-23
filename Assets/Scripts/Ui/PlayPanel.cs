@@ -11,6 +11,7 @@ public class PlayPanel : MonoBehaviour
     [SerializeField] private StandardSlider playerVitalityBar;
     [SerializeField] private InventoryManager inventoryManager;
     [SerializeField] private SmallPopup interactInfo;
+    [SerializeField] private SmallPopup popupInfo;
     [SerializeField] private TextMeshProUGUI goldText;
 
     public void InitPanel()
@@ -38,4 +39,5 @@ public class PlayPanel : MonoBehaviour
 
     public void ShowInteractInfo(string description) => interactInfo.EnableInfo(description);
     public void HideInteractInfo() => interactInfo.DisableInfo();
+    public void PopupInfo(string description) => popupInfo.PopupInfo(description);
 }

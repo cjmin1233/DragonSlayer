@@ -4,6 +4,7 @@ using TMPro;
 public class SmallPopup : MonoBehaviour, IDefaultUi
 {
     [SerializeField] private TextMeshProUGUI infoText;
+    [SerializeField] private float enableTime;
     private Animator _animator;
     private int _animIdTrigger;
 
@@ -28,4 +29,13 @@ public class SmallPopup : MonoBehaviour, IDefaultUi
     }
 
     public void DisableInfo() => _animator.SetBool(_animIdTrigger, false);
+
+    public void PopupInfo(string description)
+    {
+        if (!gameObject.activeSelf) gameObject.SetActive(true);
+        infoText.text = description;
+        _animator.SetBool(_animIdTrigger, true);
+
+        Invoke(nameof(DisableInfo), enableTime);
+    }
 }

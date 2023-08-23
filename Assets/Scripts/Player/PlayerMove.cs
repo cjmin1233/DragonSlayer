@@ -177,7 +177,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (!PlayerHealth.Instance.IsVitalityEnough(rollVitality))
         {
-            Debug.Log("구르기 기력이 부족합니다.");
+            UiManager.Instance.PopupInfo("Not enough energy.");
             return;
         }
         if(rolling is not null) StopCoroutine(rolling);
