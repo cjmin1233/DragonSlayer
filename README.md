@@ -22,14 +22,18 @@ Unity Asset Store의 무료 애셋을 활용하여 Issac을 모방하여 만든 
 
 ## 📌 주요 기능
 #### 플레이어 캐릭터
+![플레이어 이미지](./Attachments/Images/Image_Player.png)
 - 3인칭 시점 Cinemachine Virtual Camera
 - 달리기 및 이동, 구르기, 점프
 - 콤보 공격, 패링
 
 #### 로딩 화면
+![플레이어 이미지](./Attachments/Images/Image_LoadingScene.png)
 - 비동기적 로드
 
 #### UI/UX
+![UI 이미지1](./Attachments/Images/Image_UI01.png)
+![UI 이미지2](./Attachments/Images/Image_UI02.png)
 - 볼륨 조절, 해상도, 전체화면 on/off
 - 조작법 가이드
 - 미니맵
@@ -37,19 +41,23 @@ Unity Asset Store의 무료 애셋을 활용하여 Issac을 모방하여 만든 
 - 인벤토리 시스템
 
 #### 던전 맵
+![던전 맵 이미지](./Attachments/Images/Image_Dungeon.png)
 - 절차적 지형 생성 알고리즘에 기반한 랜덤 맵 생성
 - 다양한 테마의 Room(황금방, 상점방, 보스방 등)
 
 #### Enemy AI
+![적 이미지](./Attachments/Images/Image_Enemy.png)
 - NavMesh Agent를 활용한 자동 경로 탐색
 - State에 따라 다양한 행동 및 전이
 
 #### Item
+![아이템 이미지](./Attachments/Images/Image_Item.png)
 - 3가지 등급(Common, Rare, Epic)
 - 가중지 확률 적용
 - 체력 회복, 공격력 강화, 번개 소환 등 다양한 아이템 구현
 
 #### Boss
+![보스 이미지](./Attachments/Images/Image_Boss.png)
 - 8가지의 일반 패턴(깨물기, 돌진, 화염 방사 등)
 - 일정 체력 소진시 강력한 화염 공격
 
