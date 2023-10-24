@@ -51,7 +51,7 @@ Unity Asset Store의 무료 애셋을 활용하여 Issac을 모방하여 만든 
 - State에 따라 다양한 행동 및 전이
 
 #### Item
-![아이템 이미지](./Attachments/Images/Image_Item.png)
+<img src="./Attachments/Images/Image_Item.png" width="288" height="259"/>
 - 3가지 등급(Common, Rare, Epic)
 - 가중지 확률 적용
 - 체력 회복, 공격력 강화, 번개 소환 등 다양한 아이템 구현
